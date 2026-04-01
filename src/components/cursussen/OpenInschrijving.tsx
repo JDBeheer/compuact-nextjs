@@ -7,11 +7,19 @@ import { cn } from '@/lib/utils'
 import { useCart } from '@/contexts/CartContext'
 import { formatPrice } from '@/lib/utils'
 
-const METHODES = [
-  { id: 'klassikaal', label: 'Klassikaal', icon: Users, beschrijving: 'In een groep op locatie met docent', color: 'bg-primary-500', prijs: 795 },
-  { id: 'online', label: 'Live Online', icon: Laptop, beschrijving: 'Vanuit huis of kantoor via Teams', color: 'bg-accent-500', prijs: 699 },
-  { id: 'incompany', label: 'InCompany', icon: Building2, beschrijving: 'Op maat, bij jou op locatie', color: 'bg-primary-800', prijs: 1295 },
-]
+interface Prijzen {
+  klassikaal?: number
+  online?: number
+  incompany?: number
+}
+
+function buildMethodes(prijzen?: Prijzen) {
+  return [
+    { id: 'klassikaal', label: 'Klassikaal', icon: Users, beschrijving: 'In een groep op locatie met docent', color: 'bg-primary-500', prijs: prijzen?.klassikaal || 425 },
+    { id: 'online', label: 'Live Online', icon: Laptop, beschrijving: 'Vanuit huis of kantoor via Teams', color: 'bg-accent-500', prijs: prijzen?.online || 335 },
+    { id: 'incompany', label: 'InCompany', icon: Building2, beschrijving: 'Op maat, bij jou op locatie', color: 'bg-primary-800', prijs: prijzen?.incompany || 1295 },
+  ]
+}
 
 const LOCATIES = [
   'Alkmaar', 'Amsterdam', 'Den Bosch', 'Den Haag', 'Eindhoven',
