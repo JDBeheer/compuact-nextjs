@@ -156,5 +156,5 @@ INSERT INTO testimonials (naam, bedrijf, tekst, rating) VALUES
 
 -- Standaard site settings
 INSERT INTO site_settings (id, value) VALUES
-  ('contact', '{"email": "info@computertraining.nl", "telefoon": "085 105 8919", "adres": "Vincent van Goghweg 85, 1506 JB Zaandam"}'),
+  ('contact', '{"email": "info@computertraining.nl", "telefoon": "023-551 3409", "adres": "Vincent van Goghweg 85, 1506 JB Zaandam"}'),
   ('email', '{"from_email": "info@computertraining.nl", "admin_email": "info@computertraining.nl"}');
