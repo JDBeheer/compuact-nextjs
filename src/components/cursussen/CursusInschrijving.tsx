@@ -328,7 +328,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
             </div>
           ) : (
             <>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+              <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 {visibleSessies.map((sessie, index) => {
                   const inCart = isInCart(sessie.id)
                   const online = sessie.lesmethode === 'online'
