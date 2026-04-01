@@ -11,6 +11,7 @@ export interface GooglePlaceData {
   rating: number
   user_ratings_total: number
   reviews: GoogleReview[]
+  allReviews: GoogleReview[]
 }
 
 const PLACE_ID = process.env.GOOGLE_PLACE_ID || ''
@@ -34,7 +35,13 @@ export async function getGoogleReviews(): Promise<GooglePlaceData | null> {
 
     if (data.status !== 'OK' || !data.result) return null
 
-    const qualityReviews = (data.result.reviews ?? []).filter(
+    // All reviews with text (for the modal)
+    const allReviews = (data.result.reviews ?? []).filter(
+      (r: GoogleReview) => r.text.length > 0
+    )
+
+    // Quality reviews for the cards (min 4 stars, min 50 chars)
+    const qualityReviews = allReviews.filter(
       (r: GoogleReview) => r.rating >= 4 && r.text.length >= 50
     )
 
@@ -47,6 +54,7 @@ export async function getGoogleReviews(): Promise<GooglePlaceData | null> {
       rating: data.result.rating ?? 4.8,
       user_ratings_total: data.result.user_ratings_total ?? 0,
       reviews,
+      allReviews,
     }
   } catch {
     return null
@@ -58,6 +66,29 @@ export const fallbackReviews: GooglePlaceData = {
   rating: 4.8,
   user_ratings_total: 90,
   reviews: [
+    {
+      author_name: 'Walther Piek',
+      rating: 5,
+      text: 'De persoonlijke aandacht en het juiste niveau van de training maakten het verschil. Onze medewerkers konden de geleerde vaardigheden direct toepassen.',
+      relative_time_description: '2 maanden geleden',
+      time: 0,
+    },
+    {
+      author_name: 'Sandra de Vries',
+      rating: 5,
+      text: 'Uitstekende Excel training. De docent nam ruim de tijd voor persoonlijke vragen en de stof was direct toepasbaar in mijn werk.',
+      relative_time_description: '3 maanden geleden',
+      time: 0,
+    },
+    {
+      author_name: 'Mark Jansen',
+      rating: 5,
+      text: 'De incompany training was perfect afgestemd op onze organisatie. Zeer tevreden over de flexibiliteit en kwaliteit.',
+      relative_time_description: '4 maanden geleden',
+      time: 0,
+    },
+  ],
+  allReviews: [
     {
       author_name: 'Walther Piek',
       rating: 5,
