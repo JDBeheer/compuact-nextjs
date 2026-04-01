@@ -418,7 +418,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
                 })}
               </div>
 
-              {gefilterdeSessies.length > 8 && !showAll && (
+              {gefilterdeSessies.length > 16 && !showAll && (
                 <button
                   onClick={() => setShowAll(true)}
                   className="w-full mt-4 py-3 rounded-xl border-2 border-dashed border-zinc-200 text-sm font-semibold text-zinc-500 hover:border-primary-300 hover:text-primary-500 transition-colors flex items-center justify-center gap-1"
