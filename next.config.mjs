@@ -15,6 +15,16 @@ const nextConfig = {
         destination: '/cursussen/:slug',
         permanent: true,
       },
+      {
+        source: '/locatie',
+        destination: '/locaties',
+        permanent: true,
+      },
+      {
+        source: '/locatie/:slug',
+        destination: '/locaties/:slug',
+        permanent: true,
+      },
     ]
   },
 };
