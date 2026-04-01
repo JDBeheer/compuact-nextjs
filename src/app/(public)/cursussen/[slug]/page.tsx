@@ -598,15 +598,9 @@ async function CursusDetailPage({ slug }: { slug: string }) {
           </div>
 
           <div className="mt-10" id="cursusaanbod">
-            <h2 className="text-2xl font-extrabold mb-6">
-              {sessies.filter(s => s.lesmethode !== 'thuisstudie').length > 0 ? 'Cursusaanbod' : 'Inschrijven'}
-            </h2>
+            <h2 className="text-2xl font-extrabold mb-6">Inschrijven</h2>
             <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
-              {sessies.filter(s => s.lesmethode !== 'thuisstudie').length > 0 ? (
-                <SessieTable sessies={sessies} cursusTitel={cursus.titel} />
-              ) : (
-                <OpenInschrijving cursusTitel={cursus.titel} prijzen={cursus.inhoud?.prijzen} />
-              )}
+              <CursusInschrijving sessies={sessies} cursusTitel={cursus.titel} prijzen={cursus.inhoud?.prijzen} />
             </div>
           </div>
 
