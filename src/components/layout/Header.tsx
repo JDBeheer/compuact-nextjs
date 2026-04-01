@@ -200,12 +200,34 @@ export default function Header() {
     return () => { document.body.style.overflow = '' }
   }, [mobileOpen])
 
-  const searchResults = searchQuery.length > 0
-    ? allCursussen.filter(c =>
-        c.naam.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.categorie.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : []
+  // Smart search via API with debounce
+  const [searchResults, setSearchResults] = useState<{
+    slug: string; titel: string; categorie: string; categorie_slug: string
+    niveau: string; matchType: 'titel' | 'beschrijving' | 'inhoud'; matchContext?: string
+  }[]>([])
+  const [searching, setSearching] = useState(false)
+  const searchTimeout = useRef<ReturnType<typeof setTimeout>>()
+
+  useEffect(() => {
+    if (searchQuery.length < 2) {
+      setSearchResults([])
+      setSearching(false)
+      return
+    }
+    setSearching(true)
+    clearTimeout(searchTimeout.current)
+    searchTimeout.current = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/zoeken?q=${encodeURIComponent(searchQuery)}`)
+        const data = await res.json()
+        setSearchResults(data.results || [])
+      } catch {
+        setSearchResults([])
+      }
+      setSearching(false)
+    }, 250)
+    return () => clearTimeout(searchTimeout.current)
+  }, [searchQuery])
 
   const closeMega = useCallback(() => {
     setMegaOpen(false)
