@@ -1,14 +1,55 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { ShoppingCart, ChevronUp, ChevronDown, X, ArrowRight, MapPin, Calendar } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 import { formatPrice, formatDateShort, lesmethodeLabel } from '@/lib/utils'
+import { cn } from '@/lib/utils'
+
+function AnimatedNumber({ value, className }: { value: string; className?: string }) {
+  const [displayValue, setDisplayValue] = useState(value)
+  const [animating, setAnimating] = useState(false)
+  const prevValue = useRef(value)
+
+  useEffect(() => {
+    if (value !== prevValue.current) {
+      setAnimating(true)
+      const t = setTimeout(() => {
+        setDisplayValue(value)
+        setAnimating(false)
+      }, 150)
+      prevValue.current = value
+      return () => clearTimeout(t)
+    }
+  }, [value])
+
+  return (
+    <span className={cn(
+      'inline-block transition-all duration-300',
+      animating ? 'scale-125 text-accent-400' : 'scale-100',
+      className
+    )}>
+      {animating ? value : displayValue}
+    </span>
+  )
+}
 
 export default function CartBar() {
   const { items, getTotal, totalDeelnemers, removeFromCart } = useCart()
   const [expanded, setExpanded] = useState(false)
+  const [pulse, setPulse] = useState(false)
+  const prevItemCount = useRef(items.length)
+
+  // Pulse animation when items change
+  useEffect(() => {
+    if (items.length !== prevItemCount.current) {
+      setPulse(true)
+      const t = setTimeout(() => setPulse(false), 600)
+      prevItemCount.current = items.length
+      return () => clearTimeout(t)
+    }
+  }, [items.length])
 
   if (items.length === 0) return null
 
@@ -84,7 +125,10 @@ export default function CartBar() {
         )}
 
         {/* Main bar */}
-        <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
+        <div className={cn(
+          'bg-gradient-to-r from-primary-600 to-primary-800 text-white shadow-[0_-4px_20px_rgba(0,0,0,0.15)] transition-all duration-300',
+          pulse && 'shadow-[0_-4px_30px_rgba(37,99,235,0.4)]'
+        )}>
           <div className="container-wide py-3 flex items-center justify-between gap-4">
             {/* Left: expand toggle + info */}
             <button
@@ -92,18 +136,24 @@ export default function CartBar() {
               className="flex items-center gap-3 hover:opacity-90 transition-opacity"
             >
               <div className="relative">
-                <div className="bg-white/20 p-2.5 rounded-xl">
+                <div className={cn(
+                  'bg-white/20 p-2.5 rounded-xl transition-all duration-300',
+                  pulse && 'bg-white/30 scale-110'
+                )}>
                   <ShoppingCart size={20} />
                 </div>
-                <div className="absolute -top-1.5 -right-1.5 bg-accent-500 text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                  {items.length}
+                <div className={cn(
+                  'absolute -top-1.5 -right-1.5 bg-accent-500 text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center transition-all duration-300',
+                  pulse && 'scale-125 bg-accent-400'
+                )}>
+                  <AnimatedNumber value={String(items.length)} />
                 </div>
               </div>
               <div className="text-left">
                 <div className="font-bold text-sm leading-tight">
-                  {items.length} cursus{items.length !== 1 ? 'sen' : ''}
+                  <AnimatedNumber value={String(items.length)} /> cursus{items.length !== 1 ? 'sen' : ''}
                   {totalDeelnemers > items.length && (
-                    <span className="font-normal text-primary-200"> &middot; {totalDeelnemers} deelnemers</span>
+                    <span className="font-normal text-primary-200"> &middot; <AnimatedNumber value={String(totalDeelnemers)} /> deelnemers</span>
                   )}
                 </div>
                 <div className="text-primary-200 text-xs flex items-center gap-1">
@@ -117,13 +167,20 @@ export default function CartBar() {
             <div className="flex items-center gap-4">
               <div className="text-right hidden sm:block">
                 <div className="text-xs text-primary-300">Totaal excl. BTW</div>
-                <div className="text-xl font-extrabold tracking-tight">{formatPrice(getTotal())}</div>
+                <div className="text-xl font-extrabold tracking-tight">
+                  <AnimatedNumber value={formatPrice(getTotal())} />
+                </div>
               </div>
               <Link
                 href="/inschrijven"
-                className="bg-accent-500 hover:bg-accent-600 text-white px-6 py-3 rounded-xl font-bold text-sm transition-all hover:shadow-lg hover:shadow-accent-500/25 active:scale-[0.98] flex items-center gap-2"
+                className={cn(
+                  'bg-accent-500 hover:bg-accent-600 text-white px-6 py-3 rounded-xl font-bold text-sm transition-all hover:shadow-lg hover:shadow-accent-500/25 active:scale-[0.98] flex items-center gap-2',
+                  pulse && 'animate-bounce-once'
+                )}
               >
-                <span className="sm:hidden font-extrabold">{formatPrice(getTotal())}</span>
+                <span className="sm:hidden font-extrabold">
+                  <AnimatedNumber value={formatPrice(getTotal())} />
+                </span>
                 <span className="hidden sm:inline">Inschrijven</span>
                 <ArrowRight size={16} />
               </Link>
