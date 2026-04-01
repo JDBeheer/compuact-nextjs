@@ -23,12 +23,12 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
   const regularSessies = sessies.filter(s => s.lesmethode !== 'thuisstudie')
 
   const locaties = [...new Set(regularSessies.map((s) => s.locatie_stad))].sort()
-  const maanden = [...new Set(sessies.map((s) => {
+  const maanden = [...new Set(regularSessies.map((s) => {
     const d = new Date(s.datum)
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
   }))].sort()
 
-  const gefilterdeSessies = sessies.filter((s) => {
+  const gefilterdeSessies = regularSessies.filter((s) => {
     if (filterLocatie && s.locatie_stad !== filterLocatie) return false
     if (filterMethode && s.lesmethode !== filterMethode) return false
     if (filterMaand) {
