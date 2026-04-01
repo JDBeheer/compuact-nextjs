@@ -7,7 +7,7 @@ import SessieTable from '@/components/cursussen/SessieTable'
 import CursusDetailTabs from '@/components/cursussen/CursusDetailTabs'
 import CursusCard from '@/components/cursussen/CursusCard'
 import { formatPrice, formatDateShort, niveauLabel } from '@/lib/utils'
-import { Clock, Users, Award, BookOpen, Building2, Star, MapPin, CheckCircle, ArrowRight, Laptop, GraduationCap } from 'lucide-react'
+import { Clock, Users, Award, BookOpen, Building2, Star, MapPin, CheckCircle, ArrowRight, Laptop } from 'lucide-react'
 
 async function getCursus(slug: string) {
   const supabase = createServerSupabaseClient()
