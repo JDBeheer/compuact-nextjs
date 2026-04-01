@@ -36,6 +36,8 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
   const [methode, setMethode] = useState<Methode | ''>(defaultMethode)
   const [filterLocatie, setFilterLocatie] = useState('')
   const [filterMaand, setFilterMaand] = useState('')
+  const [postcode, setPostcode] = useState('')
+  const [postcodeCoords, setPostcodeCoords] = useState<[number, number] | null>(null)
   const [showAll, setShowAll] = useState(false)
 
   const hasKlassikaal = klassikaalSessies.length > 0 || !!prijzen?.klassikaal
