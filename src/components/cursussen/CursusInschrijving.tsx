@@ -153,7 +153,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
       {/* Stap 1: Lesmethode kiezen */}
       <div className="mb-6">
         <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-3">1. Kies je lesmethode</h3>
-        <div className={cn('grid gap-3', methodes.length === 4 ? 'sm:grid-cols-4' : methodes.length === 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2')}>
+        <div className={cn('grid grid-cols-2 gap-2 sm:gap-3', methodes.length === 4 ? 'lg:grid-cols-4' : methodes.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2')}>
           {methodes.map((m) => {
             const Icon = m.icon
             const selected = methode === m.id
