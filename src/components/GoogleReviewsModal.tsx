@@ -15,7 +15,6 @@ const GoogleLogo = () => (
 )
 
 interface GoogleReviewsModalProps {
-  reviews: GoogleReview[]
   rating: number
   totalReviews: number
   allReviews: GoogleReview[]
