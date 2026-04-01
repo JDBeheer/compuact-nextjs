@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Building2, CheckCircle, Loader2, Users, MapPin, Calendar } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import InCompanyCursusSelector from '@/components/incompany/InCompanyCursusSelector'
