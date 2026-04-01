@@ -495,6 +495,7 @@ async function CursusDetailPage({ slug }: { slug: string }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <TrackViewItem id={cursus.id} titel={cursus.titel} categorie={(cursus.categorie as Record<string,string>)?.naam} prijs={cursus.prijs_vanaf} />
 
       <section className="bg-white border-b border-zinc-200">
         <div className="container-wide py-8 lg:py-10">
