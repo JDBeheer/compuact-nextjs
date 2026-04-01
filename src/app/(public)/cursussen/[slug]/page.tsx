@@ -8,7 +8,6 @@ import { Cursus, CursusSessie, Categorie } from '@/types'
 import CursusInschrijving from '@/components/cursussen/CursusInschrijving'
 import CursusDetailTabs from '@/components/cursussen/CursusDetailTabs'
 import CursusCard from '@/components/cursussen/CursusCard'
-import PostcodeZoeker from '@/components/locaties/PostcodeZoeker'
 import { formatPrice, formatDateShort, niveauLabel } from '@/lib/utils'
 import { Clock, Users, Award, BookOpen, Building2, Star, MapPin, CheckCircle, ArrowRight, Laptop,
   FileSpreadsheet, FileText, Monitor, Mail, Presentation, BarChart3, FolderKanban, Bot, PenTool,
