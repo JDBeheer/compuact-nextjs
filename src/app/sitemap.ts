@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { locaties } from '@/data/locaties'
 
 export const dynamic = 'force-dynamic'
 
