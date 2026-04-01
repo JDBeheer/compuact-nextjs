@@ -12,9 +12,25 @@ export default function AdminInzendingenPage() {
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState<Inschrijving | null>(null)
 
+  const loadInzendingen = async () => {
+    const supabase = createClient()
+    let query = supabase
+      .from('inschrijvingen')
+      .select('*')
+      .order('created_at', { ascending: false })
+
+    if (filter !== 'alle') {
+      query = query.eq('type', filter)
+    }
+
+    const { data } = await query
+    setInzendingen((data || []) as Inschrijving[])
+    setLoading(false)
+  }
+
   useEffect(() => {
     loadInzendingen()
-  }, [filter])
+  }, [filter, loadInzendingen])
 
   async function loadInzendingen() {
     const supabase = createClient()
