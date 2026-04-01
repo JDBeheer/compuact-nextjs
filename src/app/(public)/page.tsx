@@ -237,6 +237,7 @@ export default async function HomePage() {
         <div className="container-wide py-20">
           <GoogleReviewsSection
             reviews={reviewData.reviews}
+            allReviews={reviewData.allReviews}
             rating={reviewData.rating}
             totalReviews={reviewData.user_ratings_total}
           />
