@@ -1,5 +1,6 @@
 import { Star } from 'lucide-react'
 import { GoogleReview } from '@/lib/google-reviews'
+import { GoogleReviewsModalTrigger } from './GoogleReviewsModal'
 
 interface GoogleReviewsBadgeProps {
   rating: number
@@ -66,6 +67,7 @@ export function GoogleReviewCard({ review, variant = 'white' }: GoogleReviewCard
 
 interface GoogleReviewsSectionProps {
   reviews: GoogleReview[]
+  allReviews: GoogleReview[]
   rating: number
   totalReviews: number
   title?: string
@@ -75,6 +77,7 @@ interface GoogleReviewsSectionProps {
 
 export function GoogleReviewsSection({
   reviews,
+  allReviews,
   rating,
   totalReviews,
   title = 'Wat onze deelnemers zeggen',
@@ -95,6 +98,14 @@ export function GoogleReviewsSection({
         {displayReviews.map((review, i) => (
           <GoogleReviewCard key={i} review={review} variant={variant} />
         ))}
+      </div>
+      <div className="flex justify-center mt-8">
+        <GoogleReviewsModalTrigger
+          reviews={reviews}
+          rating={rating}
+          totalReviews={totalReviews}
+          allReviews={allReviews}
+        />
       </div>
     </div>
   )
