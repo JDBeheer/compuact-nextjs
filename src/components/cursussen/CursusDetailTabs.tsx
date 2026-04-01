@@ -60,7 +60,7 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
           <div>
             <h3 className="text-xl font-bold mb-5">Voor wie is deze cursus?</h3>
             <div className="text-zinc-700 leading-relaxed space-y-4">
-              {(cursus.inhoud?.doelgroep || 'Neem contact op voor meer informatie over de doelgroep.').split(/\n\n+/).map((p, i) => (
+              {splitIntoParagraphs(cursus.inhoud?.doelgroep || 'Neem contact op voor meer informatie over de doelgroep.').map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
@@ -71,7 +71,7 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
           <div>
             <h3 className="text-xl font-bold mb-5">Benodigde voorkennis</h3>
             <div className="text-zinc-700 leading-relaxed space-y-4">
-              {(cursus.inhoud?.voorkennis || 'Geen specifieke voorkennis vereist.').split(/\n\n+/).map((p, i) => (
+              {splitIntoParagraphs(cursus.inhoud?.voorkennis || 'Geen specifieke voorkennis vereist.').map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
