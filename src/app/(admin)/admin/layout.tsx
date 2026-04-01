@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 import {
   LayoutDashboard, BookOpen, Calendar, Tag, MapPin,
-  Inbox, Settings, LogOut, Menu, X, Star
+  Inbox, Settings, LogOut, Menu, X
 } from 'lucide-react'
 
 const navItems = [
