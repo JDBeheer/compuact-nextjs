@@ -72,9 +72,10 @@ export default async function CursusDetailPage({ params }: { params: { slug: str
   const cursus = await getCursus(params.slug)
   if (!cursus) notFound()
 
-  const [sessies, related] = await Promise.all([
+  const [sessies, related, reviewData] = await Promise.all([
     getSessies(cursus.id),
     getRelatedCursussen(cursus.categorie_id, cursus.id),
+    getGoogleReviews().then(r => r ?? fallbackReviews),
   ])
 
   const courseInstances = sessies.slice(0, 20).map(s => ({
