@@ -201,7 +201,7 @@ export default function Header() {
         <div className="bg-gradient-to-r from-primary-900 via-primary-900 to-primary-950 text-white">
           <div className="container-wide flex justify-between items-center py-2 text-sm">
             <div className="flex items-center gap-6">
-              <a href="tel:0851058919" className="flex items-center gap-1.5 hover:text-white transition-colors text-primary-200 group">
+              <a href="tel:0235513409" className="flex items-center gap-1.5 hover:text-white transition-colors text-primary-200 group">
                 <span className="bg-primary-800/60 p-1 rounded group-hover:bg-primary-700/60 transition-colors">
                   <Phone size={11} />
                 </span>
@@ -396,7 +396,7 @@ export default function Header() {
                 <kbd className="hidden xl:block text-[10px] bg-zinc-200 text-zinc-500 px-1.5 py-0.5 rounded font-mono ml-1">&#8984;K</kbd>
               </button>
               <a
-                href="tel:0851058919"
+                href="tel:0235513409"
                 className="flex items-center gap-2 border-2 border-zinc-200 text-zinc-700 px-4 py-2 rounded-lg text-sm font-semibold hover:border-primary-300 hover:text-primary-600 hover:bg-primary-50/50 transition-all duration-200"
               >
                 <Phone size={14} />
@@ -412,7 +412,7 @@ export default function Header() {
 
             {/* Mobile: search + phone + menu */}
             <div className="flex lg:hidden items-center gap-0.5">
-              <a href="tel:0851058919" className="p-2.5 text-zinc-500 hover:text-primary-500 transition-colors">
+              <a href="tel:0235513409" className="p-2.5 text-zinc-500 hover:text-primary-500 transition-colors">
                 <Phone size={20} />
               </a>
               <button
@@ -520,7 +520,7 @@ export default function Header() {
                 Bekijk alle cursussen
               </Link>
               <a
-                href="tel:0851058919"
+                href="tel:0235513409"
                 className="flex items-center justify-center gap-2 w-full border-2 border-zinc-200 text-zinc-700 px-5 py-2.5 rounded-xl text-sm font-semibold hover:border-primary-300 hover:text-primary-600 transition-all"
               >
                 <Phone size={15} />
