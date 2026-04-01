@@ -25,6 +25,7 @@ const categorieen = [
       { naam: 'Excel met VBA', slug: 'excel-met-vba', niveau: 'Expert' },
       { naam: 'Excel met AI', slug: 'excel-met-ai', niveau: 'Beginner' },
       { naam: 'Excel Power BI', slug: 'excel-power-bi', niveau: 'Gevorderd' },
+      { naam: 'Word en Excel', slug: 'word-en-excel', niveau: 'Beginner' },
     ],
   },
   {
