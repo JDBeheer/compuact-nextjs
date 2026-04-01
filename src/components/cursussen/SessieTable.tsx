@@ -1,11 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart, MapPin, Calendar, Filter } from 'lucide-react'
+import { ShoppingCart, MapPin, Calendar, Clock, Check, Users, Laptop, ChevronDown } from 'lucide-react'
 import { CursusSessie } from '@/types'
 import { useCart } from '@/contexts/CartContext'
-import { formatPrice, formatDate, formatDateShort, lesmethodeLabel } from '@/lib/utils'
-import Button from '@/components/ui/Button'
+import { formatPrice, formatDateShort, lesmethodeLabel } from '@/lib/utils'
 
 interface SessieTableProps {
   sessies: CursusSessie[]
@@ -17,6 +16,7 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
   const [filterLocatie, setFilterLocatie] = useState('')
   const [filterMaand, setFilterMaand] = useState('')
   const [filterMethode, setFilterMethode] = useState('')
+  const [showAll, setShowAll] = useState(false)
 
   const locaties = [...new Set(sessies.map((s) => s.locatie_stad))].sort()
   const maanden = [...new Set(sessies.map((s) => {
@@ -34,6 +34,9 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
     }
     return true
   })
+
+  const visibleSessies = showAll ? gefilterdeSessies : gefilterdeSessies.slice(0, 12)
+  const hasMore = gefilterdeSessies.length > 12
 
   const isInCart = (sessieId: string) => items.some((i) => i.sessieId === sessieId)
 
@@ -62,22 +65,48 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
     const raw = sessie.lesdagen
     const parsed = Array.isArray(raw) ? raw : (typeof raw === 'string' ? JSON.parse(raw) : [])
     const dagen = parsed.length > 0 ? parsed : [sessie.datum]
-    if (dagen.length === 1) return formatDate(dagen[0])
-    return dagen.map(d => formatDateShort(d)).join(', ')
+    if (dagen.length === 1) return formatDateShort(dagen[0])
+    return dagen.map((d: string) => formatDateShort(d)).join(' + ')
   }
 
+  const isOnline = (sessie: CursusSessie) => sessie.lesmethode === 'online'
+
   return (
-    <div>
-      {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-4">
-        <div className="flex items-center gap-1 text-sm text-zinc-500">
-          <Filter size={14} />
-          Filter:
+    <div className="p-5 lg:p-6">
+      {/* Filter bar */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {/* Methode toggle */}
+        <div className="flex bg-zinc-100 rounded-lg p-0.5 gap-0.5">
+          <button
+            onClick={() => setFilterMethode('')}
+            className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
+              !filterMethode ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-700'
+            }`}
+          >
+            Alles
+          </button>
+          <button
+            onClick={() => setFilterMethode(filterMethode === 'klassikaal' ? '' : 'klassikaal')}
+            className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-1.5 ${
+              filterMethode === 'klassikaal' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-700'
+            }`}
+          >
+            <Users size={13} /> Klassikaal
+          </button>
+          <button
+            onClick={() => setFilterMethode(filterMethode === 'online' ? '' : 'online')}
+            className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-1.5 ${
+              filterMethode === 'online' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-700'
+            }`}
+          >
+            <Laptop size={13} /> Online
+          </button>
         </div>
+
         <select
           value={filterLocatie}
           onChange={(e) => setFilterLocatie(e.target.value)}
-          className="text-sm border border-zinc-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="text-sm border border-zinc-200 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 appearance-none pr-8 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2371717a%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_8px]"
         >
           <option value="">Alle locaties</option>
           {locaties.map((l) => (
@@ -88,7 +117,7 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
         <select
           value={filterMaand}
           onChange={(e) => setFilterMaand(e.target.value)}
-          className="text-sm border border-zinc-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="text-sm border border-zinc-200 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 appearance-none pr-8 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2371717a%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_8px]"
         >
           <option value="">Alle maanden</option>
           {maanden.map((m) => (
@@ -96,76 +125,114 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
           ))}
         </select>
 
-        <select
-          value={filterMethode}
-          onChange={(e) => setFilterMethode(e.target.value)}
-          className="text-sm border border-zinc-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary-500"
-        >
-          <option value="">Alle methodes</option>
-          <option value="klassikaal">Klassikaal</option>
-          <option value="online">Live Online</option>
-        </select>
+        <div className="ml-auto text-sm text-zinc-400 self-center">
+          {gefilterdeSessies.length} resultaten
+        </div>
       </div>
 
-      {/* Resultaat telling */}
-      <p className="text-xs text-zinc-400 mb-2">{gefilterdeSessies.length} sessie{gefilterdeSessies.length !== 1 ? 's' : ''} gevonden</p>
+      {/* Sessie cards */}
+      {gefilterdeSessies.length === 0 ? (
+        <div className="text-center py-12">
+          <Calendar size={32} className="text-zinc-300 mx-auto mb-3" />
+          <p className="text-zinc-500 font-medium">Geen sessies gevonden</p>
+          <p className="text-zinc-400 text-sm mt-1">Pas je filters aan om meer resultaten te zien.</p>
+        </div>
+      ) : (
+        <>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            {visibleSessies.map((sessie, index) => {
+              const inCart = isInCart(sessie.id)
+              const online = isOnline(sessie)
 
-      {/* Tabel */}
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="bg-zinc-50 border-b border-zinc-200">
-              <th className="text-left px-4 py-3 font-medium text-zinc-600">
-                <span className="flex items-center gap-1"><MapPin size={14} />Locatie</span>
-              </th>
-              <th className="text-left px-4 py-3 font-medium text-zinc-600">
-                <span className="flex items-center gap-1"><Calendar size={14} />Datum</span>
-              </th>
-              <th className="text-left px-4 py-3 font-medium text-zinc-600">Tijden</th>
-              <th className="text-left px-4 py-3 font-medium text-zinc-600">Methode</th>
-              <th className="text-right px-4 py-3 font-medium text-zinc-600">Prijs</th>
-              <th className="text-right px-4 py-3 font-medium text-zinc-600"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {gefilterdeSessies.length === 0 ? (
-              <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-zinc-500">
-                  Geen sessies gevonden met de huidige filters.
-                </td>
-              </tr>
-            ) : (
-              gefilterdeSessies.map((sessie) => (
-                <tr key={sessie.id} className="border-b border-zinc-100 hover:bg-zinc-50">
-                  <td className="px-4 py-3 font-medium">{sessie.locatie_stad}</td>
-                  <td className="px-4 py-3">{formatLesdagen(sessie)}</td>
-                  <td className="px-4 py-3 text-zinc-600">{sessie.tijden}</td>
-                  <td className="px-4 py-3">
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                      sessie.lesmethode === 'online'
-                        ? 'bg-accent-100 text-accent-700'
-                        : 'bg-primary-100 text-primary-700'
-                    }`}>
-                      {lesmethodeLabel(sessie.lesmethode)}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-right font-semibold">{formatPrice(sessie.prijs)}</td>
-                  <td className="px-4 py-3 text-right">
-                    {isInCart(sessie.id) ? (
-                      <span className="text-xs text-primary-500 font-medium">Toegevoegd &#10003;</span>
-                    ) : (
-                      <Button size="sm" onClick={() => handleAdd(sessie)}>
-                        <ShoppingCart size={14} className="mr-1" />
-                        Toevoegen
-                      </Button>
-                    )}
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+              return (
+                <div
+                  key={sessie.id}
+                  className={`relative rounded-xl border-2 p-4 transition-all duration-200 ${
+                    inCart
+                      ? 'border-primary-300 bg-primary-50/50'
+                      : 'border-zinc-100 bg-white hover:border-zinc-200 hover:shadow-md'
+                  }`}
+                >
+                  {/* First sessie badge */}
+                  {index === 0 && !filterLocatie && !filterMaand && !filterMethode && (
+                    <div className="absolute -top-2.5 left-4">
+                      <span className="bg-accent-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                        Eerstvolgende
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      {/* Locatie + methode */}
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className={`inline-flex items-center gap-1 text-sm font-semibold ${
+                          online ? 'text-accent-600' : 'text-zinc-900'
+                        }`}>
+                          {online ? <Laptop size={14} /> : <MapPin size={14} className="text-primary-500" />}
+                          {sessie.locatie_stad}
+                        </span>
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                          online
+                            ? 'bg-accent-100 text-accent-700'
+                            : 'bg-primary-100 text-primary-700'
+                        }`}>
+                          {lesmethodeLabel(sessie.lesmethode)}
+                        </span>
+                      </div>
+
+                      {/* Datum + tijd */}
+                      <div className="flex items-center gap-3 text-sm text-zinc-500">
+                        <span className="flex items-center gap-1">
+                          <Calendar size={13} />
+                          {formatLesdagen(sessie)}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock size={13} />
+                          {sessie.tijden}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Prijs + actie */}
+                    <div className="flex items-center gap-3 shrink-0">
+                      <div className="text-right">
+                        <div className="text-lg font-bold text-zinc-900">{formatPrice(sessie.prijs)}</div>
+                        <div className="text-[11px] text-zinc-400">excl. BTW</div>
+                      </div>
+
+                      {inCart ? (
+                        <div className="w-10 h-10 rounded-xl bg-primary-500 text-white flex items-center justify-center">
+                          <Check size={18} strokeWidth={3} />
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => handleAdd(sessie)}
+                          className="w-10 h-10 rounded-xl bg-primary-500 text-white flex items-center justify-center hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/25 transition-all active:scale-95"
+                          title="Toevoegen aan inschrijving"
+                        >
+                          <ShoppingCart size={16} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Show more */}
+          {hasMore && !showAll && (
+            <button
+              onClick={() => setShowAll(true)}
+              className="w-full mt-4 py-3 rounded-xl border-2 border-dashed border-zinc-200 text-sm font-semibold text-zinc-500 hover:border-primary-300 hover:text-primary-500 transition-colors flex items-center justify-center gap-1"
+            >
+              <ChevronDown size={16} />
+              Toon alle {gefilterdeSessies.length} sessies
+            </button>
+          )}
+        </>
+      )}
     </div>
   )
 }
