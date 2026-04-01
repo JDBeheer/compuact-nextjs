@@ -149,7 +149,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
   const thuisInCart = thuisstudieSessie ? isInCart(thuisstudieSessie.id) : false
 
   return (
-    <div className="p-5 lg:p-6">
+    <div className="p-4 sm:p-5 lg:p-6">
       {/* Stap 1: Lesmethode kiezen */}
       <div className="mb-6">
         <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-3">1. Kies je lesmethode</h3>
