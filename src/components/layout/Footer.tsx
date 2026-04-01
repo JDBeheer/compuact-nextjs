@@ -3,13 +3,13 @@ import Image from 'next/image'
 import { Phone, Mail, MapPin, ArrowRight, Star, CheckCircle, Clock, Shield, Users, Award } from 'lucide-react'
 
 const cursusLinks = [
-  { naam: 'Excel cursussen', href: '/cursussen/categorie/excel' },
-  { naam: 'Word cursussen', href: '/cursussen/categorie/word' },
-  { naam: 'Outlook cursussen', href: '/cursussen/categorie/outlook' },
-  { naam: 'PowerPoint cursussen', href: '/cursussen/categorie/powerpoint' },
-  { naam: 'Power BI cursussen', href: '/cursussen/categorie/power-bi' },
-  { naam: 'AI cursussen', href: '/cursussen/categorie/ai' },
-  { naam: 'Office 365 cursussen', href: '/cursussen/categorie/office-365' },
+  { naam: 'Excel cursussen', href: '/cursussen/excel' },
+  { naam: 'Word cursussen', href: '/cursussen/word' },
+  { naam: 'Outlook cursussen', href: '/cursussen/outlook' },
+  { naam: 'PowerPoint cursussen', href: '/cursussen/powerpoint' },
+  { naam: 'Power BI cursussen', href: '/cursussen/power-bi' },
+  { naam: 'AI cursussen', href: '/cursussen/ai' },
+  { naam: 'Office 365 cursussen', href: '/cursussen/office-365' },
   { naam: 'Alle cursussen', href: '/cursussen' },
 ]
 
