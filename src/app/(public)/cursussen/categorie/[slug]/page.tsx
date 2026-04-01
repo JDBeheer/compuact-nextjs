@@ -11,6 +11,8 @@ import {
   Users, MapPin, Award, BookOpen, CheckCircle, Star, ArrowRight,
   Shield, Phone
 } from 'lucide-react'
+import { getGoogleReviews, fallbackReviews } from '@/lib/google-reviews'
+import { GoogleReviewsSection } from '@/components/GoogleReviews'
 
 const categorieConfig: Record<string, {
   icon: typeof Monitor
