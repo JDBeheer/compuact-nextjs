@@ -60,28 +60,8 @@ const lesmethodes = [
   },
 ]
 
-const testimonials = [
-  {
-    tekst: 'De persoonlijke aandacht en het juiste niveau van de training maakten het verschil. Onze medewerkers konden de geleerde vaardigheden direct toepassen.',
-    naam: 'Walther Piek',
-    bedrijf: 'Arbeidsconsulent',
-    rating: 5,
-  },
-  {
-    tekst: 'Uitstekende Excel training. De docent nam ruim de tijd voor persoonlijke vragen en de stof was direct toepasbaar.',
-    naam: 'Sandra de Vries',
-    bedrijf: 'Gemeente Amsterdam',
-    rating: 5,
-  },
-  {
-    tekst: 'De incompany training was perfect afgestemd op onze organisatie. Zeer tevreden over de flexibiliteit en kwaliteit.',
-    naam: 'Mark Jansen',
-    bedrijf: 'ING Bank',
-    rating: 5,
-  },
-]
-
-export default function HomePage() {
+export default async function HomePage() {
+  const reviewData = await getGoogleReviews() ?? fallbackReviews
   return (
     <>
       {/* Hero */}
