@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { Star, X, ExternalLink, ArrowRight } from 'lucide-react'
 import { GoogleReview } from '@/lib/google-reviews'
 
