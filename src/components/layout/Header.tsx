@@ -40,6 +40,7 @@ const categorieen = [
       { naam: 'Word: Complexe Documenten', slug: 'word-complexe-documenten', niveau: 'Gevorderd' },
       { naam: 'Word: Formulieren en Sjablonen', slug: 'word-formulieren-en-sjablonen', niveau: 'Gevorderd' },
       { naam: 'Word: Mailingen Verzorgen', slug: 'word-mailingen-verzorgen', niveau: 'Gevorderd' },
+      { naam: 'Word en Excel', slug: 'word-en-excel', niveau: 'Beginner' },
     ],
   },
   {
