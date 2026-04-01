@@ -3,12 +3,12 @@ import Image from 'next/image'
 import { Phone, Mail, MapPin } from 'lucide-react'
 
 const cursusLinks = [
-  { naam: 'Excel cursussen', href: '/cursussen?categorie=excel' },
-  { naam: 'Word cursussen', href: '/cursussen?categorie=word' },
-  { naam: 'Office 365', href: '/cursussen?categorie=office-365' },
-  { naam: 'Outlook', href: '/cursussen?categorie=outlook' },
-  { naam: 'Power BI', href: '/cursussen?categorie=power-bi' },
-  { naam: 'PowerPoint', href: '/cursussen?categorie=powerpoint' },
+  { naam: 'Excel cursussen', href: '/cursussen/categorie/excel' },
+  { naam: 'Word cursussen', href: '/cursussen/categorie/word' },
+  { naam: 'Office 365', href: '/cursussen/categorie/office-365' },
+  { naam: 'Outlook', href: '/cursussen/categorie/outlook' },
+  { naam: 'Power BI', href: '/cursussen/categorie/power-bi' },
+  { naam: 'PowerPoint', href: '/cursussen/categorie/powerpoint' },
 ]
 
 const lesmethodes = [

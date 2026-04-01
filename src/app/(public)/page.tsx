@@ -125,7 +125,7 @@ export default function HomePage() {
             {categorieen.map((cat) => (
               <Link
                 key={cat.slug}
-                href={`/cursussen?categorie=${cat.slug}`}
+                href={`/cursussen/categorie/${cat.slug}`}
                 className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors ${cat.color}`}
               >
                 <cat.icon size={14} />

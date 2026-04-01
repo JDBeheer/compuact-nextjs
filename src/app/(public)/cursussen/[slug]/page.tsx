@@ -117,7 +117,7 @@ export default async function CursusDetailPage({ params }: { params: { slug: str
             {cursus.categorie && (
               <>
                 <span className="mx-2">/</span>
-                <a href={`/cursussen?categorie=${cursus.categorie.slug}`} className="hover:text-primary-500">
+                <a href={`/cursussen/categorie/${cursus.categorie.slug}`} className="hover:text-primary-500">
                   {cursus.categorie.naam}
                 </a>
               </>

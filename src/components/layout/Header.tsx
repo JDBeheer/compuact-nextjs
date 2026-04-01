@@ -255,7 +255,7 @@ export default function Header() {
                               {categorieen[activeCategory].naam} cursussen
                             </h3>
                             <Link
-                              href={`/cursussen?categorie=${categorieen[activeCategory].slug}`}
+                              href={`/cursussen/categorie/${categorieen[activeCategory].slug}`}
                               onClick={closeMega}
                               className="text-xs text-primary-500 font-semibold hover:text-primary-600 flex items-center gap-1"
                             >
@@ -401,7 +401,7 @@ export default function Header() {
                           </Link>
                         ))}
                         <Link
-                          href={`/cursussen?categorie=${cat.slug}`}
+                          href={`/cursussen/categorie/${cat.slug}`}
                           onClick={() => setMobileOpen(false)}
                           className="block px-3 py-2 text-sm text-primary-500 font-semibold hover:bg-primary-50 rounded-lg"
                         >
