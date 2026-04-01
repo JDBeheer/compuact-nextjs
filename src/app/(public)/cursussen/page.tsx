@@ -14,14 +14,25 @@ export const metadata: Metadata = {
 async function getCursussen(searchParams: Record<string, string | undefined>) {
   const supabase = createServerSupabaseClient()
 
+  // If filtering by category, first get the category ID
+  let categorieId: string | null = null
+  if (searchParams.categorie) {
+    const { data: cat } = await supabase
+      .from('categorieen')
+      .select('id')
+      .eq('slug', searchParams.categorie)
+      .single()
+    categorieId = cat?.id || null
+  }
+
   let query = supabase
     .from('cursussen')
     .select('*, categorie:categorieen(*)')
     .eq('actief', true)
     .order('titel')
 
-  if (searchParams.categorie) {
-    query = query.eq('categorie:categorieen.slug', searchParams.categorie)
+  if (categorieId) {
+    query = query.eq('categorie_id', categorieId)
   }
 
   if (searchParams.zoek) {
