@@ -21,7 +21,6 @@ interface GoogleReviewsModalProps {
 }
 
 export function GoogleReviewsModalTrigger({
-  reviews,
   rating,
   totalReviews,
   allReviews,
