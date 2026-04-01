@@ -44,7 +44,6 @@ const COURSE_URLS = [
   'visio-basis/',
 ]
 
-// Map WP category paths to our Supabase category slugs
 function wpPathToCategory(path: string): string {
   if (path.startsWith('excel/') || path === 'excel') return 'excel'
   if (path.startsWith('word/')) return 'word'
@@ -58,18 +57,12 @@ function wpPathToCategory(path: string): string {
 }
 
 function wpSlugToOurSlug(path: string): string {
-  // Remove category prefix: excel/excel-basis/ -> excel-basis
   const parts = path.replace(/\/$/, '').split('/')
   return parts[parts.length - 1]
 }
 
-function stripHtml(html: string): string {
-  return html
-    .replace(/<br\s*\/?>/gi, '\n')
-    .replace(/<\/p>/gi, '\n\n')
-    .replace(/<\/li>/gi, '\n')
-    .replace(/<\/h[1-6]>/gi, '\n\n')
-    .replace(/<[^>]+>/g, '')
+function decodeEntities(text: string): string {
+  return text
     .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
@@ -77,50 +70,87 @@ function stripHtml(html: string): string {
     .replace(/&euro;/g, '€')
     .replace(/&middot;/g, '·')
     .replace(/&#8211;/g, '–')
+    .replace(/&#8212;/g, '—')
     .replace(/&#8217;/g, "'")
+    .replace(/&#8216;/g, "'")
     .replace(/&#8220;/g, '"')
     .replace(/&#8221;/g, '"')
+    .replace(/&ndash;/g, '–')
+    .replace(/&mdash;/g, '—')
+    .replace(/&rsquo;/g, "'")
+    .replace(/&lsquo;/g, "'")
+    .replace(/&rdquo;/g, '"')
+    .replace(/&ldquo;/g, '"')
+    .replace(/&eacute;/g, 'é')
+    .replace(/&euml;/g, 'ë')
+    .replace(/&iuml;/g, 'ï')
+    .replace(/&ouml;/g, 'ö')
+    .replace(/&uuml;/g, 'ü')
+    .replace(/&#\d+;/g, '')
+}
+
+function stripHtml(html: string): string {
+  return decodeEntities(
+    html
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<\/p>/gi, '\n\n')
+      .replace(/<\/li>/gi, '\n')
+      .replace(/<\/h[1-6]>/gi, '\n\n')
+      .replace(/<[^>]+>/g, '')
+  )
     .replace(/\n{3,}/g, '\n\n')
     .trim()
 }
 
-function extractSection(html: string, headerText: string): string {
-  // Find section by header text, extract content until next header
-  const headerPattern = new RegExp(
-    `<h[2-4][^>]*>[^<]*${headerText}[^<]*</h[2-4]>\\s*(.*?)(?=<h[2-4]|<section|$)`,
-    'is'
+// Extract text between a heading and the next heading/section
+function extractSectionAfterHeading(html: string, headerRegex: string): string {
+  const pattern = new RegExp(
+    `<h[2-4][^>]*>[\\s\\S]*?${headerRegex}[\\s\\S]*?</h[2-4]>([\\s\\S]*?)(?=<h[2-4][^>]*>|<section\\s|$)`,
+    'i'
   )
-  const match = html.match(headerPattern)
+  const match = html.match(pattern)
   if (!match) return ''
   return stripHtml(match[1])
 }
 
-function extractListItems(html: string, headerText: string): string[] {
-  const headerPattern = new RegExp(
-    `<h[2-4][^>]*>[^<]*${headerText}[^<]*</h[2-4]>\\s*(.*?)(?=<h[2-4]|<section|$)`,
-    'is'
+// Extract <li> items from a section after a heading
+function extractListAfterHeading(html: string, headerRegex: string): string[] {
+  const pattern = new RegExp(
+    `<h[2-4][^>]*>[\\s\\S]*?${headerRegex}[\\s\\S]*?</h[2-4]>([\\s\\S]*?)(?=<h[2-4][^>]*>|<section\\s|$)`,
+    'i'
   )
-  const match = html.match(headerPattern)
+  const match = html.match(pattern)
   if (!match) return []
 
   const section = match[1]
   const items: string[] = []
 
-  // Try <li> items first
-  const liMatches = section.matchAll(/<li[^>]*>(.*?)<\/li>/gis)
+  // Extract <li> items
+  const liMatches = [...section.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)]
   for (const m of liMatches) {
-    const text = stripHtml(m[1]).trim()
-    if (text) items.push(text)
+    // Get just the first line/title from the li (before detailed description)
+    let text = stripHtml(m[1]).trim()
+    // If item has a colon with explanation, take just the title part
+    const colonIdx = text.indexOf(':\n')
+    if (colonIdx > 0 && colonIdx < 60) {
+      text = text.substring(0, colonIdx)
+    }
+    // Clean up - take first line if multi-line
+    const firstLine = text.split('\n')[0].trim()
+    if (firstLine && firstLine.length > 3) {
+      items.push(firstLine)
+    }
   }
 
-  // If no list items, try paragraphs or numbered items
+  // If no <li> items, try to find text blocks separated by newlines
   if (items.length === 0) {
     const text = stripHtml(section)
-    const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 10)
-    // Look for numbered items like "1. ", "2. " etc
+    const lines = text.split('\n')
+      .map(l => l.trim())
+      .filter(l => l.length > 10 && !l.startsWith('Ben je') && !l.startsWith('Wil je'))
     for (const line of lines) {
       const cleaned = line.replace(/^\d+[\.\)]\s*/, '').trim()
-      if (cleaned) items.push(cleaned)
+      if (cleaned.length > 5) items.push(cleaned)
     }
   }
 
@@ -137,94 +167,71 @@ interface PriceInfo {
 function extractPrices(html: string): PriceInfo {
   const prices: PriceInfo = {}
 
-  // Extract from JSON-LD schema markup (most reliable)
-  const schemaMatch = html.match(/<script type="application\/ld\+json"[^>]*>(.*?)<\/script>/gis)
-  if (schemaMatch) {
-    for (const block of schemaMatch) {
-      const jsonStr = block.replace(/<\/?script[^>]*>/gi, '').trim()
-      try {
-        const data = JSON.parse(jsonStr)
-        const graph = data['@graph'] || [data]
-        for (const item of graph) {
-          if (item['@type'] === 'Product' && item.offers) {
-            const offers = Array.isArray(item.offers) ? item.offers : [item.offers]
-            for (const offer of offers) {
-              const url = (offer.url || '').toLowerCase()
-              const price = parseFloat(offer.price)
-              if (isNaN(price) || price <= 0) continue
+  // Extract from JSON-LD schema markup - look for hasVariant pattern
+  const schemaBlocks = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)]
 
-              if (url.includes('lesmethode=thuisstudie')) {
-                prices.thuisstudie = price
-              } else if (url.includes('lesmethode=incompany')) {
-                prices.incompany = price
-              } else if (url.includes('lesmethode=klassikaal') || url.includes('locatie=') && !url.includes('thuisstudie') && !url.includes('virtueel')) {
-                if (!prices.klassikaal || price > prices.klassikaal) {
-                  prices.klassikaal = price
-                }
-              } else if (url.includes('lesmethode=live-online') || url.includes('locatie=virtueel')) {
-                prices.online = price
-              }
-            }
-          }
+  for (const block of schemaBlocks) {
+    const jsonStr = block[1].trim()
+    try {
+      const data = JSON.parse(jsonStr)
+      const graph = data['@graph'] || [data]
 
-          // Also check grouped products
-          if (item['@type'] === 'GroupedProduct' || (item.hasOfferCatalog?.itemListElement)) {
-            const elements = item.hasOfferCatalog?.itemListElement || []
-            for (const el of elements) {
-              if (el.offers) {
-                const offers = Array.isArray(el.offers) ? el.offers : [el.offers]
-                for (const offer of offers) {
-                  const url = (offer.url || '').toLowerCase()
-                  const price = parseFloat(offer.price)
-                  if (isNaN(price) || price <= 0) continue
-                  if (url.includes('thuisstudie')) prices.thuisstudie = price
-                  else if (url.includes('incompany')) prices.incompany = price
-                  else if (url.includes('live-online') || url.includes('virtueel')) prices.online = price
-                  else if (url.includes('klassikaal') || (!url.includes('thuisstudie') && !url.includes('incompany'))) {
-                    if (!prices.klassikaal || price > prices.klassikaal) prices.klassikaal = price
-                  }
-                }
-              }
+      for (const item of graph) {
+        // Check hasVariant (WooCommerce grouped product structure)
+        const variants = item.hasVariant || []
+        for (const variant of variants) {
+          const offers = variant.offers
+          if (!offers) continue
+          const price = parseFloat(offers.price)
+          const url = decodeEntities(offers.url || '').toLowerCase()
+          if (isNaN(price) || price <= 0) continue
+
+          if (url.includes('lesmethode=thuisstudie') || url.includes('locatie=thuisstudie')) {
+            prices.thuisstudie = price
+          } else if (url.includes('lesmethode=incompany') || url.includes('locatie=incompany')) {
+            prices.incompany = price
+          } else if (url.includes('lesmethode=live-online') || url.includes('locatie=virtueel')) {
+            if (!prices.online) prices.online = price
+          } else if (url.includes('lesmethode=klassikaal')) {
+            if (!prices.klassikaal || price > prices.klassikaal) prices.klassikaal = price
+          } else {
+            // Default: if it has a physical location, it's klassikaal
+            if (!url.includes('thuisstudie') && !url.includes('incompany') && !url.includes('virtueel')) {
+              if (!prices.klassikaal || price > prices.klassikaal) prices.klassikaal = price
             }
           }
         }
-      } catch { /* skip non-JSON blocks */ }
-    }
+      }
+    } catch { /* skip */ }
   }
 
   return prices
 }
 
 function extractLesmethodes(html: string): string[] {
-  const match = html.match(/Lesmethodes:\s*<\/h[2-4]>\s*<[^>]+>(.*?)<\//is)
+  const match = html.match(/Lesmethodes:\s*<\/h[2-4]>\s*<[^>]+[^/]*?>(.*?)<\//is)
   if (match) {
-    return match[1].split(',').map(s => s.trim()).filter(Boolean)
+    return match[1].split(',').map(s => decodeEntities(s).trim()).filter(Boolean)
   }
   return []
 }
 
 function extractDuur(html: string): string {
-  // From schema.org
-  const match = html.match(/"duration"\s*:\s*"([^"]+)"/i)
-  if (match) return match[1]
-
-  // From visible text
+  // From visible text near the top of the page
   const duurMatch = html.match(/(\d+)\s*(?:dag|dagen)/i)
   if (duurMatch) {
     const n = parseInt(duurMatch[1])
     return n === 1 ? '1 dag' : `${n} dagen`
   }
-
-  // Check for half day
   if (html.match(/halve\s*dag/i)) return 'Halve dag'
-
   return ''
 }
 
-function extractNiveau(html: string): string {
-  const text = html.toLowerCase()
-  if (text.includes('gevorderd') || text.includes('advanced')) return 'gevorderd'
-  if (text.includes('expert') || text.includes('specialist')) return 'expert'
+function extractNiveau(titel: string, lesmethodes: string[]): string {
+  const t = titel.toLowerCase()
+  if (t.includes('gevorderd') || t.includes('advanced') || t.includes('vba') || t.includes('financials')) return 'gevorderd'
+  if (t.includes('expert') || t.includes('specialist') || t.includes('maatwerk')) return 'expert'
+  if (t.includes('analyse') || t.includes('functies en formules') || t.includes('koppelingen') || t.includes('power bi') || t.includes('complexe')) return 'gevorderd'
   return 'beginner'
 }
 
@@ -266,33 +273,41 @@ async function scrapeCourse(path: string): Promise<CourseData | null> {
   const parts = html.split('<div class="breakdance"')
   const contentHtml = parts.length >= 3 ? parts.slice(2).join('') : html
 
-  // Title
-  const titleMatch = contentHtml.match(/<h1[^>]*>(.*?)<\/h1>/is)
-  const titel = titleMatch ? stripHtml(titleMatch[1]).trim() : ''
+  // Title from H1
+  const titleMatch = contentHtml.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)
+  let titel = titleMatch ? stripHtml(titleMatch[1]).trim() : ''
+
+  // Fallback: try og:title
+  if (!titel) {
+    const ogMatch = html.match(/<meta property="og:title" content="([^"]+)"/i)
+    titel = ogMatch ? decodeEntities(ogMatch[1]).replace(/ - Compu Act.*$/, '').trim() : ''
+  }
 
   if (!titel) {
     console.error(`  ❌ No title found for ${path}`)
     return null
   }
 
-  // Description - extract the main intro text
-  const beschrijving = extractSection(contentHtml, 'Wat leer je')
-    || extractSection(contentHtml, 'Cursus')
-    || extractSection(contentHtml, titel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+  // Clean up long SEO titles - keep just the main part
+  if (titel.includes('–')) {
+    titel = titel.split('–')[0].trim()
+  }
+  // Remove "cursus voor beginners" etc from title
+  titel = titel.replace(/\s+cursus voor beginners$/i, '')
 
-  // Wat leer je items
-  const watLeerJe = extractListItems(contentHtml, 'Wat leer (?:je|ik)')
+  // Extract intro/description from "Wat leer je?" H2 section
+  const beschrijving = extractSectionAfterHeading(contentHtml, 'Wat leer je')
 
-  // Programma
-  const programma = extractListItems(contentHtml, 'Programma')
+  // Extract "Wat leer ik" items (the detailed bullet list)
+  const watLeerJe = extractListAfterHeading(contentHtml, 'Wat leer ik')
 
-  // Doelgroep
-  const doelgroep = extractSection(contentHtml, 'Doelgroep')
+  // Extract Doelgroep
+  const doelgroep = extractSectionAfterHeading(contentHtml, 'Doelgroep')
 
-  // Voorkennis
-  const voorkennis = extractSection(contentHtml, 'Voorkennis')
+  // Extract Voorkennis
+  const voorkennis = extractSectionAfterHeading(contentHtml, 'Voorkennis')
 
-  // Prices
+  // Prices from JSON-LD
   const prices = extractPrices(html)
 
   // Lesmethodes
@@ -301,19 +316,28 @@ async function scrapeCourse(path: string): Promise<CourseData | null> {
   // Duur
   const duur = extractDuur(html)
 
-  // Niveau - derive from title and content
-  const niveau = extractNiveau(titel + ' ' + beschrijving)
+  // Niveau
+  const niveau = extractNiveau(titel, lesmethodes)
 
   // prijs_vanaf = lowest price
-  const allPrices = [prices.thuisstudie, prices.klassikaal, prices.online, prices.incompany].filter((p): p is number => !!p && p > 0)
+  const allPrices = [prices.thuisstudie, prices.klassikaal, prices.online, prices.incompany]
+    .filter((p): p is number => !!p && p > 0)
   const prijs_vanaf = allPrices.length > 0 ? Math.min(...allPrices) : 0
 
-  // Short description: first 1-2 sentences of beschrijving
+  // Short description from first 2 sentences
   let korte_beschrijving = ''
   if (beschrijving) {
     const sentences = beschrijving.split(/(?<=[.!?])\s+/)
-    korte_beschrijving = sentences.slice(0, 2).join(' ').substring(0, 200)
+    korte_beschrijving = sentences.slice(0, 2).join(' ')
+    if (korte_beschrijving.length > 200) {
+      korte_beschrijving = korte_beschrijving.substring(0, 197) + '...'
+    }
   }
+
+  // Build programma from wat_leer_je items (WP doesn't have separate programma section)
+  const programma = watLeerJe.length > 0
+    ? watLeerJe.map((item, i) => `${i + 1}. ${item}`)
+    : []
 
   return {
     slug: wpSlugToOurSlug(path),
@@ -342,10 +366,9 @@ async function scrapeCourse(path: string): Promise<CourseData | null> {
 function toInformeel(text: string): string {
   return text
     .replace(/\bU\b/g, 'Je')
-    .replace(/\bu\b/g, 'je')
+    .replace(/\bu\b(?!\.\w)/g, 'je')
     .replace(/\bUw\b/g, 'Jouw')
     .replace(/\buw\b/g, 'jouw')
-    .replace(/\bzich\b/g, 'je')
 }
 
 async function main() {
@@ -388,7 +411,7 @@ async function main() {
       console.log(`     Slug: ${course.slug} | Cat: ${course.categorie_slug} | Duur: ${course.duur} | Niveau: ${course.niveau}`)
       console.log(`     Prijs vanaf: €${course.prijs_vanaf} | Thuisstudie: €${course.prices.thuisstudie || '-'} | Klassikaal: €${course.prices.klassikaal || '-'} | Online: €${course.prices.online || '-'} | InCompany: €${course.prices.incompany || '-'}`)
       console.log(`     Lesmethodes: ${course.lesmethodes.join(', ')}`)
-      console.log(`     Wat leer je: ${course.inhoud.wat_leer_je.length} items | Programma: ${course.inhoud.programma.length} items`)
+      console.log(`     Wat leer je: ${course.inhoud.wat_leer_je.length} items | Doelgroep: ${course.inhoud.doelgroep.length > 0 ? '✓' : '✗'} | Voorkennis: ${course.inhoud.voorkennis.length > 0 ? '✓' : '✗'}`)
       console.log(`     Beschrijving: ${course.beschrijving.substring(0, 80)}...`)
       console.log()
 
@@ -397,29 +420,32 @@ async function main() {
         continue
       }
 
-      // Upsert course in Supabase
-      const { error: upsertError } = await supabase
+      // Update course in Supabase
+      const updateData: Record<string, unknown> = {
+        beschrijving: course.beschrijving,
+        korte_beschrijving: course.korte_beschrijving,
+        inhoud: course.inhoud,
+      }
+
+      // Only update prijs_vanaf if we found prices
+      if (course.prijs_vanaf > 0) updateData.prijs_vanaf = course.prijs_vanaf
+      if (course.duur) updateData.duur = course.duur
+      if (course.niveau) updateData.niveau = course.niveau
+      if (categorie_id) updateData.categorie_id = categorie_id
+
+      const { error: updateError } = await supabase
         .from('cursussen')
-        .update({
-          beschrijving: course.beschrijving,
-          korte_beschrijving: course.korte_beschrijving,
-          prijs_vanaf: course.prijs_vanaf,
-          duur: course.duur || undefined,
-          niveau: course.niveau || undefined,
-          inhoud: course.inhoud,
-          ...(categorie_id ? { categorie_id } : {}),
-        })
+        .update(updateData)
         .eq('slug', course.slug)
 
-      if (upsertError) {
-        console.error(`  ❌ DB error for ${course.slug}: ${upsertError.message}`)
+      if (updateError) {
+        console.error(`  ❌ DB error for ${course.slug}: ${updateError.message}`)
         errors++
         continue
       }
 
       // Create thuisstudie session if applicable
       if (course.prices.thuisstudie && course.lesmethodes.some(m => m.toLowerCase().includes('thuisstudie'))) {
-        // Get course ID
         const { data: cursusRow } = await supabase
           .from('cursussen')
           .select('id')
@@ -427,7 +453,6 @@ async function main() {
           .single()
 
         if (cursusRow) {
-          // Check if thuisstudie session already exists
           const { data: existing } = await supabase
             .from('cursus_sessies')
             .select('id')
@@ -446,10 +471,17 @@ async function main() {
               })
 
             if (sessieError) {
-              console.log(`     ⚠️ Thuisstudie sessie error: ${sessieError.message}`)
+              console.log(`     ⚠️ Thuisstudie sessie: ${sessieError.message}`)
             } else {
               console.log(`     📚 Thuisstudie sessie aangemaakt (€${course.prices.thuisstudie})`)
             }
+          } else {
+            // Update existing thuisstudie price
+            await supabase
+              .from('cursus_sessies')
+              .update({ prijs: course.prices.thuisstudie })
+              .eq('cursus_id', cursusRow.id)
+              .eq('lesmethode', 'thuisstudie')
           }
         }
       }
