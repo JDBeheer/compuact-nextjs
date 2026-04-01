@@ -1,6 +1,9 @@
 {
   "permissions": {
-    "defaultMode": "bypassPermissions"
+    "defaultMode": "bypassPermissions",
+    "allow": [
+      "Bash(npx next:*)"
+    ]
   },
   "hooks": {
     "PostToolUse": [

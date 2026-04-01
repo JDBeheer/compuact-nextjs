@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Phone, Mail, MapPin, ArrowRight, Star, CheckCircle, Clock, Shield, Users, Award, ExternalLink } from 'lucide-react'
+import { Phone, Mail, MapPin, ArrowRight, Star, CheckCircle, Clock, Shield, Users, Award } from 'lucide-react'
 
 const cursusLinks = [
   { naam: 'Excel cursussen', href: '/cursussen/categorie/excel' },
