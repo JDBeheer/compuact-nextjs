@@ -4,7 +4,7 @@ export const postcodeCoords: Record<string, [number, number]> = {
   '10': [52.374, 4.890],  // Amsterdam
   '11': [52.350, 4.870],  // Amsterdam-Zuid
   '12': [52.330, 4.770],  // Haarlem-Zuid
-  '13': [52.290, 4.680],  // Hillegom/Lisse
+  '13': [52.350, 5.220],  // Almere
   '14': [52.520, 4.720],  // Heerhugowaard
   '15': [52.640, 5.060],  // Hoorn
   '16': [52.700, 5.080],  // Enkhuizen
