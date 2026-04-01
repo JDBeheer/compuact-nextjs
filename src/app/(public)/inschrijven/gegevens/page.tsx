@@ -68,6 +68,23 @@ function CheckoutPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items])
 
+  // Track begin_checkout once
+  useEffect(() => {
+    if (items.length > 0) {
+      trackBeginCheckout(
+        items.map(item => ({
+          item_id: item.sessieId,
+          item_name: item.cursusTitel,
+          item_variant: item.lesmethode,
+          price: item.prijs,
+          quantity: item.aantalDeelnemers || 1,
+        })),
+        items.reduce((sum, i) => sum + i.prijs * (i.aantalDeelnemers || 1), 0)
+      )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const totaal = getTotal()
 
   if (typeof window !== 'undefined' && items.length === 0 && !success) {
