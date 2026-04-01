@@ -18,7 +18,11 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
   const [filterMethode, setFilterMethode] = useState('')
   const [showAll, setShowAll] = useState(false)
 
-  const locaties = [...new Set(sessies.map((s) => s.locatie_stad))].sort()
+  // Separate thuisstudie from regular sessions
+  const thuisstudieSessie = sessies.find(s => s.lesmethode === 'thuisstudie')
+  const regularSessies = sessies.filter(s => s.lesmethode !== 'thuisstudie')
+
+  const locaties = [...new Set(regularSessies.map((s) => s.locatie_stad))].sort()
   const maanden = [...new Set(sessies.map((s) => {
     const d = new Date(s.datum)
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
