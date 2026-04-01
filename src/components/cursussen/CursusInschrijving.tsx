@@ -118,7 +118,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
       return new Date(a.datum).getTime() - new Date(b.datum).getTime()
     })
 
-  const visibleSessies = showAll ? gefilterdeSessies : gefilterdeSessies.slice(0, 8)
+  const visibleSessies = showAll ? gefilterdeSessies : gefilterdeSessies.slice(0, 16)
 
   const isInCart = (id: string) => items.some(i => i.sessieId === id)
 
