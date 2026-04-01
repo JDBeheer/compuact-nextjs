@@ -8,7 +8,10 @@
       "Bash(rm -rf compuact-nextjs)",
       "Bash(cp -r compuact-nextjs/.git .)",
       "Bash(cp -r /tmp/compuact-init/* /tmp/compuact-init/.* /Users/eriklindeman/GitHub/compuact-nextjs/)",
-      "Bash(rm -rf /tmp/compuact-init)"
+      "Bash(rm -rf /tmp/compuact-init)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git remote:*)"
     ]
   }
 }
