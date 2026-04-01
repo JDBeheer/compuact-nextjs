@@ -348,7 +348,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
                       {index === 0 && !filterLocatie && !filterMaand && (
                         <div className="absolute -top-2.5 left-4">
                           <span className="bg-accent-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                            Eerstvolgende
+                            {postcodeCoords ? 'Dichtstbij' : 'Eerstvolgende'}
                           </span>
                         </div>
                       )}
@@ -360,6 +360,11 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
                               {online ? <Laptop size={14} /> : <MapPin size={14} className="text-primary-500" />}
                               {sessie.locatie_stad}
                             </span>
+                            {postcodeCoords && !online && getAfstand(sessie.locatie_stad) !== undefined && (
+                              <span className="text-[10px] font-medium text-zinc-400">
+                                {getAfstand(sessie.locatie_stad)} km
+                              </span>
+                            )}
                             <span className={cn('text-[10px] font-semibold px-2 py-0.5 rounded-full', online ? 'bg-accent-100 text-accent-700' : 'bg-primary-100 text-primary-700')}>
                               {lesmethodeLabel(sessie.lesmethode)}
                             </span>
