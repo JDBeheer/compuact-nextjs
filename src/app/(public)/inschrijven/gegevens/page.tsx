@@ -146,11 +146,6 @@ function CheckoutPage() {
       }
     }
 
-    if (checkoutType === 'offerte') {
-      klantgegevens.gewenste_periode = form.get('gewenste_periode') as string
-      klantgegevens.locatie_voorkeur = form.get('locatie_voorkeur') as string
-    }
-
     const enrichedItems = items.map(item => ({
       ...item,
       deelnemers: deelnemersMap[item.sessieId] || [],
