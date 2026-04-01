@@ -37,9 +37,9 @@ const lesmethodes = [
   {
     icon: Users,
     titel: 'Klassikaal',
-    beschrijving: 'Leer in een kleine groep op een van onze 18 locaties door heel Nederland. Persoonlijke begeleiding door ervaren docenten.',
+    beschrijving: 'Leer in een kleine groep op een van onze 17 locaties door heel Nederland. Persoonlijke begeleiding door ervaren docenten.',
     features: ['Max 10 deelnemers', 'Lesmateriaal inbegrepen', 'Certificaat'],
-    href: '/cursussen',
+    href: '/locaties',
     color: 'bg-primary-500',
   },
   {
