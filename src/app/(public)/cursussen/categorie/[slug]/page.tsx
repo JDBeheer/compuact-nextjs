@@ -246,7 +246,7 @@ export default async function CategoriePage({ params }: { params: { slug: string
                 </div>
                 <span className="text-sm font-bold">4.8</span>
               </div>
-              <p className="text-sm text-white/70 mb-4">Gebaseerd op 84 Google recensies</p>
+              <p className="text-sm text-white/70 mb-4">Gebaseerd op {reviewData.user_ratings_total} Google recensies</p>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between"><span className="text-white/60">Cursussen</span><span className="font-bold">{cursussen.length}</span></div>
                 <div className="flex justify-between"><span className="text-white/60">Locaties</span><span className="font-bold">18</span></div>
