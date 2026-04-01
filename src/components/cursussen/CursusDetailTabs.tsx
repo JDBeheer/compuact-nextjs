@@ -15,6 +15,23 @@ const tabs = [
   { id: 'praktisch', label: 'Praktische info' },
 ]
 
+// Split long text into readable paragraphs
+function splitIntoParagraphs(text: string): string[] {
+  // First try splitting on double newlines
+  const parts = text.split(/\n\n+/).filter(p => p.trim())
+  if (parts.length > 1) return parts
+
+  // If it's one big block, split into ~2-3 sentence chunks
+  const sentences = text.split(/(?<=[.!?])\s+/)
+  if (sentences.length <= 3) return [text]
+
+  const paragraphs: string[] = []
+  for (let i = 0; i < sentences.length; i += 3) {
+    paragraphs.push(sentences.slice(i, i + 3).join(' '))
+  }
+  return paragraphs
+}
+
 export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
   const [activeTab, setActiveTab] = useState('wat-leer-je')
 
