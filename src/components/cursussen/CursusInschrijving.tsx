@@ -129,7 +129,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
                   <div className="font-bold text-sm">{m.label}</div>
                   <div className="text-xs text-zinc-500 mt-0.5 mb-3">{m.beschrijving}</div>
                   <div className="text-lg font-extrabold text-zinc-900">{formatPrice(m.prijs)}</div>
-                  <div className="text-[11px] text-zinc-400">excl. BTW · per dag</div>
+                  <div className="text-[11px] text-zinc-400">excl. BTW · per dag · per persoon</div>
                   <div className="mt-3 text-xs font-semibold text-primary-500 flex items-center gap-1 group-hover:gap-2 transition-all">
                     Offerte aanvragen <ArrowRight size={12} />
                   </div>
