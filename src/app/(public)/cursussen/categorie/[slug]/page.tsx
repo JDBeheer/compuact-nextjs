@@ -358,7 +358,7 @@ export default async function CategoriePage({ params }: { params: { slug: string
                   Onze opleidingsadviseurs helpen je graag bij het kiezen van de juiste training voor jouw niveau en doelen.
                 </p>
                 <div className="space-y-2.5">
-                  <a href="tel:0851058919" className="flex items-center justify-center gap-2 w-full bg-primary-500 text-white px-5 py-3 rounded-xl font-semibold hover:bg-primary-600 transition-all text-sm">
+                  <a href="tel:0235513409" className="flex items-center justify-center gap-2 w-full bg-primary-500 text-white px-5 py-3 rounded-xl font-semibold hover:bg-primary-600 transition-all text-sm">
                     <Phone size={16} /> 085 105 8919
                   </a>
                   <Link href="/incompany" className="flex items-center justify-center gap-2 w-full border-2 border-zinc-200 bg-white text-zinc-700 px-5 py-3 rounded-xl font-semibold hover:border-primary-300 hover:text-primary-600 transition-all text-sm">
