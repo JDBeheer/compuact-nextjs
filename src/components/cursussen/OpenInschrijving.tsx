@@ -26,7 +26,7 @@ interface OpenInschrijvingProps {
   prijsVanaf: number
 }
 
-export default function OpenInschrijving({ cursusTitel, prijsVanaf }: OpenInschrijvingProps) {
+export default function OpenInschrijving({ cursusTitel }: OpenInschrijvingProps) {
   const [stap, setStap] = useState(1)
   const [methode, setMethode] = useState('')
   const [locaties, setLocaties] = useState<string[]>([])
