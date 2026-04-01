@@ -182,6 +182,32 @@ function CheckoutPage() {
 
       if (!res.ok) throw new Error('Er ging iets mis')
 
+      const transactionId = `CA-${Date.now()}`
+      const trackingItems = items.map(item => ({
+        item_id: item.sessieId,
+        item_name: item.cursusTitel,
+        item_variant: item.lesmethode,
+        price: item.prijs,
+        quantity: item.aantalDeelnemers || 1,
+      }))
+
+      // Enhanced conversions — send user data for better attribution
+      setUserData({
+        email: klantgegevens.email as string,
+        phone: klantgegevens.telefoon as string,
+        firstName: klantgegevens.voornaam as string,
+        lastName: klantgegevens.achternaam as string,
+        city: klantgegevens.stad as string,
+        postalCode: klantgegevens.postcode as string,
+      })
+
+      if (checkoutType === 'inschrijving') {
+        trackPurchase({ transactionId, value: totaal, items: trackingItems, type: 'inschrijving' })
+      } else {
+        trackPurchase({ transactionId, value: totaal, items: trackingItems, type: 'offerte' })
+        trackGenerateLead({ value: totaal, cursussen: items.map(i => i.cursusTitel) })
+      }
+
       clearCart()
       setSuccess(true)
     } catch {
