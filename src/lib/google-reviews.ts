@@ -34,12 +34,19 @@ export async function getGoogleReviews(): Promise<GooglePlaceData | null> {
 
     if (data.status !== 'OK' || !data.result) return null
 
+    const qualityReviews = (data.result.reviews ?? []).filter(
+      (r: GoogleReview) => r.rating >= 4 && r.text.length >= 50
+    )
+
+    // If not enough quality reviews from API, supplement with fallback
+    const reviews = qualityReviews.length >= 3
+      ? qualityReviews
+      : [...qualityReviews, ...fallbackReviews.reviews].slice(0, 3)
+
     return {
       rating: data.result.rating ?? 4.8,
       user_ratings_total: data.result.user_ratings_total ?? 0,
-      reviews: (data.result.reviews ?? []).filter(
-        (r: GoogleReview) => r.rating >= 4 && r.text.length >= 50
-      ),
+      reviews,
     }
   } catch {
     return null
