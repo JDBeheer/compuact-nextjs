@@ -353,11 +353,11 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
                         </div>
                       )}
 
-                      <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-center justify-between gap-2">
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-2">
+                          <div className="flex items-center gap-1.5 flex-wrap mb-1">
                             <span className={cn('inline-flex items-center gap-1 text-sm font-semibold', online ? 'text-accent-600' : 'text-zinc-900')}>
-                              {online ? <Laptop size={14} /> : <MapPin size={14} className="text-primary-500" />}
+                              {online ? <Laptop size={13} /> : <MapPin size={13} className="text-primary-500" />}
                               {sessie.locatie_stad}
                             </span>
                             {postcodeCoords && !online && getAfstand(sessie.locatie_stad) !== undefined && (
@@ -365,54 +365,44 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
                                 {getAfstand(sessie.locatie_stad)} km
                               </span>
                             )}
-                            <span className={cn('text-[10px] font-semibold px-2 py-0.5 rounded-full', online ? 'bg-accent-100 text-accent-700' : 'bg-primary-100 text-primary-700')}>
-                              {lesmethodeLabel(sessie.lesmethode)}
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-zinc-500">
+                            <span className="flex items-center gap-1">
+                              <Calendar size={11} />
+                              {isMultiDay ? (
+                                <span>{dagen.length} dagen · {formatDateShort(dagen[0])}</span>
+                              ) : formatDateShort(dagen[0])}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Clock size={11} />{sessie.tijden}
                             </span>
                           </div>
-
-                          <div className="text-sm text-zinc-500">
-                            <div className="flex items-center gap-3">
-                              <span className="flex items-center gap-1">
-                                <Calendar size={13} />
-                                {isMultiDay ? (
-                                  <span>
-                                    <span className="font-medium text-zinc-700">{dagen.length} dagen</span>
-                                    {' · start '}{formatDateShort(dagen[0])}
-                                  </span>
-                                ) : formatDateShort(dagen[0])}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <Clock size={13} />{sessie.tijden}
-                              </span>
+                          {isMultiDay && (
+                            <div className="flex flex-wrap gap-1 mt-1.5">
+                              {dagen.map((d: string, i: number) => (
+                                <span key={i} className="bg-zinc-100 text-zinc-600 text-[10px] px-1.5 py-0.5 rounded font-medium">
+                                  {formatDateShort(d)}
+                                </span>
+                              ))}
                             </div>
-                            {isMultiDay && (
-                              <div className="flex flex-wrap gap-1.5 mt-1.5 ml-[17px]">
-                                {dagen.map((d: string, i: number) => (
-                                  <span key={i} className="inline-flex items-center bg-zinc-100 text-zinc-600 text-xs px-2 py-0.5 rounded-md font-medium">
-                                    {formatDateShort(d)}
-                                  </span>
-                                ))}
-                              </div>
-                            )}
-                          </div>
+                          )}
                         </div>
 
-                        <div className="flex items-center gap-3 shrink-0">
+                        <div className="flex items-center gap-2 shrink-0">
                           <div className="text-right">
-                            <div className="text-lg font-bold text-zinc-900">{formatPrice(sessie.prijs)}</div>
-                            <div className="text-[11px] text-zinc-400">excl. BTW</div>
+                            <div className="text-base font-bold text-zinc-900">{formatPrice(sessie.prijs)}</div>
                           </div>
                           {inCart ? (
-                            <div className="w-10 h-10 rounded-xl bg-primary-500 text-white flex items-center justify-center">
-                              <Check size={18} strokeWidth={3} />
+                            <div className="w-9 h-9 rounded-lg bg-primary-500 text-white flex items-center justify-center">
+                              <Check size={16} strokeWidth={3} />
                             </div>
                           ) : (
                             <button
                               onClick={() => handleAddSessie(sessie)}
-                              className="w-10 h-10 rounded-xl bg-primary-500 text-white flex items-center justify-center hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/25 transition-all active:scale-95"
+                              className="w-9 h-9 rounded-lg bg-primary-500 text-white flex items-center justify-center hover:bg-primary-600 transition-all active:scale-95"
                               title="Toevoegen"
                             >
-                              <Plus size={18} strokeWidth={2.5} />
+                              <Plus size={16} strokeWidth={2.5} />
                             </button>
                           )}
                         </div>
