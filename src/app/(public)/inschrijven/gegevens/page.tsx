@@ -235,7 +235,7 @@ function CheckoutPage() {
               <div>
                 <h2 className="text-base font-bold mb-3">Cursussen &amp; deelnemers</h2>
                 <div className="space-y-3">
-                  {items.map((item) => (
+                  {items.map((item, itemIndex) => (
                     <DeelnemersPicker
                       key={item.sessieId}
                       item={item}
@@ -244,6 +244,32 @@ function CheckoutPage() {
                         setDeelnemersMap(prev => ({ ...prev, [item.sessieId]: deelnemers }))
                       }
                       onAantalChange={(aantal) => updateDeelnemers(item.sessieId, aantal)}
+                      showSync={items.length > 1}
+                      isFirst={itemIndex === 0}
+                      onSyncToAll={(deelnemers) => {
+                        // Apply these deelnemers to all other courses
+                        setDeelnemersMap(prev => {
+                          const updated = { ...prev }
+                          for (const otherItem of items) {
+                            if (otherItem.sessieId === item.sessieId) continue
+                            const otherAantal = otherItem.aantalDeelnemers || 1
+                            // Copy deelnemers, but respect the other course's aantal
+                            const synced = deelnemers.slice(0, otherAantal)
+                            // If other course has more deelnemers, keep their extra ones
+                            const existing = prev[otherItem.sessieId] || []
+                            const merged = [
+                              ...synced,
+                              ...existing.slice(synced.length),
+                            ].slice(0, otherAantal)
+                            // Pad if needed
+                            while (merged.length < otherAantal) {
+                              merged.push({ voornaam: '', achternaam: '', email: '' })
+                            }
+                            updated[otherItem.sessieId] = merged
+                          }
+                          return updated
+                        })
+                      }}
                     />
                   ))}
                 </div>
