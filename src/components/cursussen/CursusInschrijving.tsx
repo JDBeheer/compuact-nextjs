@@ -39,6 +39,13 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
   const [postcode, setPostcode] = useState('')
   const [postcodeCoords, setPostcodeCoords] = useState<[number, number] | null>(null)
   const [showAll, setShowAll] = useState(false)
+  const stap2Ref = useRef<HTMLDivElement>(null)
+
+  const scrollToStap2 = () => {
+    setTimeout(() => {
+      stap2Ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
+  }
 
   const hasKlassikaal = klassikaalSessies.length > 0 || !!prijzen?.klassikaal
   const hasOnline = onlineSessies.length > 0 || !!prijzen?.online
