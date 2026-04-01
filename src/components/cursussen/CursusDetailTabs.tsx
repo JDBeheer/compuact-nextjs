@@ -8,7 +8,8 @@ import { CheckCircle, Users, Laptop, Building2, BookOpen } from 'lucide-react'
 
 const tabs = [
   { id: 'wat-leer-je', label: 'Wat leer je?' },
-  { id: 'programma', label: 'Programma' },
+  { id: 'doelgroep', label: 'Doelgroep' },
+  { id: 'voorkennis', label: 'Voorkennis' },
   { id: 'lesmethodes', label: 'Lesmethodes' },
   { id: 'incompany', label: 'InCompany' },
   { id: 'praktisch', label: 'Praktische info' },
@@ -19,7 +20,7 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
 
   return (
     <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
-      {/* Tab headers - pill style */}
+      {/* Tab headers */}
       <div className="flex overflow-x-auto gap-1 p-2 bg-zinc-50 border-b border-zinc-200">
         {tabs.map((tab) => (
           <button
@@ -55,20 +56,24 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
           </div>
         )}
 
-        {activeTab === 'programma' && (
+        {activeTab === 'doelgroep' && (
           <div>
-            <h3 className="text-xl font-bold mb-5">Programma</h3>
-            <div className="space-y-3">
-              {cursus.inhoud?.programma?.map((item, i) => (
-                <div key={i} className="flex items-start gap-4 p-4 rounded-lg border border-zinc-100 hover:border-primary-200 transition-colors">
-                  <span className="bg-primary-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0">
-                    {i + 1}
-                  </span>
-                  <span className="text-zinc-700 pt-1">{item}</span>
-                </div>
-              )) || (
-                <p className="text-zinc-500">Programma wordt binnenkort toegevoegd.</p>
-              )}
+            <h3 className="text-xl font-bold mb-5">Voor wie is deze cursus?</h3>
+            <div className="text-zinc-700 leading-relaxed space-y-4">
+              {(cursus.inhoud?.doelgroep || 'Neem contact op voor meer informatie over de doelgroep.').split(/\n\n+/).map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'voorkennis' && (
+          <div>
+            <h3 className="text-xl font-bold mb-5">Benodigde voorkennis</h3>
+            <div className="text-zinc-700 leading-relaxed space-y-4">
+              {(cursus.inhoud?.voorkennis || 'Geen specifieke voorkennis vereist.').split(/\n\n+/).map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
           </div>
         )}
@@ -83,7 +88,7 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
                 </div>
                 <h4 className="font-bold text-lg mb-2">Klassikaal</h4>
                 <p className="text-sm text-zinc-600 leading-relaxed">
-                  Volg de cursus op een van onze 18 locaties door heel Nederland.
+                  Volg de cursus op een van onze 17 locaties door heel Nederland.
                   Kleine groepen met persoonlijke aandacht van de docent. Laptop en lesmateriaal zijn inbegrepen.
                 </p>
               </div>
@@ -112,7 +117,7 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
                 </div>
                 <h4 className="font-bold text-lg mb-2">InCompany</h4>
                 <p className="text-sm text-zinc-600 leading-relaxed">
-                  Training op uw eigen locatie, afgestemd op uw organisatie. Flexibele planning en voordelig vanaf 4 deelnemers.
+                  Training op je eigen locatie, afgestemd op jouw organisatie. Flexibele planning en voordelig vanaf 4 deelnemers.
                 </p>
               </div>
             </div>
@@ -155,8 +160,6 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
             <h3 className="text-xl font-bold mb-5">Praktische informatie</h3>
             <div className="grid sm:grid-cols-2 gap-4">
               {[
-                { label: 'Doelgroep', value: cursus.inhoud?.doelgroep || 'Neem contact op voor meer informatie.' },
-                { label: 'Voorkennis', value: cursus.inhoud?.voorkennis || 'Geen specifieke voorkennis vereist.' },
                 { label: 'Lesmateriaal', value: cursus.inhoud?.lesmateriaal || 'Inbegrepen in de cursusprijs.' },
                 { label: 'Certificaat', value: cursus.inhoud?.certificaat || 'Certificaat van deelname na afloop.' },
               ].map((item) => (
