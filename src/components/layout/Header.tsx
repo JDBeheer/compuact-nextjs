@@ -643,6 +643,11 @@ export default function Header() {
                       })}
                     </div>
                   </div>
+                ) : searching ? (
+                  <div className="p-8 text-center">
+                    <div className="w-8 h-8 border-2 border-primary-200 border-t-primary-500 rounded-full animate-spin mx-auto mb-3" />
+                    <p className="text-zinc-400 text-sm">Zoeken...</p>
+                  </div>
                 ) : searchResults.length === 0 ? (
                   <div className="p-8 text-center">
                     <div className="w-12 h-12 bg-zinc-100 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -664,7 +669,14 @@ export default function Header() {
                     </p>
                     <div className="space-y-0.5">
                       {searchResults.map((c) => {
-                        const Icon = c.icon
+                        // Find icon from hardcoded categories
+                        const catData = categorieen.find(cat => cat.slug === c.categorie_slug || cat.naam === c.categorie)
+                        const Icon = catData?.icon || Monitor
+                        const color = catData?.color || 'text-zinc-600 bg-zinc-50'
+
+                        const matchLabel = c.matchType === 'inhoud' ? 'Komt voor in cursusinhoud' :
+                                           c.matchType === 'beschrijving' ? 'Komt voor in beschrijving' : null
+
                         return (
                           <Link
                             key={c.slug}
@@ -672,14 +684,22 @@ export default function Header() {
                             onClick={() => setSearchOpen(false)}
                             className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-primary-50/60 group transition-all duration-150"
                           >
-                            <span className={cn('p-1.5 rounded-lg', c.color)}>
+                            <span className={cn('p-1.5 rounded-lg shrink-0', color)}>
                               <Icon size={14} />
                             </span>
                             <div className="flex-1 min-w-0">
-                              <div className="text-sm font-medium text-zinc-700 group-hover:text-primary-600 truncate">{c.naam}</div>
-                              <div className="text-xs text-zinc-400">{c.categorie}</div>
+                              <div className="text-sm font-medium text-zinc-700 group-hover:text-primary-600 truncate">{c.titel}</div>
+                              {matchLabel && (
+                                <div className="text-[11px] text-primary-500 font-medium">{matchLabel}</div>
+                              )}
+                              {c.matchContext && (
+                                <div className="text-xs text-zinc-400 truncate mt-0.5">&ldquo;{c.matchContext}&rdquo;</div>
+                              )}
+                              {!matchLabel && (
+                                <div className="text-xs text-zinc-400">{c.categorie}</div>
+                              )}
                             </div>
-                            <span className={cn('text-[10px] font-semibold px-1.5 py-0.5 rounded-full shrink-0', niveauColor[c.niveau])}>
+                            <span className={cn('text-[10px] font-semibold px-1.5 py-0.5 rounded-full shrink-0', niveauColor[c.niveau] || 'bg-zinc-100 text-zinc-600')}>
                               {c.niveau}
                             </span>
                           </Link>
