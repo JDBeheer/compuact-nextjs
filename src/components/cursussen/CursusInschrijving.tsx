@@ -229,7 +229,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
       {(methode === 'klassikaal' || methode === 'online') && activeSessies.length > 0 && (
         <div className="mb-6">
           <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-3">
-            2. Kies je {methode === 'klassikaal' ? 'locatie en datum' : 'datum'}
+            2. Kies je {methode === 'klassikaal' ? 'locatie en datum' : 'datum'} en voeg toe
           </h3>
 
           {/* Filters */}
