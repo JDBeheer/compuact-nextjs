@@ -604,6 +604,20 @@ async function CursusDetailPage({ slug }: { slug: string }) {
             </div>
           </div>
 
+          <div className="mt-10">
+            <PostcodeZoeker
+              sessies={sessies.filter(s => s.lesmethode !== 'thuisstudie').map(s => ({
+                datum: s.datum,
+                locatie_stad: s.locatie_stad || '',
+                prijs: s.prijs,
+                tijden: s.tijden,
+                lesmethode: s.lesmethode,
+              }))}
+              cursusTitel={cursus.titel}
+              cursusSlug={cursus.slug}
+            />
+          </div>
+
           <div className="mt-12">
             <GoogleReviewsSection reviews={reviewData.reviews} allReviews={reviewData.allReviews} rating={reviewData.rating} totalReviews={reviewData.user_ratings_total} title="Dit zeggen onze cursisten" />
           </div>
