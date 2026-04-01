@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { Users, Laptop, Building2, MapPin, Calendar, CheckCircle, Check, ShoppingCart, ArrowRight, ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCart } from '@/contexts/CartContext'
