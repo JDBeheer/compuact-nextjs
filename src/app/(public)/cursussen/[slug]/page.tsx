@@ -571,19 +571,6 @@ async function CursusDetailPage({ slug }: { slug: string }) {
                   <p className="text-zinc-600 leading-relaxed">{cursus.beschrijving}</p>
                 </div>
               )}
-              {cursus.inhoud?.wat_leer_je && cursus.inhoud.wat_leer_je.length > 0 && (
-                <div className="mb-8">
-                  <h2 className="text-xl font-bold mb-4">Wat leer je tijdens de cursus?</h2>
-                  <div className="grid sm:grid-cols-2 gap-2">
-                    {cursus.inhoud.wat_leer_je.map((item, i) => (
-                      <div key={i} className="flex items-start gap-2.5 bg-white rounded-lg border border-zinc-100 p-3">
-                        <CheckCircle size={16} className="text-primary-500 mt-0.5 shrink-0" />
-                        <span className="text-sm text-zinc-700">{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
               <CursusDetailTabs cursus={cursus} />
             </div>
 
