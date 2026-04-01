@@ -147,6 +147,11 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
                     : 'border-zinc-200 bg-white hover:border-zinc-300 hover:shadow-sm'
                 )}
               >
+                {m.id === 'klassikaal' && (
+                  <div className="absolute -top-2.5 left-4">
+                    <span className="bg-accent-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Meest gekozen</span>
+                  </div>
+                )}
                 {selected && (
                   <div className="absolute top-3 right-3">
                     <CheckCircle size={16} className="text-primary-500" />
