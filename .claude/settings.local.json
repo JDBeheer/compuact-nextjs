@@ -5,7 +5,9 @@
       "Bash(git push:*)",
       "Bash(gh auth:*)",
       "Bash(git remote:*)",
-      "Bash(git commit -m 'Replace hardcoded reviews with Google Places API integration:*)"
+      "Bash(git commit -m 'Replace hardcoded reviews with Google Places API integration:*)",
+      "WebFetch(domain:maps.googleapis.com)",
+      "Bash(git commit:*)"
     ],
     "defaultMode": "bypassPermissions"
   },

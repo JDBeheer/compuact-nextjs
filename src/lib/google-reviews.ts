@@ -38,7 +38,7 @@ export async function getGoogleReviews(): Promise<GooglePlaceData | null> {
       rating: data.result.rating ?? 4.8,
       user_ratings_total: data.result.user_ratings_total ?? 0,
       reviews: (data.result.reviews ?? []).filter(
-        (r: GoogleReview) => r.rating >= 4 && r.text.length > 20
+        (r: GoogleReview) => r.rating >= 4 && r.text.length >= 50
       ),
     }
   } catch {
