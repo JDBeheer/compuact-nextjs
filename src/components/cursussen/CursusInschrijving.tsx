@@ -63,15 +63,53 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
   }))].sort()
 
-  const gefilterdeSessies = activeSessies.filter(s => {
-    if (filterLocatie && s.locatie_stad !== filterLocatie) return false
-    if (filterMaand) {
-      const d = new Date(s.datum)
-      const m = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
-      if (m !== filterMaand) return false
+  // Calculate distance per location when postcode is set
+  const afstandPerStad = new Map<string, number>()
+  if (postcodeCoords) {
+    for (const loc of allLocaties) {
+      const dist = haversineDistance(postcodeCoords[0], postcodeCoords[1], loc.lat, loc.lng)
+      afstandPerStad.set(loc.naam, Math.round(dist))
+      // Also map common variations
+      afstandPerStad.set(loc.naam.toLowerCase(), Math.round(dist))
     }
-    return true
-  })
+  }
+
+  const getAfstand = (stad: string): number | undefined => {
+    return afstandPerStad.get(stad) ?? afstandPerStad.get(stad.toLowerCase())
+  }
+
+  const handlePostcodeChange = (value: string) => {
+    setPostcode(value)
+    const clean = value.replace(/\s/g, '')
+    if (clean.length >= 4) {
+      const coords = getPostcodeCoords(clean)
+      setPostcodeCoords(coords)
+      if (coords) setFilterLocatie('') // Reset locatiefilter bij postcode
+    } else {
+      setPostcodeCoords(null)
+    }
+  }
+
+  const gefilterdeSessies = activeSessies
+    .filter(s => {
+      if (filterLocatie && s.locatie_stad !== filterLocatie) return false
+      if (filterMaand) {
+        const d = new Date(s.datum)
+        const m = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+        if (m !== filterMaand) return false
+      }
+      return true
+    })
+    .sort((a, b) => {
+      // Sort by distance when postcode is entered
+      if (postcodeCoords && !filterLocatie) {
+        const distA = getAfstand(a.locatie_stad) ?? 999
+        const distB = getAfstand(b.locatie_stad) ?? 999
+        if (distA !== distB) return distA - distB
+      }
+      // Then by date
+      return new Date(a.datum).getTime() - new Date(b.datum).getTime()
+    })
 
   const visibleSessies = showAll ? gefilterdeSessies : gefilterdeSessies.slice(0, 8)
 
