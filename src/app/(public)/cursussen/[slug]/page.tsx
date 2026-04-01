@@ -615,7 +615,7 @@ async function CursusDetailPage({ slug }: { slug: string }) {
               {sessies.filter(s => s.lesmethode !== 'thuisstudie').length > 0 ? (
                 <SessieTable sessies={sessies} cursusTitel={cursus.titel} />
               ) : (
-                <OpenInschrijving cursusTitel={cursus.titel} />
+                <OpenInschrijving cursusTitel={cursus.titel} prijzen={cursus.inhoud?.prijzen} />
               )}
             </div>
           </div>
