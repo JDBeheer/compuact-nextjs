@@ -285,18 +285,18 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
           </h3>
 
           {/* Filters */}
-          <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 mb-4">
+          <div className="grid grid-cols-2 gap-2 mb-4 sm:flex sm:items-center">
             {methode === 'klassikaal' && (
-              <div className="relative">
-                <Navigation size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-400" />
+              <div className="relative col-span-2 sm:col-auto sm:w-40">
+                <Navigation size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
                 <input
                   type="text"
                   value={postcode}
                   onChange={(e) => handlePostcodeChange(e.target.value)}
-                  placeholder="Postcode"
+                  placeholder="Jouw postcode"
                   maxLength={7}
                   className={cn(
-                    'text-sm border rounded-lg pl-8 pr-2 py-2 w-full bg-white focus:outline-none focus:ring-2 focus:ring-primary-500',
+                    'text-sm border rounded-lg pl-9 pr-3 py-2 w-full bg-white focus:outline-none focus:ring-2 focus:ring-primary-500',
                     postcodeCoords ? 'border-primary-300 bg-primary-50/50' : 'border-zinc-200'
                   )}
                 />
@@ -306,7 +306,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
               <select
                 value={filterLocatie}
                 onChange={(e) => setFilterLocatie(e.target.value)}
-                className="text-sm border border-zinc-200 rounded-lg px-2 py-2 w-full bg-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="text-sm border border-zinc-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 sm:w-44"
               >
                 <option value="">Alle locaties</option>
                 {locaties.map(l => <option key={l} value={l}>{l}</option>)}
@@ -315,12 +315,12 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
             <select
               value={filterMaand}
               onChange={(e) => setFilterMaand(e.target.value)}
-              className="text-sm border border-zinc-200 rounded-lg px-2 py-2 w-full bg-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="text-sm border border-zinc-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 sm:w-44"
             >
               <option value="">Alle maanden</option>
               {maanden.map(m => <option key={m} value={m}>{formatMaand(m)}</option>)}
             </select>
-            <span className="text-xs text-zinc-400 text-right sm:ml-auto sm:text-left whitespace-nowrap">
+            <span className="text-xs text-zinc-400 text-right sm:ml-auto whitespace-nowrap">
               {gefilterdeSessies.length} sessies
             </span>
           </div>
