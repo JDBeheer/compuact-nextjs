@@ -316,6 +316,7 @@ export default async function CategoriePage({ params }: { params: { slug: string
         <div className="container-wide py-16">
           <GoogleReviewsSection
             reviews={reviewData.reviews}
+            allReviews={reviewData.allReviews}
             rating={reviewData.rating}
             totalReviews={reviewData.user_ratings_total}
             title={`Wat cursisten vinden van onze ${categorie.naam} trainingen`}
