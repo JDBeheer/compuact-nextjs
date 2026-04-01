@@ -25,15 +25,16 @@ type Methode = 'klassikaal' | 'online' | 'thuisstudie' | 'incompany'
 
 export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: CursusInschrijvingProps) {
   const { addToCart, items } = useCart()
+
+  const thuisstudieSessie = sessies.find(s => s.lesmethode === 'thuisstudie')
+  const klassikaalSessies = sessies.filter(s => s.lesmethode === 'klassikaal')
+  const onlineSessies = sessies.filter(s => s.lesmethode === 'online')
+
   const defaultMethode: Methode | '' = klassikaalSessies.length > 0 ? 'klassikaal' : onlineSessies.length > 0 ? 'online' : ''
   const [methode, setMethode] = useState<Methode | ''>(defaultMethode)
   const [filterLocatie, setFilterLocatie] = useState('')
   const [filterMaand, setFilterMaand] = useState('')
   const [showAll, setShowAll] = useState(false)
-
-  const thuisstudieSessie = sessies.find(s => s.lesmethode === 'thuisstudie')
-  const klassikaalSessies = sessies.filter(s => s.lesmethode === 'klassikaal')
-  const onlineSessies = sessies.filter(s => s.lesmethode === 'online')
 
   const hasKlassikaal = klassikaalSessies.length > 0 || !!prijzen?.klassikaal
   const hasOnline = onlineSessies.length > 0 || !!prijzen?.online
