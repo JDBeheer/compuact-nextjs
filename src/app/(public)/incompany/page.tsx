@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Building2, CheckCircle, Loader2, Users, MapPin, Calendar } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
@@ -20,6 +20,14 @@ interface CursusOption {
 }
 
 export default function InCompanyPage() {
+  return (
+    <Suspense>
+      <InCompanyContent />
+    </Suspense>
+  )
+}
+
+function InCompanyContent() {
   const searchParams = useSearchParams()
   const [cursussen, setCursussen] = useState<CursusOption[]>([])
   const [selectedIds, setSelectedIds] = useState<string[]>([])
