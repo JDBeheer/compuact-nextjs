@@ -66,7 +66,7 @@ export default function Footer() {
                 className="inline-flex items-center gap-2.5 bg-white text-primary-700 px-7 py-3.5 rounded-xl font-bold hover:bg-zinc-50 hover:shadow-lg hover:shadow-black/10 transition-all duration-200 active:scale-[0.98]"
               >
                 <Phone size={16} />
-                085 105 8919
+                023-551 3409
               </a>
               <Link
                 href="/contact"
@@ -105,7 +105,7 @@ export default function Footer() {
                   <span className="bg-zinc-800 p-2.5 rounded-lg group-hover:bg-primary-500/20 transition-colors">
                     <Phone size={14} className="text-primary-400" />
                   </span>
-                  <span className="font-medium">085 105 8919</span>
+                  <span className="font-medium">023-551 3409</span>
                 </a>
                 <a href="mailto:info@computertraining.nl" className="flex items-center gap-3 text-sm hover:text-white transition-all duration-200 group">
                   <span className="bg-zinc-800 p-2.5 rounded-lg group-hover:bg-primary-500/20 transition-colors">
