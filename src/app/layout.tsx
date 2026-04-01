@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import { CartProvider } from '@/contexts/CartContext'
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
+import { Suspense } from 'react'
+import AnalyticsPageTracker from '@/components/analytics/AnalyticsProvider'
 
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
