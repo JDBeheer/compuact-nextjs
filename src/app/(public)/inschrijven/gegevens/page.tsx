@@ -10,6 +10,7 @@ import Textarea from '@/components/ui/Textarea'
 import Button from '@/components/ui/Button'
 import DeelnemersPicker from '@/components/checkout/DeelnemersPicker'
 import { CheckCircle, Loader2, FileText, CreditCard, Building2, User, ChevronDown } from 'lucide-react'
+import { trackBeginCheckout, trackPurchase, trackGenerateLead, setUserData } from '@/lib/analytics'
 import { cn } from '@/lib/utils'
 
 export default function CheckoutPageWrapper() {
