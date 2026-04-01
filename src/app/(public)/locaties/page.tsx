@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { MapPin, Phone, ArrowRight, CheckCircle } from 'lucide-react'
+import { MapPin, ArrowRight, CheckCircle } from 'lucide-react'
 import { locaties } from '@/data/locaties'
 
 export const metadata: Metadata = {
