@@ -25,7 +25,8 @@ type Methode = 'klassikaal' | 'online' | 'thuisstudie' | 'incompany'
 
 export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: CursusInschrijvingProps) {
   const { addToCart, items } = useCart()
-  const [methode, setMethode] = useState<Methode | ''>('')
+  const defaultMethode: Methode | '' = klassikaalSessies.length > 0 ? 'klassikaal' : onlineSessies.length > 0 ? 'online' : ''
+  const [methode, setMethode] = useState<Methode | ''>(defaultMethode)
   const [filterLocatie, setFilterLocatie] = useState('')
   const [filterMaand, setFilterMaand] = useState('')
   const [showAll, setShowAll] = useState(false)
