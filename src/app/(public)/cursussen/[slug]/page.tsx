@@ -154,11 +154,16 @@ async function getCursus(slug: string) {
 
 async function getSessies(cursusId: string) {
   const supabase = createServerSupabaseClient()
-  // Filter out sessions that have already started (tomorrow or later)
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
   const minDate = tomorrow.toISOString().split('T')[0]
-  const { data } = await supabase.from('cursus_sessies').select('*, locatie:locaties(naam, stad)').eq('cursus_id', cursusId).eq('actief', true).gte('datum', minDate).order('datum')
+
+  // Fetch scheduled sessions (future only) + thuisstudie (always shown)
+  const [{ data: scheduled }, { data: thuisstudie }] = await Promise.all([
+    supabase.from('cursus_sessies').select('*, locatie:locaties(naam, stad)').eq('cursus_id', cursusId).eq('actief', true).neq('lesmethode', 'thuisstudie').gte('datum', minDate).order('datum'),
+    supabase.from('cursus_sessies').select('*, locatie:locaties(naam, stad)').eq('cursus_id', cursusId).eq('actief', true).eq('lesmethode', 'thuisstudie').limit(1),
+  ])
+  const data = [...(thuisstudie || []), ...(scheduled || [])]
   return (data || []).map((s: Record<string, unknown>) => ({
     ...s,
     locatie_naam: (s.locatie as Record<string, string>)?.naam || '',
