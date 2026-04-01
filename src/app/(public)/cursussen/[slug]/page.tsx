@@ -128,11 +128,8 @@ export default async function CursusDetailPage({ params }: { params: { slug: str
             {/* Left: Title + subtitle + USPs */}
             <div className="flex-1 lg:max-w-2xl">
               {/* Google rating */}
-              <div className="flex items-center gap-2 mb-3">
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={14} className="text-accent-500 fill-accent-500" />)}
-                </div>
-                <span className="text-sm text-zinc-500">4.8 &middot; 90 Google recensies</span>
+              <div className="mb-3">
+                <GoogleReviewsBadge rating={reviewData.rating} totalReviews={reviewData.user_ratings_total} size="sm" />
               </div>
 
               <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight mb-3 leading-tight">
