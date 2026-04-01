@@ -35,7 +35,7 @@ async function getSessies(cursusId: string) {
     ...s,
     locatie_naam: (s.locatie as Record<string, string>)?.naam || '',
     locatie_stad: (s.locatie as Record<string, string>)?.stad || '',
-    lesdagen: (s.lesdagen as string[]) || [],
+    lesdagen: Array.isArray(s.lesdagen) ? s.lesdagen as string[] : (typeof s.lesdagen === 'string' ? JSON.parse(s.lesdagen as string) : []),
   })) as CursusSessie[]
 }
 

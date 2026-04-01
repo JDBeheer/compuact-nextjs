@@ -237,7 +237,7 @@ async function main() {
       prijs,
       lesmethode,
       capaciteit: parseInt(row['Maximale Bezetting'] || '10'),
-      lesdagen: JSON.stringify(lesdagen),
+      lesdagen: lesdagen,
       actief: true,
     })
   }

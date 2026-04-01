@@ -46,7 +46,7 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
       prijs: sessie.prijs,
       lesmethode: sessie.lesmethode,
       aantalDeelnemers: 1,
-      lesdagen: sessie.lesdagen?.length > 0 ? sessie.lesdagen : [sessie.datum],
+      lesdagen: Array.isArray(sessie.lesdagen) && sessie.lesdagen.length > 0 ? sessie.lesdagen : [sessie.datum],
     })
   }
 
@@ -59,7 +59,9 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
   }
 
   const formatLesdagen = (sessie: CursusSessie) => {
-    const dagen = sessie.lesdagen?.length > 0 ? sessie.lesdagen : [sessie.datum]
+    const raw = sessie.lesdagen
+    const parsed = Array.isArray(raw) ? raw : (typeof raw === 'string' ? JSON.parse(raw) : [])
+    const dagen = parsed.length > 0 ? parsed : [sessie.datum]
     if (dagen.length === 1) return formatDate(dagen[0])
     return dagen.map(d => formatDateShort(d)).join(', ')
   }
