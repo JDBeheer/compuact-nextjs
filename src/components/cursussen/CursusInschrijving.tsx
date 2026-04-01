@@ -171,7 +171,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
         </div>
         <div className="mt-3 bg-zinc-50 rounded-lg px-4 py-3 border border-zinc-100">
           <p className="text-sm text-zinc-500">
-            In de volgende stap kies je voor <span className="font-medium text-zinc-700">directe inschrijving</span> of een <span className="font-medium text-zinc-700">vrijblijvende offerte</span>. Je kunt meerdere cursisten per cursus opgeven.
+            Prijzen zijn per persoon. Bij het afronden kies je voor <span className="font-medium text-zinc-700">directe inschrijving</span> of een <span className="font-medium text-zinc-700">vrijblijvende offerte</span>, en geef je per cursus het <span className="font-medium text-zinc-700">aantal deelnemers</span> op.
           </p>
         </div>
       </div>
