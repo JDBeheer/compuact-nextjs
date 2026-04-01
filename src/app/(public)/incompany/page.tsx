@@ -127,6 +127,10 @@ function InCompanyContent() {
       })
 
       if (!res.ok) throw new Error('Er ging iets mis')
+      trackIncompanyRequest({
+        cursussen: selectedTitels,
+        aantalDeelnemers: Number(form.get('aantal_deelnemers')) || 1,
+      })
       setSuccess(true)
     } catch {
       setError('Er ging iets mis bij het verzenden. Probeer het opnieuw.')
