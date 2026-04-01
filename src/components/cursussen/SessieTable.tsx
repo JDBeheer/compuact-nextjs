@@ -61,12 +61,10 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
     })
   }
 
-  const formatLesdagen = (sessie: CursusSessie) => {
+  const getLesdagen = (sessie: CursusSessie): string[] => {
     const raw = sessie.lesdagen
     const parsed = Array.isArray(raw) ? raw : (typeof raw === 'string' ? JSON.parse(raw) : [])
-    const dagen = parsed.length > 0 ? parsed : [sessie.datum]
-    if (dagen.length === 1) return formatDateShort(dagen[0])
-    return dagen.map((d: string) => formatDateShort(d)).join(' + ')
+    return parsed.length > 0 ? parsed : [sessie.datum]
   }
 
   const isOnline = (sessie: CursusSessie) => sessie.lesmethode === 'online'
