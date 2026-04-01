@@ -91,8 +91,6 @@ export const postcodeCoords: Record<string, [number, number]> = {
   '97': [53.120, 6.650],  // Zuidlaren
   '98': [53.050, 6.920],  // Emmen-Noord
   '99': [53.300, 6.620],  // Uithuizen
-  // Flevoland
-  '13': [52.350, 5.220],  // Almere
 }
 
 export function getPostcodeCoords(postcode: string): [number, number] | null {
