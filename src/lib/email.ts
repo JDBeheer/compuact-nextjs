@@ -33,7 +33,7 @@ function emailTemplate(content: string): string {
                 <td style="background-color:#f4f4f5;padding:24px 32px;text-align:center;color:#71717a;font-size:13px;">
                   <p style="margin:0 0 8px;">Compu Act Opleidingen</p>
                   <p style="margin:0 0 4px;">Vincent van Goghweg 85, 1506 JB Zaandam</p>
-                  <p style="margin:0 0 4px;">Tel: 085 105 8919</p>
+                  <p style="margin:0 0 4px;">Tel: 023-551 3409</p>
                   <p style="margin:0;">info@computertraining.nl</p>
                 </td>
               </tr>
