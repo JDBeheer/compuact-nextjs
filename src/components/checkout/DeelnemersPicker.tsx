@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDown, ChevronUp, UserPlus, Minus, Plus, Users } from 'lucide-react'
+import { ChevronDown, ChevronUp, UserPlus, Minus, Plus, Users, Copy, Check } from 'lucide-react'
 import { Deelnemer, CartItem } from '@/types'
 import { formatDateShort, lesmethodeLabel, formatPrice } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import Input from '@/components/ui/Input'
 
 interface DeelnemersPickerProps {
@@ -11,6 +12,9 @@ interface DeelnemersPickerProps {
   deelnemers: Deelnemer[]
   onDeelnemersChange: (deelnemers: Deelnemer[]) => void
   onAantalChange: (aantal: number) => void
+  showSync?: boolean
+  isFirst?: boolean
+  onSyncToAll?: (deelnemers: Deelnemer[]) => void
 }
 
 export default function DeelnemersPicker({
@@ -18,15 +22,18 @@ export default function DeelnemersPicker({
   deelnemers,
   onDeelnemersChange,
   onAantalChange,
+  showSync = false,
+  isFirst = false,
+  onSyncToAll,
 }: DeelnemersPickerProps) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(isFirst)
+  const [synced, setSynced] = useState(false)
   const aantal = item.aantalDeelnemers || 1
 
   const handleAantalChange = (newAantal: number) => {
     const clamped = Math.max(1, Math.min(20, newAantal))
     onAantalChange(clamped)
 
-    // Adjust deelnemers array
     if (clamped > deelnemers.length) {
       const extra = Array.from({ length: clamped - deelnemers.length }, () => ({
         voornaam: '',
@@ -45,6 +52,16 @@ export default function DeelnemersPicker({
     onDeelnemersChange(updated)
   }
 
+  const handleSyncToAll = () => {
+    if (onSyncToAll) {
+      onSyncToAll(deelnemers)
+      setSynced(true)
+      setTimeout(() => setSynced(false), 2000)
+    }
+  }
+
+  const hasFilledDeelnemers = deelnemers.some(d => d.voornaam && d.achternaam)
+
   const lesdagenText = item.lesdagen && item.lesdagen.length > 1
     ? item.lesdagen.map(d => formatDateShort(d)).join(', ')
     : formatDateShort(item.datum)
@@ -52,7 +69,7 @@ export default function DeelnemersPicker({
   return (
     <div className="bg-white rounded-xl border border-zinc-200 overflow-hidden">
       {/* Header */}
-      <div className="p-5">
+      <div className="p-4 sm:p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <h3 className="font-semibold">{item.cursusTitel}</h3>
@@ -101,12 +118,12 @@ export default function DeelnemersPicker({
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-5 py-3 bg-zinc-50 border-t border-zinc-200 text-sm font-medium text-zinc-600 hover:bg-zinc-100 transition-colors"
+        className="w-full flex items-center justify-between px-4 sm:px-5 py-3 bg-zinc-50 border-t border-zinc-200 text-sm font-medium text-zinc-600 hover:bg-zinc-100 transition-colors"
       >
         <span className="flex items-center gap-2">
           <UserPlus size={14} />
           Gegevens deelnemers invullen
-          {deelnemers.some(d => d.voornaam) && (
+          {hasFilledDeelnemers && (
             <span className="bg-primary-100 text-primary-700 text-xs px-1.5 py-0.5 rounded-full">
               {deelnemers.filter(d => d.voornaam).length}/{aantal}
             </span>
@@ -117,38 +134,66 @@ export default function DeelnemersPicker({
 
       {/* Deelnemer forms */}
       {open && (
-        <div className="border-t border-zinc-200 divide-y divide-zinc-100">
-          {deelnemers.map((deelnemer, index) => (
-            <div key={index} className="p-5">
-              <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">
-                Deelnemer {index + 1}
-              </p>
-              <div className="grid sm:grid-cols-3 gap-3">
-                <Input
-                  id={`${item.sessieId}-dn-${index}-voornaam`}
-                  value={deelnemer.voornaam}
-                  onChange={(e) => updateDeelnemer(index, 'voornaam', e.target.value)}
-                  placeholder="Voornaam"
-                  label="Voornaam"
-                />
-                <Input
-                  id={`${item.sessieId}-dn-${index}-achternaam`}
-                  value={deelnemer.achternaam}
-                  onChange={(e) => updateDeelnemer(index, 'achternaam', e.target.value)}
-                  placeholder="Achternaam"
-                  label="Achternaam"
-                />
-                <Input
-                  id={`${item.sessieId}-dn-${index}-email`}
-                  type="email"
-                  value={deelnemer.email}
-                  onChange={(e) => updateDeelnemer(index, 'email', e.target.value)}
-                  placeholder="E-mailadres"
-                  label="E-mail"
-                />
+        <div className="border-t border-zinc-200">
+          <div className="divide-y divide-zinc-100">
+            {deelnemers.map((deelnemer, index) => (
+              <div key={index} className="p-4 sm:p-5">
+                <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">
+                  Deelnemer {index + 1}
+                </p>
+                <div className="grid sm:grid-cols-3 gap-3">
+                  <Input
+                    id={`${item.sessieId}-dn-${index}-voornaam`}
+                    value={deelnemer.voornaam}
+                    onChange={(e) => updateDeelnemer(index, 'voornaam', e.target.value)}
+                    placeholder="Voornaam"
+                    label="Voornaam"
+                  />
+                  <Input
+                    id={`${item.sessieId}-dn-${index}-achternaam`}
+                    value={deelnemer.achternaam}
+                    onChange={(e) => updateDeelnemer(index, 'achternaam', e.target.value)}
+                    placeholder="Achternaam"
+                    label="Achternaam"
+                  />
+                  <Input
+                    id={`${item.sessieId}-dn-${index}-email`}
+                    type="email"
+                    value={deelnemer.email}
+                    onChange={(e) => updateDeelnemer(index, 'email', e.target.value)}
+                    placeholder="E-mailadres"
+                    label="E-mail"
+                  />
+                </div>
               </div>
+            ))}
+          </div>
+
+          {/* Sync button */}
+          {showSync && hasFilledDeelnemers && onSyncToAll && (
+            <div className="px-4 sm:px-5 py-3 bg-primary-50 border-t border-primary-100">
+              <button
+                type="button"
+                onClick={handleSyncToAll}
+                className={cn(
+                  'flex items-center gap-2 text-sm font-semibold transition-all',
+                  synced ? 'text-primary-600' : 'text-primary-500 hover:text-primary-700'
+                )}
+              >
+                {synced ? (
+                  <>
+                    <Check size={15} />
+                    Deelnemers toegepast op alle cursussen
+                  </>
+                ) : (
+                  <>
+                    <Copy size={15} />
+                    Deze deelnemers toepassen op alle andere cursussen
+                  </>
+                )}
+              </button>
             </div>
-          ))}
+          )}
         </div>
       )}
     </div>
