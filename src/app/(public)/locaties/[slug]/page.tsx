@@ -47,7 +47,7 @@ export default async function LocatieDetailPage({ params }: { params: { slug: st
   // Group by cursus, take first session per cursus
   const cursusMap = new Map<string, { titel: string; slug: string; datum: string; prijs: number }>()
   for (const s of locSessies) {
-    const cursus = s.cursussen as Record<string, string>
+    const cursus = s.cursussen as unknown as Record<string, string>
     if (!cursus?.slug || cursusMap.has(cursus.slug)) continue
     cursusMap.set(cursus.slug, {
       titel: cursus.titel,
