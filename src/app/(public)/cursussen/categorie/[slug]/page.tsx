@@ -181,7 +181,10 @@ export default async function CategoriePage({ params }: { params: { slug: string
   const config = categorieConfig[params.slug]
   if (!config) notFound()
 
-  const cursussen = await getCursussen(categorie.id)
+  const [cursussen, reviewData] = await Promise.all([
+    getCursussen(categorie.id),
+    getGoogleReviews().then(r => r ?? fallbackReviews),
+  ])
   const Icon = config.icon
   const prijsRange = cursussen.length > 0
     ? { min: Math.min(...cursussen.map(c => c.prijs_vanaf)) }
