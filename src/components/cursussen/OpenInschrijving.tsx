@@ -77,6 +77,30 @@ export default function OpenInschrijving({ cursusTitel }: OpenInschrijvingProps)
           {METHODES.map((m) => {
             const Icon = m.icon
             const selected = methode === m.id
+
+            // InCompany links to incompany page with cursus preselected
+            if (m.id === 'incompany') {
+              const slug = cursusTitel.toLowerCase().replace(/\s+/g, '-')
+              return (
+                <Link
+                  key={m.id}
+                  href={`/incompany?cursus=${slug}`}
+                  className="relative p-4 rounded-xl border-2 border-zinc-200 bg-white hover:border-primary-300 hover:shadow-sm text-left transition-all duration-200 group"
+                >
+                  <div className={cn('p-2 rounded-lg inline-block mb-2 text-white', m.color)}>
+                    <Icon size={18} />
+                  </div>
+                  <div className="font-bold text-sm">{m.label}</div>
+                  <div className="text-xs text-zinc-500 mt-0.5 mb-3">{m.beschrijving}</div>
+                  <div className="text-lg font-extrabold text-zinc-900">{formatPrice(m.prijs)}</div>
+                  <div className="text-[11px] text-zinc-400">excl. BTW · per dag</div>
+                  <div className="mt-3 text-xs font-semibold text-primary-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Offerte aanvragen <ArrowRight size={12} />
+                  </div>
+                </Link>
+              )
+            }
+
             return (
               <button
                 key={m.id}
@@ -99,7 +123,7 @@ export default function OpenInschrijving({ cursusTitel }: OpenInschrijvingProps)
                 <div className="font-bold text-sm">{m.label}</div>
                 <div className="text-xs text-zinc-500 mt-0.5 mb-3">{m.beschrijving}</div>
                 <div className="text-lg font-extrabold text-zinc-900">{formatPrice(m.prijs)}</div>
-                <div className="text-[11px] text-zinc-400">excl. BTW{m.id === 'incompany' ? ' · per dag' : ''}</div>
+                <div className="text-[11px] text-zinc-400">excl. BTW</div>
               </button>
             )
           })}
