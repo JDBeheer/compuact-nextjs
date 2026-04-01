@@ -341,9 +341,9 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
                             <button
                               onClick={() => handleAddSessie(sessie)}
                               className="w-10 h-10 rounded-xl bg-primary-500 text-white flex items-center justify-center hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/25 transition-all active:scale-95"
-                              title="Toevoegen aan inschrijving"
+                              title="Toevoegen"
                             >
-                              <ShoppingCart size={16} />
+                              <Plus size={18} strokeWidth={2.5} />
                             </button>
                           )}
                         </div>
