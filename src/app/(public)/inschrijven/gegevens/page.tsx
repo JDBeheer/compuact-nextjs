@@ -252,7 +252,6 @@ function CheckoutPage() {
                       }
                       onAantalChange={(aantal) => updateDeelnemers(item.sessieId, aantal)}
                       showSync={items.length > 1}
-                      isFirst={itemIndex === 0}
                       onSyncToAll={(deelnemers) => {
                         // Apply these deelnemers to all other courses
                         setDeelnemersMap(prev => {
