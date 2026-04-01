@@ -1,17 +1,20 @@
 {
   "permissions": {
-    "allow": [
-      "WebFetch(domain:www.computertraining.nl)",
-      "Bash(gh repo:*)",
-      "Bash(npx create-next-app@14 . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm)",
-      "Bash(npm -v)",
-      "Bash(rm -rf compuact-nextjs)",
-      "Bash(cp -r compuact-nextjs/.git .)",
-      "Bash(cp -r /tmp/compuact-init/* /tmp/compuact-init/.* /Users/eriklindeman/GitHub/compuact-nextjs/)",
-      "Bash(rm -rf /tmp/compuact-init)",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(git remote:*)"
+    "defaultMode": "bypassPermissions"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // .tool_response.filePath' | { read -r f; cd \"$(git -C \"$(dirname \"$f\")\" rev-parse --show-toplevel)\" && git add -A && git diff --cached --quiet && exit 0; git commit -m \"Auto-commit: update $(basename \"$f\")\" && git push; } 2>/dev/null || true",
+            "timeout": 30,
+            "statusMessage": "Committing and pushing..."
+          }
+        ]
+      }
     ]
   }
 }
