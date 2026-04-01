@@ -25,6 +25,7 @@ export interface Cursus {
   niveau: 'beginner' | 'gevorderd' | 'expert'
   actief: boolean
   created_at: string
+  updated_at?: string
   categorie?: Categorie
   sessies?: CursusSessie[]
 }
@@ -50,9 +51,17 @@ export interface CursusSessie {
   prijs: number
   lesmethode: 'klassikaal' | 'online' | 'thuisstudie' | 'incompany'
   capaciteit: number
+  lesdagen: string[]
+  training_id?: string
   actief: boolean
   cursus?: Cursus
   locatie?: Locatie
+}
+
+export interface Deelnemer {
+  voornaam: string
+  achternaam: string
+  email: string
 }
 
 export interface CartItem {
@@ -62,12 +71,18 @@ export interface CartItem {
   datum: string
   prijs: number
   lesmethode: string
+  aantalDeelnemers: number
+  lesdagen?: string[]
+}
+
+export interface CartItemCheckout extends CartItem {
+  deelnemers: Deelnemer[]
 }
 
 export interface Inschrijving {
   id: string
-  type: 'inschrijving' | 'offerte'
-  cursussen: CartItem[]
+  type: 'inschrijving' | 'offerte' | 'incompany'
+  cursussen: CartItemCheckout[]
   klantgegevens: KlantGegevens
   totaalprijs: number
   email_verzonden: boolean
@@ -85,10 +100,18 @@ export interface KlantGegevens {
   postcode: string
   stad: string
   opmerkingen?: string
-  // Extra velden voor offerte
-  aantal_deelnemers?: number
   gewenste_periode?: string
   locatie_voorkeur?: string
+}
+
+export interface InCompanyAanvraag {
+  cursusIds: string[]
+  cursusTitels: string[]
+  klantgegevens: KlantGegevens
+  aantalDeelnemers: number
+  gewenstePeriode: string
+  locatieVoorkeur: string
+  opmerkingen: string
 }
 
 export interface Testimonial {

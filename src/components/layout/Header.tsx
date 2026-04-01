@@ -45,7 +45,7 @@ export default function Header() {
       <div className="container-wide">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2">
-            <div className="bg-primary-600 text-white font-bold text-xl px-3 py-1 rounded">CA</div>
+            <div className="bg-primary-500 text-white font-bold text-xl px-3 py-1 rounded">CA</div>
             <div>
               <div className="font-bold text-zinc-900 text-lg leading-tight">Compu Act</div>
               <div className="text-xs text-zinc-500 leading-tight">Opleidingen</div>
@@ -61,7 +61,7 @@ export default function Header() {
             >
               <Link
                 href="/cursussen"
-                className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-zinc-700 hover:text-primary-600 rounded-lg hover:bg-zinc-50 transition-colors"
+                className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-zinc-700 hover:text-primary-500 rounded-lg hover:bg-zinc-50 transition-colors"
               >
                 Cursussen
                 <ChevronDown size={16} className={cn('transition-transform', cursussenOpen && 'rotate-180')} />
@@ -70,7 +70,7 @@ export default function Header() {
                 <div className="absolute top-full left-0 w-56 bg-white rounded-lg shadow-lg border border-zinc-200 py-2 mt-0.5">
                   <Link
                     href="/cursussen"
-                    className="block px-4 py-2 text-sm text-zinc-700 hover:bg-primary-50 hover:text-primary-600"
+                    className="block px-4 py-2 text-sm text-zinc-700 hover:bg-primary-50 hover:text-primary-500"
                   >
                     Alle cursussen
                   </Link>
@@ -79,7 +79,7 @@ export default function Header() {
                     <Link
                       key={cat.slug}
                       href={cat.slug}
-                      className="block px-4 py-2 text-sm text-zinc-700 hover:bg-primary-50 hover:text-primary-600"
+                      className="block px-4 py-2 text-sm text-zinc-700 hover:bg-primary-50 hover:text-primary-500"
                     >
                       {cat.naam}
                     </Link>
@@ -88,16 +88,16 @@ export default function Header() {
               )}
             </div>
 
-            <Link href="/cursussen?lesmethode=incompany" className="px-3 py-2 text-sm font-medium text-zinc-700 hover:text-primary-600 rounded-lg hover:bg-zinc-50 transition-colors">
+            <Link href="/incompany" className="px-3 py-2 text-sm font-medium text-zinc-700 hover:text-primary-500 rounded-lg hover:bg-zinc-50 transition-colors">
               InCompany
             </Link>
-            <Link href="/over-ons" className="px-3 py-2 text-sm font-medium text-zinc-700 hover:text-primary-600 rounded-lg hover:bg-zinc-50 transition-colors">
+            <Link href="/over-ons" className="px-3 py-2 text-sm font-medium text-zinc-700 hover:text-primary-500 rounded-lg hover:bg-zinc-50 transition-colors">
               Over ons
             </Link>
-            <Link href="/veelgestelde-vragen" className="px-3 py-2 text-sm font-medium text-zinc-700 hover:text-primary-600 rounded-lg hover:bg-zinc-50 transition-colors">
+            <Link href="/veelgestelde-vragen" className="px-3 py-2 text-sm font-medium text-zinc-700 hover:text-primary-500 rounded-lg hover:bg-zinc-50 transition-colors">
               FAQ
             </Link>
-            <Link href="/contact" className="px-3 py-2 text-sm font-medium text-zinc-700 hover:text-primary-600 rounded-lg hover:bg-zinc-50 transition-colors">
+            <Link href="/contact" className="px-3 py-2 text-sm font-medium text-zinc-700 hover:text-primary-500 rounded-lg hover:bg-zinc-50 transition-colors">
               Contact
             </Link>
           </nav>
@@ -105,7 +105,7 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-3">
             <Link
               href="/cursussen"
-              className="bg-primary-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors"
+              className="bg-primary-500 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primary-600 transition-colors"
             >
               Bekijk cursussen
             </Link>
@@ -139,7 +139,7 @@ export default function Header() {
               </Link>
             ))}
             <div className="border-t border-zinc-100 my-2" />
-            <Link href="/cursussen?lesmethode=incompany" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-base font-medium text-zinc-700 hover:bg-zinc-50 rounded-lg">
+            <Link href="/incompany" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-base font-medium text-zinc-700 hover:bg-zinc-50 rounded-lg">
               InCompany
             </Link>
             <Link href="/over-ons" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-base font-medium text-zinc-700 hover:bg-zinc-50 rounded-lg">

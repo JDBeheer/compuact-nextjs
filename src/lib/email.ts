@@ -1,5 +1,5 @@
 import sgMail from '@sendgrid/mail'
-import { CartItem, KlantGegevens } from '@/types'
+import { CartItemCheckout, KlantGegevens } from '@/types'
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!)
 
@@ -20,7 +20,7 @@ function emailTemplate(content: string): string {
           <td align="center">
             <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:8px;overflow:hidden;">
               <tr>
-                <td style="background-color:#16a34a;padding:24px 32px;">
+                <td style="background-color:#1B6AB3;padding:24px 32px;">
                   <h1 style="margin:0;color:#ffffff;font-size:24px;">Compu Act Opleidingen</h1>
                 </td>
               </tr>
@@ -46,30 +46,44 @@ function emailTemplate(content: string): string {
   `
 }
 
-function formatCursussenTabel(cursussen: CartItem[]): string {
+function formatCursussenTabel(cursussen: CartItemCheckout[]): string {
   return `
     <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;margin:16px 0;">
       <tr style="background-color:#f4f4f5;">
         <th style="text-align:left;border-bottom:2px solid #e4e4e7;padding:8px;">Cursus</th>
         <th style="text-align:left;border-bottom:2px solid #e4e4e7;padding:8px;">Locatie</th>
         <th style="text-align:left;border-bottom:2px solid #e4e4e7;padding:8px;">Datum</th>
+        <th style="text-align:center;border-bottom:2px solid #e4e4e7;padding:8px;">Deelnemers</th>
         <th style="text-align:right;border-bottom:2px solid #e4e4e7;padding:8px;">Prijs</th>
       </tr>
-      ${cursussen.map(c => `
-        <tr>
-          <td style="border-bottom:1px solid #e4e4e7;padding:8px;">${c.cursusTitel}</td>
-          <td style="border-bottom:1px solid #e4e4e7;padding:8px;">${c.locatie}</td>
-          <td style="border-bottom:1px solid #e4e4e7;padding:8px;">${c.datum}</td>
-          <td style="text-align:right;border-bottom:1px solid #e4e4e7;padding:8px;">&euro;${c.prijs.toFixed(2)}</td>
-        </tr>
-      `).join('')}
+      ${cursussen.map(c => {
+        const aantal = c.aantalDeelnemers || 1
+        const deelnemerNamen = c.deelnemers?.length
+          ? c.deelnemers.map(d => `${d.voornaam} ${d.achternaam}`.trim()).filter(Boolean).join(', ')
+          : ''
+        return `
+          <tr>
+            <td style="border-bottom:1px solid #e4e4e7;padding:8px;">${c.cursusTitel}</td>
+            <td style="border-bottom:1px solid #e4e4e7;padding:8px;">${c.locatie || '-'}</td>
+            <td style="border-bottom:1px solid #e4e4e7;padding:8px;">${c.datum || '-'}</td>
+            <td style="text-align:center;border-bottom:1px solid #e4e4e7;padding:8px;">${aantal}</td>
+            <td style="text-align:right;border-bottom:1px solid #e4e4e7;padding:8px;">&euro;${(c.prijs * aantal).toFixed(2)}</td>
+          </tr>
+          ${deelnemerNamen ? `
+          <tr>
+            <td colspan="5" style="padding:4px 8px 8px;color:#71717a;font-size:12px;border-bottom:1px solid #e4e4e7;">
+              Deelnemers: ${deelnemerNamen}
+            </td>
+          </tr>` : ''}
+        `
+      }).join('')}
     </table>
   `
 }
 
 export async function sendBevestigingsEmail(
   klant: KlantGegevens,
-  cursussen: CartItem[],
+  cursussen: CartItemCheckout[],
   totaalprijs: number
 ) {
   const content = `
@@ -90,16 +104,38 @@ export async function sendBevestigingsEmail(
   })
 }
 
+export async function sendOfferteBevestiging(
+  klant: KlantGegevens,
+  cursussen: CartItemCheckout[],
+  totaalprijs: number
+) {
+  const content = `
+    <h2 style="color:#18181b;margin:0 0 16px;">Bevestiging offerte aanvraag</h2>
+    <p>Beste ${klant.voornaam},</p>
+    <p>Bedankt voor uw offerte aanvraag bij Compu Act Opleidingen. Wij hebben uw aanvraag ontvangen voor de volgende cursus(sen):</p>
+    ${formatCursussenTabel(cursussen)}
+    <p style="font-size:16px;"><strong>Indicatief totaal: &euro;${totaalprijs.toFixed(2)}</strong> <span style="color:#71717a;font-size:13px;">(excl. BTW)</span></p>
+    <p>Wij stellen een passende offerte samen en nemen zo snel mogelijk contact met u op.</p>
+    <p>Met vriendelijke groet,<br>Compu Act Opleidingen</p>
+  `
+
+  await sgMail.send({
+    to: klant.email,
+    from: FROM_EMAIL,
+    subject: 'Bevestiging offerte aanvraag - Compu Act Opleidingen',
+    html: emailTemplate(content),
+  })
+}
+
 export async function sendAdminNotificatie(
   type: 'inschrijving' | 'offerte',
   klant: KlantGegevens,
-  cursussen: CartItem[],
+  cursussen: CartItemCheckout[],
   totaalprijs: number
 ) {
   const typeLabel = type === 'inschrijving' ? 'Nieuwe inschrijving' : 'Nieuwe offerte aanvraag'
 
   const extraVelden = type === 'offerte' ? `
-    <p><strong>Aantal deelnemers:</strong> ${klant.aantal_deelnemers || '-'}</p>
     <p><strong>Gewenste periode:</strong> ${klant.gewenste_periode || '-'}</p>
     <p><strong>Locatie voorkeur:</strong> ${klant.locatie_voorkeur || '-'}</p>
   ` : ''
@@ -125,6 +161,59 @@ export async function sendAdminNotificatie(
     subject: `${typeLabel} - ${klant.voornaam} ${klant.achternaam}`,
     html: emailTemplate(content),
   })
+}
+
+export async function sendInCompanyNotificatie(data: {
+  klant: KlantGegevens
+  cursusTitels: string[]
+  aantalDeelnemers: number
+  gewenstePeriode: string
+  locatieVoorkeur: string
+  opmerkingen: string
+}) {
+  const cursusLijst = data.cursusTitels.map(t => `<li>${t}</li>`).join('')
+
+  // Admin email
+  const adminContent = `
+    <h2 style="color:#18181b;margin:0 0 16px;">Nieuwe InCompany aanvraag</h2>
+    <h3>Klantgegevens</h3>
+    <p><strong>Naam:</strong> ${data.klant.voornaam} ${data.klant.achternaam}</p>
+    <p><strong>Email:</strong> ${data.klant.email}</p>
+    <p><strong>Telefoon:</strong> ${data.klant.telefoon}</p>
+    <p><strong>Bedrijf:</strong> ${data.klant.bedrijfsnaam || '-'}</p>
+    <p><strong>Adres:</strong> ${data.klant.adres}, ${data.klant.postcode} ${data.klant.stad}</p>
+    <h3>Training details</h3>
+    <p><strong>Aantal deelnemers:</strong> ${data.aantalDeelnemers}</p>
+    <p><strong>Gewenste periode:</strong> ${data.gewenstePeriode || '-'}</p>
+    <p><strong>Locatie voorkeur:</strong> ${data.locatieVoorkeur || '-'}</p>
+    <h3>Geselecteerde cursussen</h3>
+    <ul>${cursusLijst}</ul>
+    ${data.opmerkingen ? `<h3>Opmerkingen</h3><p>${data.opmerkingen}</p>` : ''}
+  `
+
+  const klantContent = `
+    <h2 style="color:#18181b;margin:0 0 16px;">Bevestiging InCompany aanvraag</h2>
+    <p>Beste ${data.klant.voornaam},</p>
+    <p>Bedankt voor uw InCompany aanvraag bij Compu Act Opleidingen. Wij hebben uw aanvraag ontvangen voor de volgende cursus(sen):</p>
+    <ul>${cursusLijst}</ul>
+    <p>Wij stellen een passend voorstel samen en nemen zo snel mogelijk contact met u op om de details te bespreken.</p>
+    <p>Met vriendelijke groet,<br>Compu Act Opleidingen</p>
+  `
+
+  await Promise.all([
+    sgMail.send({
+      to: ADMIN_EMAIL,
+      from: FROM_EMAIL,
+      subject: `Nieuwe InCompany aanvraag - ${data.klant.bedrijfsnaam || data.klant.voornaam + ' ' + data.klant.achternaam}`,
+      html: emailTemplate(adminContent),
+    }),
+    sgMail.send({
+      to: data.klant.email,
+      from: FROM_EMAIL,
+      subject: 'Bevestiging InCompany aanvraag - Compu Act Opleidingen',
+      html: emailTemplate(klantContent),
+    }),
+  ])
 }
 
 export async function sendContactEmail(data: {

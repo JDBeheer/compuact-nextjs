@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart, FileText, MapPin, Calendar, Filter } from 'lucide-react'
+import { ShoppingCart, MapPin, Calendar, Filter } from 'lucide-react'
 import { CursusSessie } from '@/types'
 import { useCart } from '@/contexts/CartContext'
-import { formatPrice, formatDate, lesmethodeLabel } from '@/lib/utils'
+import { formatPrice, formatDate, formatDateShort, lesmethodeLabel } from '@/lib/utils'
 import Button from '@/components/ui/Button'
 
 interface SessieTableProps {
@@ -45,6 +45,8 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
       datum: sessie.datum,
       prijs: sessie.prijs,
       lesmethode: sessie.lesmethode,
+      aantalDeelnemers: 1,
+      lesdagen: sessie.lesdagen?.length > 0 ? sessie.lesdagen : [sessie.datum],
     })
   }
 
@@ -54,6 +56,12 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
       month: 'long',
       year: 'numeric',
     })
+  }
+
+  const formatLesdagen = (sessie: CursusSessie) => {
+    const dagen = sessie.lesdagen?.length > 0 ? sessie.lesdagen : [sessie.datum]
+    if (dagen.length === 1) return formatDate(dagen[0])
+    return dagen.map(d => formatDateShort(d)).join(', ')
   }
 
   return (
@@ -97,6 +105,9 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
         </select>
       </div>
 
+      {/* Resultaat telling */}
+      <p className="text-xs text-zinc-400 mb-2">{gefilterdeSessies.length} sessie{gefilterdeSessies.length !== 1 ? 's' : ''} gevonden</p>
+
       {/* Tabel */}
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
@@ -125,22 +136,21 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
               gefilterdeSessies.map((sessie) => (
                 <tr key={sessie.id} className="border-b border-zinc-100 hover:bg-zinc-50">
                   <td className="px-4 py-3 font-medium">{sessie.locatie_stad}</td>
-                  <td className="px-4 py-3">{formatDate(sessie.datum)}</td>
+                  <td className="px-4 py-3">{formatLesdagen(sessie)}</td>
                   <td className="px-4 py-3 text-zinc-600">{sessie.tijden}</td>
                   <td className="px-4 py-3">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-700">
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                      sessie.lesmethode === 'online'
+                        ? 'bg-accent-100 text-accent-700'
+                        : 'bg-primary-100 text-primary-700'
+                    }`}>
                       {lesmethodeLabel(sessie.lesmethode)}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-right font-semibold">{formatPrice(sessie.prijs)}</td>
                   <td className="px-4 py-3 text-right">
-                    {sessie.lesmethode === 'incompany' ? (
-                      <Button size="sm" variant="outline">
-                        <FileText size={14} className="mr-1" />
-                        Offerte
-                      </Button>
-                    ) : isInCart(sessie.id) ? (
-                      <span className="text-xs text-primary-600 font-medium">Toegevoegd</span>
+                    {isInCart(sessie.id) ? (
+                      <span className="text-xs text-primary-500 font-medium">Toegevoegd &#10003;</span>
                     ) : (
                       <Button size="sm" onClick={() => handleAdd(sessie)}>
                         <ShoppingCart size={14} className="mr-1" />

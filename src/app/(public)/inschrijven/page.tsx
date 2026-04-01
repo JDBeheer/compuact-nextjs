@@ -1,13 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { Trash2, ShoppingCart, ArrowRight, FileText } from 'lucide-react'
+import { Trash2, ShoppingCart, ArrowRight, Minus, Plus, Users } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 import { formatPrice, lesmethodeLabel, formatDateShort, ADMIN_FEE, BTW_PERCENTAGE } from '@/lib/utils'
 import Button from '@/components/ui/Button'
 
 export default function WinkelwagenPage() {
-  const { items, removeFromCart, getTotal } = useCart()
+  const { items, removeFromCart, updateDeelnemers, getTotal, totalDeelnemers } = useCart()
   const totaal = getTotal()
 
   if (items.length === 0) {
@@ -34,7 +34,7 @@ export default function WinkelwagenPage() {
       <div className="bg-white border-b border-zinc-200">
         <div className="container-narrow py-8">
           <nav className="text-sm text-zinc-500 mb-4">
-            <a href="/" className="hover:text-primary-600">Home</a>
+            <a href="/" className="hover:text-primary-500">Home</a>
             <span className="mx-2">/</span>
             <span className="text-zinc-900">Inschrijven</span>
           </nav>
@@ -47,29 +47,63 @@ export default function WinkelwagenPage() {
           {/* Cursuslijst */}
           <div className="lg:col-span-2 space-y-4">
             <h2 className="text-lg font-semibold">Gekozen cursussen ({items.length})</h2>
-            {items.map((item) => (
-              <div
-                key={item.sessieId}
-                className="bg-white rounded-xl border border-zinc-200 p-5 flex items-start justify-between gap-4"
-              >
-                <div>
-                  <h3 className="font-semibold">{item.cursusTitel}</h3>
-                  <div className="text-sm text-zinc-600 mt-1 space-y-0.5">
-                    <p>{lesmethodeLabel(item.lesmethode)} &middot; {item.locatie}</p>
-                    <p>{formatDateShort(item.datum)}</p>
+            {items.map((item) => {
+              const aantal = item.aantalDeelnemers || 1
+              return (
+                <div
+                  key={item.sessieId}
+                  className="bg-white rounded-xl border border-zinc-200 p-5"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="font-semibold">{item.cursusTitel}</h3>
+                      <div className="text-sm text-zinc-600 mt-1 space-y-0.5">
+                        <p>{lesmethodeLabel(item.lesmethode)} &middot; {item.locatie}</p>
+                        <p>{formatDateShort(item.datum)}</p>
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <div className="font-bold text-lg">{formatPrice(item.prijs * aantal)}</div>
+                      {aantal > 1 && (
+                        <div className="text-xs text-zinc-400">{aantal}x {formatPrice(item.prijs)}</div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between mt-4 pt-3 border-t border-zinc-100">
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1 text-sm text-zinc-600">
+                        <Users size={14} />
+                        <span>Deelnemers:</span>
+                      </div>
+                      <div className="flex items-center gap-0.5">
+                        <button
+                          onClick={() => updateDeelnemers(item.sessieId, aantal - 1)}
+                          disabled={aantal <= 1}
+                          className="w-7 h-7 flex items-center justify-center rounded border border-zinc-300 text-zinc-600 hover:bg-zinc-50 disabled:opacity-30 disabled:cursor-not-allowed"
+                        >
+                          <Minus size={12} />
+                        </button>
+                        <span className="w-8 text-center font-semibold text-sm tabular-nums">{aantal}</span>
+                        <button
+                          onClick={() => updateDeelnemers(item.sessieId, aantal + 1)}
+                          disabled={aantal >= 20}
+                          className="w-7 h-7 flex items-center justify-center rounded border border-zinc-300 text-zinc-600 hover:bg-zinc-50 disabled:opacity-30 disabled:cursor-not-allowed"
+                        >
+                          <Plus size={12} />
+                        </button>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => removeFromCart(item.sessieId)}
+                      className="text-red-500 hover:text-red-700 text-sm inline-flex items-center gap-1"
+                    >
+                      <Trash2 size={14} /> Verwijder
+                    </button>
                   </div>
                 </div>
-                <div className="text-right shrink-0">
-                  <div className="font-bold text-lg">{formatPrice(item.prijs)}</div>
-                  <button
-                    onClick={() => removeFromCart(item.sessieId)}
-                    className="text-red-500 hover:text-red-700 text-sm mt-1 inline-flex items-center gap-1"
-                  >
-                    <Trash2 size={14} /> Verwijder
-                  </button>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
           {/* Samenvatting */}
@@ -77,6 +111,9 @@ export default function WinkelwagenPage() {
             <div className="bg-white rounded-xl border border-zinc-200 p-6 sticky top-24">
               <h2 className="text-lg font-semibold mb-4">Overzicht</h2>
               <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-zinc-600">{items.length} cursus{items.length > 1 ? 'sen' : ''}, {totalDeelnemers} deelnemer{totalDeelnemers > 1 ? 's' : ''}</span>
+                </div>
                 <div className="flex justify-between">
                   <span className="text-zinc-600">Subtotaal</span>
                   <span className="font-medium">{formatPrice(totaal)}</span>
@@ -93,19 +130,13 @@ export default function WinkelwagenPage() {
               <div className="border-t border-zinc-200 mt-4 pt-4">
                 <div className="flex justify-between items-center">
                   <span className="font-semibold">Totaal excl. BTW</span>
-                  <span className="text-xl font-bold text-primary-600">{formatPrice(totaal + ADMIN_FEE)}</span>
+                  <span className="text-xl font-bold text-primary-500">{formatPrice(totaal + ADMIN_FEE)}</span>
                 </div>
-                <p className="text-xs text-zinc-400 mt-1">excl. 21% BTW &amp; €{ADMIN_FEE} administratiekosten</p>
               </div>
-              <div className="mt-6 space-y-3">
+              <div className="mt-6">
                 <Link href="/inschrijven/gegevens" className="block">
                   <Button className="w-full" size="lg">
-                    Direct inschrijven <ArrowRight size={16} className="ml-2" />
-                  </Button>
-                </Link>
-                <Link href="/offerte" className="block">
-                  <Button variant="outline" className="w-full" size="lg">
-                    <FileText size={16} className="mr-2" /> Als offerte aanvragen
+                    Doorgaan <ArrowRight size={16} className="ml-2" />
                   </Button>
                 </Link>
               </div>

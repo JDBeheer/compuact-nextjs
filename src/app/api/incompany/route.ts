@@ -1,27 +1,32 @@
 import { NextResponse } from 'next/server'
 import { createServiceRoleClient } from '@/lib/supabase/server'
-import { sendBevestigingsEmail, sendOfferteBevestiging, sendAdminNotificatie } from '@/lib/email'
+import { sendInCompanyNotificatie } from '@/lib/email'
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { type, cursussen, klantgegevens, totaalprijs } = body
+    const { cursusIds, cursusTitels, klantgegevens, aantalDeelnemers, gewenstePeriode, locatieVoorkeur, opmerkingen } = body
 
-    if (!cursussen?.length || !klantgegevens?.email) {
+    if (!cursusIds?.length || !klantgegevens?.email) {
       return NextResponse.json({ error: 'Ongeldige gegevens' }, { status: 400 })
     }
-
-    const validType = type === 'offerte' ? 'offerte' : 'inschrijving'
 
     const supabase = createServiceRoleClient()
 
     const { data, error } = await supabase
       .from('inschrijvingen')
       .insert({
-        type: validType,
-        cursussen,
-        klantgegevens,
-        totaalprijs,
+        type: 'incompany',
+        cursussen: cursusTitels.map((titel: string, i: number) => ({
+          cursusTitel: titel,
+          cursusId: cursusIds[i],
+        })),
+        klantgegevens: {
+          ...klantgegevens,
+          gewenste_periode: gewenstePeriode,
+          locatie_voorkeur: locatieVoorkeur,
+        },
+        totaalprijs: 0,
         email_verzonden: false,
         status: 'nieuw',
       })
@@ -31,17 +36,14 @@ export async function POST(request: Request) {
     if (error) throw error
 
     try {
-      const emailPromises = [
-        sendAdminNotificatie(validType, klantgegevens, cursussen, totaalprijs),
-      ]
-
-      if (validType === 'inschrijving') {
-        emailPromises.push(sendBevestigingsEmail(klantgegevens, cursussen, totaalprijs))
-      } else {
-        emailPromises.push(sendOfferteBevestiging(klantgegevens, cursussen, totaalprijs))
-      }
-
-      await Promise.all(emailPromises)
+      await sendInCompanyNotificatie({
+        klant: klantgegevens,
+        cursusTitels,
+        aantalDeelnemers,
+        gewenstePeriode,
+        locatieVoorkeur,
+        opmerkingen,
+      })
 
       await supabase
         .from('inschrijvingen')
@@ -53,7 +55,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, id: data.id })
   } catch (error) {
-    console.error('Inschrijving error:', error)
+    console.error('InCompany error:', error)
     return NextResponse.json({ error: 'Er ging iets mis' }, { status: 500 })
   }
 }
