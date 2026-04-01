@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import {
-  Monitor, Users, MapPin, Award, Star, ArrowRight, Building2, Laptop,
+  Monitor, Users, MapPin, Award, ArrowRight, Building2, Laptop,
   FileSpreadsheet, FileText, Bot, Mail, Presentation, BarChart3,
   CheckCircle, Zap, Clock, Shield
 } from 'lucide-react'
+import { getGoogleReviews, fallbackReviews } from '@/lib/google-reviews'
+import { GoogleReviewsSection } from '@/components/GoogleReviews'
 
 const categorieen = [
   { naam: 'Excel', slug: 'excel', icon: FileSpreadsheet, color: 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' },
