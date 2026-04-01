@@ -51,7 +51,7 @@ function CheckoutPage() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
-  const [currentStep, setCurrentStep] = useState(1)
+  const currentStep = 2
 
   useEffect(() => {
     const newMap: Record<string, Deelnemer[]> = {}
