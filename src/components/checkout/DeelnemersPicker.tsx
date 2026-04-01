@@ -26,7 +26,7 @@ export default function DeelnemersPicker({
   isFirst = false,
   onSyncToAll,
 }: DeelnemersPickerProps) {
-  const [open, setOpen] = useState(isFirst)
+  const [open, setOpen] = useState(true)
   const [synced, setSynced] = useState(false)
   const aantal = item.aantalDeelnemers || 1
 
