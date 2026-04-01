@@ -34,8 +34,14 @@ export default function LocatiesOverzicht() {
         </div>
       </div>
 
+      {/* Postcode zoeker */}
+      <div className="container-wide pt-12 pb-6">
+        <PostcodeZoeker />
+      </div>
+
       {/* Locatie grid */}
-      <div className="container-wide py-12">
+      <div className="container-wide pb-12">
+        <h2 className="text-2xl font-extrabold mb-6">Alle locaties</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {locaties.map((loc) => (
             <Link
