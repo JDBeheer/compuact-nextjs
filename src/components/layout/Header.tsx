@@ -146,11 +146,28 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState('')
   const [mobileCategory, setMobileCategory] = useState<number | null>(null)
   const [scrolled, setScrolled] = useState(false)
+  const [headerVisible, setHeaderVisible] = useState(true)
+  const lastScrollY = useRef(0)
   const megaRef = useRef<HTMLDivElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 8)
+    const handler = () => {
+      const y = window.scrollY
+      setScrolled(y > 8)
+
+      // Only hide/show on mobile-ish scroll behavior (after 80px)
+      if (y > 80) {
+        if (y > lastScrollY.current + 10) {
+          setHeaderVisible(false) // scrolling down
+        } else if (y < lastScrollY.current - 5) {
+          setHeaderVisible(true) // scrolling up
+        }
+      } else {
+        setHeaderVisible(true)
+      }
+      lastScrollY.current = y
+    }
     window.addEventListener('scroll', handler, { passive: true })
     return () => window.removeEventListener('scroll', handler)
   }, [])
