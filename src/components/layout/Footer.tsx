@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Phone, Mail, MapPin } from 'lucide-react'
 
 const cursusLinks = [
@@ -32,12 +33,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="bg-primary-600 text-white font-bold text-xl px-3 py-1 rounded">CA</div>
-              <div>
-                <div className="font-bold text-white text-lg leading-tight">Compu Act</div>
-                <div className="text-xs text-zinc-500 leading-tight">Opleidingen</div>
-              </div>
+            <div className="mb-4">
+              <Image src="/images/logo.svg" alt="Compu Act Opleidingen" width={160} height={51} className="brightness-0 invert" />
             </div>
             <p className="text-sm text-zinc-400 mb-6">
               Al meer dan 21 jaar dé specialist in Microsoft Office trainingen door heel Nederland.

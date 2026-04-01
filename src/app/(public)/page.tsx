@@ -1,57 +1,81 @@
 import Link from 'next/link'
-import { Monitor, Users, MapPin, Award, Star, ArrowRight, Building2, Laptop } from 'lucide-react'
-import Card, { CardBody } from '@/components/ui/Card'
+import {
+  Monitor, Users, MapPin, Award, Star, ArrowRight, Building2, Laptop,
+  FileSpreadsheet, FileText, Bot, Mail, Presentation, BarChart3,
+  CheckCircle, Zap, Clock, Shield
+} from 'lucide-react'
 
-const populaireCursussen = [
-  { titel: 'Excel Basis', slug: 'excel-basis', prijs: 275, niveau: 'Beginner', duur: '1 dag' },
-  { titel: 'Excel Gevorderd', slug: 'excel-gevorderd', prijs: 275, niveau: 'Gevorderd', duur: '1 dag' },
-  { titel: 'Excel voor Financials', slug: 'excel-voor-financials', prijs: 275, niveau: 'Expert', duur: '2 dagen' },
-  { titel: 'Office 365', slug: 'office-365-voor-eindgebruikers', prijs: 335, niveau: 'Beginner', duur: '1 dag' },
-  { titel: 'Outlook Alles-in-een', slug: 'outlook-alles-in-een', prijs: 310, niveau: 'Beginner', duur: '1 dag' },
-  { titel: 'PowerPoint', slug: 'powerpoint', prijs: 275, niveau: 'Beginner', duur: '1 dag' },
+const categorieen = [
+  { naam: 'Excel', slug: 'excel', icon: FileSpreadsheet, color: 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' },
+  { naam: 'Word', slug: 'word', icon: FileText, color: 'bg-blue-100 text-blue-700 hover:bg-blue-200' },
+  { naam: 'Outlook', slug: 'outlook', icon: Mail, color: 'bg-sky-100 text-sky-700 hover:bg-sky-200' },
+  { naam: 'PowerPoint', slug: 'powerpoint', icon: Presentation, color: 'bg-rose-100 text-rose-700 hover:bg-rose-200' },
+  { naam: 'Power BI', slug: 'power-bi', icon: BarChart3, color: 'bg-amber-100 text-amber-700 hover:bg-amber-200' },
+  { naam: 'Office 365', slug: 'office-365', icon: Monitor, color: 'bg-orange-100 text-orange-700 hover:bg-orange-200' },
+  { naam: 'AI', slug: 'ai', icon: Bot, color: 'bg-violet-100 text-violet-700 hover:bg-violet-200' },
 ]
 
-const usps = [
-  {
-    icon: Users,
-    titel: 'Kleine groepen',
-    beschrijving: 'Maximaal 8 deelnemers per training voor persoonlijke aandacht en interactie.',
-  },
-  {
-    icon: Monitor,
-    titel: 'Praktijkgericht',
-    beschrijving: 'Direct toepasbare kennis met oefeningen uit de dagelijkse praktijk.',
-  },
-  {
-    icon: MapPin,
-    titel: '15+ locaties',
-    beschrijving: 'Trainingslocaties door heel Nederland, van Amsterdam tot Maastricht.',
-  },
-  {
-    icon: Award,
-    titel: 'Certificaat',
-    beschrijving: 'Na afloop ontvangt u een officieel certificaat van deelname.',
-  },
+const stats = [
+  { value: '21+', label: 'Jaar ervaring', icon: Award },
+  { value: '15.000+', label: 'Deelnemers', icon: Users },
+  { value: '18', label: 'Locaties', icon: MapPin },
+  { value: '26', label: 'Cursussen', icon: Monitor },
+]
+
+const populaireCursussen = [
+  { titel: 'Excel Basis', slug: 'excel-basis', prijs: 335, niveau: 'Beginner', duur: '1 dag', cat: 'Excel', gradient: 'from-emerald-500 to-emerald-700', icon: FileSpreadsheet },
+  { titel: 'Excel Gevorderd', slug: 'excel-gevorderd', prijs: 335, niveau: 'Gevorderd', duur: '1 dag', cat: 'Excel', gradient: 'from-emerald-500 to-emerald-700', icon: FileSpreadsheet },
+  { titel: 'Power BI Desktop', slug: 'power-bi-desktop', prijs: 515, niveau: 'Gevorderd', duur: '1 dag', cat: 'Power BI', gradient: 'from-yellow-500 to-amber-600', icon: BarChart3 },
+  { titel: 'Prompting met AI', slug: 'prompting-met-ai', prijs: 335, niveau: 'Beginner', duur: '1 dag', cat: 'AI', gradient: 'from-violet-500 to-purple-700', icon: Bot, badge: 'Nieuw' },
+  { titel: 'Word Basis', slug: 'word-basis', prijs: 335, niveau: 'Beginner', duur: '1 dag', cat: 'Word', gradient: 'from-blue-500 to-blue-700', icon: FileText },
+  { titel: 'Outlook Alles-in-een', slug: 'outlook-alles-in-een', prijs: 335, niveau: 'Beginner', duur: '1 dag', cat: 'Outlook', gradient: 'from-sky-500 to-sky-700', icon: Mail },
 ]
 
 const lesmethodes = [
   {
     icon: Users,
     titel: 'Klassikaal',
-    beschrijving: 'Leer in een groep op een van onze 15+ locaties door heel Nederland.',
-    href: '/cursussen?lesmethode=klassikaal',
+    beschrijving: 'Leer in een kleine groep op een van onze 18 locaties door heel Nederland. Persoonlijke begeleiding door ervaren docenten.',
+    features: ['Max 10 deelnemers', 'Lesmateriaal inbegrepen', 'Certificaat'],
+    href: '/cursussen',
+    color: 'bg-primary-500',
   },
   {
     icon: Laptop,
     titel: 'Live Online',
-    beschrijving: 'Volg de training vanuit huis met live interactie met de docent.',
-    href: '/cursussen?lesmethode=online',
+    beschrijving: 'Volg de training vanuit huis of kantoor. Dezelfde kwaliteit en interactie, maar dan via een live verbinding.',
+    features: ['Vanuit huis/kantoor', 'Live interactie', 'Voordeliger'],
+    href: '/cursussen',
+    color: 'bg-accent-500',
   },
   {
     icon: Building2,
     titel: 'InCompany',
-    beschrijving: 'Training op maat op uw eigen locatie, afgestemd op uw organisatie.',
-    href: '/cursussen?lesmethode=incompany',
+    beschrijving: 'Training op maat op uw eigen locatie. Inhoud volledig afgestemd op de wensen van uw organisatie.',
+    features: ['Op uw locatie', 'Maatwerk programma', 'Flexibele planning'],
+    href: '/incompany',
+    color: 'bg-primary-800',
+  },
+]
+
+const testimonials = [
+  {
+    tekst: 'De persoonlijke aandacht en het juiste niveau van de training maakten het verschil. Onze medewerkers konden de geleerde vaardigheden direct toepassen.',
+    naam: 'Walther Piek',
+    bedrijf: 'Arbeidsconsulent',
+    rating: 5,
+  },
+  {
+    tekst: 'Uitstekende Excel training. De docent nam ruim de tijd voor persoonlijke vragen en de stof was direct toepasbaar.',
+    naam: 'Sandra de Vries',
+    bedrijf: 'Gemeente Amsterdam',
+    rating: 5,
+  },
+  {
+    tekst: 'De incompany training was perfect afgestemd op onze organisatie. Zeer tevreden over de flexibiliteit en kwaliteit.',
+    naam: 'Mark Jansen',
+    bedrijf: 'ING Bank',
+    rating: 5,
   },
 ]
 
@@ -59,47 +83,71 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-primary-700 via-primary-600 to-primary-800 text-white">
-        <div className="container-wide py-16 lg:py-24">
+      <section className="relative bg-primary-950 text-white overflow-hidden">
+        {/* Background pattern */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary-500/10 to-transparent" />
+
+        <div className="container-wide relative py-20 lg:py-28">
           <div className="max-w-3xl">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-              Microsoft Office trainingen die je direct verder helpen
+            <div className="inline-flex items-center gap-2 bg-accent-500/20 text-accent-400 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+              <Zap size={14} />
+              Nieuw: AI cursussen nu beschikbaar
+            </div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-[1.1] tracking-tight">
+              Microsoft Office trainingen die je{' '}
+              <span className="text-accent-400">direct</span> verder helpen
             </h1>
-            <p className="text-lg sm:text-xl text-primary-100 mb-8 leading-relaxed">
+            <p className="text-lg sm:text-xl text-primary-200 mb-10 leading-relaxed max-w-2xl">
               Klassikaal, live online of incompany. Al meer dan 21 jaar de specialist in
               praktijkgerichte Microsoft Office cursussen door heel Nederland.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/cursussen"
-                className="inline-flex items-center justify-center bg-white text-primary-700 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors"
+                className="inline-flex items-center justify-center bg-accent-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-accent-600 hover:shadow-xl hover:shadow-accent-500/25 transition-all active:scale-[0.98]"
               >
                 Bekijk alle cursussen
-                <ArrowRight size={18} className="ml-2" />
+                <ArrowRight size={20} className="ml-2" />
               </Link>
               <Link
-                href="/contact"
-                className="inline-flex items-center justify-center border-2 border-white/30 text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"
+                href="/incompany"
+                className="inline-flex items-center justify-center border-2 border-white/20 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/10 transition-all"
               >
-                Offerte aanvragen
+                InCompany offerte
               </Link>
             </div>
+          </div>
+
+          {/* Categorie chips */}
+          <div className="mt-14 flex flex-wrap gap-2">
+            <span className="text-sm text-primary-400 mr-2 self-center">Populair:</span>
+            {categorieen.map((cat) => (
+              <Link
+                key={cat.slug}
+                href={`/cursussen?categorie=${cat.slug}`}
+                className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors ${cat.color}`}
+              >
+                <cat.icon size={14} />
+                {cat.naam}
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* USPs strip */}
+      {/* Stats strip */}
       <section className="bg-white border-b border-zinc-200">
         <div className="container-wide py-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {usps.map((usp) => (
-              <div key={usp.titel} className="flex items-start gap-3">
-                <div className="bg-primary-100 text-primary-600 p-2 rounded-lg shrink-0">
-                  <usp.icon size={20} />
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {stats.map((stat) => (
+              <div key={stat.label} className="flex items-center gap-4">
+                <div className="bg-primary-50 text-primary-500 p-3 rounded-xl">
+                  <stat.icon size={24} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm">{usp.titel}</h3>
-                  <p className="text-xs text-zinc-500 mt-0.5">{usp.beschrijving}</p>
+                  <div className="text-2xl font-extrabold text-zinc-900">{stat.value}</div>
+                  <div className="text-sm text-zinc-500">{stat.label}</div>
                 </div>
               </div>
             ))}
@@ -109,123 +157,181 @@ export default function HomePage() {
 
       {/* Populaire cursussen */}
       <section className="bg-zinc-50">
-        <div className="container-wide py-16">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3">Populaire cursussen</h2>
-            <p className="text-zinc-600 max-w-2xl mx-auto">
-              Onze meest gevolgde Microsoft Office trainingen. Direct inschrijven of vraag een offerte aan.
-            </p>
+        <div className="container-wide py-20">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-10 gap-4">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold mb-2">Populaire cursussen</h2>
+              <p className="text-zinc-500 max-w-lg">
+                Onze meest gevolgde Microsoft Office trainingen. Direct inschrijven of vraag een offerte aan.
+              </p>
+            </div>
+            <Link
+              href="/cursussen"
+              className="inline-flex items-center gap-2 text-primary-500 font-semibold hover:text-primary-600 shrink-0"
+            >
+              Alle cursussen <ArrowRight size={18} />
+            </Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {populaireCursussen.map((cursus) => (
-              <Link key={cursus.slug} href={`/cursussen/${cursus.slug}`}>
-                <Card hover className="h-full">
-                  <div className="h-40 bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
-                    <Monitor size={48} className="text-white/80" />
+              <Link key={cursus.slug} href={`/cursussen/${cursus.slug}`} className="group">
+                <div className="bg-white rounded-xl border border-zinc-200 overflow-hidden h-full transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-primary-200">
+                  <div className={`h-32 bg-gradient-to-br ${cursus.gradient} flex items-center justify-center relative overflow-hidden`}>
+                    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 25% 25%, white 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+                    <cursus.icon size={44} className="text-white/90 relative z-10" strokeWidth={1.5} />
+                    {cursus.badge && (
+                      <div className="absolute top-3 right-3">
+                        <span className="bg-accent-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-full">
+                          {cursus.badge}
+                        </span>
+                      </div>
+                    )}
+                    <div className="absolute top-3 left-3">
+                      <span className="bg-white/20 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-full">
+                        {cursus.cat}
+                      </span>
+                    </div>
                   </div>
-                  <CardBody>
+                  <div className="p-5">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs bg-primary-100 text-primary-700 px-2 py-0.5 rounded-full font-medium">
+                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-primary-100 text-primary-700">
                         {cursus.niveau}
                       </span>
-                      <span className="text-xs text-zinc-500">{cursus.duur}</span>
+                      <span className="text-[11px] text-zinc-500">{cursus.duur}</span>
                     </div>
-                    <h3 className="font-semibold text-lg mb-2">{cursus.titel}</h3>
-                    <div className="flex items-center justify-between mt-4">
-                      <span className="text-primary-600 font-bold">
-                        vanaf &euro;{cursus.prijs}
-                      </span>
-                      <span className="text-sm text-primary-600 font-medium flex items-center gap-1">
-                        Bekijk cursus <ArrowRight size={14} />
+                    <h3 className="font-bold text-lg mb-3 group-hover:text-primary-500 transition-colors">{cursus.titel}</h3>
+                    <div className="flex items-center justify-between pt-3 border-t border-zinc-100">
+                      <div>
+                        <span className="text-xs text-zinc-400">vanaf</span>
+                        <span className="text-lg font-bold text-zinc-900 ml-1">&euro;{cursus.prijs}</span>
+                      </div>
+                      <span className="text-sm text-primary-500 font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+                        Bekijk <ArrowRight size={14} />
                       </span>
                     </div>
-                  </CardBody>
-                </Card>
+                  </div>
+                </div>
               </Link>
             ))}
-          </div>
-          <div className="text-center mt-8">
-            <Link
-              href="/cursussen"
-              className="inline-flex items-center gap-2 text-primary-600 font-semibold hover:text-primary-700"
-            >
-              Bekijk alle cursussen <ArrowRight size={18} />
-            </Link>
           </div>
         </div>
       </section>
 
       {/* Lesmethodes */}
       <section className="bg-white">
-        <div className="container-wide py-16">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3">Kies jouw lesmethode</h2>
-            <p className="text-zinc-600 max-w-2xl mx-auto">
+        <div className="container-wide py-20">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-extrabold mb-3">Kies jouw lesmethode</h2>
+            <p className="text-zinc-500 max-w-2xl mx-auto">
               Elke cursus is beschikbaar in meerdere vormen. Kies wat het beste bij jou past.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {lesmethodes.map((methode) => (
-              <Link key={methode.titel} href={methode.href}>
-                <Card hover className="h-full">
-                  <CardBody className="text-center py-8">
-                    <div className="bg-primary-100 text-primary-600 p-4 rounded-2xl inline-block mb-4">
-                      <methode.icon size={32} />
-                    </div>
-                    <h3 className="font-semibold text-lg mb-2">{methode.titel}</h3>
-                    <p className="text-zinc-600 text-sm">{methode.beschrijving}</p>
-                  </CardBody>
-                </Card>
+              <Link key={methode.titel} href={methode.href} className="group">
+                <div className="bg-white rounded-2xl border-2 border-zinc-100 p-8 h-full transition-all duration-300 group-hover:border-primary-200 group-hover:shadow-lg">
+                  <div className={`${methode.color} text-white p-4 rounded-2xl inline-block mb-5`}>
+                    <methode.icon size={28} />
+                  </div>
+                  <h3 className="font-bold text-xl mb-3">{methode.titel}</h3>
+                  <p className="text-zinc-500 text-sm mb-5 leading-relaxed">{methode.beschrijving}</p>
+                  <ul className="space-y-2">
+                    {methode.features.map((f) => (
+                      <li key={f} className="flex items-center gap-2 text-sm text-zinc-600">
+                        <CheckCircle size={15} className="text-primary-500 shrink-0" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonial */}
+      {/* Testimonials */}
       <section className="bg-zinc-50">
-        <div className="container-narrow py-16">
-          <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-sm border border-zinc-200 text-center">
-            <div className="flex justify-center gap-1 mb-4">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={20} className="text-accent-500 fill-accent-500" />
-              ))}
+        <div className="container-wide py-20">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-extrabold mb-3">Wat onze deelnemers zeggen</h2>
+            <p className="text-zinc-500">Beoordeeld met gemiddeld 4.8 uit 5 sterren</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {testimonials.map((t) => (
+              <div key={t.naam} className="bg-white rounded-2xl border border-zinc-200 p-7 flex flex-col">
+                <div className="flex gap-0.5 mb-4">
+                  {[...Array(t.rating)].map((_, i) => (
+                    <Star key={i} size={16} className="text-accent-500 fill-accent-500" />
+                  ))}
+                </div>
+                <blockquote className="text-zinc-700 text-sm leading-relaxed mb-6 flex-1">
+                  &ldquo;{t.tekst}&rdquo;
+                </blockquote>
+                <div className="border-t border-zinc-100 pt-4">
+                  <p className="font-semibold text-sm text-zinc-900">{t.naam}</p>
+                  <p className="text-xs text-zinc-500">{t.bedrijf}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trust strip */}
+      <section className="bg-white border-y border-zinc-200">
+        <div className="container-wide py-10">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+            <div className="flex flex-col items-center">
+              <Shield size={24} className="text-primary-500 mb-2" />
+              <span className="font-semibold text-sm">Niet goed? Geld terug</span>
+              <span className="text-xs text-zinc-400 mt-0.5">Annuleer tot 14 dagen van tevoren</span>
             </div>
-            <blockquote className="text-lg lg:text-xl text-zinc-700 mb-6 italic leading-relaxed max-w-3xl mx-auto">
-              &ldquo;De persoonlijke aandacht en het juiste niveau van de training maakten het verschil.
-              Onze medewerkers konden de geleerde vaardigheden direct toepassen in hun dagelijks werk.&rdquo;
-            </blockquote>
-            <div>
-              <p className="font-semibold text-zinc-900">Walther Piek</p>
-              <p className="text-sm text-zinc-500">Arbeidsconsulent</p>
+            <div className="flex flex-col items-center">
+              <Award size={24} className="text-primary-500 mb-2" />
+              <span className="font-semibold text-sm">Erkend certificaat</span>
+              <span className="text-xs text-zinc-400 mt-0.5">Na succesvolle afronding</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <Clock size={24} className="text-primary-500 mb-2" />
+              <span className="font-semibold text-sm">Flexibel plannen</span>
+              <span className="text-xs text-zinc-400 mt-0.5">Verplaats kosteloos uw datum</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <Users size={24} className="text-primary-500 mb-2" />
+              <span className="font-semibold text-sm">500+ bedrijven</span>
+              <span className="text-xs text-zinc-400 mt-0.5">Vertrouwen op Compu Act</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="bg-primary-700 text-white">
-        <div className="container-wide py-16 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Klaar om te starten?
-          </h2>
-          <p className="text-primary-100 mb-8 max-w-2xl mx-auto">
-            Bekijk ons cursusaanbod, kies je favoriete lesmethode en schrijf je direct in.
-            Of vraag een vrijblijvende offerte aan.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/cursussen"
-              className="inline-flex items-center justify-center bg-white text-primary-700 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors"
-            >
-              Bekijk cursussen
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center border-2 border-white/30 text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"
-            >
-              Neem contact op
-            </Link>
+      <section className="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        <div className="container-wide py-20 relative">
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+              Klaar om te starten?
+            </h2>
+            <p className="text-primary-200 mb-10 text-lg leading-relaxed">
+              Bekijk ons cursusaanbod, kies je favoriete lesmethode en schrijf je direct in.
+              Of vraag een vrijblijvende offerte aan.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/cursussen"
+                className="inline-flex items-center justify-center bg-accent-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-accent-600 hover:shadow-xl hover:shadow-accent-500/25 transition-all active:scale-[0.98]"
+              >
+                Bekijk cursussen <ArrowRight size={20} className="ml-2" />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center border-2 border-white/20 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/10 transition-all"
+              >
+                Neem contact op
+              </Link>
+            </div>
           </div>
         </div>
       </section>

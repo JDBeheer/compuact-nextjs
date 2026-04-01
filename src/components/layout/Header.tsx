@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Menu, X, ChevronDown, Phone, Mail } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -44,12 +45,8 @@ export default function Header() {
       {/* Main nav */}
       <div className="container-wide">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="bg-primary-500 text-white font-bold text-xl px-3 py-1 rounded">CA</div>
-            <div>
-              <div className="font-bold text-zinc-900 text-lg leading-tight">Compu Act</div>
-              <div className="text-xs text-zinc-500 leading-tight">Opleidingen</div>
-            </div>
+          <Link href="/" className="flex items-center">
+            <Image src="/images/logo.svg" alt="Compu Act Opleidingen" width={180} height={57} priority />
           </Link>
 
           {/* Desktop nav */}

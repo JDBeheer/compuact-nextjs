@@ -4,6 +4,7 @@ import { createServerSupabaseClient } from '@/lib/supabase/server'
 import CursusFilters from '@/components/cursussen/CursusFilters'
 import CursusCard from '@/components/cursussen/CursusCard'
 import { Cursus } from '@/types'
+import { Monitor } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Alle cursussen',
@@ -55,20 +56,43 @@ export default async function CursussenPage({
     getFilterOptions(),
   ])
 
+  const activeCategorie = searchParams.categorie
+  const catLabel = activeCategorie
+    ? filterOptions.categorieen.find(c => c.value === activeCategorie)?.label
+    : null
+
   return (
     <div className="bg-zinc-50 min-h-screen">
       {/* Header */}
-      <div className="bg-white border-b border-zinc-200">
-        <div className="container-wide py-8">
-          <nav className="text-sm text-zinc-500 mb-4">
-            <a href="/" className="hover:text-primary-600">Home</a>
-            <span className="mx-2">/</span>
-            <span className="text-zinc-900">Cursussen</span>
+      <div className="bg-gradient-to-br from-primary-600 to-primary-800 text-white">
+        <div className="container-wide py-12">
+          <nav className="text-sm text-primary-200 mb-4">
+            <a href="/" className="hover:text-white transition-colors">Home</a>
+            <span className="mx-2 text-primary-400">/</span>
+            {catLabel ? (
+              <>
+                <a href="/cursussen" className="hover:text-white transition-colors">Cursussen</a>
+                <span className="mx-2 text-primary-400">/</span>
+                <span className="text-white">{catLabel}</span>
+              </>
+            ) : (
+              <span className="text-white">Cursussen</span>
+            )}
           </nav>
-          <h1 className="text-3xl font-bold">Alle cursussen</h1>
-          <p className="text-zinc-600 mt-2">
-            {cursussen.length} cursus{cursussen.length !== 1 ? 'sen' : ''} beschikbaar
-          </p>
+          <div className="flex items-center gap-4">
+            <div className="bg-white/10 p-3 rounded-xl hidden sm:block">
+              <Monitor size={28} />
+            </div>
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-extrabold">
+                {catLabel ? `${catLabel} cursussen` : 'Alle cursussen'}
+              </h1>
+              <p className="text-primary-200 mt-1">
+                {cursussen.length} cursus{cursussen.length !== 1 ? 'sen' : ''} beschikbaar
+                {catLabel && <> in {catLabel}</>}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -89,8 +113,9 @@ export default async function CursussenPage({
         </div>
 
         {cursussen.length === 0 && (
-          <div className="text-center py-16">
-            <p className="text-zinc-500 text-lg">Geen cursussen gevonden.</p>
+          <div className="text-center py-20">
+            <Monitor size={48} className="text-zinc-300 mx-auto mb-4" />
+            <p className="text-zinc-500 text-lg font-semibold">Geen cursussen gevonden</p>
             <p className="text-zinc-400 text-sm mt-1">Pas je filters aan of probeer een andere zoekterm.</p>
           </div>
         )}

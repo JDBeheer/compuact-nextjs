@@ -2,7 +2,8 @@ import { createClient } from '@supabase/supabase-js'
 import { parse } from 'csv-parse/sync'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
-import 'dotenv/config'
+import { config } from 'dotenv'
+config({ path: resolve(__dirname, '../.env.local') })
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -241,12 +242,12 @@ async function main() {
     })
   }
 
-  // Insert in batches using upsert on training_id
+  // Insert in batches
   for (let i = 0; i < sessionsToInsert.length; i += BATCH_SIZE) {
     const batch = sessionsToInsert.slice(i, i + BATCH_SIZE)
     const { error } = await supabase
       .from('cursus_sessies')
-      .upsert(batch, { onConflict: 'training_id' })
+      .insert(batch)
 
     if (error) {
       console.error(`  Batch error at ${i}:`, error.message)
