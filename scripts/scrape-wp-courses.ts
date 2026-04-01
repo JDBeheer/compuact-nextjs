@@ -128,15 +128,20 @@ function extractListAfterHeading(html: string, headerRegex: string): string[] {
   // Extract <li> items
   const liMatches = [...section.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)]
   for (const m of liMatches) {
-    // Get just the first line/title from the li (before detailed description)
     let text = stripHtml(m[1]).trim()
-    // If item has a colon with explanation, take just the title part
-    const colonIdx = text.indexOf(':\n')
-    if (colonIdx > 0 && colonIdx < 60) {
-      text = text.substring(0, colonIdx)
+    // If item has a colon with newline explanation, take just the title
+    const colonNewline = text.indexOf(':\n')
+    if (colonNewline > 0 && colonNewline < 60) {
+      text = text.substring(0, colonNewline)
     }
+    // If item has ": Description" on same line, keep the full thing but trim
     // Clean up - take first line if multi-line
     const firstLine = text.split('\n')[0].trim()
+      .replace(/:$/, '') // remove trailing colon
+      .replace(/&rsquo;/g, "'")
+      .replace(/&lsquo;/g, "'")
+      .replace(/\s+/g, ' ')
+      .trim()
     if (firstLine && firstLine.length > 3) {
       items.push(firstLine)
     }
