@@ -8,6 +8,15 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/cursussen/categorie/:slug',
+        destination: '/cursussen/:slug',
+        permanent: true,
+      },
+    ]
+  },
 };
 
 export default nextConfig;
