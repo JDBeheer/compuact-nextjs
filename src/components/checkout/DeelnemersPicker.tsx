@@ -23,7 +23,6 @@ export default function DeelnemersPicker({
   onDeelnemersChange,
   onAantalChange,
   showSync = false,
-  isFirst = false,
   onSyncToAll,
 }: DeelnemersPickerProps) {
   const [open, setOpen] = useState(true)
