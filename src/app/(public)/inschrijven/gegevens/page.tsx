@@ -286,7 +286,7 @@ function CheckoutPage() {
               <div>
                 <h2 className="text-base font-bold mb-3">Cursussen &amp; deelnemers</h2>
                 <div className="space-y-3">
-                  {items.map((item, itemIndex) => (
+                  {items.map((item) => (
                     <DeelnemersPicker
                       key={item.sessieId}
                       item={item}
