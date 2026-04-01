@@ -148,6 +148,7 @@ export default function DeelnemersPicker({
                     onChange={(e) => updateDeelnemer(index, 'voornaam', e.target.value)}
                     placeholder="Voornaam"
                     label="Voornaam"
+                    required
                   />
                   <Input
                     id={`${item.sessieId}-dn-${index}-achternaam`}
@@ -155,6 +156,7 @@ export default function DeelnemersPicker({
                     onChange={(e) => updateDeelnemer(index, 'achternaam', e.target.value)}
                     placeholder="Achternaam"
                     label="Achternaam"
+                    required
                   />
                   <Input
                     id={`${item.sessieId}-dn-${index}-email`}
@@ -163,6 +165,7 @@ export default function DeelnemersPicker({
                     onChange={(e) => updateDeelnemer(index, 'email', e.target.value)}
                     placeholder="E-mailadres"
                     label="E-mail"
+                    required
                   />
                 </div>
               </div>
