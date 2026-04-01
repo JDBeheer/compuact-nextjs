@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, X, ChevronDown, ChevronRight, Phone, Mail, Search, FileSpreadsheet, FileText, Monitor, Presentation, BarChart3, FolderKanban, Bot, PenTool, Building2, ArrowRight } from 'lucide-react'
+import { Menu, X, ChevronDown, ChevronRight, Phone, Mail, Search, FileSpreadsheet, FileText, Monitor, Presentation, BarChart3, FolderKanban, Bot, PenTool, Building2, ArrowRight, Star, Clock } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const categorieen = [
@@ -132,8 +132,16 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [mobileCategory, setMobileCategory] = useState<number | null>(null)
+  const [scrolled, setScrolled] = useState(false)
   const megaRef = useRef<HTMLDivElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
+
+  // Track scroll for shadow effect
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 8)
+    window.addEventListener('scroll', handler, { passive: true })
+    return () => window.removeEventListener('scroll', handler)
+  }, [])
 
   // Keyboard shortcut for search
   useEffect(() => {
@@ -160,6 +168,12 @@ export default function Header() {
     }
   }, [searchOpen])
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileOpen])
+
   const searchResults = searchQuery.length > 0
     ? allCursussen.filter(c =>
         c.naam.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -173,22 +187,37 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white border-b border-zinc-200">
+      <header className={cn(
+        'sticky top-0 z-50 bg-white border-b border-zinc-200 transition-shadow duration-200',
+        scrolled && 'shadow-md shadow-zinc-900/5'
+      )}>
         {/* Top bar */}
         <div className="bg-primary-900 text-white">
           <div className="container-wide flex justify-between items-center py-1.5 text-sm">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-5">
               <a href="tel:0851058919" className="flex items-center gap-1.5 hover:text-primary-200 transition-colors">
                 <Phone size={13} />
                 <span className="hidden sm:inline">085 105 8919</span>
               </a>
-              <a href="mailto:info@computertraining.nl" className="hidden sm:flex items-center gap-1.5 hover:text-primary-200 transition-colors">
+              <a href="mailto:info@computertraining.nl" className="hidden md:flex items-center gap-1.5 hover:text-primary-200 transition-colors">
                 <Mail size={13} />
                 info@computertraining.nl
               </a>
             </div>
-            <div className="text-primary-300 text-xs">
-              21+ jaar ervaring in Microsoft Office trainingen
+            <div className="flex items-center gap-4">
+              <div className="hidden sm:flex items-center gap-1.5 text-primary-300 text-xs">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => <Star key={i} size={10} className="text-accent-400 fill-accent-400" />)}
+                </div>
+                <span>4.8/5 Google</span>
+                <span className="text-primary-600">|</span>
+                <span>90 recensies</span>
+              </div>
+              <span className="hidden lg:inline text-primary-400 text-xs">|</span>
+              <span className="hidden lg:inline text-primary-300 text-xs flex items-center gap-1">
+                <Clock size={10} />
+                Ma-vr 09:00 - 17:00
+              </span>
             </div>
           </div>
         </div>
@@ -221,7 +250,7 @@ export default function Header() {
                 {/* Mega menu */}
                 {megaOpen && (
                   <div className="absolute top-full -left-4 pt-1">
-                    <div className="bg-white rounded-2xl shadow-2xl shadow-zinc-900/10 border border-zinc-200 w-[720px] overflow-hidden">
+                    <div className="bg-white rounded-2xl shadow-2xl shadow-zinc-900/10 border border-zinc-200 w-[720px] overflow-hidden animate-in fade-in slide-in-from-top-1 duration-150">
                       <div className="flex">
                         {/* Left: categories */}
                         <div className="w-52 bg-zinc-50 border-r border-zinc-100 py-3">
@@ -291,7 +320,7 @@ export default function Header() {
                             </div>
                             <div className="flex-1">
                               <div className="text-sm font-semibold text-zinc-900">InCompany training</div>
-                              <div className="text-xs text-zinc-500">Op maat, op uw locatie</div>
+                              <div className="text-xs text-zinc-500">Op maat, op je eigen locatie</div>
                             </div>
                             <ArrowRight size={14} className="text-zinc-400 group-hover:text-primary-500 transition-colors" />
                           </Link>
@@ -335,11 +364,20 @@ export default function Header() {
             <div className="hidden lg:flex items-center gap-2">
               <button
                 onClick={() => setSearchOpen(true)}
-                className="p-2 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-50 rounded-lg transition-colors"
+                className="flex items-center gap-2 px-3 py-2 text-sm text-zinc-400 hover:text-zinc-600 bg-zinc-50 hover:bg-zinc-100 rounded-lg transition-colors border border-zinc-200"
                 title="Zoeken (⌘K)"
               >
-                <Search size={20} />
+                <Search size={15} />
+                <span className="hidden xl:inline">Zoek cursus...</span>
+                <kbd className="hidden xl:block text-[10px] bg-zinc-200 text-zinc-500 px-1.5 py-0.5 rounded font-mono ml-1">&#8984;K</kbd>
               </button>
+              <a
+                href="tel:0851058919"
+                className="flex items-center gap-2 border-2 border-zinc-200 text-zinc-700 px-4 py-2 rounded-lg text-sm font-semibold hover:border-primary-300 hover:text-primary-600 transition-all"
+              >
+                <Phone size={14} />
+                <span className="hidden xl:inline">085 105 8919</span>
+              </a>
               <Link
                 href="/cursussen"
                 className="bg-primary-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/25 transition-all active:scale-[0.98]"
@@ -348,8 +386,11 @@ export default function Header() {
               </Link>
             </div>
 
-            {/* Mobile: search + menu */}
+            {/* Mobile: search + phone + menu */}
             <div className="flex lg:hidden items-center gap-1">
+              <a href="tel:0851058919" className="p-2 text-zinc-500 hover:text-primary-500">
+                <Phone size={20} />
+              </a>
               <button
                 onClick={() => setSearchOpen(true)}
                 className="p-2 text-zinc-500 hover:text-zinc-900"
@@ -368,8 +409,17 @@ export default function Header() {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div className="lg:hidden border-t border-zinc-200 bg-white max-h-[70vh] overflow-y-auto">
+          <div className="lg:hidden border-t border-zinc-200 bg-white max-h-[calc(100vh-8rem)] overflow-y-auto">
             <nav className="container-wide py-4 space-y-1">
+              {/* Quick search on mobile */}
+              <button
+                onClick={() => { setMobileOpen(false); setSearchOpen(true) }}
+                className="w-full flex items-center gap-3 px-4 py-3 bg-zinc-50 rounded-xl text-sm text-zinc-400 border border-zinc-200 mb-3"
+              >
+                <Search size={16} />
+                Zoek een cursus...
+              </button>
+
               {/* Categories accordion */}
               {categorieen.map((cat, i) => {
                 const Icon = cat.icon
@@ -395,9 +445,12 @@ export default function Header() {
                             key={cursus.slug}
                             href={`/cursussen/${cursus.slug}`}
                             onClick={() => setMobileOpen(false)}
-                            className="block px-3 py-2 text-sm text-zinc-600 hover:text-primary-500 hover:bg-zinc-50 rounded-lg"
+                            className="flex items-center justify-between px-3 py-2 text-sm text-zinc-600 hover:text-primary-500 hover:bg-zinc-50 rounded-lg"
                           >
-                            {cursus.naam}
+                            <span>{cursus.naam}</span>
+                            <span className={cn('text-[10px] font-semibold px-1.5 py-0.5 rounded-full', niveauColor[cursus.niveau])}>
+                              {cursus.niveau}
+                            </span>
                           </Link>
                         ))}
                         <Link
@@ -424,6 +477,32 @@ export default function Header() {
               <Link href="/contact" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 rounded-lg">
                 Contact
               </Link>
+
+              {/* Mobile CTA */}
+              <div className="border-t border-zinc-100 pt-4 mt-3 space-y-2">
+                <Link
+                  href="/cursussen"
+                  onClick={() => setMobileOpen(false)}
+                  className="block w-full text-center bg-primary-500 text-white px-5 py-3 rounded-xl text-base font-bold hover:bg-primary-600 transition-all"
+                >
+                  Bekijk alle cursussen
+                </Link>
+                <a
+                  href="tel:0851058919"
+                  className="flex items-center justify-center gap-2 w-full border-2 border-zinc-200 text-zinc-700 px-5 py-2.5 rounded-xl text-sm font-semibold hover:border-primary-300 hover:text-primary-600 transition-all"
+                >
+                  <Phone size={15} />
+                  Bel ons: 085 105 8919
+                </a>
+              </div>
+
+              {/* Mobile trust */}
+              <div className="pt-3 flex items-center justify-center gap-2 text-xs text-zinc-400">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => <Star key={i} size={10} className="text-accent-400 fill-accent-400" />)}
+                </div>
+                <span>4.8/5 Google &middot; 90 recensies</span>
+              </div>
             </nav>
           </div>
         )}
@@ -434,7 +513,7 @@ export default function Header() {
         <div className="fixed inset-0 z-[100]">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setSearchOpen(false)} />
           <div className="relative max-w-2xl mx-auto mt-[12vh] px-4">
-            <div className="bg-white rounded-2xl shadow-2xl shadow-black/20 overflow-hidden border border-zinc-200">
+            <div className="bg-white rounded-2xl shadow-2xl shadow-black/20 overflow-hidden border border-zinc-200 animate-in fade-in slide-in-from-top-2 duration-200">
               {/* Search input */}
               <div className="flex items-center gap-3 px-5 border-b border-zinc-100">
                 <Search size={20} className="text-zinc-400 shrink-0" />

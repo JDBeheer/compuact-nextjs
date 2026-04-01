@@ -7,7 +7,7 @@ import SessieTable from '@/components/cursussen/SessieTable'
 import CursusDetailTabs from '@/components/cursussen/CursusDetailTabs'
 import CursusCard from '@/components/cursussen/CursusCard'
 import { formatPrice, formatDateShort, niveauLabel } from '@/lib/utils'
-import { Clock, Users, Award, BookOpen, Building2, Star, MapPin, CheckCircle, ArrowRight, Laptop } from 'lucide-react'
+import { Clock, Users, Award, BookOpen, Building2, Star, MapPin, CheckCircle, ArrowRight, Laptop, GraduationCap } from 'lucide-react'
 
 async function getCursus(slug: string) {
   const supabase = createServerSupabaseClient()
@@ -129,7 +129,7 @@ export default async function CursusDetailPage({ params }: { params: { slug: str
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => <Star key={i} size={14} className="text-accent-500 fill-accent-500" />)}
                 </div>
-                <span className="text-sm text-zinc-500">4.8 &middot; 84 Google recensies</span>
+                <span className="text-sm text-zinc-500">4.8 &middot; 90 Google recensies</span>
               </div>
 
               <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight mb-3 leading-tight">
@@ -142,9 +142,9 @@ export default async function CursusDetailPage({ params }: { params: { slug: str
 
               {/* USP row */}
               <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-zinc-500 mb-6">
-                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> Al meer dan 21 jaar specialist</span>
-                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> Ervaren docenten uit de praktijk</span>
-                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> Direct toepasbaar</span>
+                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> All-in prijs incl. laptop, lesmateriaal en certificaat</span>
+                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> Klassikaal, Live Online, Thuisstudie of InCompany</span>
+                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> Landelijke locaties, goed bereikbaar</span>
               </div>
 
               {/* CTA buttons */}
@@ -197,12 +197,15 @@ export default async function CursusDetailPage({ params }: { params: { slug: str
                   <div className="text-xs text-zinc-400 mt-0.5">excl. 21% BTW &amp; €15 administratiekosten</div>
                 </div>
 
-                <div className="flex gap-2 mt-4">
+                <div className="flex flex-wrap gap-2 mt-4">
                   <span className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full">
                     <Users size={11} /> Klassikaal
                   </span>
                   <span className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full">
-                    <Laptop size={11} /> Online
+                    <Laptop size={11} /> Live Online
+                  </span>
+                  <span className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full">
+                    <BookOpen size={11} /> Thuisstudie
                   </span>
                   <span className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full">
                     <Building2 size={11} /> InCompany
@@ -262,7 +265,7 @@ export default async function CursusDetailPage({ params }: { params: { slug: str
                   <div className="flex items-center gap-2 mb-3">
                     <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} size={13} className="text-accent-500 fill-accent-500" />)}</div>
                     <span className="text-sm font-bold">4.8</span>
-                    <span className="text-xs text-zinc-400">84 reviews</span>
+                    <span className="text-xs text-zinc-400">90 reviews</span>
                   </div>
                   <div className="space-y-1.5 text-xs text-zinc-500">
                     <div className="flex items-center gap-1.5"><CheckCircle size={12} className="text-primary-500" /> 21+ jaar ervaring</div>
@@ -319,10 +322,10 @@ export default async function CursusDetailPage({ params }: { params: { slug: str
                 {cursus.titel} als InCompany training
               </h3>
               <p className="text-primary-200 mt-2 max-w-xl leading-relaxed">
-                Wilt u deze cursus op maat voor uw team? Wij komen naar uw locatie met een programma afgestemd op uw organisatie. Flexibel, voordelig en persoonlijk.
+                Wil je deze cursus op maat voor jouw team? Wij komen naar je locatie met een programma afgestemd op jouw organisatie. Flexibel, voordelig en persoonlijk.
               </p>
               <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-primary-300 mt-3">
-                <span>&#10003; Op uw locatie of online</span>
+                <span>&#10003; Op je eigen locatie of online</span>
                 <span>&#10003; Inhoud op maat</span>
                 <span>&#10003; Voordelig vanaf 4 deelnemers</span>
               </div>

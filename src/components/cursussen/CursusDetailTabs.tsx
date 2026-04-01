@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Cursus } from '@/types'
 import { cn } from '@/lib/utils'
-import { CheckCircle, Users, Laptop, Building2 } from 'lucide-react'
+import { CheckCircle, Users, Laptop, Building2, BookOpen } from 'lucide-react'
 
 const tabs = [
   { id: 'wat-leer-je', label: 'Wat leer je?' },
@@ -84,7 +84,7 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
                 <h4 className="font-bold text-lg mb-2">Klassikaal</h4>
                 <p className="text-sm text-zinc-600 leading-relaxed">
                   Volg de cursus op een van onze 18 locaties door heel Nederland.
-                  Kleine groepen met persoonlijke aandacht van de docent.
+                  Kleine groepen met persoonlijke aandacht van de docent. Laptop en lesmateriaal zijn inbegrepen.
                 </p>
               </div>
               <div className="border-2 border-zinc-100 rounded-xl p-6 hover:border-accent-200 transition-colors">
@@ -94,7 +94,25 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
                 <h4 className="font-bold text-lg mb-2">Live Online</h4>
                 <p className="text-sm text-zinc-600 leading-relaxed">
                   Volg de training vanuit huis of kantoor. Dezelfde interactie als
-                  klassikaal, maar dan via een live verbinding.
+                  klassikaal, maar dan via een live verbinding met de docent.
+                </p>
+              </div>
+              <div className="border-2 border-zinc-100 rounded-xl p-6 hover:border-green-200 transition-colors">
+                <div className="bg-green-500 text-white p-2.5 rounded-lg inline-block mb-3">
+                  <BookOpen size={20} />
+                </div>
+                <h4 className="font-bold text-lg mb-2">Thuisstudie</h4>
+                <p className="text-sm text-zinc-600 leading-relaxed">
+                  Leer in je eigen tempo met uitgebreid lesmateriaal. Je bepaalt zelf wanneer en waar je studeert, ideaal als je flexibel wilt leren.
+                </p>
+              </div>
+              <div className="border-2 border-zinc-100 rounded-xl p-6 hover:border-primary-200 transition-colors">
+                <div className="bg-primary-700 text-white p-2.5 rounded-lg inline-block mb-3">
+                  <Building2 size={20} />
+                </div>
+                <h4 className="font-bold text-lg mb-2">InCompany</h4>
+                <p className="text-sm text-zinc-600 leading-relaxed">
+                  Training op uw eigen locatie, afgestemd op uw organisatie. Flexibele planning en voordelig vanaf 4 deelnemers.
                 </p>
               </div>
             </div>
@@ -111,12 +129,12 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
                 </div>
                 <p className="text-zinc-700 leading-relaxed">
                   {cursus.inhoud?.incompany_tekst ||
-                    'Deze cursus is ook beschikbaar als InCompany training. Wij komen naar uw locatie met een programma op maat, afgestemd op de wensen van uw organisatie.'}
+                    'Deze cursus is ook beschikbaar als InCompany training. Wij komen naar je locatie met een programma op maat, afgestemd op de wensen van jouw organisatie.'}
                 </p>
               </div>
             </div>
             <div className="grid sm:grid-cols-2 gap-3 mb-6">
-              {['Training op uw eigen locatie', 'Inhoud afgestemd op uw organisatie', 'Flexibele planning', 'Voordeliger bij meerdere deelnemers'].map((item) => (
+              {['Training op je eigen locatie', 'Inhoud afgestemd op jouw organisatie', 'Flexibele planning', 'Voordeliger bij meerdere deelnemers'].map((item) => (
                 <div key={item} className="flex items-center gap-2 bg-zinc-50 rounded-lg p-3">
                   <CheckCircle size={16} className="text-primary-500 shrink-0" />
                   <span className="text-sm text-zinc-700">{item}</span>
