@@ -220,12 +220,8 @@ export default async function LocatieDetailPage({ params }: { params: { slug: st
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div>
             <div className="bg-white rounded-2xl border border-zinc-200 p-6 sticky top-24">
-              <h3 className="font-bold mb-3">Direct inschrijven</h3>
-              <p className="text-sm text-zinc-500 mb-4">
-                Kies een cursus en schrijf je direct in voor onze locatie in {loc.naam}.
-              </p>
               <Link
                 href="/cursussen"
                 className="block w-full text-center bg-primary-500 text-white px-5 py-3 rounded-xl font-bold hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/25 transition-all active:scale-[0.98] mb-3"
@@ -239,53 +235,48 @@ export default async function LocatieDetailPage({ params }: { params: { slug: st
                 <Building2 size={15} /> InCompany offerte
               </Link>
 
-              <div className="mt-6 pt-6 border-t border-zinc-100">
-                <h3 className="font-bold text-sm mb-3">Contactgegevens</h3>
-                <div className="space-y-2.5 text-sm">
-                  <div className="flex items-start gap-2.5">
-                    <MapPin size={14} className="text-primary-500 mt-0.5 shrink-0" />
-                    <span className="text-zinc-600">{loc.adres}, {loc.postcode} {loc.naam === 'Limburg' ? 'Eindhoven' : loc.naam}</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <Phone size={14} className="text-primary-500 shrink-0" />
-                    <a href={`tel:${loc.telefoon}`} className="text-zinc-600 hover:text-primary-500">{loc.telefoon}</a>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <Mail size={14} className="text-primary-500 shrink-0" />
-                    <a href={`mailto:${loc.email}`} className="text-zinc-600 hover:text-primary-500">{loc.email}</a>
-                  </div>
+              <div className="mt-5 pt-5 border-t border-zinc-100 space-y-2 text-sm">
+                <div className="flex items-start gap-2.5">
+                  <MapPin size={14} className="text-primary-500 mt-0.5 shrink-0" />
+                  <span className="text-zinc-600">{loc.adres}, {loc.postcode} {loc.naam === 'Limburg' ? 'Eindhoven' : loc.naam}</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <Phone size={14} className="text-primary-500 shrink-0" />
+                  <a href={`tel:${loc.telefoon}`} className="text-zinc-600 hover:text-primary-500">{loc.telefoon}</a>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <Mail size={14} className="text-primary-500 shrink-0" />
+                  <a href={`mailto:${loc.email}`} className="text-zinc-600 hover:text-primary-500">{loc.email}</a>
                 </div>
               </div>
 
-              <div className="mt-6 pt-6 border-t border-zinc-100">
-                <div className="flex items-center gap-2 mb-2">
+              <div className="mt-5 pt-5 border-t border-zinc-100">
+                <div className="flex items-center gap-2 mb-3">
                   <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} size={13} className="text-accent-500 fill-accent-500" />)}</div>
                   <span className="text-sm font-bold">4.8</span>
+                  <span className="text-xs text-zinc-400">90+ reviews</span>
                 </div>
-                <p className="text-xs text-zinc-400">Gebaseerd op 90+ Google reviews</p>
               </div>
-            </div>
 
-            {/* Andere locaties */}
-            <div className="bg-white rounded-2xl border border-zinc-200 p-6">
-              <h3 className="font-bold mb-3">Andere locaties</h3>
-              <div className="space-y-1.5">
-                {otherLocaties.map((l) => (
+              <div className="mt-5 pt-5 border-t border-zinc-100">
+                <h3 className="font-bold text-sm mb-2">Andere locaties</h3>
+                <div className="flex flex-wrap gap-1.5">
+                  {otherLocaties.map((l) => (
+                    <Link
+                      key={l.slug}
+                      href={`/locaties/${l.slug}`}
+                      className="text-xs font-medium bg-zinc-100 text-zinc-600 px-2.5 py-1 rounded-full hover:bg-primary-50 hover:text-primary-600 transition-all"
+                    >
+                      {l.naam}
+                    </Link>
+                  ))}
                   <Link
-                    key={l.slug}
-                    href={`/locaties/${l.slug}`}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-zinc-600 hover:bg-primary-50 hover:text-primary-600 transition-all"
+                    href="/locaties"
+                    className="text-xs font-semibold bg-primary-50 text-primary-600 px-2.5 py-1 rounded-full hover:bg-primary-100 transition-all"
                   >
-                    <MapPin size={12} className="shrink-0" />
-                    {l.naam}
+                    Alle locaties →
                   </Link>
-                ))}
-                <Link
-                  href="/locaties"
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-primary-500 hover:bg-primary-50 transition-all"
-                >
-                  Alle 17 locaties <ArrowRight size={12} />
-                </Link>
+                </div>
               </div>
             </div>
           </div>
