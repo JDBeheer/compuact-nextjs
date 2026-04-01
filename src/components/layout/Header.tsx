@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, X, ChevronDown, ChevronRight, Phone, Mail, Search, FileSpreadsheet, FileText, Monitor, Presentation, BarChart3, FolderKanban, Bot, PenTool, Building2, ArrowRight, Star, Clock, Shield, Users } from 'lucide-react'
+import { Menu, X, ChevronDown, ChevronRight, Phone, Mail, Search, FileSpreadsheet, FileText, Monitor, Presentation, BarChart3, FolderKanban, Bot, PenTool, Building2, ArrowRight, Star, Shield, Users } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import OpeningsTijden from '@/components/OpeningsTijden'
 
