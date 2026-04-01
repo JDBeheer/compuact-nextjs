@@ -205,7 +205,7 @@ export default function Header() {
                 <span className="bg-primary-800/60 p-1 rounded group-hover:bg-primary-700/60 transition-colors">
                   <Phone size={11} />
                 </span>
-                <span className="hidden sm:inline font-medium">085 105 8919</span>
+                <span className="hidden sm:inline font-medium">023-551 3409</span>
               </a>
               <a href="mailto:info@computertraining.nl" className="hidden md:flex items-center gap-1.5 hover:text-white transition-colors text-primary-200 group">
                 <span className="bg-primary-800/60 p-1 rounded group-hover:bg-primary-700/60 transition-colors">
@@ -400,7 +400,7 @@ export default function Header() {
                 className="flex items-center gap-2 border-2 border-zinc-200 text-zinc-700 px-4 py-2 rounded-lg text-sm font-semibold hover:border-primary-300 hover:text-primary-600 hover:bg-primary-50/50 transition-all duration-200"
               >
                 <Phone size={14} />
-                <span className="hidden xl:inline">085 105 8919</span>
+                <span className="hidden xl:inline">023-551 3409</span>
               </a>
               <Link
                 href="/cursussen"
@@ -524,7 +524,7 @@ export default function Header() {
                 className="flex items-center justify-center gap-2 w-full border-2 border-zinc-200 text-zinc-700 px-5 py-2.5 rounded-xl text-sm font-semibold hover:border-primary-300 hover:text-primary-600 transition-all"
               >
                 <Phone size={15} />
-                Bel ons: 085 105 8919
+                Bel ons: 023-551 3409
               </a>
             </div>
 
