@@ -23,7 +23,6 @@ const MAANDEN = [
 
 interface OpenInschrijvingProps {
   cursusTitel: string
-  prijsVanaf: number
 }
 
 export default function OpenInschrijving({ cursusTitel }: OpenInschrijvingProps) {
