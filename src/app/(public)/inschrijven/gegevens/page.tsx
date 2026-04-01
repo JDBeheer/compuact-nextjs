@@ -7,7 +7,6 @@ import { formatPrice, lesmethodeLabel, formatDateShort, ADMIN_FEE } from '@/lib/
 import { Deelnemer } from '@/types'
 import Input from '@/components/ui/Input'
 import Textarea from '@/components/ui/Textarea'
-import Select from '@/components/ui/Select'
 import Button from '@/components/ui/Button'
 import DeelnemersPicker from '@/components/checkout/DeelnemersPicker'
 import { CheckCircle, Loader2, FileText, CreditCard, Building2, User, ChevronDown } from 'lucide-react'
