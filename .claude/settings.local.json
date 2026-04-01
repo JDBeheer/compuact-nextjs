@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.computertraining.nl)",
+      "Bash(gh repo:*)",
+      "Bash(npx create-next-app@14 . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm)",
+      "Bash(npm -v)",
+      "Bash(rm -rf compuact-nextjs)",
+      "Bash(cp -r compuact-nextjs/.git .)",
+      "Bash(cp -r /tmp/compuact-init/* /tmp/compuact-init/.* /Users/eriklindeman/GitHub/compuact-nextjs/)",
+      "Bash(rm -rf /tmp/compuact-init)"
+    ]
+  }
+}
