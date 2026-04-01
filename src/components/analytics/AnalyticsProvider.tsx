@@ -2,10 +2,10 @@
 
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
+import { trackPhoneClick } from '@/lib/analytics'
 
 /**
- * Tracks page views on route changes for SPA navigation.
- * The initial page view is handled by gtag config's send_page_view.
+ * Tracks page views on route changes and phone click events.
  */
 export default function AnalyticsPageTracker() {
   const pathname = usePathname()
@@ -20,6 +20,16 @@ export default function AnalyticsPageTracker() {
       })
     }
   }, [pathname, searchParams])
+
+  // Track phone link clicks globally
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      const link = (e.target as HTMLElement).closest('a[href^="tel:"]')
+      if (link) trackPhoneClick()
+    }
+    document.addEventListener('click', handler)
+    return () => document.removeEventListener('click', handler)
+  }, [])
 
   return null
 }
