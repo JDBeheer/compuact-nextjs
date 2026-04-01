@@ -232,31 +232,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Google Reviews */}
       <section className="bg-zinc-50">
         <div className="container-wide py-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-extrabold mb-3">Wat onze deelnemers zeggen</h2>
-            <p className="text-zinc-500">Beoordeeld met gemiddeld 4.8 uit 5 sterren</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <div key={t.naam} className="bg-white rounded-2xl border border-zinc-200 p-7 flex flex-col">
-                <div className="flex gap-0.5 mb-4">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} size={16} className="text-accent-500 fill-accent-500" />
-                  ))}
-                </div>
-                <blockquote className="text-zinc-700 text-sm leading-relaxed mb-6 flex-1">
-                  &ldquo;{t.tekst}&rdquo;
-                </blockquote>
-                <div className="border-t border-zinc-100 pt-4">
-                  <p className="font-semibold text-sm text-zinc-900">{t.naam}</p>
-                  <p className="text-xs text-zinc-500">{t.bedrijf}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <GoogleReviewsSection
+            reviews={reviewData.reviews}
+            rating={reviewData.rating}
+            totalReviews={reviewData.user_ratings_total}
+          />
         </div>
       </section>
 
