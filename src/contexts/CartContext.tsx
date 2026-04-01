@@ -56,12 +56,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addToCart = useCallback((item: CartItem) => {
     setItems(prev => {
       if (prev.some(i => i.sessieId === item.sessieId)) return prev
+      trackAddToCart({
+        id: item.sessieId,
+        titel: item.cursusTitel,
+        prijs: item.prijs,
+        lesmethode: item.lesmethode,
+        locatie: item.locatie,
+        aantal: item.aantalDeelnemers || 1,
+      })
       return [...prev, { ...item, aantalDeelnemers: item.aantalDeelnemers || 1 }]
     })
   }, [])
 
   const removeFromCart = useCallback((sessieId: string) => {
-    setItems(prev => prev.filter(i => i.sessieId !== sessieId))
+    setItems(prev => {
+      const item = prev.find(i => i.sessieId === sessieId)
+      if (item) {
+        trackRemoveFromCart({ id: item.sessieId, titel: item.cursusTitel, prijs: item.prijs })
+      }
+      return prev.filter(i => i.sessieId !== sessieId)
+    })
   }, [])
 
   const updateDeelnemers = useCallback((sessieId: string, aantal: number) => {
