@@ -16,7 +16,6 @@ const navItems = [
   { href: '/admin/sessies', label: 'Sessies', icon: Calendar },
   { href: '/admin/categorieen', label: 'Categorieën', icon: Tag },
   { href: '/admin/locaties', label: 'Locaties', icon: MapPin },
-  { href: '/admin/testimonials', label: 'Testimonials', icon: Star },
   { href: '/admin/inzendingen', label: 'Inzendingen', icon: Inbox },
   { href: '/admin/instellingen', label: 'Instellingen', icon: Settings },
 ]
