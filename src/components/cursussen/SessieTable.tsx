@@ -180,16 +180,41 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
                       </div>
 
                       {/* Datum + tijd */}
-                      <div className="flex items-center gap-3 text-sm text-zinc-500">
-                        <span className="flex items-center gap-1">
-                          <Calendar size={13} />
-                          {formatLesdagen(sessie)}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock size={13} />
-                          {sessie.tijden}
-                        </span>
-                      </div>
+                      {(() => {
+                        const dagen = getLesdagen(sessie)
+                        const isMultiDay = dagen.length > 1
+                        return (
+                          <div className="text-sm text-zinc-500">
+                            <div className="flex items-center gap-3">
+                              <span className="flex items-center gap-1">
+                                <Calendar size={13} />
+                                {isMultiDay ? (
+                                  <span>
+                                    <span className="font-medium text-zinc-700">{dagen.length} dagen</span>
+                                    {' · start '}
+                                    {formatDateShort(dagen[0])}
+                                  </span>
+                                ) : (
+                                  formatDateShort(dagen[0])
+                                )}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Clock size={13} />
+                                {sessie.tijden}
+                              </span>
+                            </div>
+                            {isMultiDay && (
+                              <div className="flex flex-wrap gap-1.5 mt-1.5 ml-[17px]">
+                                {dagen.map((d: string, i: number) => (
+                                  <span key={i} className="inline-flex items-center bg-zinc-100 text-zinc-600 text-xs px-2 py-0.5 rounded-md font-medium">
+                                    {formatDateShort(d)}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })()}
                     </div>
 
                     {/* Prijs + actie */}
