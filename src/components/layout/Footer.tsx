@@ -5,17 +5,18 @@ import { Phone, Mail, MapPin } from 'lucide-react'
 const cursusLinks = [
   { naam: 'Excel cursussen', href: '/cursussen/categorie/excel' },
   { naam: 'Word cursussen', href: '/cursussen/categorie/word' },
-  { naam: 'Office 365', href: '/cursussen/categorie/office-365' },
-  { naam: 'Outlook', href: '/cursussen/categorie/outlook' },
-  { naam: 'Power BI', href: '/cursussen/categorie/power-bi' },
-  { naam: 'PowerPoint', href: '/cursussen/categorie/powerpoint' },
+  { naam: 'Outlook cursussen', href: '/cursussen/categorie/outlook' },
+  { naam: 'PowerPoint cursussen', href: '/cursussen/categorie/powerpoint' },
+  { naam: 'Power BI cursussen', href: '/cursussen/categorie/power-bi' },
+  { naam: 'AI cursussen', href: '/cursussen/categorie/ai' },
+  { naam: 'Office 365 cursussen', href: '/cursussen/categorie/office-365' },
+  { naam: 'Alle cursussen', href: '/cursussen' },
 ]
 
 const lesmethodes = [
-  { naam: 'Klassikaal', href: '/cursussen?lesmethode=klassikaal' },
-  { naam: 'Live Online', href: '/cursussen?lesmethode=online' },
-  { naam: 'InCompany', href: '/cursussen?lesmethode=incompany' },
-  { naam: 'Thuisstudie', href: '/cursussen?lesmethode=thuisstudie' },
+  { naam: 'Klassikaal', href: '/cursussen' },
+  { naam: 'Live Online', href: '/cursussen' },
+  { naam: 'InCompany', href: '/incompany' },
 ]
 
 const bedrijfLinks = [
@@ -71,7 +72,7 @@ export default function Footer() {
 
           {/* Lesmethodes */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Lesmethodes</h3>
+            <h3 className="text-white font-semibold mb-4">Trainingsvormen</h3>
             <ul className="space-y-2">
               {lesmethodes.map((link) => (
                 <li key={link.href}>
