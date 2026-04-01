@@ -215,7 +215,8 @@ export default function Header() {
     <>
       <header className={cn(
         'sticky top-0 z-50 bg-white transition-all duration-300',
-        scrolled ? 'shadow-lg shadow-zinc-900/8 border-b border-zinc-100' : 'border-b border-zinc-200'
+        scrolled ? 'shadow-lg shadow-zinc-900/8 border-b border-zinc-100' : 'border-b border-zinc-200',
+        !headerVisible && !mobileOpen && !megaOpen && 'lg:translate-y-0 -translate-y-full'
       )}>
         {/* Top bar */}
         <div className="bg-gradient-to-r from-primary-900 via-primary-900 to-primary-950 text-white">
