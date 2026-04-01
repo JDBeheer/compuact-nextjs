@@ -14,7 +14,9 @@
       "Bash(curl:*)",
       "Bash(echo \"Exit: $?\")",
       "Bash(python3 -m json.tool)",
-      "WebFetch(domain:www.computertraining.nl)"
+      "WebFetch(domain:www.computertraining.nl)",
+      "Bash(npx tsx:*)",
+      "Bash(npm install:*)"
     ],
     "defaultMode": "bypassPermissions"
   },
