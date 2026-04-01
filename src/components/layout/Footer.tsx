@@ -62,7 +62,7 @@ export default function Footer() {
             </div>
             <div className="flex flex-wrap gap-3">
               <a
-                href="tel:0851058919"
+                href="tel:0235513409"
                 className="inline-flex items-center gap-2.5 bg-white text-primary-700 px-7 py-3.5 rounded-xl font-bold hover:bg-zinc-50 hover:shadow-lg hover:shadow-black/10 transition-all duration-200 active:scale-[0.98]"
               >
                 <Phone size={16} />
@@ -101,7 +101,7 @@ export default function Footer() {
 
               {/* Contact info */}
               <div className="space-y-3 mb-8">
-                <a href="tel:0851058919" className="flex items-center gap-3 text-sm hover:text-white transition-all duration-200 group">
+                <a href="tel:0235513409" className="flex items-center gap-3 text-sm hover:text-white transition-all duration-200 group">
                   <span className="bg-zinc-800 p-2.5 rounded-lg group-hover:bg-primary-500/20 transition-colors">
                     <Phone size={14} className="text-primary-400" />
                   </span>
