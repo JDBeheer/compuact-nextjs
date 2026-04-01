@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Badge from '@/components/ui/Badge'
 import { Inschrijving, CartItem } from '@/types'
