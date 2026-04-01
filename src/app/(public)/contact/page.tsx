@@ -103,13 +103,9 @@ export default function ContactPage() {
             <div className="bg-white rounded-xl border border-zinc-200 p-6">
               <h2 className="text-lg font-semibold mb-4">Contactgegevens</h2>
               <div className="space-y-4">
-                <a href="tel:0851058919" className="flex items-center gap-3 text-zinc-700 hover:text-primary-600">
-                  <Phone size={18} className="text-primary-600" />
-                  085 105 8919
-                </a>
                 <a href="tel:0235513409" className="flex items-center gap-3 text-zinc-700 hover:text-primary-600">
                   <Phone size={18} className="text-primary-600" />
-                  023 - 551 3409
+                  023-551 3409
                 </a>
                 <a href="mailto:info@computertraining.nl" className="flex items-center gap-3 text-zinc-700 hover:text-primary-600">
                   <Mail size={18} className="text-primary-600" />
