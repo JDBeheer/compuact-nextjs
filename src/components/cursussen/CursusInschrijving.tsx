@@ -226,6 +226,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
       </div>
 
       {/* Stap 2: Content per methode */}
+      <div ref={stap2Ref} />
       {methode === 'thuisstudie' && (
         <div className="mb-6">
           <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-3">2. Toevoegen aan je aanvraag</h3>
