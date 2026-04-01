@@ -34,9 +34,10 @@ const MAANDEN = [
 
 interface OpenInschrijvingProps {
   cursusTitel: string
+  prijzen?: Prijzen
 }
 
-export default function OpenInschrijving({ cursusTitel }: OpenInschrijvingProps) {
+export default function OpenInschrijving({ cursusTitel, prijzen }: OpenInschrijvingProps) {
   const { addToCart, items } = useCart()
   const [methode, setMethode] = useState('')
   const [locatie, setLocatie] = useState('')
@@ -44,6 +45,7 @@ export default function OpenInschrijving({ cursusTitel }: OpenInschrijvingProps)
   const [showLocaties, setShowLocaties] = useState(false)
   const [showMaanden, setShowMaanden] = useState(false)
 
+  const METHODES = buildMethodes(prijzen)
   const selectedMethode = METHODES.find(m => m.id === methode)
 
   const makeCartId = () => `open-${cursusTitel}-${methode}-${locatie || 'online'}-${maand}`.toLowerCase().replace(/\s+/g, '-')
