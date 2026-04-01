@@ -73,8 +73,56 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
 
   const isOnline = (sessie: CursusSessie) => sessie.lesmethode === 'online'
 
+  const thuisInCart = thuisstudieSessie ? isInCart(thuisstudieSessie.id) : false
+
   return (
     <div className="p-5 lg:p-6">
+      {/* Thuisstudie card */}
+      {thuisstudieSessie && (
+        <div className={`relative rounded-2xl mb-6 overflow-hidden ${thuisInCart ? 'ring-2 ring-primary-400' : ''}`}>
+          <div className="bg-gradient-to-r from-violet-600 via-violet-700 to-purple-800 p-5 lg:p-6 text-white relative">
+            <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+            <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+              <div className="flex-1">
+                <div className="flex items-center gap-2.5 mb-2">
+                  <div className="bg-white/15 p-2 rounded-lg">
+                    <BookOpen size={18} />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg">Thuisstudie</h3>
+                    <p className="text-violet-200 text-sm">Leer in je eigen tempo, wanneer het jou uitkomt</p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-x-4 gap-y-1.5 mt-3 text-sm text-violet-200">
+                  <span className="flex items-center gap-1.5"><CheckCircle size={13} /> Start op een zelfgekozen moment</span>
+                  <span className="flex items-center gap-1.5"><CheckCircle size={13} /> Lesmateriaal inbegrepen</span>
+                  <span className="flex items-center gap-1.5"><CheckCircle size={13} /> Persoonlijke begeleiding</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 shrink-0">
+                <div className="text-right">
+                  <div className="text-2xl font-extrabold">{formatPrice(thuisstudieSessie.prijs)}</div>
+                  <div className="text-xs text-violet-300">excl. BTW</div>
+                </div>
+                {thuisInCart ? (
+                  <div className="w-12 h-12 rounded-xl bg-white text-violet-600 flex items-center justify-center shadow-lg">
+                    <Check size={22} strokeWidth={3} />
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => handleAdd(thuisstudieSessie)}
+                    className="flex items-center gap-2 bg-white text-violet-700 px-5 py-3 rounded-xl font-bold hover:bg-violet-50 hover:shadow-lg transition-all active:scale-[0.98]"
+                  >
+                    Toevoegen
+                    <ArrowRight size={16} />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Filter bar */}
       <div className="flex flex-wrap gap-2 mb-6">
         {/* Methode toggle */}
