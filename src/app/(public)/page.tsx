@@ -20,7 +20,7 @@ const categorieen = [
 const stats = [
   { value: '21+', label: 'Jaar ervaring', icon: Award },
   { value: '15.000+', label: 'Deelnemers', icon: Users },
-  { value: '18', label: 'Locaties', icon: MapPin },
+  { value: '17', label: 'Locaties', icon: MapPin, href: '/locaties' },
   { value: '26', label: 'Cursussen', icon: Monitor },
 ]
 
