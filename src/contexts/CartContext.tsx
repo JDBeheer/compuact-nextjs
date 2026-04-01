@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react'
 import { CartItem } from '@/types'
+import { trackAddToCart, trackRemoveFromCart } from '@/lib/analytics'
 
 interface CartContextType {
   items: CartItem[]
