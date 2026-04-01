@@ -231,9 +231,8 @@ export default function Header() {
                 </div>
               </div>
               <span className="hidden xl:inline text-primary-600">|</span>
-              <span className="hidden xl:inline text-primary-300 text-xs flex items-center gap-1.5">
-                <Clock size={10} />
-                Ma-vr 09:00 - 17:00
+              <span className="hidden xl:inline">
+                <OpeningsTijden />
               </span>
             </div>
           </div>
