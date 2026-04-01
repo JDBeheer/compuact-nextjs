@@ -278,7 +278,23 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
 
           {/* Filters */}
           <div className="flex flex-wrap gap-2 mb-4">
-            {methode === 'klassikaal' && locaties.length > 1 && (
+            {methode === 'klassikaal' && (
+              <div className="relative">
+                <Navigation size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-400" />
+                <input
+                  type="text"
+                  value={postcode}
+                  onChange={(e) => handlePostcodeChange(e.target.value)}
+                  placeholder="Postcode"
+                  maxLength={7}
+                  className={cn(
+                    'text-sm border rounded-lg pl-8 pr-3 py-1.5 w-28 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500',
+                    postcodeCoords ? 'border-primary-300 bg-primary-50/50' : 'border-zinc-200'
+                  )}
+                />
+              </div>
+            )}
+            {methode === 'klassikaal' && locaties.length > 1 && !postcodeCoords && (
               <select
                 value={filterLocatie}
                 onChange={(e) => setFilterLocatie(e.target.value)}
