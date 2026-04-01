@@ -568,7 +568,11 @@ async function CursusDetailPage({ slug }: { slug: string }) {
               {cursus.beschrijving && (
                 <div className="mb-8">
                   <h2 className="text-xl font-bold mb-3">Cursusinformatie</h2>
-                  <p className="text-zinc-600 leading-relaxed">{cursus.beschrijving}</p>
+                  <div className="text-zinc-600 leading-relaxed space-y-4">
+                    {cursus.beschrijving.split(/\n\n+/).map((p, i) => (
+                      <p key={i}>{p}</p>
+                    ))}
+                  </div>
                 </div>
               )}
               <CursusDetailTabs cursus={cursus} />
