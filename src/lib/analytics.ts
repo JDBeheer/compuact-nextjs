@@ -216,11 +216,11 @@ export function setUserData(data: {
 // GoogleAnalytics component from site_settings or env vars.
 function getConversionId(): string | null {
   if (typeof window === 'undefined') return null
-  return (window as Record<string, unknown>).__GA_CONVERSION_ID__ as string || null
+  return (window as unknown as Record<string, unknown>).__GA_CONVERSION_ID__ as string || null
 }
 
 function getConversionLabel(type: string): string | null {
   if (typeof window === 'undefined') return null
-  const labels = (window as Record<string, unknown>).__GA_CONVERSION_LABELS__ as Record<string, string> | undefined
+  const labels = (window as unknown as Record<string, unknown>).__GA_CONVERSION_LABELS__ as Record<string, string> | undefined
   return labels?.[type] || null
 }
