@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart, MapPin, Calendar, Clock, Check, Users, Laptop, ChevronDown } from 'lucide-react'
+import { ShoppingCart, MapPin, Calendar, Clock, Check, Users, Laptop, ChevronDown, BookOpen, CheckCircle, ArrowRight } from 'lucide-react'
 import { CursusSessie } from '@/types'
 import { useCart } from '@/contexts/CartContext'
 import { formatPrice, formatDateShort, lesmethodeLabel } from '@/lib/utils'
