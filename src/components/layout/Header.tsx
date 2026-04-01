@@ -376,6 +376,9 @@ export default function Header() {
                 </div>
               </div>
 
+              <Link href="/locaties" className="px-3.5 py-2 text-sm font-semibold text-zinc-700 hover:text-primary-600 rounded-lg hover:bg-zinc-50 transition-all duration-200">
+                Locaties
+              </Link>
               <Link href="/incompany" className="px-3.5 py-2 text-sm font-semibold text-zinc-700 hover:text-primary-600 rounded-lg hover:bg-zinc-50 transition-all duration-200">
                 InCompany
               </Link>
