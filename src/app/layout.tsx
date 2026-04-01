@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import { CartProvider } from '@/contexts/CartContext'
 
-const inter = Inter({ subsets: ['latin'] })
+const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
@@ -34,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="nl">
-      <body className={inter.className}>
+      <body className={plusJakartaSans.className}>
         <CartProvider>
           {children}
         </CartProvider>

@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export const metadata = {
   title: 'Stylesheet',
   robots: 'noindex, nofollow',
@@ -5,30 +7,31 @@ export const metadata = {
 
 export default function StylesheetPage() {
   const primaryColors = [
-    { name: 'primary-50', class: 'bg-primary-50', hex: '#f0fdf4' },
-    { name: 'primary-100', class: 'bg-primary-100', hex: '#dcfce7' },
-    { name: 'primary-200', class: 'bg-primary-200', hex: '#bbf7d0' },
-    { name: 'primary-300', class: 'bg-primary-300', hex: '#86efac' },
-    { name: 'primary-400', class: 'bg-primary-400', hex: '#4ade80' },
-    { name: 'primary-500', class: 'bg-primary-500', hex: '#22c55e' },
-    { name: 'primary-600', class: 'bg-primary-600', hex: '#16a34a' },
-    { name: 'primary-700', class: 'bg-primary-700', hex: '#15803d' },
-    { name: 'primary-800', class: 'bg-primary-800', hex: '#166534' },
-    { name: 'primary-900', class: 'bg-primary-900', hex: '#14532d' },
-    { name: 'primary-950', class: 'bg-primary-950', hex: '#052e16' },
+    { name: 'primary-50', class: 'bg-primary-50', hex: '#f0f7ff' },
+    { name: 'primary-100', class: 'bg-primary-100', hex: '#dfedff' },
+    { name: 'primary-200', class: 'bg-primary-200', hex: '#b8dbff' },
+    { name: 'primary-300', class: 'bg-primary-300', hex: '#7abfff' },
+    { name: 'primary-400', class: 'bg-primary-400', hex: '#3a9ff5' },
+    { name: 'primary-500', class: 'bg-primary-500', hex: '#1B6AB3', brand: true },
+    { name: 'primary-600', class: 'bg-primary-600', hex: '#155d9e' },
+    { name: 'primary-700', class: 'bg-primary-700', hex: '#124d84' },
+    { name: 'primary-800', class: 'bg-primary-800', hex: '#11416d' },
+    { name: 'primary-900', class: 'bg-primary-900', hex: '#13385b' },
+    { name: 'primary-950', class: 'bg-primary-950', hex: '#0c243d' },
   ]
 
   const accentColors = [
-    { name: 'accent-50', class: 'bg-accent-50', hex: '#fff7ed' },
-    { name: 'accent-100', class: 'bg-accent-100', hex: '#ffedd5' },
-    { name: 'accent-200', class: 'bg-accent-200', hex: '#fed7aa' },
-    { name: 'accent-300', class: 'bg-accent-300', hex: '#fdba74' },
-    { name: 'accent-400', class: 'bg-accent-400', hex: '#fb923c' },
-    { name: 'accent-500', class: 'bg-accent-500', hex: '#f97316' },
-    { name: 'accent-600', class: 'bg-accent-600', hex: '#ea580c' },
-    { name: 'accent-700', class: 'bg-accent-700', hex: '#c2410c' },
-    { name: 'accent-800', class: 'bg-accent-800', hex: '#9a3412' },
-    { name: 'accent-900', class: 'bg-accent-900', hex: '#7c2d12' },
+    { name: 'accent-50', class: 'bg-accent-50', hex: '#fff8eb' },
+    { name: 'accent-100', class: 'bg-accent-100', hex: '#feecc7' },
+    { name: 'accent-200', class: 'bg-accent-200', hex: '#fdd78a' },
+    { name: 'accent-300', class: 'bg-accent-300', hex: '#fcbe4d' },
+    { name: 'accent-400', class: 'bg-accent-400', hex: '#fbab24' },
+    { name: 'accent-500', class: 'bg-accent-500', hex: '#F49800', brand: true },
+    { name: 'accent-600', class: 'bg-accent-600', hex: '#d87400' },
+    { name: 'accent-700', class: 'bg-accent-700', hex: '#b35204' },
+    { name: 'accent-800', class: 'bg-accent-800', hex: '#913f0a' },
+    { name: 'accent-900', class: 'bg-accent-900', hex: '#78350b' },
+    { name: 'accent-950', class: 'bg-accent-950', hex: '#451a03' },
   ]
 
   const grayColors = [
@@ -50,28 +53,53 @@ export default function StylesheetPage() {
         <h1 className="text-4xl font-bold mb-2">Compu Act Stylesheet</h1>
         <p className="text-zinc-500 mb-12">Overzicht van alle kleuren, typografie, knoppen en componenten.</p>
 
+        {/* Logo */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold mb-6 border-b pb-3">Logo</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="border border-zinc-200 rounded-xl p-8 flex items-center justify-center bg-white">
+              <Image src="/images/logo.svg" alt="Compu Act logo" width={250} height={79} />
+            </div>
+            <div className="border border-zinc-200 rounded-xl p-8 flex items-center justify-center bg-primary-900">
+              <Image src="/images/logo.svg" alt="Compu Act logo op donker" width={250} height={79} className="brightness-0 invert" />
+            </div>
+          </div>
+          <div className="mt-4 flex gap-6 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 rounded" style={{ backgroundColor: '#1B6AB3' }} />
+              <span className="text-zinc-600">Blauw #1B6AB3</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 rounded" style={{ backgroundColor: '#F49800' }} />
+              <span className="text-zinc-600">Oranje #F49800</span>
+            </div>
+          </div>
+        </section>
+
         {/* Colors */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold mb-6 border-b pb-3">Kleuren</h2>
 
-          <h3 className="text-lg font-semibold mb-3">Primary (groen)</h3>
+          <h3 className="text-lg font-semibold mb-3">Primary (blauw)</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-11 gap-2 mb-8">
             {primaryColors.map((color) => (
               <div key={color.name} className="text-center">
-                <div className={`${color.class} h-16 rounded-lg border border-zinc-200`} />
+                <div className={`${color.class} h-16 rounded-lg border border-zinc-200 ${color.brand ? 'ring-2 ring-offset-2 ring-primary-500' : ''}`} />
                 <p className="text-xs font-medium mt-1">{color.name}</p>
                 <p className="text-xs text-zinc-400">{color.hex}</p>
+                {color.brand && <p className="text-[10px] font-semibold text-primary-500 mt-0.5">BRAND</p>}
               </div>
             ))}
           </div>
 
           <h3 className="text-lg font-semibold mb-3">Accent (oranje)</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-2 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-11 gap-2 mb-8">
             {accentColors.map((color) => (
               <div key={color.name} className="text-center">
-                <div className={`${color.class} h-16 rounded-lg border border-zinc-200`} />
+                <div className={`${color.class} h-16 rounded-lg border border-zinc-200 ${color.brand ? 'ring-2 ring-offset-2 ring-accent-500' : ''}`} />
                 <p className="text-xs font-medium mt-1">{color.name}</p>
                 <p className="text-xs text-zinc-400">{color.hex}</p>
+                {color.brand && <p className="text-[10px] font-semibold text-accent-500 mt-0.5">BRAND</p>}
               </div>
             ))}
           </div>
@@ -91,7 +119,7 @@ export default function StylesheetPage() {
         {/* Typography */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold mb-6 border-b pb-3">Typografie</h2>
-          <p className="text-sm text-zinc-500 mb-6">Font: Inter (Google Fonts)</p>
+          <p className="text-sm text-zinc-500 mb-6">Font: Plus Jakarta Sans (Google Fonts)</p>
 
           <div className="space-y-6">
             <div>
@@ -116,7 +144,7 @@ export default function StylesheetPage() {
             </div>
             <div>
               <p className="text-xs text-zinc-400 mb-1">body — text-base / 16px / font-normal</p>
-              <p className="text-base">Al meer dan 21 jaar dé specialist in Microsoft Office trainingen. Klassikaal, live online of incompany door heel Nederland.</p>
+              <p className="text-base">Al meer dan 21 jaar de specialist in Microsoft Office trainingen. Klassikaal, live online of incompany door heel Nederland.</p>
             </div>
             <div>
               <p className="text-xs text-zinc-400 mb-1">small — text-sm / 14px / font-normal</p>
@@ -135,16 +163,16 @@ export default function StylesheetPage() {
 
           <h3 className="text-lg font-semibold mb-4">Primary</h3>
           <div className="flex flex-wrap gap-4 mb-8">
-            <button className="bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
+            <button className="bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-600 transition-colors">
               Inschrijven
             </button>
-            <button className="bg-primary-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-primary-700 transition-colors text-sm">
+            <button className="bg-primary-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-primary-600 transition-colors text-sm">
               Bekijk cursus
             </button>
-            <button className="bg-primary-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-700 transition-colors text-xs">
+            <button className="bg-primary-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-600 transition-colors text-xs">
               Klein
             </button>
-            <button className="bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold opacity-50 cursor-not-allowed">
+            <button className="bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold opacity-50 cursor-not-allowed">
               Disabled
             </button>
           </div>
@@ -161,7 +189,7 @@ export default function StylesheetPage() {
 
           <h3 className="text-lg font-semibold mb-4">Outline</h3>
           <div className="flex flex-wrap gap-4 mb-8">
-            <button className="border-2 border-primary-600 text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors">
+            <button className="border-2 border-primary-500 text-primary-500 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors">
               Alle cursussen
             </button>
             <button className="border-2 border-zinc-300 text-zinc-700 px-6 py-3 rounded-lg font-semibold hover:bg-zinc-50 transition-colors">
@@ -171,7 +199,7 @@ export default function StylesheetPage() {
 
           <h3 className="text-lg font-semibold mb-4">Ghost / Text</h3>
           <div className="flex flex-wrap gap-4 mb-8">
-            <button className="text-primary-600 px-4 py-2 font-medium hover:bg-primary-50 rounded-lg transition-colors">
+            <button className="text-primary-500 px-4 py-2 font-medium hover:bg-primary-50 rounded-lg transition-colors">
               Meer info →
             </button>
             <button className="text-zinc-600 px-4 py-2 font-medium hover:bg-zinc-100 rounded-lg transition-colors">
@@ -189,8 +217,8 @@ export default function StylesheetPage() {
               <h3 className="text-lg font-semibold mb-2">Excel Basis</h3>
               <p className="text-sm text-zinc-600 mb-4">Leer de basis van Excel in deze praktische training.</p>
               <div className="flex items-center justify-between">
-                <span className="text-lg font-bold text-primary-600">€ 349,-</span>
-                <button className="bg-primary-600 text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-primary-700 transition-colors">Bekijk</button>
+                <span className="text-lg font-bold text-primary-500">€ 349,-</span>
+                <button className="bg-primary-500 text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-primary-600 transition-colors">Bekijk</button>
               </div>
             </div>
 
@@ -199,16 +227,16 @@ export default function StylesheetPage() {
               <h3 className="text-lg font-semibold mb-2">Power BI</h3>
               <p className="text-sm text-zinc-600 mb-4">Data visualisatie en rapportages met Power BI.</p>
               <div className="flex items-center justify-between">
-                <span className="text-lg font-bold text-primary-600">€ 449,-</span>
-                <button className="bg-primary-600 text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-primary-700 transition-colors">Bekijk</button>
+                <span className="text-lg font-bold text-primary-500">€ 449,-</span>
+                <button className="bg-primary-500 text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-primary-600 transition-colors">Bekijk</button>
               </div>
             </div>
 
-            <div className="border border-zinc-200 rounded-xl p-6 hover:shadow-lg transition-shadow bg-primary-600 text-white">
+            <div className="border border-zinc-200 rounded-xl p-6 hover:shadow-lg transition-shadow bg-primary-500 text-white">
               <div className="bg-white/20 text-white text-xs font-semibold px-2 py-1 rounded-full w-fit mb-3">Incompany</div>
               <h3 className="text-lg font-semibold mb-2">Op maat training</h3>
               <p className="text-sm text-white/80 mb-4">Training op locatie, afgestemd op uw team.</p>
-              <button className="bg-white text-primary-600 text-sm px-4 py-2 rounded-lg font-medium hover:bg-zinc-100 transition-colors">Offerte aanvragen</button>
+              <button className="bg-white text-primary-500 text-sm px-4 py-2 rounded-lg font-medium hover:bg-zinc-100 transition-colors">Offerte aanvragen</button>
             </div>
           </div>
         </section>
@@ -254,13 +282,13 @@ export default function StylesheetPage() {
                 className="w-full border border-zinc-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               />
             </div>
-            <button className="bg-primary-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-primary-700 transition-colors text-sm">
+            <button className="bg-primary-500 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-primary-600 transition-colors text-sm">
               Versturen
             </button>
           </div>
         </section>
 
-        {/* Spacing & Layout reference */}
+        {/* Layout */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold mb-6 border-b pb-3">Layout containers</h2>
           <div className="space-y-4">
