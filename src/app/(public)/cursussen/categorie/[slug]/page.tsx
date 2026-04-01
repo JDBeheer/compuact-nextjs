@@ -314,35 +314,13 @@ export default async function CategoriePage({ params }: { params: { slug: string
       {/* Google Reviews sectie */}
       <section className="bg-white">
         <div className="container-wide py-16">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-extrabold mb-2">Wat cursisten vinden van onze {categorie.naam} trainingen</h2>
-            <div className="flex items-center justify-center gap-2 mb-1">
-              <div className="flex gap-0.5">
-                {[...Array(5)].map((_, i) => <Star key={i} size={18} className="text-accent-500 fill-accent-500" />)}
-              </div>
-              <span className="font-bold text-lg">4.8</span>
-            </div>
-            <p className="text-zinc-500 text-sm">Gebaseerd op 84 Google recensies &middot; 1.564+ positieve beoordelingen</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {[
-              { naam: 'Stefan van Vliet', tekst: 'Om mijn Excel vaardigheden weer op niveau te brengen heb ik de cursus gevolgd bij Compu Act. Binnen een dag was ik weer helemaal bij. Zeer tevreden over de inhoud en begeleiding.', methode: 'Klassikaal', datum: 'januari 2026' },
-              { naam: 'Sandra de Vries', tekst: 'Uitstekende training. De docent nam ruim de tijd voor persoonlijke vragen en de stof was direct toepasbaar in mijn werk. Aanrader!', methode: 'Live Online', datum: 'december 2025' },
-              { naam: 'Mark Jansen', tekst: 'De incompany training was perfect afgestemd op onze organisatie. Onze medewerkers konden de vaardigheden direct toepassen. Zeer tevreden.', methode: 'InCompany', datum: 'november 2025' },
-            ].map((review) => (
-              <div key={review.naam} className="bg-zinc-50 rounded-xl p-6 flex flex-col">
-                <div className="flex gap-0.5 mb-3">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={14} className="text-accent-500 fill-accent-500" />)}
-                </div>
-                <p className="text-sm text-zinc-700 leading-relaxed flex-1">&ldquo;{review.tekst}&rdquo;</p>
-                <div className="mt-4 pt-3 border-t border-zinc-200">
-                  <p className="font-semibold text-sm">{review.naam}</p>
-                  <p className="text-xs text-zinc-400">{review.methode} &middot; {review.datum}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <GoogleReviewsSection
+            reviews={reviewData.reviews}
+            rating={reviewData.rating}
+            totalReviews={reviewData.user_ratings_total}
+            title={`Wat cursisten vinden van onze ${categorie.naam} trainingen`}
+            variant="gray"
+          />
         </div>
       </section>
 
