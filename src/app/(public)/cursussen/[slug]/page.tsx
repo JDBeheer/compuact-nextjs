@@ -289,6 +289,7 @@ export default async function CursusDetailPage({ params }: { params: { slug: str
           <div className="mt-12">
             <GoogleReviewsSection
               reviews={reviewData.reviews}
+              allReviews={reviewData.allReviews}
               rating={reviewData.rating}
               totalReviews={reviewData.user_ratings_total}
               title="Dit zeggen onze cursisten"
