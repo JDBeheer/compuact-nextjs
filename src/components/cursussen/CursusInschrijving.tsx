@@ -277,9 +277,9 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
           </h3>
 
           {/* Filters */}
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex items-center gap-2 mb-4 overflow-x-auto">
             {methode === 'klassikaal' && (
-              <div className="relative">
+              <div className="relative shrink-0">
                 <Navigation size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-400" />
                 <input
                   type="text"
@@ -288,7 +288,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
                   placeholder="Postcode"
                   maxLength={7}
                   className={cn(
-                    'text-sm border rounded-lg pl-8 pr-3 py-1.5 w-28 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500',
+                    'text-sm border rounded-lg pl-8 pr-2 py-1.5 w-24 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500',
                     postcodeCoords ? 'border-primary-300 bg-primary-50/50' : 'border-zinc-200'
                   )}
                 />
@@ -298,7 +298,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
               <select
                 value={filterLocatie}
                 onChange={(e) => setFilterLocatie(e.target.value)}
-                className="text-sm border border-zinc-200 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="text-sm border border-zinc-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 shrink-0"
               >
                 <option value="">Alle locaties</option>
                 {locaties.map(l => <option key={l} value={l}>{l}</option>)}
@@ -308,15 +308,15 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
               <select
                 value={filterMaand}
                 onChange={(e) => setFilterMaand(e.target.value)}
-                className="text-sm border border-zinc-200 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="text-sm border border-zinc-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 shrink-0"
               >
                 <option value="">Alle maanden</option>
                 {maanden.map(m => <option key={m} value={m}>{formatMaand(m)}</option>)}
               </select>
             )}
-            <div className="ml-auto text-sm text-zinc-400 self-center">
-              {gefilterdeSessies.length} {gefilterdeSessies.length === 1 ? 'sessie' : 'sessies'}
-            </div>
+            <span className="ml-auto text-xs text-zinc-400 shrink-0">
+              {gefilterdeSessies.length} sessies
+            </span>
           </div>
 
           {/* Sessie cards */}
