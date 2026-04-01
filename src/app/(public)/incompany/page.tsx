@@ -20,6 +20,7 @@ interface CursusOption {
 }
 
 export default function InCompanyPage() {
+  const searchParams = useSearchParams()
   const [cursussen, setCursussen] = useState<CursusOption[]>([])
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [selectedTitels, setSelectedTitels] = useState<string[]>([])
@@ -37,18 +38,29 @@ export default function InCompanyPage() {
         .order('titel')
 
       if (data) {
-        setCursussen(data.map((c: Record<string, unknown>) => ({
+        const mapped = data.map((c: Record<string, unknown>) => ({
           id: c.id as string,
           titel: c.titel as string,
           categorie: (c.categorie as Record<string, string>)?.naam || 'Overig',
           niveau: c.niveau as string,
           duur: c.duur as string,
           prijs_vanaf: c.prijs_vanaf as number,
-        })))
+        }))
+        setCursussen(mapped)
+
+        // Auto-select cursus from query param
+        const preselect = searchParams.get('cursus')
+        if (preselect) {
+          const match = mapped.find(c => c.titel.toLowerCase().replace(/\s+/g, '-') === preselect)
+          if (match) {
+            setSelectedIds([match.id])
+            setSelectedTitels([match.titel])
+          }
+        }
       }
     }
     fetchCursussen()
-  }, [])
+  }, [searchParams])
 
   if (success) {
     return (
