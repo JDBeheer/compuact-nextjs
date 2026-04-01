@@ -287,31 +287,12 @@ export default async function CursusDetailPage({ params }: { params: { slug: str
 
           {/* Reviews sectie */}
           <div className="mt-12">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-2xl font-extrabold">Dit zeggen onze cursisten</h2>
-                <div className="flex items-center gap-2 mt-1">
-                  <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} size={15} className="text-accent-500 fill-accent-500" />)}</div>
-                  <span className="text-sm text-zinc-500">4.8 gemiddeld &middot; 1.564+ positieve beoordelingen</span>
-                </div>
-              </div>
-            </div>
-            <div className="grid md:grid-cols-3 gap-5">
-              {[
-                { naam: 'Stefan van Vliet', tekst: 'Binnen een dag waren mijn vaardigheden weer op niveau. Zeer tevreden over de inhoud en begeleiding van de cursus.', methode: 'Klassikaal' },
-                { naam: 'Sandra de Vries', tekst: 'De docent nam ruim de tijd voor persoonlijke vragen en de stof was direct toepasbaar in mijn werk.', methode: 'Live Online' },
-                { naam: 'Mark Jansen', tekst: 'De training was perfect afgestemd op onze organisatie. Onze medewerkers konden alles direct toepassen.', methode: 'InCompany' },
-              ].map((review) => (
-                <div key={review.naam} className="bg-white rounded-xl border border-zinc-200 p-5">
-                  <div className="flex gap-0.5 mb-3">{[...Array(5)].map((_, i) => <Star key={i} size={13} className="text-accent-500 fill-accent-500" />)}</div>
-                  <p className="text-sm text-zinc-700 leading-relaxed mb-4">&ldquo;{review.tekst}&rdquo;</p>
-                  <div className="border-t border-zinc-100 pt-3">
-                    <p className="font-semibold text-sm">{review.naam}</p>
-                    <p className="text-xs text-zinc-400">{review.methode}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <GoogleReviewsSection
+              reviews={reviewData.reviews}
+              rating={reviewData.rating}
+              totalReviews={reviewData.user_ratings_total}
+              title="Dit zeggen onze cursisten"
+            />
           </div>
 
           {/* InCompany CTA */}
