@@ -13,7 +13,6 @@ interface DeelnemersPickerProps {
   onDeelnemersChange: (deelnemers: Deelnemer[]) => void
   onAantalChange: (aantal: number) => void
   showSync?: boolean
-  isFirst?: boolean
   onSyncToAll?: (deelnemers: Deelnemer[]) => void
 }
 
