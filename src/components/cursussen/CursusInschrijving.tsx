@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import { Users, Laptop, Building2, BookOpen, MapPin, Calendar, Clock, Check, Plus, ArrowRight, ChevronDown, CheckCircle, Navigation } from 'lucide-react'
 import { cn } from '@/lib/utils'
