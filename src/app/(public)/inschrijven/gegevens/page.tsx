@@ -104,6 +104,19 @@ function CheckoutPage() {
     setLoading(true)
     setError('')
 
+    // Validate deelnemers
+    for (const item of items) {
+      const deelnemers = deelnemersMap[item.sessieId] || []
+      for (let i = 0; i < (item.aantalDeelnemers || 1); i++) {
+        const d = deelnemers[i]
+        if (!d?.voornaam || !d?.achternaam || !d?.email) {
+          setError(`Vul de gegevens in van alle deelnemers bij "${item.cursusTitel}" (deelnemer ${i + 1}).`)
+          setLoading(false)
+          return
+        }
+      }
+    }
+
     const form = new FormData(e.currentTarget)
     const klantgegevens: Record<string, unknown> = {
       klantType,
