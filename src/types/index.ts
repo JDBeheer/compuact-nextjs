@@ -38,6 +38,13 @@ export interface CursusInhoud {
   lesmateriaal: string
   certificaat: string
   incompany_tekst?: string
+  prijzen?: {
+    klassikaal?: number
+    online?: number
+    thuisstudie?: number
+    incompany?: number
+  }
+  lesmethodes?: string[]
 }
 
 export interface CursusSessie {
