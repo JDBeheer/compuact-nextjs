@@ -540,9 +540,12 @@ async function CursusDetailPage({ slug }: { slug: string }) {
                   <div className="flex items-center justify-between"><span className="text-sm text-zinc-500 flex items-center gap-2"><Users size={15} /> Groepsgrootte</span><span className="font-semibold text-sm">Max 10</span></div>
                   <div className="flex items-center justify-between"><span className="text-sm text-zinc-500 flex items-center gap-2"><MapPin size={15} /> Locaties</span><span className="font-semibold text-sm">18 + online</span></div>
                   <div className="flex items-center justify-between"><span className="text-sm text-zinc-500 flex items-center gap-2"><BookOpen size={15} /> Materiaal</span><span className="font-semibold text-sm">Inbegrepen</span></div>
-                  {sessies.length > 0 && (
-                    <div className="flex items-center justify-between"><span className="text-sm text-zinc-500">Eerstvolgende</span><span className="font-semibold text-sm">{formatDateShort(sessies[0].datum)}</span></div>
-                  )}
+                  {(() => {
+                    const eerstvolgende = sessies.find(s => s.lesmethode !== 'thuisstudie')
+                    return eerstvolgende ? (
+                      <div className="flex items-center justify-between"><span className="text-sm text-zinc-500">Eerstvolgende</span><span className="font-semibold text-sm">{formatDateShort(eerstvolgende.datum)}</span></div>
+                    ) : null
+                  })()}
                 </div>
                 <div className="border-t border-zinc-200 mt-4 pt-4">
                   <div className="text-xs text-zinc-400 mb-1">Vanaf</div>
