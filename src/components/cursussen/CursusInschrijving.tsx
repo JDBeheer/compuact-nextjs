@@ -164,14 +164,16 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
                 <div className="font-bold text-sm">{m.label}</div>
                 <div className="text-xs text-zinc-500 mt-0.5 mb-3">{m.beschrijving}</div>
                 <div className="text-lg font-extrabold text-zinc-900">{formatPrice(m.prijs)}</div>
-                <div className="text-[11px] text-zinc-400">excl. BTW · per persoon</div>
+                <div className="text-[11px] text-zinc-400">excl. BTW en €15 administratiekosten</div>
               </button>
             )
           })}
         </div>
-        <p className="text-xs text-zinc-400 mt-2.5">
-          In de volgende stap kies je voor directe inschrijving of een vrijblijvende offerte. Je kunt meerdere cursisten per cursus opgeven.
-        </p>
+        <div className="mt-3 bg-zinc-50 rounded-lg px-4 py-3 border border-zinc-100">
+          <p className="text-sm text-zinc-500">
+            In de volgende stap kies je voor <span className="font-medium text-zinc-700">directe inschrijving</span> of een <span className="font-medium text-zinc-700">vrijblijvende offerte</span>. Je kunt meerdere cursisten per cursus opgeven.
+          </p>
+        </div>
       </div>
 
       {/* Stap 2: Content per methode */}
