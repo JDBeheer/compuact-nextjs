@@ -9,15 +9,31 @@ import Input from '@/components/ui/Input'
 import Textarea from '@/components/ui/Textarea'
 import Select from '@/components/ui/Select'
 import Button from '@/components/ui/Button'
-import CheckoutTypeTabs from '@/components/checkout/CheckoutTypeTabs'
 import DeelnemersPicker from '@/components/checkout/DeelnemersPicker'
-import { CheckCircle, Loader2 } from 'lucide-react'
+import { CheckCircle, Loader2, FileText, CreditCard, Building2, User, ChevronDown } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 export default function CheckoutPageWrapper() {
   return (
     <Suspense>
       <CheckoutPage />
     </Suspense>
+  )
+}
+
+function StepIndicator({ step, currentStep, label }: { step: number; currentStep: number; label: string }) {
+  const done = currentStep > step
+  const active = currentStep === step
+  return (
+    <div className="flex items-center gap-2">
+      <div className={cn(
+        'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all',
+        done ? 'bg-primary-500 text-white' : active ? 'bg-primary-500 text-white ring-4 ring-primary-100' : 'bg-zinc-200 text-zinc-500'
+      )}>
+        {done ? <CheckCircle size={14} /> : step}
+      </div>
+      <span className={cn('text-sm font-medium hidden sm:block', active ? 'text-zinc-900' : 'text-zinc-400')}>{label}</span>
+    </div>
   )
 }
 
@@ -29,12 +45,14 @@ function CheckoutPage() {
   const [checkoutType, setCheckoutType] = useState<'inschrijving' | 'offerte'>(
     (searchParams.get('type') as 'offerte') || 'inschrijving'
   )
+  const [klantType, setKlantType] = useState<'particulier' | 'zakelijk'>('particulier')
+  const [factuurAnders, setFactuurAnders] = useState(false)
   const [deelnemersMap, setDeelnemersMap] = useState<Record<string, Deelnemer[]>>({})
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+  const [currentStep, setCurrentStep] = useState(1)
 
-  // Initialize deelnemers map when items load
   useEffect(() => {
     const newMap: Record<string, Deelnemer[]> = {}
     for (const item of items) {
@@ -88,15 +106,31 @@ function CheckoutPage() {
 
     const form = new FormData(e.currentTarget)
     const klantgegevens: Record<string, unknown> = {
+      klantType,
       voornaam: form.get('voornaam') as string,
       achternaam: form.get('achternaam') as string,
       email: form.get('email') as string,
       telefoon: form.get('telefoon') as string,
-      bedrijfsnaam: form.get('bedrijfsnaam') as string,
       adres: form.get('adres') as string,
       postcode: form.get('postcode') as string,
       stad: form.get('stad') as string,
       opmerkingen: form.get('opmerkingen') as string,
+    }
+
+    if (klantType === 'zakelijk') {
+      klantgegevens.bedrijfsnaam = form.get('bedrijfsnaam') as string
+      klantgegevens.afdeling = form.get('afdeling') as string
+      klantgegevens.kenmerk = form.get('kenmerk') as string
+    }
+
+    if (factuurAnders) {
+      klantgegevens.factuur_adres = form.get('factuur_adres') as string
+      klantgegevens.factuur_postcode = form.get('factuur_postcode') as string
+      klantgegevens.factuur_stad = form.get('factuur_stad') as string
+      if (klantType === 'zakelijk') {
+        klantgegevens.factuur_bedrijfsnaam = form.get('factuur_bedrijfsnaam') as string
+        klantgegevens.factuur_contactpersoon = form.get('factuur_contactpersoon') as string
+      }
     }
 
     if (checkoutType === 'offerte') {
@@ -104,7 +138,6 @@ function CheckoutPage() {
       klantgegevens.locatie_voorkeur = form.get('locatie_voorkeur') as string
     }
 
-    // Enrich cart items with deelnemers
     const enrichedItems = items.map(item => ({
       ...item,
       deelnemers: deelnemersMap[item.sessieId] || [],
@@ -135,32 +168,73 @@ function CheckoutPage() {
 
   return (
     <div className="bg-zinc-50 min-h-screen">
+      {/* Header */}
       <div className="bg-white border-b border-zinc-200">
-        <div className="container-narrow py-8">
-          <nav className="text-sm text-zinc-500 mb-4">
+        <div className="container-narrow py-6">
+          <nav className="text-sm text-zinc-500 mb-3">
             <a href="/" className="hover:text-primary-500">Home</a>
             <span className="mx-2">/</span>
             <a href="/inschrijven" className="hover:text-primary-500">Inschrijven</a>
             <span className="mx-2">/</span>
             <span className="text-zinc-900">Afronden</span>
           </nav>
-          <h1 className="text-3xl font-bold">Inschrijving afronden</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-4">Inschrijving afronden</h1>
+
+          {/* Steps */}
+          <div className="flex items-center gap-4 sm:gap-6">
+            <StepIndicator step={1} currentStep={currentStep} label="Cursussen" />
+            <div className="h-px flex-1 bg-zinc-200" />
+            <StepIndicator step={2} currentStep={currentStep} label="Gegevens" />
+            <div className="h-px flex-1 bg-zinc-200" />
+            <StepIndicator step={3} currentStep={currentStep} label="Bevestigen" />
+          </div>
         </div>
       </div>
 
-      <div className="container-narrow py-8">
-        {/* Type selector */}
-        <div className="mb-8">
-          <CheckoutTypeTabs activeType={checkoutType} onTypeChange={setCheckoutType} />
-        </div>
-
+      <div className="container-narrow py-6 sm:py-8">
         <form onSubmit={handleSubmit}>
-          <div className="grid lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-6">
-              {/* Deelnemers per cursus */}
+          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="lg:col-span-2 space-y-5">
+
+              {/* Stap 1: Type keuze */}
+              <div className="bg-white rounded-xl border border-zinc-200 p-5 sm:p-6">
+                <h2 className="text-base font-bold mb-3">Wat wil je doen?</h2>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setCheckoutType('inschrijving')}
+                    className={cn(
+                      'p-4 rounded-xl border-2 text-left transition-all',
+                      checkoutType === 'inschrijving'
+                        ? 'border-primary-400 bg-primary-50'
+                        : 'border-zinc-200 hover:border-zinc-300'
+                    )}
+                  >
+                    <CreditCard size={20} className={checkoutType === 'inschrijving' ? 'text-primary-500' : 'text-zinc-400'} />
+                    <div className="font-bold text-sm mt-2">Direct inschrijven</div>
+                    <div className="text-xs text-zinc-500 mt-0.5">Definitieve inschrijving</div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCheckoutType('offerte')}
+                    className={cn(
+                      'p-4 rounded-xl border-2 text-left transition-all',
+                      checkoutType === 'offerte'
+                        ? 'border-accent-400 bg-accent-50'
+                        : 'border-zinc-200 hover:border-zinc-300'
+                    )}
+                  >
+                    <FileText size={20} className={checkoutType === 'offerte' ? 'text-accent-500' : 'text-zinc-400'} />
+                    <div className="font-bold text-sm mt-2">Offerte aanvragen</div>
+                    <div className="text-xs text-zinc-500 mt-0.5">Vrijblijvend, geen kosten</div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Stap 2: Cursussen & deelnemers */}
               <div>
-                <h2 className="text-lg font-semibold mb-3">Cursussen &amp; deelnemers</h2>
-                <div className="space-y-4">
+                <h2 className="text-base font-bold mb-3">Cursussen &amp; deelnemers</h2>
+                <div className="space-y-3">
                   {items.map((item) => (
                     <DeelnemersPicker
                       key={item.sessieId}
@@ -175,36 +249,114 @@ function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Contactgegevens */}
-              <div className="bg-white rounded-xl border border-zinc-200 p-6">
-                <h2 className="text-lg font-semibold mb-4">Contactgegevens</h2>
-                <div className="grid sm:grid-cols-2 gap-4">
+              {/* Stap 3: Particulier / Zakelijk */}
+              <div className="bg-white rounded-xl border border-zinc-200 p-5 sm:p-6">
+                <h2 className="text-base font-bold mb-3">Type aanvraag</h2>
+                <div className="grid grid-cols-2 gap-2 mb-5">
+                  <button
+                    type="button"
+                    onClick={() => setKlantType('particulier')}
+                    className={cn(
+                      'flex items-center gap-2.5 p-3 rounded-xl border-2 text-left transition-all',
+                      klantType === 'particulier'
+                        ? 'border-primary-400 bg-primary-50'
+                        : 'border-zinc-200 hover:border-zinc-300'
+                    )}
+                  >
+                    <User size={18} className={klantType === 'particulier' ? 'text-primary-500' : 'text-zinc-400'} />
+                    <div>
+                      <div className="font-semibold text-sm">Particulier</div>
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setKlantType('zakelijk')}
+                    className={cn(
+                      'flex items-center gap-2.5 p-3 rounded-xl border-2 text-left transition-all',
+                      klantType === 'zakelijk'
+                        ? 'border-primary-400 bg-primary-50'
+                        : 'border-zinc-200 hover:border-zinc-300'
+                    )}
+                  >
+                    <Building2 size={18} className={klantType === 'zakelijk' ? 'text-primary-500' : 'text-zinc-400'} />
+                    <div>
+                      <div className="font-semibold text-sm">Zakelijk</div>
+                    </div>
+                  </button>
+                </div>
+
+                {/* Contactgegevens */}
+                <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">Contactgegevens</h3>
+                <div className="grid sm:grid-cols-2 gap-3">
                   <Input id="voornaam" name="voornaam" label="Voornaam" required />
                   <Input id="achternaam" name="achternaam" label="Achternaam" required />
                   <Input id="email" name="email" label="E-mailadres" type="email" required />
                   <Input id="telefoon" name="telefoon" label="Telefoon" type="tel" required />
-                  <Input id="bedrijfsnaam" name="bedrijfsnaam" label="Bedrijfsnaam" className="sm:col-span-2" />
+                </div>
+
+                {/* Bedrijfsgegevens */}
+                {klantType === 'zakelijk' && (
+                  <div className="mt-5 pt-5 border-t border-zinc-100">
+                    <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">Bedrijfsgegevens</h3>
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      <Input id="bedrijfsnaam" name="bedrijfsnaam" label="Bedrijfsnaam" required className="sm:col-span-2" />
+                      <Input id="afdeling" name="afdeling" label="Afdeling" />
+                      <Input id="kenmerk" name="kenmerk" label="Kenmerk / referentienr." />
+                    </div>
+                  </div>
+                )}
+
+                {/* Adresgegevens */}
+                <div className="mt-5 pt-5 border-t border-zinc-100">
+                  <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">
+                    {klantType === 'zakelijk' ? 'Bedrijfsadres' : 'Adres'}
+                  </h3>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <Input id="adres" name="adres" label="Straatnaam + huisnummer" required className="sm:col-span-2" />
+                    <Input id="postcode" name="postcode" label="Postcode" required />
+                    <Input id="stad" name="stad" label="Plaats" required />
+                  </div>
                 </div>
               </div>
 
-              {/* Facturatiegegevens */}
-              <div className="bg-white rounded-xl border border-zinc-200 p-6">
-                <h2 className="text-lg font-semibold mb-4">Facturatiegegevens</h2>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <Input id="adres" name="adres" label="Adres" required className="sm:col-span-2" />
-                  <Input id="postcode" name="postcode" label="Postcode" required />
-                  <Input id="stad" name="stad" label="Plaats" required />
-                </div>
+              {/* Factuuradres */}
+              <div className="bg-white rounded-xl border border-zinc-200 p-5 sm:p-6">
+                <button
+                  type="button"
+                  onClick={() => setFactuurAnders(!factuurAnders)}
+                  className="w-full flex items-center justify-between"
+                >
+                  <h2 className="text-base font-bold">Ander factuuradres?</h2>
+                  <ChevronDown size={18} className={cn('text-zinc-400 transition-transform', factuurAnders && 'rotate-180')} />
+                </button>
+                {!factuurAnders && (
+                  <p className="text-sm text-zinc-500 mt-1">Factuurgegevens zijn hetzelfde als bovenstaande gegevens.</p>
+                )}
+                {factuurAnders && (
+                  <div className="mt-4 pt-4 border-t border-zinc-100">
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      {klantType === 'zakelijk' && (
+                        <>
+                          <Input id="factuur_bedrijfsnaam" name="factuur_bedrijfsnaam" label="Bedrijfsnaam" className="sm:col-span-2" />
+                          <Input id="factuur_contactpersoon" name="factuur_contactpersoon" label="Contactpersoon" className="sm:col-span-2" />
+                        </>
+                      )}
+                      <Input id="factuur_adres" name="factuur_adres" label="Straatnaam + huisnummer" required className="sm:col-span-2" />
+                      <Input id="factuur_postcode" name="factuur_postcode" label="Postcode" required />
+                      <Input id="factuur_stad" name="factuur_stad" label="Plaats" required />
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Extra offerte velden */}
               {checkoutType === 'offerte' && (
-                <div className="bg-white rounded-xl border border-accent-200 p-6">
-                  <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <div className="bg-white rounded-xl border border-accent-200 p-5 sm:p-6">
+                  <h2 className="text-base font-bold mb-3 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-accent-500" />
                     Offerte details
                   </h2>
-                  <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="grid sm:grid-cols-2 gap-3">
                     <Select
                       id="gewenste_periode"
                       name="gewenste_periode"
@@ -229,14 +381,14 @@ function CheckoutPage() {
               )}
 
               {/* Opmerkingen */}
-              <div className="bg-white rounded-xl border border-zinc-200 p-6">
-                <h2 className="text-lg font-semibold mb-4">Opmerkingen</h2>
-                <Textarea id="opmerkingen" name="opmerkingen" placeholder="Eventuele opmerkingen of vragen..." />
+              <div className="bg-white rounded-xl border border-zinc-200 p-5 sm:p-6">
+                <h2 className="text-base font-bold mb-3">Opmerkingen</h2>
+                <Textarea id="opmerkingen" name="opmerkingen" placeholder="Eventuele opmerkingen, dieetwensen of speciale verzoeken..." />
               </div>
 
-              {/* Privacy */}
-              <div className="bg-white rounded-xl border border-zinc-200 p-6">
-                <label className="flex items-start gap-3">
+              {/* Privacy + submit */}
+              <div className="bg-white rounded-xl border border-zinc-200 p-5 sm:p-6">
+                <label className="flex items-start gap-3 mb-5">
                   <input type="checkbox" required className="mt-1 rounded border-zinc-300 text-primary-500 focus:ring-primary-500" />
                   <span className="text-sm text-zinc-600">
                     Ik ga akkoord met de{' '}
@@ -245,67 +397,70 @@ function CheckoutPage() {
                     <a href="/algemene-voorwaarden" className="text-primary-500 underline">algemene voorwaarden</a>.
                   </span>
                 </label>
-              </div>
 
-              {error && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 text-sm">
-                  {error}
-                </div>
-              )}
-
-              <Button
-                type="submit"
-                size="lg"
-                disabled={loading}
-                className={`w-full sm:w-auto ${checkoutType === 'offerte' ? 'bg-accent-500 hover:bg-accent-600' : ''}`}
-              >
-                {loading ? (
-                  <><Loader2 size={16} className="mr-2 animate-spin" /> Bezig met verzenden...</>
-                ) : checkoutType === 'offerte' ? (
-                  'Offerte aanvragen'
-                ) : (
-                  'Inschrijving bevestigen'
+                {error && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-700 text-sm mb-4">
+                    {error}
+                  </div>
                 )}
-              </Button>
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={loading}
+                  className={cn(
+                    'w-full',
+                    checkoutType === 'offerte' ? 'bg-accent-500 hover:bg-accent-600' : ''
+                  )}
+                >
+                  {loading ? (
+                    <><Loader2 size={16} className="mr-2 animate-spin" /> Bezig met verzenden...</>
+                  ) : checkoutType === 'offerte' ? (
+                    'Offerte aanvragen'
+                  ) : (
+                    'Inschrijving bevestigen'
+                  )}
+                </Button>
+              </div>
             </div>
 
             {/* Sidebar */}
             <div>
-              <div className="bg-white rounded-xl border border-zinc-200 p-6 sticky top-24">
-                <h2 className="text-lg font-semibold mb-4">Overzicht</h2>
+              <div className="bg-white rounded-xl border border-zinc-200 p-5 sm:p-6 sticky top-24">
+                <h2 className="font-bold mb-4">Overzicht</h2>
                 <div className="space-y-3">
                   {items.map((item) => {
                     const aantal = item.aantalDeelnemers || 1
                     return (
                       <div key={item.sessieId} className="text-sm border-b border-zinc-100 pb-3">
-                        <div className="font-medium">{item.cursusTitel}</div>
-                        <div className="text-zinc-500">
+                        <div className="font-semibold">{item.cursusTitel}</div>
+                        <div className="text-zinc-500 text-xs mt-0.5">
                           {lesmethodeLabel(item.lesmethode)} &middot; {item.locatie}
                         </div>
-                        <div className="text-zinc-500">{formatDateShort(item.datum)}</div>
-                        <div className="flex justify-between mt-1">
-                          <span className="text-zinc-400">{aantal} deelnemer{aantal > 1 ? 's' : ''}</span>
-                          <span className="font-medium">{formatPrice(item.prijs * aantal)}</span>
+                        <div className="text-zinc-500 text-xs">{formatDateShort(item.datum)}</div>
+                        <div className="flex justify-between mt-1.5">
+                          <span className="text-zinc-400 text-xs">{aantal} deelnemer{aantal > 1 ? 's' : ''}</span>
+                          <span className="font-semibold">{formatPrice(item.prijs * aantal)}</span>
                         </div>
                       </div>
                     )
                   })}
                 </div>
-                <div className="border-t border-zinc-200 mt-4 pt-4 space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-zinc-600">Subtotaal</span>
+                <div className="border-t border-zinc-200 mt-3 pt-3 space-y-1.5 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-zinc-500">Subtotaal</span>
                     <span>{formatPrice(totaal)}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-zinc-600">Administratiekosten</span>
+                  <div className="flex justify-between">
+                    <span className="text-zinc-500">Administratiekosten</span>
                     <span>{formatPrice(ADMIN_FEE)}</span>
                   </div>
-                  <div className="border-t border-zinc-200 pt-2">
-                    <div className="flex justify-between font-semibold text-lg">
+                  <div className="border-t border-zinc-200 pt-2 mt-2">
+                    <div className="flex justify-between font-bold text-lg">
                       <span>Totaal</span>
                       <span className="text-primary-500">{formatPrice(totaal + ADMIN_FEE)}</span>
                     </div>
-                    <p className="text-xs text-zinc-400 mt-1">excl. 21% BTW</p>
+                    <p className="text-[11px] text-zinc-400 mt-0.5">excl. 21% BTW</p>
                   </div>
                 </div>
               </div>
