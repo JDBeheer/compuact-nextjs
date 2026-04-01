@@ -504,6 +504,10 @@ export default function Header() {
             })}
 
             <div className="border-t border-zinc-100 my-2" />
+            <Link href="/locaties" onClick={() => setMobileOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 rounded-lg transition-colors">
+              <span className="p-1.5 rounded-lg bg-primary-50 text-primary-600"><MapPin size={16} /></span>
+              Locaties
+            </Link>
             <Link href="/incompany" onClick={() => setMobileOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 rounded-lg transition-colors">
               <span className="p-1.5 rounded-lg bg-primary-50 text-primary-600"><Building2 size={16} /></span>
               InCompany
