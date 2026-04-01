@@ -101,7 +101,6 @@ export function GoogleReviewsSection({
       </div>
       <div className="flex justify-center mt-8">
         <GoogleReviewsModalTrigger
-          reviews={reviews}
           rating={rating}
           totalReviews={totalReviews}
           allReviews={allReviews}
