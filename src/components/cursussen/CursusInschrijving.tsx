@@ -2,11 +2,13 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Users, Laptop, Building2, BookOpen, MapPin, Calendar, Clock, Check, Plus, ArrowRight, ChevronDown, CheckCircle } from 'lucide-react'
+import { Users, Laptop, Building2, BookOpen, MapPin, Calendar, Clock, Check, Plus, ArrowRight, ChevronDown, CheckCircle, Navigation } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCart } from '@/contexts/CartContext'
 import { formatPrice, formatDateShort, lesmethodeLabel } from '@/lib/utils'
 import { CursusSessie } from '@/types'
+import { locaties as allLocaties } from '@/data/locaties'
+import { getPostcodeCoords, haversineDistance } from '@/data/postcode-coords'
 
 interface Prijzen {
   klassikaal?: number
