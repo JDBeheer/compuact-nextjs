@@ -339,7 +339,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
                     <div
                       key={sessie.id}
                       className={cn(
-                        'relative rounded-xl border-2 p-4 transition-all duration-200',
+                        'relative rounded-xl border-2 p-3 sm:p-4 transition-all duration-200',
                         inCart
                           ? 'border-primary-300 bg-primary-50/50'
                           : 'border-zinc-100 bg-white hover:border-zinc-200 hover:shadow-md'
