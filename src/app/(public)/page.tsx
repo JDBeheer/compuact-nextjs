@@ -122,17 +122,28 @@ export default async function HomePage() {
       <section className="bg-white border-b border-zinc-200">
         <div className="container-wide py-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat) => (
-              <div key={stat.label} className="flex items-center gap-4">
-                <div className="bg-primary-50 text-primary-500 p-3 rounded-xl">
-                  <stat.icon size={24} />
+            {stats.map((stat) => {
+              const content = (
+                <>
+                  <div className="bg-primary-50 text-primary-500 p-3 rounded-xl">
+                    <stat.icon size={24} />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-extrabold text-zinc-900">{stat.value}</div>
+                    <div className="text-sm text-zinc-500">{stat.label}</div>
+                  </div>
+                </>
+              )
+              return 'href' in stat && stat.href ? (
+                <Link key={stat.label} href={stat.href} className="flex items-center gap-4 hover:opacity-80 transition-opacity">
+                  {content}
+                </Link>
+              ) : (
+                <div key={stat.label} className="flex items-center gap-4">
+                  {content}
                 </div>
-                <div>
-                  <div className="text-2xl font-extrabold text-zinc-900">{stat.value}</div>
-                  <div className="text-sm text-zinc-500">{stat.label}</div>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
