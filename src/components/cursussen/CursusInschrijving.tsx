@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Users, Laptop, Building2, BookOpen, MapPin, Calendar, Clock, Check, ShoppingCart, ArrowRight, ChevronDown, CheckCircle } from 'lucide-react'
+import { Users, Laptop, Building2, BookOpen, MapPin, Calendar, Clock, Check, Plus, ArrowRight, ChevronDown, CheckCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCart } from '@/contexts/CartContext'
 import { formatPrice, formatDateShort, lesmethodeLabel } from '@/lib/utils'
