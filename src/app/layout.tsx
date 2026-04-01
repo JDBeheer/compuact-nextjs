@@ -38,6 +38,19 @@ export default function RootLayout({
   return (
     <html lang="nl">
       <body className={plusJakartaSans.className}>
+        <GoogleAnalytics
+          gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}
+          adsId={process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}
+          conversionLabels={{
+            inschrijving: process.env.NEXT_PUBLIC_CONVERSION_LABEL_INSCHRIJVING,
+            offerte: process.env.NEXT_PUBLIC_CONVERSION_LABEL_OFFERTE,
+            incompany: process.env.NEXT_PUBLIC_CONVERSION_LABEL_INCOMPANY,
+            contact: process.env.NEXT_PUBLIC_CONVERSION_LABEL_CONTACT,
+          }}
+        />
+        <Suspense fallback={null}>
+          <AnalyticsPageTracker />
+        </Suspense>
         <CartProvider>
           {children}
         </CartProvider>
