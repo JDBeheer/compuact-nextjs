@@ -189,7 +189,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
             return (
               <button
                 key={m.id}
-                onClick={() => { setMethode(m.id); setFilterLocatie(''); setFilterMaand(''); setShowAll(false) }}
+                onClick={() => { setMethode(m.id); setFilterLocatie(''); setFilterMaand(''); setShowAll(false); scrollToStap2() }}
                 className={cn(
                   'relative p-4 rounded-xl border-2 text-left transition-all duration-200',
                   selected
