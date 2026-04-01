@@ -177,7 +177,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
       {/* Stap 2: Content per methode */}
       {methode === 'thuisstudie' && (
         <div className="mb-6">
-          <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-3">2. Thuisstudie bestellen</h3>
+          <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-3">2. Toevoegen aan je aanvraag</h3>
           <div className={cn(
             'relative rounded-2xl overflow-hidden',
             thuisInCart ? 'ring-2 ring-violet-400' : ''
