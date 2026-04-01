@@ -7,7 +7,11 @@
       "Bash(git remote:*)",
       "Bash(git commit -m 'Replace hardcoded reviews with Google Places API integration:*)",
       "WebFetch(domain:maps.googleapis.com)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(ls:*)",
+      "Bash(grep -r \"SUPABASE\" /Users/eriklindeman/GitHub/compuact-nextjs/.env*)",
+      "Bash(grep -r \"supabase\" /Users/eriklindeman/GitHub/compuact-nextjs/.env*)",
+      "Bash(curl:*)"
     ],
     "defaultMode": "bypassPermissions"
   },

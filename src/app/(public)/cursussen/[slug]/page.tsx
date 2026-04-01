@@ -152,7 +152,11 @@ async function getCursus(slug: string) {
 
 async function getSessies(cursusId: string) {
   const supabase = createServerSupabaseClient()
-  const { data } = await supabase.from('cursus_sessies').select('*, locatie:locaties(naam, stad)').eq('cursus_id', cursusId).eq('actief', true).gte('datum', new Date().toISOString().split('T')[0]).order('datum')
+  // Filter out sessions that have already started (tomorrow or later)
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  const minDate = tomorrow.toISOString().split('T')[0]
+  const { data } = await supabase.from('cursus_sessies').select('*, locatie:locaties(naam, stad)').eq('cursus_id', cursusId).eq('actief', true).gte('datum', minDate).order('datum')
   return (data || []).map((s: Record<string, unknown>) => ({
     ...s,
     locatie_naam: (s.locatie as Record<string, string>)?.naam || '',
