@@ -388,37 +388,6 @@ function CheckoutPage() {
                 )}
               </div>
 
-              {/* Extra offerte velden */}
-              {checkoutType === 'offerte' && (
-                <div className="bg-white rounded-xl border border-accent-200 p-5 sm:p-6">
-                  <h2 className="text-base font-bold mb-3 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-accent-500" />
-                    Offerte details
-                  </h2>
-                  <div className="grid sm:grid-cols-2 gap-3">
-                    <Select
-                      id="gewenste_periode"
-                      name="gewenste_periode"
-                      label="Gewenste periode"
-                      placeholder="Selecteer periode"
-                      options={[
-                        { value: 'zo_snel_mogelijk', label: 'Zo snel mogelijk' },
-                        { value: 'deze_maand', label: 'Deze maand' },
-                        { value: 'volgende_maand', label: 'Volgende maand' },
-                        { value: 'komende_3_maanden', label: 'Komende 3 maanden' },
-                        { value: 'later', label: 'Later dit jaar' },
-                      ]}
-                    />
-                    <Input
-                      id="locatie_voorkeur"
-                      name="locatie_voorkeur"
-                      label="Locatie voorkeur"
-                      placeholder="Bijv. Amsterdam of eigen locatie"
-                    />
-                  </div>
-                </div>
-              )}
-
               {/* Opmerkingen */}
               <div className="bg-white rounded-xl border border-zinc-200 p-5 sm:p-6">
                 <h2 className="text-base font-bold mb-3">Opmerkingen</h2>
