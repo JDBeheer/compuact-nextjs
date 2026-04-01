@@ -101,9 +101,11 @@ export function GoogleReviewsModalTrigger({
                     >
                       <div className="flex items-center gap-3 mb-3">
                         {review.profile_photo_url ? (
-                          <img
+                          <Image
                             src={review.profile_photo_url}
                             alt={review.author_name}
+                            width={40}
+                            height={40}
                             className="w-10 h-10 rounded-full"
                           />
                         ) : (
