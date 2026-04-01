@@ -6,6 +6,7 @@ export const revalidate = 3600 // Revalidate every hour
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase/server'
 import { Cursus, CursusSessie, Categorie } from '@/types'
 import SessieTable from '@/components/cursussen/SessieTable'
+import OpenInschrijving from '@/components/cursussen/OpenInschrijving'
 import CursusDetailTabs from '@/components/cursussen/CursusDetailTabs'
 import CursusCard from '@/components/cursussen/CursusCard'
 import { formatPrice, formatDateShort, niveauLabel } from '@/lib/utils'
