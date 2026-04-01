@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+
+export const revalidate = 3600 // Revalidate every hour
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase/server'
 import { Cursus, CursusSessie, Categorie } from '@/types'
 import SessieTable from '@/components/cursussen/SessieTable'
