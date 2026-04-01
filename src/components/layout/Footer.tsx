@@ -30,6 +30,7 @@ const lesmethodes = [
 ]
 
 const bedrijfLinks = [
+  { naam: 'Locaties', href: '/locaties' },
   { naam: 'Over ons', href: '/over-ons' },
   { naam: 'Contact', href: '/contact' },
   { naam: 'Veelgestelde vragen', href: '/veelgestelde-vragen' },
