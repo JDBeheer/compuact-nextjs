@@ -208,8 +208,8 @@ export default function AdminInzendingenPage() {
                           </div>
                           <div className="flex items-center justify-between mt-1">
                             <span className="text-xs text-zinc-400">{aantal} deelnemer{aantal !== 1 ? 's' : ''}</span>
-                            {cursus.prijs && (
-                              <span className="font-semibold text-sm">{formatPrice((cursus.prijs as number) * aantal)}</span>
+                            {Boolean(cursus.prijs) && (
+                              <span className="font-semibold text-sm">{formatPrice(Number(cursus.prijs) * aantal)}</span>
                             )}
                           </div>
 
