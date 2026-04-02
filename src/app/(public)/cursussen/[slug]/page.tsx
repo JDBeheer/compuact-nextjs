@@ -33,9 +33,9 @@ const categorieConfig: Record<string, {
   excel: {
     icon: FileSpreadsheet, gradient: 'from-emerald-600 to-emerald-800', lightBg: 'bg-emerald-50',
     h1: 'Excel Cursussen — Klassikaal en Online, van Basis tot Expert',
-    subtitle: 'Leer Excel op jouw niveau. Praktijkgericht, met ervaren docenten, op 18 locaties door heel Nederland of live online.',
+    subtitle: 'Leer Excel op jouw niveau. Praktijkgericht, met ervaren docenten, op 17 locaties door heel Nederland of live online.',
     seoTitle: 'Excel Cursus | Klassikaal & Online | Compu Act Opleidingen',
-    seoDescription: 'Volg een Excel cursus bij Compu Act Opleidingen. Van Excel Basis tot VBA en Power BI. Klassikaal op 18 locaties of live online. Direct inschrijven of offerte aanvragen.',
+    seoDescription: 'Volg een Excel cursus bij Compu Act Opleidingen. Van Excel Basis tot VBA en Power BI. Klassikaal op 17 locaties of live online. Direct inschrijven of offerte aanvragen.',
     beschrijving: 'Onze Excel trainingen nemen je mee van de basis tot expert-niveau. Of je nu wilt leren werken met formules, draaitabellen, macro\'s of VBA — wij hebben de juiste cursus voor jou.',
     highlights: ['Formules en functies', 'Draaitabellen', 'Grafieken', 'VBA en macro\'s', 'Power BI', 'AI in Excel'],
     seoContent: [
@@ -221,7 +221,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   if (!cursus) return { title: 'Niet gevonden' }
   return {
     title: `${cursus.titel} Cursus | Compu Act Opleidingen`,
-    description: cursus.korte_beschrijving || `Volg de ${cursus.titel} training bij Compu Act Opleidingen. Klassikaal of live online, op 18 locaties door heel Nederland.`,
+    description: cursus.korte_beschrijving || `Volg de ${cursus.titel} training bij Compu Act Opleidingen. Klassikaal of live online, op 17 locaties door heel Nederland.`,
     openGraph: { title: `${cursus.titel} - Compu Act Opleidingen`, description: cursus.korte_beschrijving, type: 'website' },
   }
 }
@@ -321,7 +321,7 @@ async function CategoriePage({ slug }: { slug: string }) {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
             {[
               { icon: Users, text: 'Kleine groepen (max 10)' },
-              { icon: MapPin, text: '18 locaties + live online' },
+              { icon: MapPin, text: '17 locaties + live online' },
               { icon: Award, text: 'Certificaat inbegrepen' },
               { icon: Shield, text: 'Niet goed? Geld terug' },
             ].map((usp) => (
@@ -371,7 +371,7 @@ async function CategoriePage({ slug }: { slug: string }) {
                   { icon: Users, text: 'Kleine groepen, persoonlijke aandacht' },
                   { icon: CheckCircle, text: 'Praktijkgerichte oefeningen' },
                   { icon: BookOpen, text: 'Inclusief lesmateriaal en certificaat' },
-                  { icon: MapPin, text: 'Klassikaal op 18 locaties of online' },
+                  { icon: MapPin, text: 'Klassikaal op 17 locaties of online' },
                   { icon: Building2, text: 'InCompany training op maat' },
                 ].map((item) => (
                   <div key={item.text} className="flex items-center gap-2.5 bg-white rounded-lg p-3 border border-zinc-100">

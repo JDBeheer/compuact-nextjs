@@ -59,7 +59,7 @@ export default function CursusCard({ cursus }: { cursus: Cursus }) {
 
           <div className="flex items-center gap-3 text-[12px] text-zinc-400 mb-4">
             <span className="flex items-center gap-1">
-              <MapPin size={12} /> 18 locaties
+              <MapPin size={12} /> 17 locaties
             </span>
             <span className="flex items-center gap-1">
               <Users size={12} /> Klassikaal
