@@ -15,11 +15,11 @@ export function formatDate(dateString: string): string {
 }
 
 export function formatDateShort(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('nl-NL', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
+  const d = new Date(dateString)
+  const weekday = d.toLocaleDateString('nl-NL', { weekday: 'short' })
+  const rest = d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' })
+  return `${weekday} ${rest}`
+}
 }
 
 export function cn(...classes: (string | boolean | undefined | null)[]): string {
