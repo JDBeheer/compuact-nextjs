@@ -12,6 +12,7 @@ import DeelnemersPicker from '@/components/checkout/DeelnemersPicker'
 import { CheckCircle, Loader2, FileText, CreditCard, Building2, User, ChevronDown } from 'lucide-react'
 import { trackBeginCheckout, trackPurchase, trackGenerateLead, setUserData } from '@/lib/analytics'
 import { cn } from '@/lib/utils'
+import TurnstileWidget from '@/components/TurnstileWidget'
 
 export default function CheckoutPageWrapper() {
   return (
