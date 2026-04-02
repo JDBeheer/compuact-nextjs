@@ -95,7 +95,7 @@ export default function AdminInzendingenPage() {
               inzendingen.map((inz) => {
                 const klant = inz.klantgegevens
                 const aantalCursussen = inz.cursussen?.length || 0
-                const totalDeelnemers = inz.cursussen?.reduce((sum, c) => sum + ((c as Record<string, number>).aantalDeelnemers || 1), 0) || 0
+                const totalDeelnemers = inz.cursussen?.reduce((sum, c) => sum + ((c as unknown as Record<string, number>).aantalDeelnemers || 1), 0) || 0
 
                 return (
                   <div key={inz.id} className={`relative ${selected?.id === inz.id ? 'bg-primary-50' : ''}`}>
