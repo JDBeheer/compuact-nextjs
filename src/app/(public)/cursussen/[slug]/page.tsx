@@ -16,7 +16,7 @@ import { Clock, Users, Award, BookOpen, Building2, Star, MapPin, CheckCircle, Ar
 } from 'lucide-react'
 import { getGoogleReviews, fallbackReviews } from '@/lib/google-reviews'
 import { GoogleReviewsSection, GoogleReviewsBadge } from '@/components/GoogleReviews'
-import { StudiegidsCTA } from '@/components/StudiegidsModal'
+import { StudiegidsInline } from '@/components/StudiegidsModal'
 
 // ──── Category config ────
 const categorieConfig: Record<string, {
