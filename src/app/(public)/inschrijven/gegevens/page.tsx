@@ -21,20 +21,27 @@ export default function CheckoutPageWrapper() {
   )
 }
 
-function StepIndicator({ step, currentStep, label }: { step: number; currentStep: number; label: string }) {
+function StepIndicator({ step, currentStep, label, href }: { step: number; currentStep: number; label: string; href?: string }) {
   const done = currentStep > step
   const active = currentStep === step
-  return (
-    <div className="flex items-center gap-2">
+  const clickable = done && href
+
+  const content = (
+    <div className={cn('flex items-center gap-2', clickable && 'cursor-pointer hover:opacity-80')}>
       <div className={cn(
         'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all',
         done ? 'bg-primary-500 text-white' : active ? 'bg-primary-500 text-white ring-4 ring-primary-100' : 'bg-zinc-200 text-zinc-500'
       )}>
         {done ? <CheckCircle size={14} /> : step}
       </div>
-      <span className={cn('text-sm font-medium hidden sm:block', active ? 'text-zinc-900' : 'text-zinc-400')}>{label}</span>
+      <span className={cn('text-sm font-medium hidden sm:block', active ? 'text-zinc-900' : done ? 'text-primary-500' : 'text-zinc-400')}>{label}</span>
     </div>
   )
+
+  if (clickable) {
+    return <a href={href}>{content}</a>
+  }
+  return content
 }
 
 function CheckoutPage() {
