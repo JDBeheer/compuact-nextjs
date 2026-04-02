@@ -1,14 +1,20 @@
 import { NextResponse } from 'next/server'
 import { createServiceRoleClient } from '@/lib/supabase/server'
 import { sendBevestigingsEmail, sendOfferteBevestiging, sendAdminNotificatie } from '@/lib/email'
+import { verifyTurnstileToken } from '@/lib/turnstile'
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { type, cursussen, klantgegevens, totaalprijs } = body
+    const { type, cursussen, klantgegevens, totaalprijs, turnstileToken } = body
 
     if (!cursussen?.length || !klantgegevens?.email) {
       return NextResponse.json({ error: 'Ongeldige gegevens' }, { status: 400 })
+    }
+
+    const tokenValid = await verifyTurnstileToken(turnstileToken)
+    if (!tokenValid) {
+      return NextResponse.json({ error: 'Beveiligingsverificatie mislukt.' }, { status: 403 })
     }
 
     const validType = type === 'offerte' ? 'offerte' : 'inschrijving'
