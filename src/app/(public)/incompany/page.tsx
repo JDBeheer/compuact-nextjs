@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Building2, CheckCircle, Loader2, Users, MapPin, Calendar } from 'lucide-react'
+import TurnstileWidget from '@/components/TurnstileWidget'
 import { trackIncompanyRequest } from '@/lib/analytics'
 import { createClient } from '@/lib/supabase/client'
 import InCompanyCursusSelector from '@/components/incompany/InCompanyCursusSelector'
