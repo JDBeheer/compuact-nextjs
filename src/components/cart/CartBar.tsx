@@ -54,7 +54,7 @@ export default function CartBar() {
     }
   }, [items.length])
 
-  if (items.length === 0) return null
+  if (items.length === 0 || hideOnCheckout) return null
 
   return (
     <>
