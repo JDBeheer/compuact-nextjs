@@ -1,142 +1,262 @@
-'use client'
+import { Metadata } from 'next'
+import Link from 'next/link'
+import { Phone, Mail, MapPin, Clock, Users, Award, ArrowRight, HelpCircle, Building2, ChevronRight } from 'lucide-react'
+import { getGoogleReviews, fallbackReviews } from '@/lib/google-reviews'
+import { GoogleReviewsBadge } from '@/components/GoogleReviews'
+import ContactForm from './ContactForm'
 
-import { useState } from 'react'
-import { Phone, Mail, MapPin, Clock, CheckCircle, Loader2 } from 'lucide-react'
-import Input from '@/components/ui/Input'
-import Textarea from '@/components/ui/Textarea'
-import Button from '@/components/ui/Button'
+export const metadata: Metadata = {
+  title: 'Contact | Compu Act Opleidingen',
+  description:
+    'Neem contact op met Compu Act Opleidingen. Bel 023-551 3409, mail info@computertraining.nl of bezoek ons in Zaandam. We helpen je graag verder met Microsoft Office trainingen.',
+}
 
-export default function ContactPage() {
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState('')
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-
-    const form = new FormData(e.currentTarget)
-    const data = {
-      voornaam: form.get('voornaam') as string,
-      achternaam: form.get('achternaam') as string,
-      email: form.get('email') as string,
-      telefoon: form.get('telefoon') as string,
-      onderwerp: form.get('onderwerp') as string,
-      bericht: form.get('bericht') as string,
-    }
-
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-
-      if (!res.ok) throw new Error('Er ging iets mis')
-      setSuccess(true)
-    } catch {
-      setError('Er ging iets mis. Probeer het opnieuw of neem telefonisch contact op.')
-    } finally {
-      setLoading(false)
-    }
-  }
+export default async function ContactPage() {
+  const reviewData = await getGoogleReviews() ?? fallbackReviews
 
   return (
     <div className="bg-zinc-50 min-h-screen">
-      <div className="bg-white border-b border-zinc-200">
-        <div className="container-narrow py-8">
-          <nav className="text-sm text-zinc-500 mb-4">
-            <a href="/" className="hover:text-primary-600">Home</a>
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-primary-600 via-primary-500 to-primary-700 overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -translate-y-1/2 translate-x-1/2" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-white rounded-full translate-y-1/2 -translate-x-1/2" />
+        </div>
+
+        <div className="relative container-narrow py-16 md:py-24">
+          {/* Breadcrumb */}
+          <nav className="text-sm text-primary-200 mb-8">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <span className="mx-2">/</span>
-            <span className="text-zinc-900">Contact</span>
+            <span className="text-white">Contact</span>
           </nav>
-          <h1 className="text-3xl font-bold">Contact</h1>
-          <p className="text-zinc-600 mt-2">Heb je een vraag? Neem gerust contact met ons op.</p>
-        </div>
-      </div>
 
-      <div className="container-narrow py-8">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Formulier */}
+          <div className="max-w-2xl">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
+              Neem contact met ons op
+            </h1>
+            <p className="text-lg md:text-xl text-primary-100 leading-relaxed mb-8">
+              Heb je een vraag over onze trainingen of wil je een offerte aanvragen?
+              We staan voor je klaar en reageren binnen 1 werkdag.
+            </p>
+
+            <GoogleReviewsBadge
+              rating={reviewData.rating}
+              totalReviews={reviewData.user_ratings_total}
+              size="lg"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Contact Cards */}
+      <section className="-mt-8 relative z-10">
+        <div className="container-narrow">
+          <div className="grid md:grid-cols-3 gap-4 md:gap-6">
+            {/* Bellen */}
+            <a
+              href="tel:0235513409"
+              className="group bg-white rounded-2xl border border-zinc-200 p-6 md:p-8 shadow-sm hover:shadow-md hover:border-primary-200 transition-all duration-300"
+            >
+              <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary-500 transition-colors">
+                <Phone size={22} className="text-primary-600 group-hover:text-white transition-colors" />
+              </div>
+              <h2 className="text-lg font-bold text-zinc-900 mb-1">Bellen</h2>
+              <p className="text-xl font-bold text-primary-600 mb-2">023-551 3409</p>
+              <p className="text-sm text-zinc-500">Ma t/m Vr: 09:00 - 17:00</p>
+            </a>
+
+            {/* E-mailen */}
+            <a
+              href="mailto:info@computertraining.nl"
+              className="group bg-white rounded-2xl border border-zinc-200 p-6 md:p-8 shadow-sm hover:shadow-md hover:border-primary-200 transition-all duration-300"
+            >
+              <div className="w-12 h-12 bg-accent-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-accent-500 transition-colors">
+                <Mail size={22} className="text-accent-600 group-hover:text-white transition-colors" />
+              </div>
+              <h2 className="text-lg font-bold text-zinc-900 mb-1">E-mailen</h2>
+              <p className="text-xl font-bold text-primary-600 mb-2">info@computertraining.nl</p>
+              <p className="text-sm text-zinc-500">Reactie binnen 1 werkdag</p>
+            </a>
+
+            {/* Bezoeken */}
+            <a
+              href="https://maps.google.com/?q=Vincent+van+Goghweg+85,+1506+JB+Zaandam"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white rounded-2xl border border-zinc-200 p-6 md:p-8 shadow-sm hover:shadow-md hover:border-primary-200 transition-all duration-300"
+            >
+              <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-emerald-500 transition-colors">
+                <MapPin size={22} className="text-emerald-600 group-hover:text-white transition-colors" />
+              </div>
+              <h2 className="text-lg font-bold text-zinc-900 mb-1">Bezoeken</h2>
+              <p className="text-base font-semibold text-zinc-800 mb-1">Vincent van Goghweg 85</p>
+              <p className="text-sm text-zinc-500">1506 JB Zaandam</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Form + Sidebar */}
+      <section className="container-narrow py-16 md:py-20">
+        <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
+          {/* Form (2 cols) */}
           <div className="lg:col-span-2">
-            {success ? (
-              <div className="bg-white rounded-xl border border-zinc-200 p-12 text-center">
-                <CheckCircle size={48} className="text-primary-600 mx-auto mb-4" />
-                <h2 className="text-2xl font-bold mb-2">Bericht verzonden!</h2>
-                <p className="text-zinc-600">We nemen zo snel mogelijk contact met je op.</p>
-              </div>
-            ) : (
-              <div className="bg-white rounded-xl border border-zinc-200 p-6">
-                <h2 className="text-lg font-semibold mb-4">Stuur ons een bericht</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <Input id="voornaam" name="voornaam" label="Voornaam" required />
-                    <Input id="achternaam" name="achternaam" label="Achternaam" required />
-                    <Input id="email" name="email" label="E-mailadres" type="email" required />
-                    <Input id="telefoon" name="telefoon" label="Telefoon" type="tel" />
-                  </div>
-                  <Input id="onderwerp" name="onderwerp" label="Onderwerp" required />
-                  <Textarea id="bericht" name="bericht" label="Bericht" required />
-
-                  <label className="flex items-start gap-3">
-                    <input type="checkbox" required className="mt-1 rounded border-zinc-300 text-primary-600 focus:ring-primary-500" />
-                    <span className="text-sm text-zinc-600">
-                      Ik ga akkoord met de <a href="/privacybeleid" className="text-primary-600 underline">privacyverklaring</a>.
-                    </span>
-                  </label>
-
-                  {error && (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 text-sm">{error}</div>
-                  )}
-
-                  <Button type="submit" disabled={loading}>
-                    {loading ? <><Loader2 size={16} className="mr-2 animate-spin" /> Verzenden...</> : 'Verstuur bericht'}
-                  </Button>
-                </form>
-              </div>
-            )}
+            <ContactForm />
           </div>
 
-          {/* Contactinfo */}
+          {/* Sidebar */}
           <div className="space-y-6">
-            <div className="bg-white rounded-xl border border-zinc-200 p-6">
-              <h2 className="text-lg font-semibold mb-4">Contactgegevens</h2>
-              <div className="space-y-4">
-                <a href="tel:0235513409" className="flex items-center gap-3 text-zinc-700 hover:text-primary-600">
-                  <Phone size={18} className="text-primary-600" />
-                  023-551 3409
-                </a>
-                <a href="mailto:info@computertraining.nl" className="flex items-center gap-3 text-zinc-700 hover:text-primary-600">
-                  <Mail size={18} className="text-primary-600" />
-                  info@computertraining.nl
-                </a>
-                <div className="flex items-start gap-3 text-zinc-700">
-                  <MapPin size={18} className="text-primary-600 mt-0.5" />
-                  <div>
-                    Vincent van Goghweg 85<br />
-                    1506 JB Zaandam
+            {/* Openingstijden */}
+            <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-sm">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center">
+                  <Clock size={20} className="text-primary-600" />
+                </div>
+                <h3 className="text-lg font-bold text-zinc-900">Openingstijden</h3>
+              </div>
+              <div className="space-y-3">
+                {[
+                  { dag: 'Maandag', tijd: '09:00 - 17:00' },
+                  { dag: 'Dinsdag', tijd: '09:00 - 17:00' },
+                  { dag: 'Woensdag', tijd: '09:00 - 17:00' },
+                  { dag: 'Donderdag', tijd: '09:00 - 17:00' },
+                  { dag: 'Vrijdag', tijd: '09:00 - 17:00' },
+                  { dag: 'Zaterdag', tijd: 'Gesloten' },
+                  { dag: 'Zondag', tijd: 'Gesloten' },
+                ].map(({ dag, tijd }) => (
+                  <div key={dag} className="flex items-center justify-between text-sm">
+                    <span className="text-zinc-600">{dag}</span>
+                    <span className={tijd === 'Gesloten' ? 'text-zinc-400' : 'font-medium text-zinc-900'}>{tijd}</span>
                   </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Adresgegevens */}
+            <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-sm">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center">
+                  <Building2 size={20} className="text-primary-600" />
+                </div>
+                <h3 className="text-lg font-bold text-zinc-900">Adresgegevens</h3>
+              </div>
+              <div className="space-y-4 text-sm">
+                <div>
+                  <p className="font-semibold text-zinc-900">Compu Act Opleidingen</p>
+                  <p className="text-zinc-600 mt-1">Vincent van Goghweg 85</p>
+                  <p className="text-zinc-600">1506 JB Zaandam</p>
+                </div>
+                <div className="border-t border-zinc-100 pt-4 space-y-3">
+                  <a href="tel:0235513409" className="flex items-center gap-3 text-zinc-700 hover:text-primary-600 transition-colors">
+                    <Phone size={16} className="text-primary-500" />
+                    023-551 3409
+                  </a>
+                  <a href="mailto:info@computertraining.nl" className="flex items-center gap-3 text-zinc-700 hover:text-primary-600 transition-colors">
+                    <Mail size={16} className="text-primary-500" />
+                    info@computertraining.nl
+                  </a>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl border border-zinc-200 p-6">
-              <h2 className="text-lg font-semibold mb-4">Openingstijden</h2>
-              <div className="space-y-2 text-sm text-zinc-700">
-                <div className="flex items-center gap-2">
-                  <Clock size={16} className="text-primary-600" />
-                  <span>Maandag - Vrijdag: 08:30 - 17:00</span>
+            {/* FAQ Teaser */}
+            <Link
+              href="/veelgestelde-vragen"
+              className="group block bg-gradient-to-br from-primary-50 to-primary-100 rounded-2xl border border-primary-200 p-6 hover:shadow-md transition-all duration-300"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-primary-200 rounded-xl flex items-center justify-center">
+                  <HelpCircle size={20} className="text-primary-700" />
                 </div>
-                <div className="flex items-center gap-2">
-                  <Clock size={16} className="text-zinc-400" />
-                  <span className="text-zinc-400">Weekend: Gesloten</span>
-                </div>
+                <h3 className="text-lg font-bold text-primary-900">Veelgestelde vragen</h3>
               </div>
-            </div>
+              <p className="text-sm text-primary-700 mb-4">
+                Vind snel antwoord op de meest gestelde vragen over onze trainingen, locaties en werkwijze.
+              </p>
+              <span className="inline-flex items-center gap-1 text-sm font-semibold text-primary-600 group-hover:gap-2 transition-all">
+                Bekijk FAQ
+                <ChevronRight size={16} />
+              </span>
+            </Link>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Google Maps */}
+      <section className="container-narrow pb-16 md:pb-20">
+        <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
+          <div className="p-6 border-b border-zinc-100">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center">
+                <MapPin size={20} className="text-primary-600" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-zinc-900">Onze locatie</h2>
+                <p className="text-sm text-zinc-500">Vincent van Goghweg 85, 1506 JB Zaandam</p>
+              </div>
+            </div>
+          </div>
+          <iframe
+            src="https://www.google.com/maps?q=Vincent+van+Goghweg+85,+1506+JB+Zaandam&output=embed"
+            className="w-full h-80 md:h-96"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Compu Act Opleidingen locatie op Google Maps"
+          />
+        </div>
+      </section>
+
+      {/* Trust Section */}
+      <section className="bg-white border-t border-zinc-200">
+        <div className="container-narrow py-16 md:py-20">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-zinc-900 mb-3">
+              Waarom kiezen voor Compu Act?
+            </h2>
+            <p className="text-zinc-500 max-w-xl mx-auto">
+              Al meer dan 21 jaar de specialist in Microsoft Office trainingen in Nederland.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {[
+              { waarde: '21+', label: 'Jaar ervaring', icon: Award },
+              { waarde: '15.000+', label: 'Deelnemers opgeleid', icon: Users },
+              { waarde: '15+', label: 'Locaties in NL', icon: MapPin },
+              { waarde: `${reviewData.rating}`, label: 'Google beoordeling', icon: Award },
+            ].map(({ waarde, label, icon: Icon }) => (
+              <div key={label} className="text-center">
+                <div className="w-14 h-14 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Icon size={24} className="text-primary-600" />
+                </div>
+                <p className="text-3xl md:text-4xl font-extrabold text-zinc-900">{waarde}</p>
+                <p className="text-sm text-zinc-500 mt-1">{label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div className="mt-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl p-8 md:p-12 text-center">
+            <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-3">
+              Liever direct een offerte?
+            </h3>
+            <p className="text-primary-100 mb-8 max-w-lg mx-auto">
+              Vraag vrijblijvend een offerte op maat aan voor je team of organisatie.
+            </p>
+            <Link
+              href="/offerte"
+              className="inline-flex items-center gap-2 bg-white text-primary-700 px-8 py-4 rounded-xl font-bold text-base hover:bg-primary-50 hover:shadow-lg transition-all duration-300"
+            >
+              Offerte aanvragen
+              <ArrowRight size={18} />
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
