@@ -229,7 +229,12 @@ function CheckoutPage() {
             <span className="mx-2">/</span>
             <span className="text-zinc-900">Afronden</span>
           </nav>
-          <h1 className="text-2xl sm:text-3xl font-bold mb-4">Inschrijving afronden</h1>
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-2xl sm:text-3xl font-bold">Inschrijving afronden</h1>
+            <a href="/inschrijven" className="text-sm text-primary-500 font-semibold hover:text-primary-600 flex items-center gap-1">
+              &larr; Terug naar overzicht
+            </a>
+          </div>
 
           {/* Steps */}
           <div className="flex items-center gap-4 sm:gap-6">
