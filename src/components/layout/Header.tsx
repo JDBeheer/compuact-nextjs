@@ -270,8 +270,8 @@ export default function Header() {
                 <Shield size={10} />
                 <span>15.000+ deelnemers</span>
               </div>
-              <span className="hidden xl:inline text-primary-600">|</span>
-              <span className="hidden xl:inline">
+              <span className="hidden sm:inline text-primary-600">|</span>
+              <span className="hidden sm:inline">
                 <OpeningsTijden />
               </span>
             </div>
