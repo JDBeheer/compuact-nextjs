@@ -446,6 +446,8 @@ export const locaties: Locatie[] = [
   },
 ]
 
+export const AANTAL_LOCATIES = locaties.length
+
 export function getLocatieBySlug(slug: string): Locatie | undefined {
   return locaties.find(l => l.slug === slug)
 }
