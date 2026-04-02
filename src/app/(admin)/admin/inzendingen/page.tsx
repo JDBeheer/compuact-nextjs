@@ -194,7 +194,7 @@ export default function AdminInzendingenPage() {
 
                       return (
                         <div key={idx} className="bg-zinc-50 rounded-lg p-3">
-                          <div className="font-medium text-sm">{cursus.cursusTitel as string}</div>
+                          <div className="font-medium text-sm">{String(cursus.cursusTitel)}</div>
                           <div className="flex flex-wrap gap-x-3 text-xs text-zinc-500 mt-1">
                             {cursus.locatie && (
                               <span className="flex items-center gap-1"><MapPin size={11} />{String(cursus.locatie)}</span>
