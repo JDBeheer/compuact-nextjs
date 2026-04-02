@@ -60,6 +60,7 @@ function CheckoutPage() {
   const [success, setSuccess] = useState(false)
   const [successData, setSuccessData] = useState<{ items: typeof items; totaal: number; klantEmail: string } | null>(null)
   const [error, setError] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState('')
   const currentStep = 2
 
   useEffect(() => {
