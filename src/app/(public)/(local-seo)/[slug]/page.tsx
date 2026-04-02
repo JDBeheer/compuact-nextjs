@@ -455,3 +455,232 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
     </>
   )
 }
+
+// ════════════════════════════════════════════════════════════
+// CATEGORIE + STAD PAGE (e.g. /excel-cursus-amsterdam)
+// ════════════════════════════════════════════════════════════
+
+async function CategoriStadPage({ categorieSlug, stadSlug }: { categorieSlug: string; stadSlug: string }) {
+  const categorie = await getCategorie(categorieSlug)
+  if (!categorie) notFound()
+
+  const eigenLocatie = getLocatieBySlug(stadSlug)
+  const extraStad = !eigenLocatie ? getStadBySlug(stadSlug) : null
+  if (!eigenLocatie && !extraStad) notFound()
+
+  const stadNaam = eigenLocatie?.naam || extraStad!.naam
+  const heeftEigenLocatie = !!eigenLocatie
+  const nearestLocaties = !heeftEigenLocatie ? findNearestLocaties(extraStad!.lat, extraStad!.lng, 3) : []
+
+  const [cursussen, reviewData] = await Promise.all([
+    getCursussenByCategorie(categorie.id),
+    getGoogleReviews().then(r => r ?? fallbackReviews),
+  ])
+
+  const prijsRange = cursussen.length > 0 ? Math.min(...cursussen.map(c => c.prijs_vanaf)) : 0
+  const niveaus = [...new Set(cursussen.map(c => c.niveau))]
+  const niveauColors: Record<string, string> = { beginner: 'bg-green-100 text-green-700', gevorderd: 'bg-amber-100 text-amber-700', expert: 'bg-red-100 text-red-700' }
+
+  // Other categories for cross-links
+  const otherCategories = CATEGORIE_SLUGS.filter(s => s !== categorieSlug).slice(0, 6)
+
+  const jsonLd = {
+    '@context': 'https://schema.org', '@type': 'ItemList',
+    name: `${categorie.naam} cursussen ${stadNaam}`,
+    numberOfItems: cursussen.length,
+    itemListElement: cursussen.map((c, i) => ({
+      '@type': 'ListItem', position: i + 1,
+      item: { '@type': 'Course', name: c.titel, url: `https://www.computertraining.nl/${c.slug}-cursus-${stadSlug}`, offers: { '@type': 'Offer', price: c.prijs_vanaf, priceCurrency: 'EUR' } },
+    })),
+  }
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
+      {/* Hero */}
+      <section className="bg-white border-b border-zinc-200">
+        <div className="container-wide py-8 lg:py-10">
+          <nav className="text-sm text-zinc-400 mb-5">
+            <a href="/" className="hover:text-primary-500">Home</a>
+            <span className="mx-1.5">/</span>
+            <a href="/cursussen" className="hover:text-primary-500">Cursussen</a>
+            <span className="mx-1.5">/</span>
+            <a href={`/cursussen/${categorieSlug}`} className="hover:text-primary-500">{categorie.naam}</a>
+            <span className="mx-1.5">/</span>
+            <span className="text-zinc-700">{stadNaam}</span>
+          </nav>
+
+          <div className="flex flex-col lg:flex-row lg:gap-10">
+            <div className="flex-1 lg:max-w-2xl">
+              <GoogleReviewsBadge rating={reviewData.rating} totalReviews={reviewData.user_ratings_total} />
+              <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight mt-3 mb-3 leading-tight">
+                {categorie.naam} cursus in {stadNaam}
+              </h1>
+              <p className="text-zinc-600 text-lg leading-relaxed mb-5">
+                {heeftEigenLocatie ? (
+                  <>Bekijk alle {cursussen.length} {categorie.naam} cursussen in {stadNaam}. Van beginner tot expert, klassikaal op onze locatie of live online. Praktijkgericht leren met ervaren docenten.</>
+                ) : (
+                  <>Op zoek naar een {categorie.naam} cursus in de buurt van {stadNaam}? Wij bieden {cursussen.length} {categorie.naam} trainingen aan op locaties dichtbij {stadNaam} en als live online cursus.</>
+                )}
+              </p>
+
+              <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-zinc-500 mb-6">
+                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> {cursussen.length} {categorie.naam} cursussen</span>
+                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> Vanaf {formatPrice(prijsRange)}</span>
+                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> Klassikaal en live online</span>
+              </div>
+
+              {/* Niveau badges */}
+              <div className="flex gap-2 mb-6">
+                {niveaus.map((n) => (
+                  <span key={n} className={`text-xs font-semibold px-3 py-1.5 rounded-full ${niveauColors[n]}`}>{niveauLabel(n)}</span>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <a href="#aanbod" className="inline-flex items-center bg-primary-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/25 transition-all active:scale-[0.98]">
+                  Bekijk alle {categorie.naam} cursussen
+                </a>
+                <Link href="/incompany" className="inline-flex items-center gap-2 border-2 border-zinc-200 text-zinc-700 px-6 py-3 rounded-xl font-semibold hover:border-primary-300 hover:text-primary-600 transition-all">
+                  <Building2 size={16} /> InCompany offerte
+                </Link>
+              </div>
+            </div>
+
+            {/* Right panel */}
+            <div className="mt-8 lg:mt-0 lg:w-[320px] shrink-0">
+              {heeftEigenLocatie ? (
+                <div className="bg-zinc-50 border border-zinc-200 rounded-2xl overflow-hidden">
+                  <iframe src={eigenLocatie!.mapsEmbed} className="w-full h-40 border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`Kaart ${stadNaam}`} />
+                  <div className="p-5">
+                    <h2 className="font-bold text-sm text-zinc-400 uppercase tracking-wider mb-3">Locatie {stadNaam}</h2>
+                    <div className="space-y-2.5 text-sm">
+                      <div className="flex items-start gap-2.5"><MapPin size={15} className="text-primary-500 mt-0.5 shrink-0" /><div><div className="font-medium">{eigenLocatie!.adres}</div><div className="text-zinc-500">{eigenLocatie!.postcode} {stadNaam}</div></div></div>
+                      <div className="flex items-start gap-2.5"><Car size={15} className="text-primary-500 mt-0.5 shrink-0" /><span className="text-zinc-600">{eigenLocatie!.bereikbaarheid.auto}</span></div>
+                      <div className="flex items-start gap-2.5"><ParkingSquare size={15} className="text-primary-500 mt-0.5 shrink-0" /><span className="text-zinc-600">{eigenLocatie!.bereikbaarheid.parkeren}</span></div>
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-zinc-200">
+                      <Link href={`/locaties/${eigenLocatie!.slug}`} className="text-sm text-primary-500 font-semibold hover:text-primary-600 flex items-center gap-1">Meer over deze locatie <ArrowRight size={13} /></Link>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-5">
+                  <h2 className="font-bold text-sm text-zinc-400 uppercase tracking-wider mb-3"><MapPin size={13} className="inline mr-1" />Dichtstbijzijnde locaties</h2>
+                  <div className="space-y-3">
+                    {nearestLocaties.map((loc, i) => (
+                      <Link key={loc.slug} href={`/locaties/${loc.slug}`} className="flex items-start gap-3 bg-white rounded-xl p-3.5 border border-zinc-100 hover:border-primary-200 hover:shadow-sm transition-all group">
+                        <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${i === 0 ? 'bg-primary-500 text-white' : 'bg-zinc-200 text-zinc-600'}`}>{i + 1}</div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-semibold text-sm group-hover:text-primary-500 transition-colors">{loc.naam}</div>
+                          <div className="text-xs text-zinc-500">{loc.adres}</div>
+                        </div>
+                        <div className="text-right shrink-0"><div className="text-sm font-bold text-primary-500">{loc.afstand} km</div></div>
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-zinc-200">
+                    <div className="flex items-center gap-2 text-sm text-zinc-500">
+                      <Laptop size={14} className="text-accent-500" />
+                      <span>Of volg de cursus <strong className="text-zinc-700">live online</strong></span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Cursusaanbod */}
+      <div className="bg-zinc-50" id="aanbod">
+        <div className="container-wide py-10">
+          <h2 className="text-2xl font-extrabold mb-2">Alle {categorie.naam} cursussen {heeftEigenLocatie ? `in ${stadNaam}` : `bij ${stadNaam}`}</h2>
+          <p className="text-sm text-zinc-500 mb-8">{cursussen.length} trainingen beschikbaar — van beginner tot expert</p>
+
+          {/* Cursus cards met link naar specifieke cursus+stad pagina */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {cursussen.map((cursus) => (
+              <Link key={cursus.id} href={`/${cursus.slug}-cursus-${stadSlug}`} className="group">
+                <div className="bg-white rounded-xl border border-zinc-200 p-5 h-full transition-all duration-200 group-hover:shadow-lg group-hover:-translate-y-1 group-hover:border-primary-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${niveauColors[cursus.niveau]}`}>{niveauLabel(cursus.niveau)}</span>
+                    <span className="text-[11px] text-zinc-500">{cursus.duur}</span>
+                  </div>
+                  <h3 className="font-bold text-lg mb-1.5 group-hover:text-primary-500 transition-colors">{cursus.titel}</h3>
+                  <p className="text-sm text-zinc-500 line-clamp-2 mb-4">{cursus.korte_beschrijving}</p>
+                  <div className="flex items-center justify-between pt-3 border-t border-zinc-100">
+                    <div>
+                      <span className="text-xs text-zinc-400">vanaf</span>
+                      <span className="text-lg font-bold text-zinc-900 ml-1">{formatPrice(cursus.prijs_vanaf)}</span>
+                    </div>
+                    <span className="text-sm text-primary-500 font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+                      Bekijk <ArrowRight size={14} />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Trust */}
+          <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-12">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+              {[
+                { icon: Shield, label: 'Niet goed? Geld terug', sub: '14 dagen bedenktijd' },
+                { icon: Award, label: 'Erkend certificaat', sub: 'Na succesvolle afronding' },
+                { icon: Users, label: '15.000+ cursisten', sub: 'Succesvol opgeleid' },
+                { icon: Phone, label: 'Persoonlijk advies', sub: '023-551 3409' },
+              ].map((t) => (
+                <div key={t.label} className="flex flex-col items-center">
+                  <t.icon size={22} className="text-primary-500 mb-2" />
+                  <span className="font-semibold text-sm">{t.label}</span>
+                  <span className="text-xs text-zinc-400 mt-0.5">{t.sub}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Cross-links: andere categorieën in deze stad */}
+          <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-12">
+            <h2 className="font-bold text-lg mb-2">Andere cursussen in {stadNaam}</h2>
+            <p className="text-sm text-zinc-500 mb-4">Naast {categorie.naam} bieden we ook andere Microsoft Office en IT trainingen aan.</p>
+            <div className="flex flex-wrap gap-2">
+              {otherCategories.map((slug) => (
+                <Link key={slug} href={`/${slug}-cursus-${stadSlug}`} className="inline-flex items-center gap-1.5 bg-zinc-50 border border-zinc-200 px-3.5 py-2 rounded-lg text-sm text-zinc-600 hover:border-primary-300 hover:text-primary-500 hover:bg-primary-50 transition-colors capitalize">
+                  <MapPin size={12} /> {slug.replace(/-/g, ' ')} cursus {stadNaam}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Cross-links: deze categorie in andere steden */}
+          <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-12">
+            <h2 className="font-bold text-lg mb-2">{categorie.naam} cursus op andere locaties</h2>
+            <p className="text-sm text-zinc-500 mb-4">Onze {categorie.naam} cursussen zijn beschikbaar op al onze locaties door heel Nederland.</p>
+            <div className="flex flex-wrap gap-2">
+              {locaties.filter(l => l.slug !== stadSlug).map((city) => (
+                <Link key={city.slug} href={`/${categorieSlug}-cursus-${city.slug}`} className="inline-flex items-center gap-1.5 bg-zinc-50 border border-zinc-200 px-3.5 py-2 rounded-lg text-sm text-zinc-600 hover:border-primary-300 hover:text-primary-500 hover:bg-primary-50 transition-colors">
+                  <MapPin size={12} /> {city.naam}
+                </Link>
+              ))}
+              <Link href={`/cursussen/${categorieSlug}`} className="inline-flex items-center gap-1.5 bg-primary-50 border border-primary-200 px-3.5 py-2 rounded-lg text-sm text-primary-600 font-semibold hover:bg-primary-100 transition-colors">
+                Alle {categorie.naam} cursussen <ArrowRight size={12} />
+              </Link>
+            </div>
+          </div>
+
+          {/* InCompany */}
+          <div className="bg-gradient-to-r from-primary-600 to-primary-800 rounded-2xl p-8 lg:p-10 text-white flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            <div>
+              <h3 className="text-2xl font-extrabold flex items-center gap-3"><Building2 size={28} />{categorie.naam} InCompany training</h3>
+              <p className="text-primary-200 mt-2 max-w-xl leading-relaxed">Wil je een {categorie.naam} training op maat voor jouw team in {stadNaam}? Wij komen naar je locatie met een programma afgestemd op jouw organisatie.</p>
+            </div>
+            <Link href="/incompany" className="bg-white text-primary-700 px-7 py-3.5 rounded-xl font-bold hover:bg-zinc-100 hover:shadow-lg transition-all active:scale-[0.98] shrink-0">InCompany offerte</Link>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
