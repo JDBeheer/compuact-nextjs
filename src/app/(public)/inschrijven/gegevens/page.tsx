@@ -104,19 +104,102 @@ function CheckoutPage() {
     const isOfferte = checkoutType === 'offerte'
     return (
       <div className="bg-zinc-50 min-h-screen">
-        <div className="container-narrow py-16 text-center">
-          <div className="bg-white rounded-2xl border border-zinc-200 p-12">
-            <CheckCircle size={48} className="text-primary-500 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold mb-2">
+        <div className="container-narrow py-12">
+          {/* Success header */}
+          <div className="bg-white rounded-2xl border border-zinc-200 p-8 sm:p-10 text-center mb-6">
+            <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle size={32} className="text-green-600" />
+            </div>
+            <h1 className="text-2xl font-extrabold mb-2">
               {isOfferte ? 'Offerte aanvraag ontvangen!' : 'Inschrijving ontvangen!'}
             </h1>
-            <p className="text-zinc-600 mb-6">
+            <p className="text-zinc-600 mb-2">
               {isOfferte
                 ? 'Bedankt voor je aanvraag. Wij sturen je zo snel mogelijk een offerte op maat.'
-                : 'Bedankt voor je inschrijving. Je ontvangt een bevestigingsmail met alle details.'}
+                : 'Bedankt voor je inschrijving. We hebben een bevestiging gestuurd.'}
             </p>
+            {successData?.klantEmail && (
+              <p className="text-sm text-zinc-400">
+                Bevestiging verzonden naar <span className="font-medium text-zinc-600">{successData.klantEmail}</span>
+              </p>
+            )}
+          </div>
+
+          {/* Samenvatting */}
+          {successData && successData.items.length > 0 && (
+            <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-6">
+              <h2 className="font-bold text-lg mb-4">Samenvatting</h2>
+              <div className="space-y-3">
+                {successData.items.map((item) => {
+                  const aantal = item.aantalDeelnemers || 1
+                  return (
+                    <div key={item.sessieId} className="flex items-start justify-between gap-4 py-3 border-b border-zinc-100 last:border-0">
+                      <div>
+                        <div className="font-semibold">{item.cursusTitel}</div>
+                        <div className="text-sm text-zinc-500 mt-0.5">
+                          {lesmethodeLabel(item.lesmethode)} &middot; {item.locatie} &middot; {formatDateShort(item.datum)}
+                        </div>
+                        {aantal > 1 && (
+                          <div className="text-sm text-zinc-400 mt-0.5">{aantal} deelnemers</div>
+                        )}
+                      </div>
+                      <div className="text-right shrink-0">
+                        <div className="font-bold">{formatPrice(item.prijs * aantal)}</div>
+                        {aantal > 1 && <div className="text-xs text-zinc-400">{aantal}x {formatPrice(item.prijs)}</div>}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+              <div className="border-t border-zinc-200 mt-4 pt-4 flex justify-between items-center">
+                <span className="font-semibold">Totaal excl. BTW</span>
+                <span className="text-xl font-extrabold text-primary-500">{formatPrice(successData.totaal + ADMIN_FEE)}</span>
+              </div>
+            </div>
+          )}
+
+          {/* Wat nu? */}
+          <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-6">
+            <h2 className="font-bold text-lg mb-3">Wat gebeurt er nu?</h2>
+            <div className="space-y-3">
+              {isOfferte ? (
+                <>
+                  <div className="flex items-start gap-3">
+                    <div className="bg-primary-100 text-primary-600 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0">1</div>
+                    <div><div className="font-medium text-sm">Offerte wordt opgesteld</div><p className="text-sm text-zinc-500">Wij stellen een passende offerte samen op basis van je wensen.</p></div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="bg-primary-100 text-primary-600 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0">2</div>
+                    <div><div className="font-medium text-sm">Contact opnemen</div><p className="text-sm text-zinc-500">We nemen binnen 1 werkdag contact met je op om de details te bespreken.</p></div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="bg-primary-100 text-primary-600 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0">3</div>
+                    <div><div className="font-medium text-sm">Akkoord en inschrijving</div><p className="text-sm text-zinc-500">Na akkoord wordt je inschrijving definitief bevestigd.</p></div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-start gap-3">
+                    <div className="bg-primary-100 text-primary-600 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0">1</div>
+                    <div><div className="font-medium text-sm">Bevestigingsmail ontvangen</div><p className="text-sm text-zinc-500">Je ontvangt een e-mail met alle details van je inschrijving.</p></div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="bg-primary-100 text-primary-600 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0">2</div>
+                    <div><div className="font-medium text-sm">Factuur ontvangen</div><p className="text-sm text-zinc-500">Je ontvangt een factuur die je voorafgaand aan de cursus voldoet.</p></div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="bg-primary-100 text-primary-600 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0">3</div>
+                    <div><div className="font-medium text-sm">Cursus volgen</div><p className="text-sm text-zinc-500">Op de cursusdag ontvang je een laptop, lesmateriaal, lunch en na afloop een certificaat.</p></div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center">
             <a href="/cursussen">
-              <Button>Bekijk meer cursussen</Button>
+              <Button size="lg">Bekijk meer cursussen</Button>
             </a>
           </div>
         </div>
