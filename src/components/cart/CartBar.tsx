@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { ShoppingCart, ChevronUp, ChevronDown, X, ArrowRight, MapPin, Calendar } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 import { formatPrice, formatDateShort, lesmethodeLabel } from '@/lib/utils'
