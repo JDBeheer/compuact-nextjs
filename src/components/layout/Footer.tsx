@@ -23,10 +23,10 @@ const populaireCursussen = [
 ]
 
 const lesmethodes = [
-  { naam: 'Klassikaal', href: '/cursussen', beschrijving: '17 locaties door heel Nederland' },
-  { naam: 'Live Online', href: '/cursussen', beschrijving: 'Volg de training vanuit huis' },
-  { naam: 'Thuisstudie', href: '/cursussen', beschrijving: 'Leer in je eigen tempo' },
-  { naam: 'InCompany', href: '/incompany', beschrijving: 'Training op maat bij jou op locatie' },
+  { naam: 'Klassikaal', href: '/lesmethodes#klassikaal', beschrijving: '17 locaties door heel Nederland' },
+  { naam: 'Live Online', href: '/lesmethodes#live-online', beschrijving: 'Volg de training vanuit huis' },
+  { naam: 'Thuisstudie', href: '/lesmethodes#thuisstudie', beschrijving: 'Leer in je eigen tempo' },
+  { naam: 'InCompany', href: '/lesmethodes#incompany', beschrijving: 'Training op maat bij jou op locatie' },
 ]
 
 const bedrijfLinks = [
