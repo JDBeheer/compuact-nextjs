@@ -5,7 +5,6 @@ import {
   MapPin, Clock, Award, Monitor, Star, Phone, Shield,
   Wifi, Home, Calendar, Headphones, Settings, UserCheck
 } from 'lucide-react'
-import { locaties } from '@/data/locaties'
 import { getGoogleReviews, fallbackReviews } from '@/lib/google-reviews'
 import { GoogleReviewsBadge } from '@/components/GoogleReviews'
 
