@@ -575,6 +575,13 @@ export default function Header() {
                 <Phone size={15} />
                 Bel ons: 023-551 3409
               </a>
+              <button
+                onClick={() => { setMobileOpen(false); setStudiegidsOpen(true) }}
+                className="flex items-center justify-center gap-2 w-full border-2 border-accent-200 text-accent-600 px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-accent-50 transition-all"
+              >
+                <Download size={15} />
+                Gratis studiegids downloaden
+              </button>
             </div>
 
             {/* Mobile trust */}
