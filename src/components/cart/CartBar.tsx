@@ -42,9 +42,7 @@ export default function CartBar() {
   const [expanded, setExpanded] = useState(false)
   const [pulse, setPulse] = useState(false)
   const prevItemCount = useRef(items.length)
-
-  // Hide on checkout pages
-  if (pathname?.startsWith('/inschrijven')) return null
+  const hideOnCheckout = pathname?.startsWith('/inschrijven')
 
   // Pulse animation when items change
   useEffect(() => {
