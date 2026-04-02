@@ -197,13 +197,13 @@ export default function AdminInzendingenPage() {
                           <div className="font-medium text-sm">{cursus.cursusTitel as string}</div>
                           <div className="flex flex-wrap gap-x-3 text-xs text-zinc-500 mt-1">
                             {cursus.locatie && (
-                              <span className="flex items-center gap-1"><MapPin size={11} />{cursus.locatie as string}</span>
+                              <span className="flex items-center gap-1"><MapPin size={11} />{String(cursus.locatie)}</span>
                             )}
                             {cursus.datum && (
-                              <span className="flex items-center gap-1"><Calendar size={11} />{formatDateShort(cursus.datum as string)}</span>
+                              <span className="flex items-center gap-1"><Calendar size={11} />{formatDateShort(String(cursus.datum))}</span>
                             )}
                             {cursus.lesmethode && (
-                              <span>{lesmethodeLabel(cursus.lesmethode as string)}</span>
+                              <span>{lesmethodeLabel(String(cursus.lesmethode))}</span>
                             )}
                           </div>
                           <div className="flex items-center justify-between mt-1">
