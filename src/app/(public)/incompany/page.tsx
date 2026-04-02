@@ -37,6 +37,7 @@ function InCompanyContent() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState('')
 
   useEffect(() => {
     async function fetchCursussen() {
