@@ -42,7 +42,7 @@ function InCompanyContent() {
       const supabase = createClient()
       const { data } = await supabase
         .from('cursussen')
-        .select('id, titel, niveau, duur, prijs_vanaf, categorie:categorieen(naam)')
+        .select('id, slug, titel, niveau, duur, prijs_vanaf, categorie:categorieen(naam)')
         .eq('actief', true)
         .order('titel')
 
