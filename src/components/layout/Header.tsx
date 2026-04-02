@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Menu, X, ChevronDown, ChevronRight, Phone, Mail, Search, FileSpreadsheet, FileText, Monitor, Presentation, BarChart3, FolderKanban, Bot, PenTool, Building2, ArrowRight, Star, Shield, Users, MapPin } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import OpeningsTijden from '@/components/OpeningsTijden'
+import StudiegidsModal from '@/components/StudiegidsModal'
 
 const categorieen = [
   {
