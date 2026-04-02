@@ -270,6 +270,7 @@ function CheckoutPage() {
           cursussen: enrichedItems,
           klantgegevens,
           totaalprijs: totaal,
+          turnstileToken,
         }),
       })
 
