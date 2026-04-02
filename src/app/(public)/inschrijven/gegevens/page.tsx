@@ -216,6 +216,11 @@ function CheckoutPage() {
         trackGenerateLead({ value: totaal, cursussen: items.map(i => i.cursusTitel) })
       }
 
+      setSuccessData({
+        items: [...items],
+        totaal,
+        klantEmail: klantgegevens.email as string,
+      })
       clearCart()
       setSuccess(true)
     } catch {
