@@ -735,6 +735,8 @@ export default function Header() {
           </div>
         </div>
       )}
+
+      <StudiegidsModal isOpen={studiegidsOpen} onClose={() => setStudiegidsOpen(false)} />
     </>
   )
 }
