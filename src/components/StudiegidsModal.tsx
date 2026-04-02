@@ -17,8 +17,19 @@ export default function StudiegidsModal({ isOpen, onClose }: StudiegidsModalProp
   const [error, setError] = useState('')
   const [type, setType] = useState<'bedrijven' | 'particulieren'>('bedrijven')
   const [turnstileToken, setTurnstileToken] = useState('')
+  const [mounted, setMounted] = useState(false)
 
-  if (!isOpen) return null
+  useEffect(() => setMounted(true), [])
+
+  // Lock body scroll when open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+      return () => { document.body.style.overflow = '' }
+    }
+  }, [isOpen])
+
+  if (!isOpen || !mounted) return null
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
