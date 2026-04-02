@@ -188,7 +188,7 @@ export default function AdminInzendingenPage() {
                   <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Cursussen &amp; deelnemers</h3>
                   <div className="space-y-3">
                     {selected.cursussen.map((c, idx) => {
-                      const cursus = c as Record<string, unknown>
+                      const cursus = c as unknown as Record<string, unknown>
                       const deelnemers = (cursus.deelnemers || []) as Array<{ voornaam: string; achternaam: string; email: string }>
                       const aantal = (cursus.aantalDeelnemers as number) || 1
 
