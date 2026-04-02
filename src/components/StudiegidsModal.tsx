@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { X, BookOpen, CheckCircle, Loader2, Download, Star } from 'lucide-react'
 import Input from '@/components/ui/Input'
 import TurnstileWidget from '@/components/TurnstileWidget'
