@@ -38,7 +38,7 @@ export default function StudiegidsModal({ isOpen, onClose }: StudiegidsModalProp
       const res = await fetch('/api/studiegids', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, turnstileToken }),
       })
       if (!res.ok) throw new Error('Er ging iets mis')
       setSuccess(true)
