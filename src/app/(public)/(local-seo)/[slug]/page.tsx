@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { Cursus, CursusSessie } from '@/types'
-import { locaties, getLocatieBySlug } from '@/data/locaties'
+import { locaties, getLocatieBySlug, type Locatie as LocatieData } from '@/data/locaties'
+import { getStadBySlug, berekenAfstand } from '@/data/steden'
 import SessieTable from '@/components/cursussen/SessieTable'
 import CursusCard from '@/components/cursussen/CursusCard'
 import { formatPrice, formatDateShort, niveauLabel } from '@/lib/utils'
@@ -12,10 +13,9 @@ import { GoogleReviewsBadge } from '@/components/GoogleReviews'
 import {
   MapPin, Clock, Users, Award, BookOpen, CheckCircle,
   ArrowRight, Building2, Car, Train, ParkingSquare,
-  Phone, Shield, Navigation
+  Phone, Shield, Navigation, Laptop
 } from 'lucide-react'
 
-// URL: /excel-basis-cursus-amsterdam → cursusSlug=excel-basis, stadSlug=amsterdam
 function parseSlug(slug: string): { cursusSlug: string; stadSlug: string } | null {
   const match = slug.match(/^(.+)-cursus-(.+)$/)
   if (!match) return null
@@ -24,25 +24,13 @@ function parseSlug(slug: string): { cursusSlug: string; stadSlug: string } | nul
 
 async function getCursus(slug: string) {
   const supabase = createServerSupabaseClient()
-  const { data } = await supabase
-    .from('cursussen')
-    .select('*, categorie:categorieen(*)')
-    .eq('slug', slug)
-    .eq('actief', true)
-    .single()
+  const { data } = await supabase.from('cursussen').select('*, categorie:categorieen(*)').eq('slug', slug).eq('actief', true).single()
   return data as Cursus | null
 }
 
 async function getSessies(cursusId: string) {
   const supabase = createServerSupabaseClient()
-  const { data } = await supabase
-    .from('cursus_sessies')
-    .select('*, locatie:locaties(naam, stad)')
-    .eq('cursus_id', cursusId)
-    .eq('actief', true)
-    .gte('datum', new Date().toISOString().split('T')[0])
-    .order('datum')
-
+  const { data } = await supabase.from('cursus_sessies').select('*, locatie:locaties(naam, stad)').eq('cursus_id', cursusId).eq('actief', true).gte('datum', new Date().toISOString().split('T')[0]).order('datum')
   return (data || []).map((s: Record<string, unknown>) => ({
     ...s,
     locatie_naam: (s.locatie as Record<string, string>)?.naam || '',
@@ -53,14 +41,16 @@ async function getSessies(cursusId: string) {
 
 async function getRelated(categorieId: string, currentId: string) {
   const supabase = createServerSupabaseClient()
-  const { data } = await supabase
-    .from('cursussen')
-    .select('*, categorie:categorieen(*)')
-    .eq('categorie_id', categorieId)
-    .eq('actief', true)
-    .neq('id', currentId)
-    .limit(3)
+  const { data } = await supabase.from('cursussen').select('*, categorie:categorieen(*)').eq('categorie_id', categorieId).eq('actief', true).neq('id', currentId).limit(3)
   return (data || []) as Cursus[]
+}
+
+// Find nearest training locations to a given coordinate
+function findNearestLocaties(lat: number, lng: number, count: number = 3): (LocatieData & { afstand: number })[] {
+  return locaties
+    .map(l => ({ ...l, afstand: Math.round(berekenAfstand(lat, lng, l.lat, l.lng)) }))
+    .sort((a, b) => a.afstand - b.afstand)
+    .slice(0, count)
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -68,10 +58,14 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   if (!parsed) return { title: 'Niet gevonden' }
   const cursus = await getCursus(parsed.cursusSlug)
   const locatie = getLocatieBySlug(parsed.stadSlug)
-  if (!cursus || !locatie) return { title: 'Niet gevonden' }
+  const stad = !locatie ? getStadBySlug(parsed.stadSlug) : null
+  const stadNaam = locatie?.naam || stad?.naam
+  if (!cursus || !stadNaam) return { title: 'Niet gevonden' }
 
-  const title = `${cursus.titel} cursus in ${locatie.naam} | Compu Act Opleidingen`
-  const description = `Volg de ${cursus.titel} cursus in ${locatie.naam}. Klassikaal aan ${locatie.adres} of live online. Kleine groepen, ervaren docenten, certificaat inbegrepen. Vanaf ${formatPrice(cursus.prijs_vanaf)}.`
+  const title = `${cursus.titel} cursus ${stadNaam} | Compu Act Opleidingen`
+  const description = locatie
+    ? `Volg de ${cursus.titel} cursus in ${stadNaam}. Klassikaal aan ${locatie.adres} of live online. Kleine groepen, ervaren docenten. Vanaf ${formatPrice(cursus.prijs_vanaf)}.`
+    : `Zoek je een ${cursus.titel} cursus in de buurt van ${stadNaam}? Compu Act biedt trainingen op locaties dichtbij ${stadNaam} en live online. Vanaf ${formatPrice(cursus.prijs_vanaf)}.`
   return { title, description, openGraph: { title, description, type: 'website' } }
 }
 
@@ -80,8 +74,20 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
   if (!parsed) notFound()
 
   const cursus = await getCursus(parsed.cursusSlug)
-  const locatie = getLocatieBySlug(parsed.stadSlug)
-  if (!cursus || !locatie) notFound()
+  if (!cursus) notFound()
+
+  // Stad kan een eigen locatie zijn OF een extra stad zonder locatie
+  const eigenLocatie = getLocatieBySlug(parsed.stadSlug)
+  const extraStad = !eigenLocatie ? getStadBySlug(parsed.stadSlug) : null
+  if (!eigenLocatie && !extraStad) notFound()
+
+  const stadNaam = eigenLocatie?.naam || extraStad!.naam
+  const heeftEigenLocatie = !!eigenLocatie
+
+  // Dichtstbijzijnde locaties (voor steden zonder eigen locatie)
+  const nearestLocaties = !heeftEigenLocatie
+    ? findNearestLocaties(extraStad!.lat, extraStad!.lng, 3)
+    : []
 
   const [allSessies, related, reviewData] = await Promise.all([
     getSessies(cursus.id),
@@ -89,25 +95,32 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
     getGoogleReviews().then(r => r ?? fallbackReviews),
   ])
 
-  // Sessies: lokaal + online eerst
-  const localSessies = allSessies.filter(s => s.locatie_stad.toLowerCase() === locatie.naam.toLowerCase())
-  const onlineSessies = allSessies.filter(s => s.lesmethode === 'online')
-  const displaySessies = [...localSessies, ...onlineSessies]
+  // Filter sessies
+  let displaySessies: CursusSessie[]
+  if (heeftEigenLocatie) {
+    const local = allSessies.filter(s => s.locatie_stad.toLowerCase() === stadNaam.toLowerCase())
+    const online = allSessies.filter(s => s.lesmethode === 'online')
+    displaySessies = [...local, ...online]
+  } else {
+    // Toon sessies van de dichtstbijzijnde locaties + online
+    const nearbyNames = nearestLocaties.map(l => l.naam.toLowerCase())
+    const nearby = allSessies.filter(s => nearbyNames.includes(s.locatie_stad.toLowerCase()))
+    const online = allSessies.filter(s => s.lesmethode === 'online')
+    displaySessies = [...nearby, ...online]
+  }
 
-  const otherCities = locaties.filter(l => l.slug !== parsed.stadSlug).slice(0, 12)
   const niveauColors: Record<string, string> = { beginner: 'bg-green-100 text-green-700', gevorderd: 'bg-amber-100 text-amber-700', expert: 'bg-red-100 text-red-700' }
+  const otherCities = locaties.filter(l => l.slug !== parsed.stadSlug).slice(0, 12)
 
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'Course',
-    name: `${cursus.titel} cursus ${locatie.naam}`,
+    name: `${cursus.titel} cursus ${stadNaam}`,
     description: cursus.korte_beschrijving,
     provider: { '@type': 'Organization', name: 'Compu Act Opleidingen', url: 'https://www.computertraining.nl' },
-    location: { '@type': 'Place', name: `Compu Act ${locatie.naam}`, address: { '@type': 'PostalAddress', streetAddress: locatie.adres, postalCode: locatie.postcode, addressLocality: locatie.naam, addressCountry: 'NL' } },
+    ...(heeftEigenLocatie ? {
+      location: { '@type': 'Place', name: `Compu Act ${stadNaam}`, address: { '@type': 'PostalAddress', streetAddress: eigenLocatie!.adres, postalCode: eigenLocatie!.postcode, addressLocality: stadNaam, addressCountry: 'NL' } }
+    } : {}),
     offers: { '@type': 'Offer', price: cursus.prijs_vanaf, priceCurrency: 'EUR', availability: 'https://schema.org/InStock' },
-    hasCourseInstance: localSessies.slice(0, 5).map(s => ({
-      '@type': 'CourseInstance', courseMode: 'InPerson', startDate: s.datum,
-      location: { '@type': 'Place', name: locatie.naam, address: { '@type': 'PostalAddress', addressLocality: locatie.naam, addressCountry: 'NL' } },
-    })),
   }
 
   return (
@@ -124,24 +137,35 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
             <span className="mx-1.5">/</span>
             <a href={`/cursussen/${cursus.slug}`} className="hover:text-primary-500">{cursus.titel}</a>
             <span className="mx-1.5">/</span>
-            <span className="text-zinc-700">{locatie.naam}</span>
+            <span className="text-zinc-700">{stadNaam}</span>
           </nav>
 
           <div className="flex flex-col lg:flex-row lg:gap-10">
             <div className="flex-1 lg:max-w-2xl">
               <GoogleReviewsBadge rating={reviewData.rating} totalReviews={reviewData.user_ratings_total} />
               <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight mt-3 mb-3 leading-tight">
-                {cursus.titel} cursus in {locatie.naam}
+                {cursus.titel} cursus in {stadNaam}
               </h1>
               <p className="text-zinc-600 text-lg leading-relaxed mb-5">
-                Volg de {cursus.titel} training in {locatie.naam}. Praktijkgericht leren met ervaren docenten in kleine groepen.
-                {localSessies.length > 0 ? ` Eerstvolgende startdatum: ${formatDateShort(localSessies[0].datum)}.` : ' Ook beschikbaar als live online training.'}
+                {heeftEigenLocatie ? (
+                  <>Volg de {cursus.titel} training in {stadNaam}. Praktijkgericht leren met ervaren docenten in kleine groepen. {displaySessies.length > 0 && displaySessies[0].datum ? `Eerstvolgende startdatum: ${formatDateShort(displaySessies[0].datum)}.` : ''}</>
+                ) : (
+                  <>Op zoek naar een {cursus.titel} cursus in de buurt van {stadNaam}? Compu Act Opleidingen biedt deze training aan op {nearestLocaties.length} locaties dichtbij {stadNaam} en als live online training.</>
+                )}
               </p>
+
+              {/* USPs */}
               <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-zinc-500 mb-6">
-                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> All-in prijs incl. laptop en certificaat</span>
+                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> All-in prijs incl. materiaal en certificaat</span>
                 <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> Klassikaal, online of incompany</span>
-                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> {locatie.bereikbaarheid.parkeren.includes('Gratis') ? 'Gratis parkeren' : 'Parkeren bij locatie'}</span>
+                {heeftEigenLocatie && eigenLocatie!.bereikbaarheid.parkeren.includes('Gratis') && (
+                  <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> Gratis parkeren</span>
+                )}
+                {!heeftEigenLocatie && (
+                  <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> {nearestLocaties[0]?.afstand} km van {stadNaam}</span>
+                )}
               </div>
+
               <div className="flex flex-wrap gap-3">
                 <a href="#cursusdata" className="inline-flex items-center bg-primary-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/25 transition-all active:scale-[0.98]">
                   Bekijk data &amp; inschrijven
@@ -152,23 +176,62 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
               </div>
             </div>
 
-            {/* Locatie kaart card */}
+            {/* Right panel */}
             <div className="mt-8 lg:mt-0 lg:w-[320px] shrink-0">
-              <div className="bg-zinc-50 border border-zinc-200 rounded-2xl overflow-hidden">
-                <iframe src={locatie.mapsEmbed} className="w-full h-40 border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`Kaart ${locatie.naam}`} />
-                <div className="p-5">
-                  <h2 className="font-bold text-sm text-zinc-400 uppercase tracking-wider mb-3">Locatie {locatie.naam}</h2>
-                  <div className="space-y-2.5 text-sm">
-                    <div className="flex items-start gap-2.5"><MapPin size={15} className="text-primary-500 mt-0.5 shrink-0" /><div><div className="font-medium">{locatie.adres}</div><div className="text-zinc-500">{locatie.postcode} {locatie.naam}</div></div></div>
-                    <div className="flex items-start gap-2.5"><Car size={15} className="text-primary-500 mt-0.5 shrink-0" /><span className="text-zinc-600">{locatie.bereikbaarheid.auto}</span></div>
-                    <div className="flex items-start gap-2.5"><Train size={15} className="text-primary-500 mt-0.5 shrink-0" /><span className="text-zinc-600">{locatie.bereikbaarheid.ov}</span></div>
-                    <div className="flex items-start gap-2.5"><ParkingSquare size={15} className="text-primary-500 mt-0.5 shrink-0" /><span className="text-zinc-600">{locatie.bereikbaarheid.parkeren}</span></div>
-                  </div>
-                  <div className="mt-3 pt-3 border-t border-zinc-200">
-                    <Link href={`/locaties/${locatie.slug}`} className="text-sm text-primary-500 font-semibold hover:text-primary-600 flex items-center gap-1">Meer over deze locatie <ArrowRight size={13} /></Link>
+              {heeftEigenLocatie ? (
+                /* Eigen locatie kaart */
+                <div className="bg-zinc-50 border border-zinc-200 rounded-2xl overflow-hidden">
+                  <iframe src={eigenLocatie!.mapsEmbed} className="w-full h-40 border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`Kaart ${stadNaam}`} />
+                  <div className="p-5">
+                    <h2 className="font-bold text-sm text-zinc-400 uppercase tracking-wider mb-3">Locatie {stadNaam}</h2>
+                    <div className="space-y-2.5 text-sm">
+                      <div className="flex items-start gap-2.5"><MapPin size={15} className="text-primary-500 mt-0.5 shrink-0" /><div><div className="font-medium">{eigenLocatie!.adres}</div><div className="text-zinc-500">{eigenLocatie!.postcode} {stadNaam}</div></div></div>
+                      <div className="flex items-start gap-2.5"><Car size={15} className="text-primary-500 mt-0.5 shrink-0" /><span className="text-zinc-600">{eigenLocatie!.bereikbaarheid.auto}</span></div>
+                      <div className="flex items-start gap-2.5"><Train size={15} className="text-primary-500 mt-0.5 shrink-0" /><span className="text-zinc-600">{eigenLocatie!.bereikbaarheid.ov}</span></div>
+                      <div className="flex items-start gap-2.5"><ParkingSquare size={15} className="text-primary-500 mt-0.5 shrink-0" /><span className="text-zinc-600">{eigenLocatie!.bereikbaarheid.parkeren}</span></div>
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-zinc-200">
+                      <Link href={`/locaties/${eigenLocatie!.slug}`} className="text-sm text-primary-500 font-semibold hover:text-primary-600 flex items-center gap-1">Meer over deze locatie <ArrowRight size={13} /></Link>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                /* Dichtstbijzijnde locaties card */
+                <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-5">
+                  <h2 className="font-bold text-sm text-zinc-400 uppercase tracking-wider mb-3">
+                    <MapPin size={13} className="inline mr-1" />
+                    Dichtstbijzijnde locaties
+                  </h2>
+                  <div className="space-y-3">
+                    {nearestLocaties.map((loc, i) => (
+                      <Link
+                        key={loc.slug}
+                        href={`/locaties/${loc.slug}`}
+                        className="flex items-start gap-3 bg-white rounded-xl p-3.5 border border-zinc-100 hover:border-primary-200 hover:shadow-sm transition-all group"
+                      >
+                        <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${i === 0 ? 'bg-primary-500 text-white' : 'bg-zinc-200 text-zinc-600'}`}>
+                          {i + 1}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-semibold text-sm group-hover:text-primary-500 transition-colors">{loc.naam}</div>
+                          <div className="text-xs text-zinc-500">{loc.adres}</div>
+                          <div className="text-xs text-zinc-400 mt-0.5">{loc.bereikbaarheid.parkeren}</div>
+                        </div>
+                        <div className="text-right shrink-0">
+                          <div className="text-sm font-bold text-primary-500">{loc.afstand} km</div>
+                          <div className="text-[10px] text-zinc-400">afstand</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-zinc-200">
+                    <div className="flex items-center gap-2 text-sm text-zinc-500">
+                      <Laptop size={14} className="text-accent-500" />
+                      <span>Of volg de cursus <strong className="text-zinc-700">live online</strong> vanuit {stadNaam}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -208,37 +271,73 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
 
           {/* Cursusdata */}
           <div id="cursusdata" className="scroll-mt-24 mb-12">
-            <h2 className="text-2xl font-extrabold mb-1">{cursus.titel} in {locatie.naam}</h2>
+            <h2 className="text-2xl font-extrabold mb-1">
+              {heeftEigenLocatie
+                ? `${cursus.titel} in ${stadNaam}`
+                : `${cursus.titel} in de buurt van ${stadNaam}`}
+            </h2>
             <p className="text-sm text-zinc-500 mb-5">
-              {localSessies.length} klassikale sessie{localSessies.length !== 1 ? 's' : ''} in {locatie.naam}
-              {onlineSessies.length > 0 && ` + ${onlineSessies.length} live online`}
+              {heeftEigenLocatie
+                ? `Sessies in ${stadNaam} en live online`
+                : `Sessies op ${nearestLocaties.map(l => l.naam).join(', ')} en live online`}
             </p>
             <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
               <SessieTable sessies={displaySessies} cursusTitel={cursus.titel} />
             </div>
           </div>
 
-          {/* Locatie details */}
-          <div className="grid lg:grid-cols-2 gap-8 mb-12">
-            <div>
-              <h2 className="text-2xl font-extrabold mb-4">Trainingslocatie {locatie.naam}</h2>
-              <p className="text-zinc-600 leading-relaxed mb-5">{locatie.beschrijving.split('\n\n')[0]}</p>
-              <div className="space-y-3">
-                {locatie.waarom.map((item) => (
-                  <div key={item} className="flex items-center gap-2.5"><CheckCircle size={16} className="text-primary-500 shrink-0" /><span className="text-sm text-zinc-700">{item}</span></div>
+          {/* Locatie details — alleen bij eigen locatie */}
+          {heeftEigenLocatie && (
+            <div className="grid lg:grid-cols-2 gap-8 mb-12">
+              <div>
+                <h2 className="text-2xl font-extrabold mb-4">Trainingslocatie {stadNaam}</h2>
+                <p className="text-zinc-600 leading-relaxed mb-5">{eigenLocatie!.beschrijving.split('\n\n')[0]}</p>
+                <div className="space-y-3">
+                  {eigenLocatie!.waarom.map((item) => (
+                    <div key={item} className="flex items-center gap-2.5"><CheckCircle size={16} className="text-primary-500 shrink-0" /><span className="text-sm text-zinc-700">{item}</span></div>
+                  ))}
+                </div>
+              </div>
+              <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
+                <iframe src={eigenLocatie!.mapsEmbed} className="w-full h-56 border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`Kaart ${stadNaam}`} />
+                <div className="p-5 space-y-3 text-sm">
+                  <div className="flex items-start gap-2.5"><Navigation size={15} className="text-primary-500 mt-0.5 shrink-0" /><div><strong>Adres:</strong> {eigenLocatie!.adres}, {eigenLocatie!.postcode} {stadNaam}</div></div>
+                  <div className="flex items-start gap-2.5"><Car size={15} className="text-primary-500 mt-0.5 shrink-0" /><div><strong>Auto:</strong> {eigenLocatie!.bereikbaarheid.auto}</div></div>
+                  <div className="flex items-start gap-2.5"><Train size={15} className="text-primary-500 mt-0.5 shrink-0" /><div><strong>OV:</strong> {eigenLocatie!.bereikbaarheid.ov}</div></div>
+                  <div className="flex items-start gap-2.5"><ParkingSquare size={15} className="text-primary-500 mt-0.5 shrink-0" /><div><strong>Parkeren:</strong> {eigenLocatie!.bereikbaarheid.parkeren}</div></div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Bij geen eigen locatie: uitleg dichtstbijzijnde locaties */}
+          {!heeftEigenLocatie && (
+            <div className="mb-12">
+              <h2 className="text-2xl font-extrabold mb-4">Trainingslocaties bij {stadNaam}</h2>
+              <p className="text-zinc-600 mb-6 max-w-2xl">
+                Compu Act heeft geen trainingslocatie in {stadNaam} zelf, maar je kunt de {cursus.titel} cursus volgen op een van deze locaties in de buurt. Je kunt de cursus ook <strong>live online</strong> volgen vanuit {stadNaam}.
+              </p>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {nearestLocaties.map((loc) => (
+                  <Link
+                    key={loc.slug}
+                    href={`/locaties/${loc.slug}`}
+                    className="bg-white rounded-xl border border-zinc-200 overflow-hidden hover:border-primary-200 hover:shadow-md transition-all group"
+                  >
+                    <iframe src={loc.mapsEmbed} className="w-full h-32 border-0 pointer-events-none" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`Kaart ${loc.naam}`} />
+                    <div className="p-4">
+                      <div className="flex items-center justify-between mb-1">
+                        <h3 className="font-bold group-hover:text-primary-500 transition-colors">{loc.naam}</h3>
+                        <span className="text-sm font-bold text-primary-500">{loc.afstand} km</span>
+                      </div>
+                      <p className="text-xs text-zinc-500">{loc.adres}, {loc.postcode}</p>
+                      <p className="text-xs text-zinc-400 mt-1">{loc.bereikbaarheid.parkeren}</p>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
-            <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
-              <iframe src={locatie.mapsEmbed} className="w-full h-56 border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`Kaart ${locatie.naam}`} />
-              <div className="p-5 space-y-3 text-sm">
-                <div className="flex items-start gap-2.5"><Navigation size={15} className="text-primary-500 mt-0.5 shrink-0" /><div><strong>Adres:</strong> {locatie.adres}, {locatie.postcode} {locatie.naam}</div></div>
-                <div className="flex items-start gap-2.5"><Car size={15} className="text-primary-500 mt-0.5 shrink-0" /><div><strong>Auto:</strong> {locatie.bereikbaarheid.auto}</div></div>
-                <div className="flex items-start gap-2.5"><Train size={15} className="text-primary-500 mt-0.5 shrink-0" /><div><strong>OV:</strong> {locatie.bereikbaarheid.ov}</div></div>
-                <div className="flex items-start gap-2.5"><ParkingSquare size={15} className="text-primary-500 mt-0.5 shrink-0" /><div><strong>Parkeren:</strong> {locatie.bereikbaarheid.parkeren}</div></div>
-              </div>
-            </div>
-          </div>
+          )}
 
           {/* Trust */}
           <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-12">
@@ -262,8 +361,7 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
           {related.length > 0 && (
             <div className="mb-12">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-extrabold">Andere cursussen in {locatie.naam}</h2>
-                <Link href={`/locaties/${locatie.slug}`} className="text-sm text-primary-500 font-semibold flex items-center gap-1 hover:text-primary-600">Alle cursussen <ArrowRight size={14} /></Link>
+                <h2 className="text-2xl font-extrabold">Andere cursussen {heeftEigenLocatie ? `in ${stadNaam}` : `bij ${stadNaam}`}</h2>
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {related.map((r) => <CursusCard key={r.id} cursus={r} />)}
@@ -274,7 +372,7 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
           {/* Interne links: zelfde cursus in andere steden */}
           <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-12">
             <h2 className="font-bold text-lg mb-2">{cursus.titel} op andere locaties</h2>
-            <p className="text-sm text-zinc-500 mb-4">Deze cursus is ook beschikbaar op onze andere trainingslocaties door heel Nederland.</p>
+            <p className="text-sm text-zinc-500 mb-4">Deze cursus is beschikbaar op al onze trainingslocaties door heel Nederland.</p>
             <div className="flex flex-wrap gap-2">
               {otherCities.map((city) => (
                 <Link key={city.slug} href={`/${cursus.slug}-cursus-${city.slug}`} className="inline-flex items-center gap-1.5 bg-zinc-50 border border-zinc-200 px-3.5 py-2 rounded-lg text-sm text-zinc-600 hover:border-primary-300 hover:text-primary-500 hover:bg-primary-50 transition-colors">
@@ -291,7 +389,7 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
           <div className="bg-gradient-to-r from-primary-600 to-primary-800 rounded-2xl p-8 lg:p-10 text-white flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div>
               <h3 className="text-2xl font-extrabold flex items-center gap-3"><Building2 size={28} />{cursus.titel} als InCompany training</h3>
-              <p className="text-primary-200 mt-2 max-w-xl leading-relaxed">Wil je deze cursus op maat voor jouw team in {locatie.naam}? Wij komen naar je locatie met een programma afgestemd op jouw organisatie.</p>
+              <p className="text-primary-200 mt-2 max-w-xl leading-relaxed">Wil je deze cursus op maat voor jouw team in {stadNaam}? Wij komen naar je locatie met een programma afgestemd op jouw organisatie.</p>
               <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-primary-300 mt-3">
                 <span>&#10003; Op je eigen locatie</span><span>&#10003; Inhoud op maat</span><span>&#10003; Voordelig vanaf 4 deelnemers</span>
               </div>
