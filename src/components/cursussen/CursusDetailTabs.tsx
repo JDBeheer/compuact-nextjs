@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Cursus } from '@/types'
 import { cn } from '@/lib/utils'
-import { CheckCircle, Users, Laptop, Building2, BookOpen } from 'lucide-react'
+import { CheckCircle, Users, Laptop, Building2, BookOpen, Clock } from 'lucide-react'
 
 const tabs = [
   { id: 'wat-leer-je', label: 'Wat leer je?' },
