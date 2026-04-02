@@ -539,7 +539,7 @@ async function CursusDetailPage({ slug }: { slug: string }) {
                   <div className="flex items-center justify-between"><span className="text-sm text-zinc-500 flex items-center gap-2"><Clock size={15} /> Duur</span><span className="font-semibold text-sm">{cursus.duur}</span></div>
                   <div className="flex items-center justify-between"><span className="text-sm text-zinc-500 flex items-center gap-2"><Award size={15} /> Niveau</span><span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${niveauColors[cursus.niveau]}`}>{niveauLabel(cursus.niveau)}</span></div>
                   <div className="flex items-center justify-between"><span className="text-sm text-zinc-500 flex items-center gap-2"><Users size={15} /> Groepsgrootte</span><span className="font-semibold text-sm">Max 10</span></div>
-                  <div className="flex items-center justify-between"><span className="text-sm text-zinc-500 flex items-center gap-2"><MapPin size={15} /> Locaties</span><span className="font-semibold text-sm">18 + online</span></div>
+                  <div className="flex items-center justify-between"><span className="text-sm text-zinc-500 flex items-center gap-2"><MapPin size={15} /> Locaties</span><span className="font-semibold text-sm">17 + online</span></div>
                   <div className="flex items-center justify-between"><span className="text-sm text-zinc-500 flex items-center gap-2"><BookOpen size={15} /> Materiaal</span><span className="font-semibold text-sm">Inbegrepen</span></div>
                   {(() => {
                     const eerstvolgende = sessies.find(s => s.lesmethode !== 'thuisstudie')
