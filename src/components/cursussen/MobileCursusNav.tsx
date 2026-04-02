@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
 
 const sections = [
-  { id: 'cursusaanbod', label: 'Inschrijven' },
   { id: 'cursusinfo', label: 'Info' },
   { id: 'cursustabs', label: 'Inhoud' },
   { id: 'reviews', label: 'Reviews' },
