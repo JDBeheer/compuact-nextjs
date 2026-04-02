@@ -245,7 +245,7 @@ function CheckoutPage() {
 
           {/* Steps */}
           <div className="flex items-center gap-4 sm:gap-6">
-            <StepIndicator step={1} currentStep={currentStep} label="Cursussen" />
+            <StepIndicator step={1} currentStep={currentStep} label="Cursussen" href="/inschrijven" />
             <div className="h-px flex-1 bg-zinc-200" />
             <StepIndicator step={2} currentStep={currentStep} label="Gegevens" />
             <div className="h-px flex-1 bg-zinc-200" />
