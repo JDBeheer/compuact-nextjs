@@ -571,7 +571,7 @@ async function CursusDetailPage({ slug }: { slug: string }) {
           <div className="lg:grid lg:grid-cols-3 lg:gap-10">
             <div className="lg:col-span-2">
               {cursus.beschrijving && (
-                <div className="mb-8">
+                <div className="mb-8" id="cursusinfo">
                   <h2 className="text-xl font-bold mb-3">Cursusinformatie</h2>
                   <div className="text-zinc-600 leading-relaxed space-y-4">
                     {cursus.beschrijving.split(/\n\n+/).map((p, i) => (
