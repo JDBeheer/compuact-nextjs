@@ -11,7 +11,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.computertraini
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { voornaam, achternaam, email, telefoon, bedrijfsnaam, type } = body
+    const { voornaam, achternaam, email, telefoon, bedrijfsnaam, type, turnstileToken } = body
 
     if (!email || !voornaam) {
       return NextResponse.json({ error: 'Vul minimaal je naam en e-mail in' }, { status: 400 })
