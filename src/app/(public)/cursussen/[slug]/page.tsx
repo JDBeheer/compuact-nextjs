@@ -628,6 +628,11 @@ async function CursusDetailPage({ slug }: { slug: string }) {
             <Link href={`/incompany?cursus=${cursus.slug}`} className="bg-white text-primary-700 px-7 py-3.5 rounded-xl font-bold hover:bg-zinc-100 hover:shadow-lg transition-all active:scale-[0.98] shrink-0">InCompany offerte aanvragen</Link>
           </div>
 
+          {/* Studiegids */}
+          <div className="mt-12">
+            <StudiegidsCTA />
+          </div>
+
           {related.length > 0 && (
             <div className="mt-12">
               <div className="flex items-center justify-between mb-6">
