@@ -547,6 +547,8 @@ function CheckoutPage() {
                   </span>
                 </label>
 
+                <TurnstileWidget onVerify={setTurnstileToken} className="mb-4" />
+
                 {error && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-700 text-sm mb-4">
                     {error}
