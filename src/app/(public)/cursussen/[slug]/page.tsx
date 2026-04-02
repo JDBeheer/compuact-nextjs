@@ -615,7 +615,7 @@ async function CursusDetailPage({ slug }: { slug: string }) {
 
 
 
-          <div className="mt-12">
+          <div className="mt-12" id="reviews">
             <GoogleReviewsSection reviews={reviewData.reviews} allReviews={reviewData.allReviews} rating={reviewData.rating} totalReviews={reviewData.user_ratings_total} title="Dit zeggen onze cursisten" />
           </div>
 
