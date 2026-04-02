@@ -580,7 +580,9 @@ async function CursusDetailPage({ slug }: { slug: string }) {
                   </div>
                 </div>
               )}
-              <CursusDetailTabs cursus={cursus} />
+              <div id="cursustabs">
+                <CursusDetailTabs cursus={cursus} />
+              </div>
             </div>
 
             <div className="hidden lg:block">
