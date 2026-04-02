@@ -63,9 +63,9 @@ function InCompanyContent() {
           const match = data.find((c: Record<string, unknown>) => c.slug === preselect)
           const matchMapped = match ? mapped.find(m => m.id === (match.id as string)) : null
           const finalMatch = matchMapped
-          if (match) {
-            setSelectedIds([match.id])
-            setSelectedTitels([match.titel])
+          if (finalMatch) {
+            setSelectedIds([finalMatch.id])
+            setSelectedTitels([finalMatch.titel])
           }
         }
       }
