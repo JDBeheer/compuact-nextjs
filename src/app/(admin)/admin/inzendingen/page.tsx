@@ -196,13 +196,13 @@ export default function AdminInzendingenPage() {
                         <div key={idx} className="bg-zinc-50 rounded-lg p-3">
                           <div className="font-medium text-sm">{String(cursus.cursusTitel)}</div>
                           <div className="flex flex-wrap gap-x-3 text-xs text-zinc-500 mt-1">
-                            {cursus.locatie && (
+                            {Boolean(cursus.locatie) && (
                               <span className="flex items-center gap-1"><MapPin size={11} />{String(cursus.locatie)}</span>
                             )}
-                            {cursus.datum && (
+                            {Boolean(cursus.datum) && (
                               <span className="flex items-center gap-1"><Calendar size={11} />{formatDateShort(String(cursus.datum))}</span>
                             )}
-                            {cursus.lesmethode && (
+                            {Boolean(cursus.lesmethode) && (
                               <span>{lesmethodeLabel(String(cursus.lesmethode))}</span>
                             )}
                           </div>
