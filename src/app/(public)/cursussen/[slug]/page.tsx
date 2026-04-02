@@ -498,6 +498,7 @@ async function CursusDetailPage({ slug }: { slug: string }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <MobileCursusNav />
       <TrackViewItem id={cursus.id} titel={cursus.titel} categorie={(cursus.categorie as unknown as Record<string,string>)?.naam} prijs={cursus.prijs_vanaf} />
 
       <section className="bg-white border-b border-zinc-200">
