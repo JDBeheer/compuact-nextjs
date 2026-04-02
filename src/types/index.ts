@@ -88,7 +88,7 @@ export interface CartItemCheckout extends CartItem {
 
 export interface Inschrijving {
   id: string
-  type: 'inschrijving' | 'offerte' | 'incompany'
+  type: 'inschrijving' | 'offerte' | 'incompany' | 'studiegids'
   cursussen: CartItemCheckout[]
   klantgegevens: KlantGegevens
   totaalprijs: number
