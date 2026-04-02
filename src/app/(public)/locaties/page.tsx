@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { MapPin, ArrowRight, CheckCircle } from 'lucide-react'
 import { locaties } from '@/data/locaties'
 import PostcodeZoeker from '@/components/locaties/PostcodeZoeker'
+import LocatieMap from '@/components/locaties/LocatieMap'
 
 export const metadata: Metadata = {
   title: 'Cursuslocaties | 17 Locaties door heel Nederland | Compu Act Opleidingen',
