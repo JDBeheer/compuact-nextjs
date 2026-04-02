@@ -133,12 +133,15 @@ export default function WinkelwagenPage() {
                   <span className="text-xl font-bold text-primary-500">{formatPrice(totaal + ADMIN_FEE)}</span>
                 </div>
               </div>
-              <div className="mt-6">
+              <div className="mt-6 space-y-3">
                 <Link href="/inschrijven/gegevens" className="block">
                   <Button className="w-full" size="lg">
                     Doorgaan <ArrowRight size={16} className="ml-2" />
                   </Button>
                 </Link>
+                <p className="text-xs text-zinc-400 text-center">
+                  In de volgende stap vul je de gegevens van de deelnemers per cursus in
+                </p>
               </div>
             </div>
           </div>
