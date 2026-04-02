@@ -139,9 +139,12 @@ export default function WinkelwagenPage() {
                     Doorgaan <ArrowRight size={16} className="ml-2" />
                   </Button>
                 </Link>
-                <p className="text-xs text-zinc-400 text-center">
-                  In de volgende stap vul je de gegevens van de deelnemers per cursus in
-                </p>
+                <div className="bg-primary-50 border border-primary-100 rounded-lg px-4 py-3 flex items-start gap-2.5">
+                  <Users size={15} className="text-primary-500 shrink-0 mt-0.5" />
+                  <p className="text-sm text-primary-700">
+                    <span className="font-semibold">Volgende stap:</span> vul de naam en e-mail in van elke deelnemer per cursus
+                  </p>
+                </div>
               </div>
             </div>
           </div>
