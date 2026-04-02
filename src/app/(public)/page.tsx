@@ -283,6 +283,13 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Studiegids CTA */}
+      <section className="bg-white">
+        <div className="container-wide py-12">
+          <StudiegidsCTA />
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
