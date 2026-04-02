@@ -15,6 +15,7 @@ export default function StudiegidsModal({ isOpen, onClose }: StudiegidsModalProp
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
   const [type, setType] = useState<'bedrijven' | 'particulieren'>('bedrijven')
+  const [turnstileToken, setTurnstileToken] = useState('')
 
   if (!isOpen) return null
 
