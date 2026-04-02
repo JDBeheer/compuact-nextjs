@@ -199,6 +199,8 @@ export default function StudiegidsModal({ isOpen, onClose }: StudiegidsModalProp
       </div>
     </div>
   )
+
+  return createPortal(modal, document.body)
 }
 
 // Full CTA banner — for homepage
