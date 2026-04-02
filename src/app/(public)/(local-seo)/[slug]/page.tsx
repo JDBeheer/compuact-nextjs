@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
-import { Cursus, CursusSessie } from '@/types'
+import { Cursus, CursusSessie, Categorie } from '@/types'
 import { locaties, getLocatieBySlug, type Locatie as LocatieData } from '@/data/locaties'
-import { getStadBySlug, berekenAfstand } from '@/data/steden'
+import { getStadBySlug, berekenAfstand, extraSteden } from '@/data/steden'
 import SessieTable from '@/components/cursussen/SessieTable'
 import CursusCard from '@/components/cursussen/CursusCard'
 import { formatPrice, formatDateShort, niveauLabel } from '@/lib/utils'
@@ -16,16 +16,39 @@ import {
   Phone, Shield, Navigation, Laptop
 } from 'lucide-react'
 
-function parseSlug(slug: string): { cursusSlug: string; stadSlug: string } | null {
+// Known category slugs that map to categorie+stad pages
+const CATEGORIE_SLUGS = ['excel', 'word', 'outlook', 'powerpoint', 'power-bi', 'office-365', 'ai', 'project', 'visio', 'vba']
+
+type ParsedSlug =
+  | { type: 'cursus'; cursusSlug: string; stadSlug: string }
+  | { type: 'categorie'; categorieSlug: string; stadSlug: string }
+
+function parseSlug(slug: string): ParsedSlug | null {
   const match = slug.match(/^(.+)-cursus-(.+)$/)
   if (!match) return null
-  return { cursusSlug: match[1], stadSlug: match[2] }
+  const [, prefix, stadSlug] = match
+  if (CATEGORIE_SLUGS.includes(prefix)) {
+    return { type: 'categorie', categorieSlug: prefix, stadSlug }
+  }
+  return { type: 'cursus', cursusSlug: prefix, stadSlug }
 }
 
 async function getCursus(slug: string) {
   const supabase = createServerSupabaseClient()
   const { data } = await supabase.from('cursussen').select('*, categorie:categorieen(*)').eq('slug', slug).eq('actief', true).single()
   return data as Cursus | null
+}
+
+async function getCategorie(slug: string) {
+  const supabase = createServerSupabaseClient()
+  const { data } = await supabase.from('categorieen').select('*').eq('slug', slug).single()
+  return data as Categorie | null
+}
+
+async function getCursussenByCategorie(categorieId: string) {
+  const supabase = createServerSupabaseClient()
+  const { data } = await supabase.from('cursussen').select('*, categorie:categorieen(*)').eq('categorie_id', categorieId).eq('actief', true).order('titel')
+  return (data || []) as Cursus[]
 }
 
 async function getSessies(cursusId: string) {
@@ -39,13 +62,28 @@ async function getSessies(cursusId: string) {
   })) as CursusSessie[]
 }
 
+async function getSessiesByCategorie(categorieId: string, stadNaam: string) {
+  const supabase = createServerSupabaseClient()
+  const { data: cursussen } = await supabase.from('cursussen').select('id').eq('categorie_id', categorieId).eq('actief', true)
+  if (!cursussen?.length) return []
+  const ids = cursussen.map(c => c.id)
+  const { data } = await supabase.from('cursus_sessies').select('*, locatie:locaties(naam, stad), cursus:cursussen(titel, slug)')
+    .in('cursus_id', ids).eq('actief', true).gte('datum', new Date().toISOString().split('T')[0]).order('datum')
+  return (data || []).map((s: Record<string, unknown>) => ({
+    ...s,
+    locatie_naam: (s.locatie as Record<string, string>)?.naam || '',
+    locatie_stad: (s.locatie as Record<string, string>)?.stad || '',
+    lesdagen: Array.isArray(s.lesdagen) ? s.lesdagen as string[] : (typeof s.lesdagen === 'string' ? JSON.parse(s.lesdagen as string) : []),
+    cursusTitel: (s.cursus as Record<string, string>)?.titel || '',
+  })) as (CursusSessie & { cursusTitel?: string })[]
+}
+
 async function getRelated(categorieId: string, currentId: string) {
   const supabase = createServerSupabaseClient()
   const { data } = await supabase.from('cursussen').select('*, categorie:categorieen(*)').eq('categorie_id', categorieId).eq('actief', true).neq('id', currentId).limit(3)
   return (data || []) as Cursus[]
 }
 
-// Find nearest training locations to a given coordinate
 function findNearestLocaties(lat: number, lng: number, count: number = 3): (LocatieData & { afstand: number })[] {
   return locaties
     .map(l => ({ ...l, afstand: Math.round(berekenAfstand(lat, lng, l.lat, l.lng)) }))
