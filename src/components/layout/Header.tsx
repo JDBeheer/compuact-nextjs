@@ -242,13 +242,13 @@ export default function Header() {
       )}>
         {/* Top bar */}
         <div className="bg-gradient-to-r from-primary-900 via-primary-900 to-primary-950 text-white">
-          <div className="container-wide flex justify-between items-center py-2 text-sm">
-            <div className="flex items-center gap-6">
+          <div className="container-wide flex justify-between items-center py-1.5 sm:py-2 text-sm">
+            <div className="flex items-center gap-3 sm:gap-6">
               <a href="tel:0235513409" className="flex items-center gap-1.5 hover:text-white transition-colors text-primary-200 group">
                 <span className="bg-primary-800/60 p-1 rounded group-hover:bg-primary-700/60 transition-colors">
                   <Phone size={11} />
                 </span>
-                <span className="hidden sm:inline font-medium">023-551 3409</span>
+                <span className="font-medium text-xs sm:text-sm">023-551 3409</span>
               </a>
               <a href="mailto:info@computertraining.nl" className="hidden md:flex items-center gap-1.5 hover:text-white transition-colors text-primary-200 group">
                 <span className="bg-primary-800/60 p-1 rounded group-hover:bg-primary-700/60 transition-colors">
@@ -257,20 +257,18 @@ export default function Header() {
                 info@computertraining.nl
               </a>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="hidden sm:flex items-center gap-2">
-                <div className="flex items-center gap-1.5 bg-primary-800/40 rounded-full px-3 py-1">
-                  <div className="flex gap-0.5">
-                    {[...Array(5)].map((_, i) => <Star key={i} size={10} className="text-accent-400 fill-accent-400" />)}
-                  </div>
-                  <span className="text-xs font-semibold text-white">4.8/5</span>
-                  <span className="text-xs text-primary-300">Google</span>
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="flex items-center gap-1.5 bg-primary-800/40 rounded-full px-2 sm:px-3 py-1">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => <Star key={i} size={9} className="text-accent-400 fill-accent-400" />)}
                 </div>
-                <div className="hidden lg:flex items-center gap-1.5 text-primary-300 text-xs">
-                  <span className="text-primary-600">|</span>
-                  <Shield size={10} />
-                  <span>15.000+ deelnemers</span>
-                </div>
+                <span className="text-[10px] sm:text-xs font-semibold text-white">4.8</span>
+                <span className="hidden sm:inline text-xs text-primary-300">Google</span>
+              </div>
+              <div className="hidden lg:flex items-center gap-1.5 text-primary-300 text-xs">
+                <span className="text-primary-600">|</span>
+                <Shield size={10} />
+                <span>15.000+ deelnemers</span>
               </div>
               <span className="hidden xl:inline text-primary-600">|</span>
               <span className="hidden xl:inline">
