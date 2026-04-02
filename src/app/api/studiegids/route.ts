@@ -18,6 +18,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Vul minimaal je naam en e-mail in' }, { status: 400 })
     }
 
+    const tokenValid = await verifyTurnstileToken(turnstileToken)
+    if (!tokenValid) {
+      return NextResponse.json({ error: 'Beveiligingsverificatie mislukt.' }, { status: 403 })
+    }
+
     // Store lead in Supabase
     const supabase = createServiceRoleClient()
     await supabase.from('inschrijvingen').insert({
