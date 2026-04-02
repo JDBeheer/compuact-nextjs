@@ -57,6 +57,7 @@ function CheckoutPage() {
   const [deelnemersMap, setDeelnemersMap] = useState<Record<string, Deelnemer[]>>({})
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [successData, setSuccessData] = useState<{ items: typeof items; totaal: number; klantEmail: string } | null>(null)
   const [error, setError] = useState('')
   const currentStep = 2
 
