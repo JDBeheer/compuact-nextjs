@@ -77,6 +77,8 @@ function findNearestLocaties(lat: number, lng: number, count: number = 3): (Loca
 
 import { extraSteden } from '@/data/steden'
 
+export const revalidate = 86400 // Revalidate daily
+
 // Generate all cursus+stad and categorie+stad combinations at build time
 export async function generateStaticParams() {
   const supabase = createServerSupabaseClient()
