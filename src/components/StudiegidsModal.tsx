@@ -185,35 +185,52 @@ export default function StudiegidsModal({ isOpen, onClose }: StudiegidsModalProp
   )
 }
 
-// CTA component to place on pages
+// Full CTA banner — for homepage
 export function StudiegidsCTA() {
   const [open, setOpen] = useState(false)
 
   return (
     <>
-      <div className="bg-gradient-to-r from-accent-500 to-accent-600 rounded-2xl p-6 sm:p-8 text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '18px 18px' }} />
-        <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-primary-50 to-accent-50 border border-primary-100 rounded-2xl p-6 sm:p-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-start gap-4">
-            <div className="bg-white/20 p-3 rounded-xl shrink-0">
-              <BookOpen size={24} />
+            <div className="bg-primary-100 text-primary-600 p-2.5 rounded-xl shrink-0">
+              <BookOpen size={22} />
             </div>
             <div>
-              <h3 className="font-extrabold text-lg">Gratis Studiegids 2025-2026</h3>
-              <p className="text-white/80 text-sm mt-1">
+              <h3 className="font-bold text-zinc-900">Gratis Studiegids 2025-2026</h3>
+              <p className="text-zinc-500 text-sm mt-0.5">
                 Ontvang ons complete cursusoverzicht met alle trainingen, prijzen en planning.
               </p>
             </div>
           </div>
           <button
             onClick={() => setOpen(true)}
-            className="bg-white text-accent-600 px-6 py-3 rounded-xl font-bold text-sm hover:bg-zinc-100 hover:shadow-lg transition-all active:scale-[0.98] shrink-0 flex items-center gap-2"
+            className="border-2 border-primary-500 text-primary-600 px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-primary-50 transition-all shrink-0 flex items-center gap-2"
           >
-            <Download size={16} /> Download gratis
+            <Download size={15} /> Download gratis
           </button>
         </div>
       </div>
 
+      <StudiegidsModal isOpen={open} onClose={() => setOpen(false)} />
+    </>
+  )
+}
+
+// Subtle inline mention — for course pages
+export function StudiegidsInline() {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <>
+      <div className="mt-8 flex items-center justify-center gap-2 text-sm text-zinc-400">
+        <BookOpen size={14} />
+        <span>Liever alles rustig nalezen?</span>
+        <button onClick={() => setOpen(true)} className="text-primary-500 font-semibold hover:text-primary-600 underline underline-offset-2">
+          Download de gratis studiegids
+        </button>
+      </div>
       <StudiegidsModal isOpen={open} onClose={() => setOpen(false)} />
     </>
   )
