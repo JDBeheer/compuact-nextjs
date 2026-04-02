@@ -50,10 +50,10 @@ export default function StudiegidsModal({ isOpen, onClose }: StudiegidsModalProp
   }
 
   return (
-    <div className="fixed inset-0 z-[100]">
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative flex items-center justify-center min-h-full p-4">
-        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden relative">
+    <div className="fixed inset-0 z-[200] isolate">
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="fixed inset-0 flex items-center justify-center p-4 pointer-events-none">
+        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden relative pointer-events-auto">
           {/* Close button */}
           <button onClick={onClose} className="absolute top-4 right-4 z-10 text-zinc-400 hover:text-zinc-600 transition-colors">
             <X size={20} />

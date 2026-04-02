@@ -108,7 +108,7 @@ export default function WinkelwagenPage() {
 
           {/* Samenvatting */}
           <div>
-            <div className="bg-white rounded-xl border border-zinc-200 p-6 sticky top-24">
+            <div className="bg-white rounded-xl border border-zinc-200 p-6 sticky top-32">
               <h2 className="text-lg font-semibold mb-4">Overzicht</h2>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">

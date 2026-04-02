@@ -221,7 +221,7 @@ export default async function LocatieDetailPage({ params }: { params: { slug: st
 
           {/* Sidebar */}
           <div>
-            <div className="bg-white rounded-2xl border border-zinc-200 p-6 sticky top-24">
+            <div className="bg-white rounded-2xl border border-zinc-200 p-6 sticky top-32">
               <Link
                 href="/cursussen"
                 className="block w-full text-center bg-primary-500 text-white px-5 py-3 rounded-xl font-bold hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/25 transition-all active:scale-[0.98] mb-3"

@@ -280,7 +280,7 @@ function InCompanyContent() {
 
             {/* Sidebar */}
             <div>
-              <div className="bg-white rounded-xl border border-zinc-200 p-6 sticky top-24">
+              <div className="bg-white rounded-xl border border-zinc-200 p-6 sticky top-32">
                 <h2 className="text-lg font-semibold mb-4">Geselecteerde cursussen</h2>
                 {selectedTitels.length > 0 ? (
                   <div className="space-y-2">

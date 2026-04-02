@@ -577,7 +577,7 @@ function CheckoutPage() {
 
             {/* Sidebar */}
             <div>
-              <div className="bg-white rounded-xl border border-zinc-200 p-5 sm:p-6 sticky top-24">
+              <div className="bg-white rounded-xl border border-zinc-200 p-5 sm:p-6 sticky top-32">
                 <h2 className="font-bold mb-4">Overzicht</h2>
                 <div className="space-y-3">
                   {items.map((item) => {
