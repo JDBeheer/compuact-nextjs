@@ -75,6 +75,38 @@ function findNearestLocaties(lat: number, lng: number, count: number = 3): (Loca
     .slice(0, count)
 }
 
+import { extraSteden } from '@/data/steden'
+
+// Generate all cursus+stad and categorie+stad combinations at build time
+export async function generateStaticParams() {
+  const supabase = createServerSupabaseClient()
+  const { data: cursusData } = await supabase.from('cursussen').select('slug').eq('actief', true)
+  const cursussen = cursusData || []
+
+  const alleSteden = [
+    ...locaties.map(l => l.slug),
+    ...extraSteden.map(s => s.slug),
+  ]
+
+  const params: { slug: string }[] = []
+
+  // Cursus + stad combinations (e.g. excel-basis-cursus-amsterdam)
+  for (const cursus of cursussen) {
+    for (const stad of alleSteden) {
+      params.push({ slug: `${cursus.slug}-cursus-${stad}` })
+    }
+  }
+
+  // Categorie + stad combinations (e.g. excel-cursus-amsterdam)
+  for (const cat of CATEGORIE_SLUGS) {
+    for (const stad of alleSteden) {
+      params.push({ slug: `${cat}-cursus-${stad}` })
+    }
+  }
+
+  return params
+}
+
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const parsed = parseSlug(params.slug)
   if (!parsed) return { title: 'Niet gevonden' }
