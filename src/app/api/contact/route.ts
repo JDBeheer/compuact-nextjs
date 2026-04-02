@@ -1,13 +1,19 @@
 import { NextResponse } from 'next/server'
 import { sendContactEmail } from '@/lib/email'
+import { verifyTurnstileToken } from '@/lib/turnstile'
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { voornaam, achternaam, email, telefoon, onderwerp, bericht } = body
+    const { voornaam, achternaam, email, telefoon, onderwerp, bericht, turnstileToken } = body
 
     if (!email || !bericht) {
       return NextResponse.json({ error: 'Ongeldige gegevens' }, { status: 400 })
+    }
+
+    const tokenValid = await verifyTurnstileToken(turnstileToken)
+    if (!tokenValid) {
+      return NextResponse.json({ error: 'Beveiligingsverificatie mislukt. Probeer het opnieuw.' }, { status: 403 })
     }
 
     await sendContactEmail({ voornaam, achternaam, email, telefoon, onderwerp, bericht })
