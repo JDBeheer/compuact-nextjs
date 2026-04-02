@@ -41,6 +41,11 @@ export default function LocatiesOverzicht() {
         <PostcodeZoeker />
       </div>
 
+      {/* Kaart */}
+      <div className="container-wide pb-8">
+        <LocatieMap locaties={locaties.map(l => ({ slug: l.slug, naam: l.naam, adres: l.adres, postcode: l.postcode, lat: l.lat, lng: l.lng }))} />
+      </div>
+
       {/* Locatie grid */}
       <div className="container-wide pb-12">
         <h2 className="text-2xl font-extrabold mb-6">Alle locaties</h2>
