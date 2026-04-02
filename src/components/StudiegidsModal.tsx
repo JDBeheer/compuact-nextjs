@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { X, BookOpen, CheckCircle, Loader2, Download, Star, Users, Award, MapPin } from 'lucide-react'
+import { X, BookOpen, CheckCircle, Loader2, Download, Star } from 'lucide-react'
 import Input from '@/components/ui/Input'
 
 interface StudiegidsModalProps {
