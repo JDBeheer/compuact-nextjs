@@ -94,16 +94,26 @@ function findNearestLocaties(lat: number, lng: number, count: number = 3): (Loca
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const parsed = parseSlug(params.slug)
   if (!parsed) return { title: 'Niet gevonden' }
-  const cursus = await getCursus(parsed.cursusSlug)
+
   const locatie = getLocatieBySlug(parsed.stadSlug)
   const stad = !locatie ? getStadBySlug(parsed.stadSlug) : null
   const stadNaam = locatie?.naam || stad?.naam
-  if (!cursus || !stadNaam) return { title: 'Niet gevonden' }
+  if (!stadNaam) return { title: 'Niet gevonden' }
 
+  if (parsed.type === 'categorie') {
+    const categorie = await getCategorie(parsed.categorieSlug)
+    if (!categorie) return { title: 'Niet gevonden' }
+    const title = `${categorie.naam} cursus ${stadNaam} | Compu Act Opleidingen`
+    const description = `Bekijk alle ${categorie.naam} cursussen in ${stadNaam}. Van beginner tot expert. Klassikaal${locatie ? ` aan ${locatie.adres}` : ''} of live online. Compu Act Opleidingen.`
+    return { title, description, openGraph: { title, description, type: 'website' } }
+  }
+
+  const cursus = await getCursus(parsed.cursusSlug)
+  if (!cursus) return { title: 'Niet gevonden' }
   const title = `${cursus.titel} cursus ${stadNaam} | Compu Act Opleidingen`
   const description = locatie
     ? `Volg de ${cursus.titel} cursus in ${stadNaam}. Klassikaal aan ${locatie.adres} of live online. Kleine groepen, ervaren docenten. Vanaf ${formatPrice(cursus.prijs_vanaf)}.`
-    : `Zoek je een ${cursus.titel} cursus in de buurt van ${stadNaam}? Compu Act biedt trainingen op locaties dichtbij ${stadNaam} en live online. Vanaf ${formatPrice(cursus.prijs_vanaf)}.`
+    : `Zoek je een ${cursus.titel} cursus bij ${stadNaam}? Compu Act biedt trainingen op locaties dichtbij en live online. Vanaf ${formatPrice(cursus.prijs_vanaf)}.`
   return { title, description, openGraph: { title, description, type: 'website' } }
 }
 
@@ -111,6 +121,12 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
   const parsed = parseSlug(params.slug)
   if (!parsed) notFound()
 
+  // ─── CATEGORIE + STAD ───
+  if (parsed.type === 'categorie') {
+    return <CategoriStadPage categorieSlug={parsed.categorieSlug} stadSlug={parsed.stadSlug} />
+  }
+
+  // ─── CURSUS + STAD ───
   const cursus = await getCursus(parsed.cursusSlug)
   if (!cursus) notFound()
 
