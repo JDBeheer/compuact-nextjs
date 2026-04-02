@@ -389,7 +389,7 @@ async function CategoriePage({ slug }: { slug: string }) {
                   <a href="tel:0235513409" className="flex items-center justify-center gap-2 w-full bg-primary-500 text-white px-5 py-3 rounded-xl font-semibold hover:bg-primary-600 transition-all text-sm">
                     <Phone size={16} /> 023-551 3409
                   </a>
-                  <Link href={`/incompany?cursus=${cursus.slug}`} className="flex items-center justify-center gap-2 w-full border-2 border-zinc-200 bg-white text-zinc-700 px-5 py-3 rounded-xl font-semibold hover:border-primary-300 hover:text-primary-600 transition-all text-sm">
+                  <Link href="/incompany" className="flex items-center justify-center gap-2 w-full border-2 border-zinc-200 bg-white text-zinc-700 px-5 py-3 rounded-xl font-semibold hover:border-primary-300 hover:text-primary-600 transition-all text-sm">
                     <Building2 size={16} /> InCompany offerte
                   </Link>
                 </div>
