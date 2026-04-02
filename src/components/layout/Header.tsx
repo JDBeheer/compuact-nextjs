@@ -144,6 +144,7 @@ export default function Header() {
   const [megaOpen, setMegaOpen] = useState(false)
   const [activeCategory, setActiveCategory] = useState(0)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [studiegidsOpen, setStudiegidsOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [mobileCategory, setMobileCategory] = useState<number | null>(null)
   const [scrolled, setScrolled] = useState(false)
