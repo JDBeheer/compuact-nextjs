@@ -363,10 +363,19 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5 flex-wrap mb-1">
-                            <span className={cn('inline-flex items-center gap-1 text-sm font-semibold', online ? 'text-accent-600' : 'text-zinc-900')}>
-                              {online ? <Laptop size={13} /> : <MapPin size={13} className="text-primary-500" />}
-                              {sessie.locatie_stad}
-                            </span>
+                            {online ? (
+                              <span className="inline-flex items-center gap-1 text-sm font-semibold text-accent-600">
+                                <Laptop size={13} />
+                                {sessie.locatie_stad}
+                              </span>
+                            ) : (
+                              <LocatiePopover stad={sessie.locatie_stad}>
+                                <span className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-900 underline decoration-dotted underline-offset-2 decoration-zinc-300">
+                                  <MapPin size={13} className="text-primary-500" />
+                                  {sessie.locatie_stad}
+                                </span>
+                              </LocatiePopover>
+                            )}
                             {postcodeCoords && !online && getAfstand(sessie.locatie_stad) !== undefined && (
                               <span className="text-[10px] font-medium text-zinc-400">
                                 {getAfstand(sessie.locatie_stad)} km
