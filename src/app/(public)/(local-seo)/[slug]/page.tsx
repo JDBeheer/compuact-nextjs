@@ -62,22 +62,6 @@ async function getSessies(cursusId: string) {
   })) as CursusSessie[]
 }
 
-async function getSessiesByCategorie(categorieId: string, stadNaam: string) {
-  const supabase = createServerSupabaseClient()
-  const { data: cursussen } = await supabase.from('cursussen').select('id').eq('categorie_id', categorieId).eq('actief', true)
-  if (!cursussen?.length) return []
-  const ids = cursussen.map(c => c.id)
-  const { data } = await supabase.from('cursus_sessies').select('*, locatie:locaties(naam, stad), cursus:cursussen(titel, slug)')
-    .in('cursus_id', ids).eq('actief', true).gte('datum', new Date().toISOString().split('T')[0]).order('datum')
-  return (data || []).map((s: Record<string, unknown>) => ({
-    ...s,
-    locatie_naam: (s.locatie as Record<string, string>)?.naam || '',
-    locatie_stad: (s.locatie as Record<string, string>)?.stad || '',
-    lesdagen: Array.isArray(s.lesdagen) ? s.lesdagen as string[] : (typeof s.lesdagen === 'string' ? JSON.parse(s.lesdagen as string) : []),
-    cursusTitel: (s.cursus as Record<string, string>)?.titel || '',
-  })) as (CursusSessie & { cursusTitel?: string })[]
-}
-
 async function getRelated(categorieId: string, currentId: string) {
   const supabase = createServerSupabaseClient()
   const { data } = await supabase.from('cursussen').select('*, categorie:categorieen(*)').eq('categorie_id', categorieId).eq('actief', true).neq('id', currentId).limit(3)
