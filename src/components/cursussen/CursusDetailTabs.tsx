@@ -108,6 +108,12 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
                   Volg de cursus op een van onze 17 locaties door heel Nederland.
                   Kleine groepen met persoonlijke aandacht van de docent. Laptop en lesmateriaal zijn inbegrepen.
                 </p>
+                {cursus.inhoud?.studielast?.klassikaal && (
+                  <div className="mt-3 pt-3 border-t border-zinc-100 flex items-center gap-1.5 text-xs text-zinc-500">
+                    <Clock size={12} className="text-primary-500" />
+                    Studielast: <span className="font-semibold text-zinc-700">{cursus.inhoud.studielast.klassikaal}</span>
+                  </div>
+                )}
               </div>
               <div className="border-2 border-zinc-100 rounded-xl p-6 hover:border-accent-200 transition-colors">
                 <div className="bg-accent-500 text-white p-2.5 rounded-lg inline-block mb-3">
@@ -118,6 +124,12 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
                   Volg de training vanuit huis of kantoor. Dezelfde interactie als
                   klassikaal, maar dan via een live verbinding met de docent.
                 </p>
+                {cursus.inhoud?.studielast?.live_online && (
+                  <div className="mt-3 pt-3 border-t border-zinc-100 flex items-center gap-1.5 text-xs text-zinc-500">
+                    <Clock size={12} className="text-accent-500" />
+                    Studielast: <span className="font-semibold text-zinc-700">{cursus.inhoud.studielast.live_online}</span>
+                  </div>
+                )}
               </div>
               <div className="border-2 border-zinc-100 rounded-xl p-6 hover:border-green-200 transition-colors">
                 <div className="bg-green-500 text-white p-2.5 rounded-lg inline-block mb-3">
@@ -127,6 +139,12 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
                 <p className="text-sm text-zinc-600 leading-relaxed">
                   Leer in je eigen tempo met uitgebreid lesmateriaal. Je bepaalt zelf wanneer en waar je studeert, ideaal als je flexibel wilt leren.
                 </p>
+                {cursus.inhoud?.studielast?.thuisstudie && (
+                  <div className="mt-3 pt-3 border-t border-zinc-100 flex items-center gap-1.5 text-xs text-zinc-500">
+                    <Clock size={12} className="text-green-500" />
+                    Studielast: <span className="font-semibold text-zinc-700">{cursus.inhoud.studielast.thuisstudie}</span>
+                  </div>
+                )}
               </div>
               <div className="border-2 border-zinc-100 rounded-xl p-6 hover:border-primary-200 transition-colors">
                 <div className="bg-primary-700 text-white p-2.5 rounded-lg inline-block mb-3">
@@ -136,6 +154,10 @@ export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
                 <p className="text-sm text-zinc-600 leading-relaxed">
                   Training op je eigen locatie, afgestemd op jouw organisatie. Flexibele planning en voordelig vanaf 4 deelnemers.
                 </p>
+                <div className="mt-3 pt-3 border-t border-zinc-100 flex items-center gap-1.5 text-xs text-zinc-500">
+                  <Clock size={12} className="text-primary-500" />
+                  Studielast: <span className="font-semibold text-zinc-700">In overleg</span>
+                </div>
               </div>
             </div>
           </div>
