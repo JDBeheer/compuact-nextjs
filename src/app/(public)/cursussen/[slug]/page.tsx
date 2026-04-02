@@ -389,7 +389,7 @@ async function CategoriePage({ slug }: { slug: string }) {
                   <a href="tel:0235513409" className="flex items-center justify-center gap-2 w-full bg-primary-500 text-white px-5 py-3 rounded-xl font-semibold hover:bg-primary-600 transition-all text-sm">
                     <Phone size={16} /> 023-551 3409
                   </a>
-                  <Link href="/incompany" className="flex items-center justify-center gap-2 w-full border-2 border-zinc-200 bg-white text-zinc-700 px-5 py-3 rounded-xl font-semibold hover:border-primary-300 hover:text-primary-600 transition-all text-sm">
+                  <Link href={`/incompany?cursus=${cursus.slug}`} className="flex items-center justify-center gap-2 w-full border-2 border-zinc-200 bg-white text-zinc-700 px-5 py-3 rounded-xl font-semibold hover:border-primary-300 hover:text-primary-600 transition-all text-sm">
                     <Building2 size={16} /> InCompany offerte
                   </Link>
                 </div>
@@ -585,7 +585,7 @@ async function CursusDetailPage({ slug }: { slug: string }) {
             <div className="hidden lg:block">
               <div className="sticky top-24">
                 <a href="#cursusaanbod" className="block w-full text-center bg-primary-500 text-white px-6 py-3.5 rounded-xl font-bold hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/25 transition-all active:scale-[0.98] mb-3">Direct inschrijven</a>
-                <Link href="/incompany" className="flex items-center justify-center gap-2 w-full border-2 border-zinc-200 bg-white text-zinc-700 px-6 py-3 rounded-xl font-semibold hover:border-primary-300 hover:text-primary-600 transition-all text-sm"><Building2 size={15} /> InCompany offerte</Link>
+                <Link href={`/incompany?cursus=${cursus.slug}`} className="flex items-center justify-center gap-2 w-full border-2 border-zinc-200 bg-white text-zinc-700 px-6 py-3 rounded-xl font-semibold hover:border-primary-300 hover:text-primary-600 transition-all text-sm"><Building2 size={15} /> InCompany offerte</Link>
                 <div className="mt-6 bg-white rounded-xl border border-zinc-200 p-5">
                   <div className="flex items-center gap-2 mb-3">
                     <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} size={13} className="text-accent-500 fill-accent-500" />)}</div>
@@ -625,7 +625,7 @@ async function CursusDetailPage({ slug }: { slug: string }) {
                 <span>&#10003; Voordelig vanaf 4 deelnemers</span>
               </div>
             </div>
-            <Link href="/incompany" className="bg-white text-primary-700 px-7 py-3.5 rounded-xl font-bold hover:bg-zinc-100 hover:shadow-lg transition-all active:scale-[0.98] shrink-0">InCompany offerte aanvragen</Link>
+            <Link href={`/incompany?cursus=${cursus.slug}`} className="bg-white text-primary-700 px-7 py-3.5 rounded-xl font-bold hover:bg-zinc-100 hover:shadow-lg transition-all active:scale-[0.98] shrink-0">InCompany offerte aanvragen</Link>
           </div>
 
           {related.length > 0 && (
