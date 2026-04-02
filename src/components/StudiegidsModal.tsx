@@ -156,6 +156,8 @@ export default function StudiegidsModal({ isOpen, onClose }: StudiegidsModalProp
                     <Input id="sg-bedrijf" name="bedrijfsnaam" label="Bedrijfsnaam" />
                   )}
 
+                  <TurnstileWidget onVerify={setTurnstileToken} className="mb-3" />
+
                   {error && (
                     <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-700 text-sm">{error}</div>
                   )}
