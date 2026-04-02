@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { BookOpen, Inbox, Users, TrendingUp, Building2, Download, ChevronDown } from 'lucide-react'
+import { Inbox, TrendingUp, Building2, Download, ChevronDown } from 'lucide-react'
 
 interface DayStats {
   date: string
