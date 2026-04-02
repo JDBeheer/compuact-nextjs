@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { X, BookOpen, CheckCircle, Loader2, Download, Star } from 'lucide-react'
 import Input from '@/components/ui/Input'
+import TurnstileWidget from '@/components/TurnstileWidget'
 
 interface StudiegidsModalProps {
   isOpen: boolean
