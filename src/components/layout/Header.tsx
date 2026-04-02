@@ -358,15 +358,16 @@ export default function Header() {
                             Alle bekijken <ArrowRight size={11} className="group-hover:translate-x-0.5 transition-transform" />
                           </Link>
                         </div>
-                        <div className="grid grid-cols-2 gap-1">
+                        <div className="grid gap-0.5">
                           {categorieen[activeCategory].cursussen.map((cursus) => (
                             <Link
                               key={cursus.slug}
                               href={`/cursussen/${cursus.slug}`}
                               onClick={closeMega}
-                              className="flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg hover:bg-primary-50/60 group transition-all duration-150"
+                              title={cursus.naam}
+                              className="flex items-center justify-between gap-3 px-3 py-2 rounded-lg hover:bg-primary-50/60 group transition-all duration-150"
                             >
-                              <span className="text-sm text-zinc-700 group-hover:text-primary-600 transition-colors font-medium truncate">
+                              <span className="text-sm text-zinc-700 group-hover:text-primary-600 transition-colors font-medium">
                                 {cursus.naam}
                               </span>
                               <span className={cn('text-[10px] font-semibold px-1.5 py-0.5 rounded-full shrink-0', niveauColor[cursus.niveau])}>
