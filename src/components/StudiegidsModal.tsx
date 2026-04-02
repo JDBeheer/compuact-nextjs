@@ -61,9 +61,9 @@ export default function StudiegidsModal({ isOpen, onClose }: StudiegidsModalProp
     }
   }
 
-  return (
-    <div className="fixed inset-0 z-[200] isolate">
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+  const modal = (
+    <div className="fixed inset-0 z-[9999]">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="fixed inset-0 flex items-center justify-center p-4 pointer-events-none">
         <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden relative pointer-events-auto">
           {/* Close button */}
