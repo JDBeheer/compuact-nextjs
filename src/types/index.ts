@@ -45,6 +45,11 @@ export interface CursusInhoud {
     incompany?: number
   }
   lesmethodes?: string[]
+  studielast?: {
+    klassikaal?: string
+    live_online?: string
+    thuisstudie?: string
+  }
 }
 
 export interface CursusSessie {
