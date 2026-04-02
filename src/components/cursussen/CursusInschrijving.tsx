@@ -8,6 +8,7 @@ import { useCart } from '@/contexts/CartContext'
 import { formatPrice, formatDateShort } from '@/lib/utils'
 import { CursusSessie } from '@/types'
 import { locaties as allLocaties } from '@/data/locaties'
+import LocatiePopover from '@/components/cursussen/LocatiePopover'
 import { getPostcodeCoords, haversineDistance } from '@/data/postcode-coords'
 
 interface Prijzen {
