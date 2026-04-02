@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { getGoogleReviews, fallbackReviews } from '@/lib/google-reviews'
 import { GoogleReviewsSection } from '@/components/GoogleReviews'
+import { StudiegidsCTA } from '@/components/StudiegidsModal'
 
 const categorieen = [
   { naam: 'Excel', slug: 'excel', icon: FileSpreadsheet, color: 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' },
