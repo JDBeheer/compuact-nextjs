@@ -13,25 +13,79 @@ interface MapLocatie {
   lng: number
 }
 
-// Netherlands bounding box (approximate)
-const NL_BOUNDS = {
-  minLat: 50.75,
-  maxLat: 53.55,
-  minLng: 3.35,
-  maxLng: 7.25,
+// Netherlands bounding box
+const NL = { minLat: 50.75, maxLat: 53.55, minLng: 3.35, maxLng: 7.25 }
+const W = 400
+const H = 520
+
+function toXY(lat: number, lng: number) {
+  return {
+    x: ((lng - NL.minLng) / (NL.maxLng - NL.minLng)) * W,
+    y: ((NL.maxLat - lat) / (NL.maxLat - NL.minLat)) * H,
+  }
 }
 
-const MAP_WIDTH = 400
-const MAP_HEIGHT = 520
+// Accurate simplified Netherlands outline (converted from real geo coords)
+// Source: Natural Earth simplified borders
+const NL_PATH = (() => {
+  const coords: [number, number][] = [
+    // North coast - Wadden area
+    [53.44, 5.03], [53.42, 5.45], [53.35, 5.58], [53.36, 5.90],
+    [53.33, 5.97], [53.40, 6.15], [53.43, 6.28], [53.48, 6.60],
+    [53.47, 6.82], [53.46, 7.04], [53.33, 7.09],
+    // East border - down through Groningen, Drenthe, Overijssel, Gelderland
+    [53.24, 7.09], [53.18, 7.07], [53.00, 7.00], [52.87, 7.04],
+    [52.81, 7.07], [52.65, 7.05], [52.48, 6.97], [52.43, 6.94],
+    [52.39, 6.90], [52.34, 6.97], [52.24, 6.98], [52.17, 7.01],
+    [52.07, 6.87], [52.01, 6.74], [51.96, 6.69], [51.89, 6.38],
+    [51.85, 6.17], [51.84, 6.08], [51.81, 5.95], [51.75, 5.97],
+    // Limburg
+    [51.68, 6.01], [51.59, 6.04], [51.49, 6.07], [51.44, 6.08],
+    [51.38, 6.12], [51.35, 6.07], [51.28, 5.96], [51.26, 5.87],
+    [51.27, 5.79], [51.26, 5.69], [51.24, 5.61],
+    // South border - Brabant, Zeeland
+    [51.37, 5.47], [51.39, 5.28], [51.42, 5.07], [51.45, 4.93],
+    [51.47, 4.79], [51.44, 4.63], [51.42, 4.39], [51.37, 4.25],
+    [51.35, 4.17], [51.31, 3.94], [51.28, 3.83], [51.31, 3.73],
+    [51.37, 3.59],
+    // Zeeland coast
+    [51.43, 3.50], [51.50, 3.56], [51.53, 3.55], [51.57, 3.65],
+    [51.60, 3.68], [51.65, 3.79], [51.68, 3.82], [51.73, 3.88],
+    [51.78, 3.93], [51.80, 4.05],
+    // South Holland coast
+    [51.83, 4.09], [51.87, 4.05], [51.90, 3.99], [51.93, 4.02],
+    [51.97, 4.09], [52.03, 4.13], [52.06, 4.17], [52.08, 4.17],
+    // Hook of Holland, Den Haag, Leiden
+    [52.10, 4.19], [52.16, 4.26], [52.21, 4.36], [52.27, 4.42],
+    // North Holland coast
+    [52.33, 4.52], [52.38, 4.53], [52.46, 4.55], [52.55, 4.56],
+    [52.62, 4.57], [52.70, 4.62], [52.78, 4.68], [52.86, 4.72],
+    // Den Helder / top
+    [52.92, 4.75], [52.97, 4.78], [53.02, 4.82], [53.07, 4.85],
+    [53.12, 4.86], [53.17, 4.87], [53.22, 4.89], [53.27, 4.91],
+    [53.33, 4.94], [53.38, 4.97], [53.44, 5.03],
+  ]
+  const points = coords.map(([lat, lng]) => {
+    const { x, y } = toXY(lat, lng)
+    return `${x.toFixed(1)},${y.toFixed(1)}`
+  })
+  return `M${points.join(' L')} Z`
+})()
 
-function latLngToXY(lat: number, lng: number): { x: number; y: number } {
-  const x = ((lng - NL_BOUNDS.minLng) / (NL_BOUNDS.maxLng - NL_BOUNDS.minLng)) * MAP_WIDTH
-  const y = ((NL_BOUNDS.maxLat - lat) / (NL_BOUNDS.maxLat - NL_BOUNDS.minLat)) * MAP_HEIGHT
-  return { x, y }
-}
-
-// Simplified Netherlands outline path
-const NL_OUTLINE = `M195 10 L210 15 L225 8 L240 12 L260 5 L275 15 L290 25 L300 20 L315 30 L325 45 L330 65 L340 80 L345 95 L350 110 L340 120 L330 115 L325 130 L330 145 L340 155 L350 165 L355 180 L360 200 L355 215 L345 225 L340 240 L350 255 L360 270 L365 290 L370 310 L375 330 L380 350 L375 365 L365 380 L355 395 L340 410 L325 420 L310 430 L295 445 L280 455 L265 460 L250 465 L235 470 L220 475 L205 480 L190 485 L175 488 L160 490 L145 495 L130 498 L115 500 L100 498 L90 490 L85 480 L80 465 L75 450 L70 435 L65 420 L60 400 L55 385 L50 370 L48 355 L50 340 L55 325 L52 310 L48 295 L45 280 L42 265 L40 250 L38 235 L35 220 L33 200 L30 185 L28 170 L30 155 L35 140 L40 125 L50 115 L55 100 L60 85 L70 75 L85 65 L95 55 L105 48 L115 42 L125 38 L135 32 L145 28 L155 22 L165 18 L175 15 L185 12 Z`
+// IJsselmeer outline (simplified)
+const IJSSELMEER = (() => {
+  const coords: [number, number][] = [
+    [52.95, 5.10], [52.85, 5.15], [52.75, 5.20], [52.65, 5.20],
+    [52.55, 5.15], [52.50, 5.10], [52.45, 5.15], [52.42, 5.25],
+    [52.45, 5.40], [52.55, 5.50], [52.65, 5.55], [52.75, 5.50],
+    [52.85, 5.40], [52.93, 5.25], [52.95, 5.10],
+  ]
+  const points = coords.map(([lat, lng]) => {
+    const { x, y } = toXY(lat, lng)
+    return `${x.toFixed(1)},${y.toFixed(1)}`
+  })
+  return `M${points.join(' L')} Z`
+})()
 
 export default function LocatieMap({ locaties }: { locaties: MapLocatie[] }) {
   const [active, setActive] = useState<string | null>(null)
@@ -49,90 +103,76 @@ export default function LocatieMap({ locaties }: { locaties: MapLocatie[] }) {
 
       <div className="relative flex flex-col lg:flex-row">
         {/* Map */}
-        <div className="flex-1 flex items-center justify-center p-6 lg:p-8 bg-gradient-to-b from-primary-50/30 to-white min-h-[400px] lg:min-h-[520px]">
+        <div className="flex-1 flex items-center justify-center p-6 lg:p-8 bg-gradient-to-b from-primary-50/30 to-white min-h-[420px] lg:min-h-[540px]">
           <svg
-            viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT + 20}`}
-            className="w-full max-w-[320px] lg:max-w-[380px] h-auto"
+            viewBox={`-10 -10 ${W + 20} ${H + 20}`}
+            className="w-full max-w-[340px] lg:max-w-[400px] h-auto"
           >
-            {/* Netherlands shape */}
+            {/* Land */}
             <path
-              d={NL_OUTLINE}
+              d={NL_PATH}
               fill="#e8f4fc"
-              stroke="#b8dbff"
-              strokeWidth="2"
-              className="drop-shadow-sm"
+              stroke="#a8d4f0"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
             />
 
-            {/* Water effect - IJsselmeer approximate */}
-            <ellipse cx="195" cy="120" rx="45" ry="55" fill="#d4eaf8" opacity="0.5" />
+            {/* IJsselmeer */}
+            <path
+              d={IJSSELMEER}
+              fill="#d0e8f5"
+              stroke="none"
+            />
+
+            {/* Province-ish dividers for visual texture */}
+            <line x1={toXY(52.08, 4.17).x} y1={toXY(52.08, 4.17).y} x2={toXY(52.17, 7.01).x} y2={toXY(52.17, 7.01).y} stroke="#c8dff0" strokeWidth="0.5" strokeDasharray="4 3" />
+            <line x1={toXY(51.85, 3.93).x} y1={toXY(51.85, 3.93).y} x2={toXY(51.85, 6.17).x} y2={toXY(51.85, 6.17).y} stroke="#c8dff0" strokeWidth="0.5" strokeDasharray="4 3" />
+            <line x1={toXY(51.50, 3.56).x} y1={toXY(51.50, 3.56).y} x2={toXY(51.50, 6.07).x} y2={toXY(51.50, 6.07).y} stroke="#c8dff0" strokeWidth="0.5" strokeDasharray="4 3" />
 
             {/* Location markers */}
             {locaties.map((loc) => {
-              const { x, y } = latLngToXY(loc.lat, loc.lng)
+              const { x, y } = toXY(loc.lat, loc.lng)
               const isActive = active === loc.slug
 
               return (
-                <g key={loc.slug}>
-                  {/* Pulse ring when active */}
+                <g key={loc.slug} className="cursor-pointer" onClick={() => setActive(loc.slug)} onMouseEnter={() => setActive(loc.slug)}>
+                  {/* Outer glow when active */}
                   {isActive && (
-                    <circle
-                      cx={x}
-                      cy={y}
-                      r="16"
-                      fill="none"
-                      stroke="#1B6AB3"
-                      strokeWidth="2"
-                      opacity="0.3"
-                      className="animate-ping"
-                    />
+                    <>
+                      <circle cx={x} cy={y} r="14" fill="#1B6AB3" opacity="0.08" />
+                      <circle cx={x} cy={y} r="10" fill="#1B6AB3" opacity="0.12" />
+                    </>
                   )}
 
-                  {/* Shadow */}
-                  <circle
-                    cx={x}
-                    cy={y + 2}
-                    r={isActive ? 8 : 5}
-                    fill="black"
-                    opacity="0.1"
-                  />
+                  {/* Drop shadow */}
+                  <circle cx={x} cy={y + 1.5} r={isActive ? 7 : 5} fill="black" opacity="0.08" />
 
-                  {/* Marker */}
+                  {/* Marker dot */}
                   <circle
-                    cx={x}
-                    cy={y}
-                    r={isActive ? 8 : 5.5}
+                    cx={x} cy={y}
+                    r={isActive ? 7 : 5}
                     fill={isActive ? '#1B6AB3' : '#F49800'}
                     stroke="white"
-                    strokeWidth={isActive ? 3 : 2}
-                    className="cursor-pointer transition-all duration-200 hover:r-8"
-                    onMouseEnter={() => setActive(loc.slug)}
-                    onClick={() => setActive(loc.slug)}
+                    strokeWidth={isActive ? 2.5 : 2}
                   />
 
-                  {/* Label for active */}
+                  {/* Inner dot */}
+                  {isActive && <circle cx={x} cy={y} r="2.5" fill="white" />}
+
+                  {/* Label tooltip */}
                   {isActive && (
                     <g>
                       <rect
-                        x={x - 35}
-                        y={y - 30}
-                        width="70"
-                        height="20"
+                        x={x - loc.naam.length * 3.5 - 8}
+                        y={y - 28}
+                        width={loc.naam.length * 7 + 16}
+                        height="18"
                         rx="4"
                         fill="#1B6AB3"
+                        className="drop-shadow-sm"
                       />
-                      <polygon
-                        points={`${x - 5},${y - 10} ${x + 5},${y - 10} ${x},${y - 5}`}
-                        fill="#1B6AB3"
-                      />
-                      <text
-                        x={x}
-                        y={y - 17}
-                        textAnchor="middle"
-                        fill="white"
-                        fontSize="10"
-                        fontWeight="bold"
-                        fontFamily="system-ui"
-                      >
+                      <polygon points={`${x - 4},${y - 10} ${x + 4},${y - 10} ${x},${y - 6}`} fill="#1B6AB3" />
+                      <text x={x} y={y - 16} textAnchor="middle" fill="white" fontSize="9" fontWeight="600" fontFamily="system-ui, sans-serif">
                         {loc.naam}
                       </text>
                     </g>
@@ -143,7 +183,7 @@ export default function LocatieMap({ locaties }: { locaties: MapLocatie[] }) {
           </svg>
         </div>
 
-        {/* Info panel */}
+        {/* Side panel */}
         <div className="lg:w-72 border-t lg:border-t-0 lg:border-l border-zinc-100">
           {activeLocatie ? (
             <div className="p-5">
@@ -171,7 +211,7 @@ export default function LocatieMap({ locaties }: { locaties: MapLocatie[] }) {
           )}
 
           {/* Quick list */}
-          <div className="border-t border-zinc-100 max-h-[300px] overflow-y-auto">
+          <div className="border-t border-zinc-100 max-h-[320px] overflow-y-auto">
             {locaties.map((loc) => (
               <button
                 key={loc.slug}
