@@ -38,9 +38,13 @@ function AnimatedNumber({ value, className }: { value: string; className?: strin
 
 export default function CartBar() {
   const { items, getTotal, totalDeelnemers, removeFromCart } = useCart()
+  const pathname = usePathname()
   const [expanded, setExpanded] = useState(false)
   const [pulse, setPulse] = useState(false)
   const prevItemCount = useRef(items.length)
+
+  // Hide on checkout pages
+  if (pathname?.startsWith('/inschrijven')) return null
 
   // Pulse animation when items change
   useEffect(() => {
