@@ -81,7 +81,8 @@ export const revalidate = 86400 // Revalidate daily
 
 // Generate all cursus+stad and categorie+stad combinations at build time
 export async function generateStaticParams() {
-  const supabase = createServerSupabaseClient()
+  const { createServiceRoleClient } = await import('@/lib/supabase/server')
+  const supabase = createServiceRoleClient()
   const { data: cursusData } = await supabase.from('cursussen').select('slug').eq('actief', true)
   const cursussen = cursusData || []
 
