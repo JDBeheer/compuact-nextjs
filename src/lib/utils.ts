@@ -20,7 +20,6 @@ export function formatDateShort(dateString: string): string {
   const rest = d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' })
   return `${weekday} ${rest}`
 }
-}
 
 export function cn(...classes: (string | boolean | undefined | null)[]): string {
   return classes.filter(Boolean).join(' ')
