@@ -127,6 +127,7 @@ function InCompanyContent() {
           gewenstePeriode: form.get('gewenste_periode') as string,
           locatieVoorkeur: form.get('locatie_voorkeur') as string,
           opmerkingen: form.get('opmerkingen') as string,
+          turnstileToken,
         }),
       })
 
