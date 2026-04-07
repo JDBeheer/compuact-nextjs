@@ -1,6 +1,6 @@
 'use client'
 
-import { CheckCircle, XCircle, MousePointer, ShoppingCart, CreditCard, FileText, Phone, Building2, Eye, ArrowRight, Send, BarChart3 } from 'lucide-react'
+import { CheckCircle, XCircle, ShoppingCart, CreditCard, FileText, Phone, Building2, Eye, Send, BarChart3 } from 'lucide-react'
 
 interface TrackingEvent {
   naam: string
