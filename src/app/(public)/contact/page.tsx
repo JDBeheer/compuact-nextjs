@@ -45,6 +45,7 @@ export default async function ContactPage() {
               rating={reviewData.rating}
               totalReviews={reviewData.user_ratings_total}
               size="lg"
+              variant="dark"
             />
           </div>
         </div>
