@@ -18,6 +18,7 @@ const INCOMPANY_CORRECTIE = 1.25
 interface MaandData {
   maand: string // YYYY-MM
   label: string
+  historisch: boolean
   // Ruwe aantallen
   telefoonKliks: number
   inschrijvingen: number
