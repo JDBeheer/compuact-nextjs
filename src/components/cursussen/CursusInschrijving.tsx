@@ -16,6 +16,7 @@ interface Prijzen {
   online?: number
   thuisstudie?: number
   incompany?: number
+  olc?: number
 }
 
 interface CursusInschrijvingProps {
