@@ -7,6 +7,8 @@ import { Menu, X, ChevronDown, ChevronRight, Phone, Mail, Search, FileSpreadshee
 import { cn } from '@/lib/utils'
 import OpeningsTijden from '@/components/OpeningsTijden'
 import StudiegidsModal from '@/components/StudiegidsModal'
+import { GoogleReviewsModalTrigger } from '@/components/GoogleReviewsModal'
+import { fallbackReviews } from '@/lib/google-reviews'
 
 const categorieen = [
   {
