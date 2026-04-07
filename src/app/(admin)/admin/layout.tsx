@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 import {
   LayoutDashboard, BookOpen, Calendar, Tag, MapPin,
-  Inbox, Settings, LogOut, Menu, X, TrendingUp
+  Inbox, Settings, LogOut, Menu, X, TrendingUp, BarChart3
 } from 'lucide-react'
 
 const navItems = [
@@ -18,6 +18,7 @@ const navItems = [
   { href: '/admin/categorieen', label: 'Categorieën', icon: Tag },
   { href: '/admin/locaties', label: 'Locaties', icon: MapPin },
   { href: '/admin/inzendingen', label: 'Inzendingen', icon: Inbox },
+  { href: '/admin/tracking', label: 'Tracking', icon: BarChart3 },
   { href: '/admin/instellingen', label: 'Instellingen', icon: Settings },
 ]
 
