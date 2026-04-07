@@ -189,6 +189,11 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen, stud
                   <div className="mt-3 text-xs font-semibold text-primary-500 flex items-center gap-1 group-hover:gap-2 transition-all">
                     Offerte aanvragen <ArrowRight size={12} />
                   </div>
+                  {m.studielastTekst && (
+                    <div className="mt-2 pt-2 border-t border-zinc-100 flex items-center gap-1.5 text-[11px] text-zinc-400">
+                      <Clock size={11} /> Studielast: <span className="font-medium text-zinc-600">{m.studielastTekst}</span>
+                    </div>
+                  )}
                 </Link>
               )
             }
