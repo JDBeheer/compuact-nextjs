@@ -262,13 +262,16 @@ export default function Header() {
               </a>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
-              <div className="flex items-center gap-1.5 bg-primary-800/40 rounded-full px-2 sm:px-3 py-1">
+              <button
+                onClick={() => setReviewsOpen(true)}
+                className="flex items-center gap-1.5 bg-primary-800/40 hover:bg-primary-700/50 rounded-full px-2 sm:px-3 py-1 transition-colors cursor-pointer"
+              >
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => <Star key={i} size={9} className="text-accent-400 fill-accent-400" />)}
                 </div>
                 <span className="text-[10px] sm:text-xs font-semibold text-white">4.8</span>
                 <span className="hidden sm:inline text-xs text-primary-300">Google</span>
-              </div>
+              </button>
               <div className="hidden lg:flex items-center gap-1.5 text-primary-300 text-xs">
                 <span className="text-primary-600">|</span>
                 <Shield size={10} />
