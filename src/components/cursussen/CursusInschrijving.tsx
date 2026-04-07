@@ -444,36 +444,13 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
 
       {/* Fallback: methode gekozen maar geen sessies (open inschrijving) */}
       {(methode === 'klassikaal' || methode === 'online') && activeSessies.length === 0 && (
-        <div className="mb-6">
-          <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-3">
-            2. Inschrijven
-          </h3>
-          <div className="rounded-xl border-2 border-zinc-200 bg-zinc-50 p-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <div className="font-semibold text-zinc-700 mb-1">
-                  {methode === 'klassikaal' ? 'Klassikale training' : 'Live Online training'}
-                </div>
-                <div className="text-sm text-zinc-500">
-                  Exacte datum en {methode === 'klassikaal' ? 'locatie' : 'tijdstip'} in overleg met onze planning
-                </div>
-              </div>
-              <div className="flex items-center gap-3 shrink-0">
-                <div className="text-right">
-                  <div className="text-xl font-extrabold text-zinc-900">{formatPrice(selectedMethode?.prijs || 0)}</div>
-                  <div className="text-[11px] text-zinc-400">excl. BTW</div>
-                </div>
-                <a
-                  href="tel:0235513409"
-                  className="flex items-center gap-2 bg-primary-500 text-white px-5 py-3 rounded-xl font-bold text-sm hover:bg-primary-600 transition-all"
-                >
-                  Bel ons
-                  <ArrowRight size={14} />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+        <OpenInschrijving
+          methode={methode}
+          prijs={selectedMethode?.prijs || 0}
+          cursusTitel={cursusTitel}
+          addToCart={addToCart}
+          items={items}
+        />
       )}
 
       {/* Hint */}
