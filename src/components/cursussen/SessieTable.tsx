@@ -222,13 +222,17 @@ export default function SessieTable({ sessies, cursusTitel }: SessieTableProps) 
                           {online ? <Laptop size={14} /> : <MapPin size={14} className="text-primary-500" />}
                           {sessie.locatie_stad}
                         </span>
-                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                        <a
+                          href={`/lesmethodes#${sessie.lesmethode === 'online' ? 'live-online' : sessie.lesmethode}`}
+                          onClick={(e) => e.stopPropagation()}
+                          title={`Meer over ${lesmethodeLabel(sessie.lesmethode)}`}
+                          className={`text-[10px] font-semibold px-2 py-0.5 rounded-full hover:opacity-80 transition-opacity ${
                           online
                             ? 'bg-accent-100 text-accent-700'
                             : 'bg-primary-100 text-primary-700'
                         }`}>
                           {lesmethodeLabel(sessie.lesmethode)}
-                        </span>
+                        </a>
                       </div>
 
                       {/* Datum + tijd */}
