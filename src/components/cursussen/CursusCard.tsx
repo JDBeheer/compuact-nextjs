@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, MapPin, Monitor, FileSpreadsheet, FileText, Mail, Presentation, BarChart3, FolderKanban, Bot, PenTool, Users, Laptop } from 'lucide-react'
+import { ArrowRight, MapPin, Monitor, FileSpreadsheet, FileText, Mail, Presentation, BarChart3, FolderKanban, Bot, PenTool, Users, Laptop, BookOpen, Building2 } from 'lucide-react'
 import Card, { CardBody } from '@/components/ui/Card'
 import { Cursus } from '@/types'
 import { formatPrice, niveauLabel } from '@/lib/utils'
