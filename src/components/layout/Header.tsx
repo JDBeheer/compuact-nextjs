@@ -744,6 +744,13 @@ export default function Header() {
       )}
 
       <StudiegidsModal isOpen={studiegidsOpen} onClose={() => setStudiegidsOpen(false)} />
+      <GoogleReviewsModalStandalone
+        isOpen={reviewsOpen}
+        onClose={() => setReviewsOpen(false)}
+        rating={fallbackReviews.rating}
+        totalReviews={fallbackReviews.user_ratings_total}
+        allReviews={fallbackReviews.allReviews}
+      />
     </>
   )
 }
