@@ -155,106 +155,98 @@ export default function Footer() {
 
             {/* Cursussen */}
             <div className="lg:col-span-2">
-              <h3 className="text-white font-bold text-xs uppercase tracking-widest mb-5 flex items-center gap-2">
-                <span className="w-6 h-px bg-primary-500" />
-                Cursussen
-              </h3>
-              <ul className="space-y-2.5">
-                {cursusLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="text-sm hover:text-white flex items-center gap-0 group transition-all duration-200">
-                      <ArrowRight size={12} className="text-primary-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-200" />
-                      <span>{link.naam}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <FooterAccordion title="Cursussen">
+                <ul className="space-y-2.5">
+                  {cursusLinks.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="text-sm hover:text-white flex items-center gap-0 group transition-all duration-200">
+                        <ArrowRight size={12} className="text-primary-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-200" />
+                        <span>{link.naam}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </FooterAccordion>
             </div>
 
             {/* Populaire cursussen */}
             <div className="lg:col-span-2">
-              <h3 className="text-white font-bold text-xs uppercase tracking-widest mb-5 flex items-center gap-2">
-                <span className="w-6 h-px bg-primary-500" />
-                Populair
-              </h3>
-              <ul className="space-y-2.5">
-                {populaireCursussen.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="text-sm hover:text-white flex items-center gap-0 group transition-all duration-200">
-                      <ArrowRight size={12} className="text-primary-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-200" />
-                      <span>{link.naam}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <FooterAccordion title="Populair">
+                <ul className="space-y-2.5">
+                  {populaireCursussen.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="text-sm hover:text-white flex items-center gap-0 group transition-all duration-200">
+                        <ArrowRight size={12} className="text-primary-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-200" />
+                        <span>{link.naam}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </FooterAccordion>
             </div>
 
             {/* Lesmethodes */}
             <div className="lg:col-span-2">
-              <h3 className="text-white font-bold text-xs uppercase tracking-widest mb-5 flex items-center gap-2">
-                <span className="w-6 h-px bg-primary-500" />
-                Lesmethodes
-              </h3>
-              <ul className="space-y-4">
-                {lesmethodes.map((link) => (
-                  <li key={link.naam}>
-                    <Link href={link.href} className="group">
-                      <span className="text-sm text-zinc-300 group-hover:text-white transition-colors block font-medium">
-                        {link.naam}
-                      </span>
-                      <span className="text-xs text-zinc-500 block mt-0.5">
-                        {link.beschrijving}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <FooterAccordion title="Lesmethodes">
+                <ul className="space-y-4">
+                  {lesmethodes.map((link) => (
+                    <li key={link.naam}>
+                      <Link href={link.href} className="group">
+                        <span className="text-sm text-zinc-300 group-hover:text-white transition-colors block font-medium">
+                          {link.naam}
+                        </span>
+                        <span className="text-xs text-zinc-500 block mt-0.5">
+                          {link.beschrijving}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </FooterAccordion>
             </div>
 
             {/* Bedrijf */}
             <div className="lg:col-span-2">
-              <h3 className="text-white font-bold text-xs uppercase tracking-widest mb-5 flex items-center gap-2">
-                <span className="w-6 h-px bg-primary-500" />
-                Bedrijf
-              </h3>
-              <ul className="space-y-2.5">
-                {bedrijfLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="text-sm hover:text-white flex items-center gap-0 group transition-all duration-200">
-                      <ArrowRight size={12} className="text-primary-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-200" />
-                      <span>{link.naam}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <FooterAccordion title="Bedrijf">
+                <ul className="space-y-2.5">
+                  {bedrijfLinks.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="text-sm hover:text-white flex items-center gap-0 group transition-all duration-200">
+                        <ArrowRight size={12} className="text-primary-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-200" />
+                        <span>{link.naam}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
 
-              {/* Trust badges */}
-              <div className="mt-8 space-y-3">
-                <div className="flex items-center gap-2.5 text-xs">
-                  <div className="bg-primary-500/10 p-1.5 rounded-lg">
-                    <CheckCircle size={12} className="text-primary-400" />
+                {/* Trust badges */}
+                <div className="mt-8 space-y-3">
+                  <div className="flex items-center gap-2.5 text-xs">
+                    <div className="bg-primary-500/10 p-1.5 rounded-lg">
+                      <CheckCircle size={12} className="text-primary-400" />
+                    </div>
+                    <span className="text-zinc-400">All-in cursusprijs</span>
                   </div>
-                  <span className="text-zinc-400">All-in cursusprijs</span>
-                </div>
-                <div className="flex items-center gap-2.5 text-xs">
-                  <div className="bg-primary-500/10 p-1.5 rounded-lg">
-                    <Shield size={12} className="text-primary-400" />
+                  <div className="flex items-center gap-2.5 text-xs">
+                    <div className="bg-primary-500/10 p-1.5 rounded-lg">
+                      <Shield size={12} className="text-primary-400" />
+                    </div>
+                    <span className="text-zinc-400">Niet goed? Geld terug</span>
                   </div>
-                  <span className="text-zinc-400">Niet goed? Geld terug</span>
-                </div>
-                <div className="flex items-center gap-2.5 text-xs">
-                  <div className="bg-primary-500/10 p-1.5 rounded-lg">
-                    <Users size={12} className="text-primary-400" />
+                  <div className="flex items-center gap-2.5 text-xs">
+                    <div className="bg-primary-500/10 p-1.5 rounded-lg">
+                      <Users size={12} className="text-primary-400" />
+                    </div>
+                    <span className="text-zinc-400">15.000+ deelnemers opgeleid</span>
                   </div>
-                  <span className="text-zinc-400">15.000+ deelnemers opgeleid</span>
-                </div>
-                <div className="flex items-center gap-2.5 text-xs">
-                  <div className="bg-primary-500/10 p-1.5 rounded-lg">
-                    <Award size={12} className="text-primary-400" />
+                  <div className="flex items-center gap-2.5 text-xs">
+                    <div className="bg-primary-500/10 p-1.5 rounded-lg">
+                      <Award size={12} className="text-primary-400" />
+                    </div>
+                    <span className="text-zinc-400">21+ jaar ervaring</span>
                   </div>
-                  <span className="text-zinc-400">21+ jaar ervaring</span>
                 </div>
-              </div>
+              </FooterAccordion>
             </div>
           </div>
         </div>
