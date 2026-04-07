@@ -33,7 +33,7 @@ export function GoogleReviewsBadge({ rating, totalReviews, size = 'md' }: Google
       {totalReviews > 0 && (
         <span className={`text-zinc-500 ${textSize}`}>&middot; {totalReviews} Google recensies</span>
       )}
-    </div>
+    </a>
   )
 }
 
