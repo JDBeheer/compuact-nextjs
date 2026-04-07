@@ -85,7 +85,7 @@ export default function PrestatiesPage() {
     const startDate = `${selectedYear}-01-01`
     const endDate = `${selectedYear + 1}-01-01`
 
-    const [inzendingen, kliks] = await Promise.all([
+    const [inzendingen, kliks, historischRes] = await Promise.all([
       supabase
         .from('inschrijvingen')
         .select('type, created_at')
@@ -97,21 +97,37 @@ export default function PrestatiesPage() {
         .select('created_at')
         .gte('created_at', startDate)
         .lt('created_at', endDate),
+      supabase
+        .from('site_settings')
+        .select('id, value')
+        .eq('id', `historisch_${selectedYear}`)
+        .single(),
     ])
+
+    // Historische data uit site_settings
+    const historisch = (historischRes.data?.value || {}) as Record<string, {
+      telefoonKliks: number; inschrijvingen: number; offertes: number; incompany: number
+    }>
 
     // Groepeer per maand
     const monthMap = new Map<string, { telefoonKliks: number; inschrijvingen: number; offertes: number; incompany: number }>()
 
-    // Initialiseer alle maanden
+    // Initialiseer alle maanden met historische data als basis
     for (let m = 0; m < 12; m++) {
       const key = `${selectedYear}-${String(m + 1).padStart(2, '0')}`
-      monthMap.set(key, { telefoonKliks: 0, inschrijvingen: 0, offertes: 0, incompany: 0 })
+      const hist = historisch[key]
+      monthMap.set(key, hist
+        ? { telefoonKliks: hist.telefoonKliks, inschrijvingen: hist.inschrijvingen, offertes: hist.offertes, incompany: hist.incompany }
+        : { telefoonKliks: 0, inschrijvingen: 0, offertes: 0, incompany: 0 }
+      )
     }
 
-    // Tel inzendingen
+    // Voeg live data toe bovenop historische data (voor maanden zonder historische data)
+    // Voor maanden MET historische data gebruiken we alleen de historische cijfers
     ;(inzendingen.data || []).forEach((i: { type: string; created_at: string }) => {
       const d = new Date(i.created_at)
       const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+      if (historisch[key]) return // historische data heeft voorrang
       const entry = monthMap.get(key)
       if (!entry) return
       if (i.type === 'inschrijving') entry.inschrijvingen++
@@ -119,10 +135,10 @@ export default function PrestatiesPage() {
       else if (i.type === 'incompany') entry.incompany++
     })
 
-    // Tel telefoonkliks
     ;(kliks.data || []).forEach((k: { created_at: string }) => {
       const d = new Date(k.created_at)
       const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+      if (historisch[key]) return // historische data heeft voorrang
       const entry = monthMap.get(key)
       if (entry) entry.telefoonKliks++
     })
