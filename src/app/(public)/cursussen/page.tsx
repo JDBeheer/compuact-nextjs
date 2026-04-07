@@ -39,6 +39,10 @@ async function getCursussen(searchParams: Record<string, string | undefined>) {
     query = query.ilike('titel', `%${searchParams.zoek}%`)
   }
 
+  if (searchParams.niveau) {
+    query = query.eq('niveau', searchParams.niveau)
+  }
+
   const { data } = await query
   return (data || []) as Cursus[]
 }
