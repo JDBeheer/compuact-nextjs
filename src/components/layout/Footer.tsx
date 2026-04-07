@@ -149,7 +149,7 @@ export default function Footer() {
                     <p className="text-xs text-zinc-500 mt-0.5">Gebaseerd op 90 Google recensies</p>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
 
             {/* Cursussen */}
