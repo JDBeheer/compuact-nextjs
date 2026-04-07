@@ -129,7 +129,7 @@ export default function Footer() {
               </div>
 
               {/* Google review badge */}
-              <div className="bg-gradient-to-br from-zinc-800 to-zinc-800/60 rounded-xl p-4 border border-zinc-700/40 hover:border-zinc-600/60 transition-colors">
+              <a href="https://www.google.com/maps/place/?q=place_id:ChIJsdIiroz8xUcRE9h7MjoRy4g" target="_blank" rel="noopener noreferrer" className="block bg-gradient-to-br from-zinc-800 to-zinc-800/60 rounded-xl p-4 border border-zinc-700/40 hover:border-zinc-600/60 hover:from-zinc-750 transition-colors cursor-pointer">
                 <div className="flex items-center gap-3">
                   <div className="bg-white rounded-lg p-2.5 shadow-sm">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
