@@ -153,8 +153,11 @@ export default function Footer() {
               </a>
             </div>
 
+            {/* Link columns — 2-col grid on tablet, 4-col on desktop */}
+            <div className="sm:col-span-1 lg:col-span-8 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+
             {/* Cursussen */}
-            <div className="lg:col-span-2">
+            <div>
               <FooterAccordion title="Cursussen">
                 <ul className="space-y-2.5">
                   {cursusLinks.map((link) => (
