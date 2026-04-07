@@ -174,6 +174,7 @@ export default function PrestatiesPage() {
       return {
         maand: key,
         label,
+        historisch: !!historisch[key],
         telefoonKliks: val.telefoonKliks,
         inschrijvingen: val.inschrijvingen,
         offertes: val.offertes,
