@@ -189,7 +189,7 @@ export default function Footer() {
             </div>
 
             {/* Lesmethodes */}
-            <div className="lg:col-span-2">
+            <div>
               <FooterAccordion title="Lesmethodes">
                 <ul className="space-y-4">
                   {lesmethodes.map((link) => (
