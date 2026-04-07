@@ -153,7 +153,7 @@ export default function PrestatiesPage() {
       // Prestatieberekening
       const extraLeads = Math.max(0, totaalLeads - BASELINE)
       const maxVergoeding = extraLeads * MAX_VERGOEDING_PER_LEAD
-      const googleAds = adsSpend[key] || 0
+      const googleAds = loadedAdsSpend[key] || 0
       const totaalVast = ARBEID_PER_MAAND + googleAds
 
       // Vergoeding per lead: (opbrengst × max%) - (vaste kosten / leads)
