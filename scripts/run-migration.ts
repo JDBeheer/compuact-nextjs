@@ -31,7 +31,7 @@ async function run() {
   // Supabase JS client heeft geen directe SQL, dus we gebruiken de Management API
   const projectRef = process.env.NEXT_PUBLIC_SUPABASE_URL!.replace('https://', '').replace('.supabase.co', '')
 
-  const sql = fs.readFileSync(path.resolve(import.meta.dirname, '../supabase/migration_004_telefoon_kliks.sql'), 'utf8')
+  const sql = fs.readFileSync(path.resolve(__dirname, '../supabase/migration_004_telefoon_kliks.sql'), 'utf8')
 
   // Probeer via de Supabase SQL endpoint (vereist service_role key)
   const resp = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/`, {
