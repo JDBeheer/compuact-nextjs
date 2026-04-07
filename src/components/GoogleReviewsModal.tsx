@@ -161,3 +161,78 @@ export function GoogleReviewsModalTrigger({
     </>
   )
 }
+
+// Standalone modal — controlled by parent
+export function GoogleReviewsModalStandalone({
+  isOpen,
+  onClose,
+  rating,
+  totalReviews,
+  allReviews,
+}: { isOpen: boolean; onClose: () => void } & GoogleReviewsModalProps) {
+  if (!isOpen) return null
+
+  return (
+    <div className="fixed inset-0 z-[100]" role="dialog" aria-modal="true">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative max-w-2xl mx-auto mt-[6vh] mb-[6vh] px-4 h-[88vh] flex flex-col">
+        <div className="bg-white rounded-2xl shadow-2xl shadow-black/20 overflow-hidden border border-zinc-200 flex flex-col h-full">
+          <div className="border-b border-zinc-100 px-6 py-5 shrink-0">
+            <div className="flex items-start justify-between">
+              <div>
+                <div className="flex items-center gap-2.5 mb-2">
+                  <div className="bg-white rounded-lg p-1.5 border border-zinc-200 shadow-sm"><GoogleLogo /></div>
+                  <h2 className="text-lg font-bold text-zinc-900">Google Reviews</h2>
+                </div>
+                <p className="text-sm text-zinc-500">Compu Act Opleidingen op Google</p>
+              </div>
+              <button onClick={onClose} className="p-2 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 rounded-lg transition-colors"><X size={20} /></button>
+            </div>
+            <div className="mt-4 flex items-center gap-6 bg-zinc-50 rounded-xl p-4">
+              <div className="text-center">
+                <div className="text-4xl font-extrabold text-zinc-900">{rating}</div>
+                <div className="flex gap-0.5 mt-1 justify-center">
+                  {[...Array(5)].map((_, i) => <Star key={i} size={14} className={i < Math.round(rating) ? 'text-accent-500 fill-accent-500' : 'text-zinc-300'} />)}
+                </div>
+              </div>
+              <div className="h-10 w-px bg-zinc-200" />
+              <div>
+                <div className="text-sm font-semibold text-zinc-900">{totalReviews} recensies</div>
+                <p className="text-xs text-zinc-500 mt-0.5">Bron: Google Maps</p>
+              </div>
+            </div>
+          </div>
+          <div className="flex-1 overflow-y-auto px-6 py-4">
+            <div className="space-y-4">
+              {allReviews.map((review, i) => (
+                <div key={i} className="bg-zinc-50 rounded-xl p-5 hover:bg-zinc-100/80 transition-colors">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-bold text-sm">
+                      {review.author_name.charAt(0)}
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-sm text-zinc-900">{review.author_name}</p>
+                      <p className="text-xs text-zinc-400">{review.relative_time_description}</p>
+                    </div>
+                    <div className="flex gap-0.5">
+                      {[...Array(5)].map((_, j) => <Star key={j} size={12} className={j < review.rating ? 'text-accent-500 fill-accent-500' : 'text-zinc-300'} />)}
+                    </div>
+                  </div>
+                  {review.text && <p className="text-sm text-zinc-700 leading-relaxed">&ldquo;{review.text}&rdquo;</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="border-t border-zinc-100 px-6 py-4 bg-zinc-50/80 shrink-0">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs text-zinc-400"><GoogleLogo /><span>Reviews van Google Maps</span></div>
+              <a href="https://www.google.com/maps/place/?q=place_id:ChIJsdIiroz8xUcRE9h7MjoRy4g" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-500 hover:text-primary-600">
+                Bekijk op Google <ExternalLink size={13} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
