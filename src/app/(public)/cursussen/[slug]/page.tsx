@@ -526,7 +526,7 @@ async function CursusDetailPage({ slug }: { slug: string }) {
               <p className="text-zinc-600 text-lg leading-relaxed mb-6">{cursus.korte_beschrijving || `Praktijkgericht leren werken met ${cursus.titel}. Direct toepasbaar in je werk.`}</p>
               <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-zinc-500 mb-6">
                 <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> All-in prijs incl. laptop, lesmateriaal en certificaat</span>
-                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> Klassikaal, Live Online, Thuisstudie of InCompany</span>
+                <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> {cursus.inhoud?.lesmethodes?.join(', ') || 'Klassikaal, Live Online, Thuisstudie of InCompany'}</span>
                 <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-primary-500" /> Landelijke locaties, goed bereikbaar</span>
               </div>
               <div className="flex flex-wrap gap-3">
