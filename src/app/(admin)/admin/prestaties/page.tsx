@@ -194,10 +194,6 @@ export default function PrestatiesPage() {
     setLoading(false)
   }
 
-  // Herbereken wanneer ads spend verandert
-  useEffect(() => {
-    if (!loading) loadData()
-  }, [adsSpend])
 
   const currentMonth = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`
   const huidigeData = maanden.find(m => m.maand === currentMonth)
