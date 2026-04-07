@@ -567,7 +567,6 @@ async function CursusDetailPage({ slug }: { slug: string }) {
                     if (lower === 'live online' || lower === 'online') return <button key={m} onClick={scrollToTab} className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-accent-300 hover:text-accent-500 transition-colors cursor-pointer"><Laptop size={11} /> Live Online</button>
                     if (lower === 'thuisstudie') return <button key={m} onClick={scrollToTab} className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-violet-300 hover:text-violet-500 transition-colors cursor-pointer"><BookOpen size={11} /> Thuisstudie</button>
                     if (lower === 'incompany') return <button key={m} onClick={scrollToTab} className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-primary-300 hover:text-primary-700 transition-colors cursor-pointer"><Building2 size={11} /> InCompany</button>
-                    if (lower === 'olc' || lower === 'open leercentrum') return <span key={m} className="flex items-center gap-1 text-[11px] text-zinc-400 bg-white border border-zinc-100 px-2 py-1 rounded-full"><MapPin size={11} /> OLC</span>
                     return null
                   })}
                 </div>
