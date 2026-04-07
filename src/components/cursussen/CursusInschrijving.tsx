@@ -50,6 +50,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen, stud
   const stap2Ref = useRef<HTMLDivElement>(null)
 
   const scrollToStap2 = () => {
+    if (window.innerWidth >= 1024) return // Niet scrollen op desktop
     setTimeout(() => {
       stap2Ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 100)
