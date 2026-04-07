@@ -169,9 +169,11 @@ export default function PrestatiesPage() {
         totaalVariabel = rawVariabel
       }
 
-      // Omzet jacht.digital = arbeid + max(0, variabel) — minimaal de vaste arbeidsfee
-      const marketingkostenCompuact = totaalVast + Math.max(0, totaalVariabel)
-      const omzetJachtDigital = ARBEID_PER_MAAND + Math.max(0, totaalVariabel)
+      // Conform Excel:
+      // B20: =ALS(B18>0; B18+B10; B10)  → marketingkosten CompuAct
+      // B21: =B20-(B5+B6)               → omzet jacht.digital = marketingkosten - linkbuilding - google ads
+      const marketingkostenCompuact = totaalVariabel > 0 ? totaalVariabel + totaalVast : totaalVast
+      const omzetJachtDigital = marketingkostenCompuact - googleAds
 
       return {
         maand: key,
