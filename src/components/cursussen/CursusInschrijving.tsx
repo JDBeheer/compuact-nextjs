@@ -6,7 +6,7 @@ import { Users, Laptop, Building2, BookOpen, MapPin, Calendar, Clock, Check, Plu
 import { cn } from '@/lib/utils'
 import { useCart } from '@/contexts/CartContext'
 import { formatPrice, formatDateShort } from '@/lib/utils'
-import { CursusSessie } from '@/types'
+import { CursusSessie, CartItem } from '@/types'
 import { locaties as allLocaties } from '@/data/locaties'
 import LocatiePopover from '@/components/cursussen/LocatiePopover'
 import { getPostcodeCoords, haversineDistance } from '@/data/postcode-coords'
