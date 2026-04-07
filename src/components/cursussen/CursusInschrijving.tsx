@@ -299,6 +299,15 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
         </div>
       )}
 
+      {methode === 'olc' && (
+        <OlcInschrijving
+          prijs={prijzen?.olc || 275}
+          cursusTitel={cursusTitel}
+          addToCart={addToCart}
+          items={items}
+        />
+      )}
+
       {(methode === 'klassikaal' || methode === 'online') && activeSessies.length > 0 && (
         <div className="mb-6">
           <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-3">
