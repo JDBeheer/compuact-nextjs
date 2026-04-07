@@ -18,10 +18,17 @@ interface Prijzen {
   incompany?: number
 }
 
+interface Studielast {
+  klassikaal?: string
+  live_online?: string
+  thuisstudie?: string
+}
+
 interface CursusInschrijvingProps {
   sessies: CursusSessie[]
   cursusTitel: string
   prijzen?: Prijzen
+  studielast?: Studielast
 }
 
 type Methode = 'klassikaal' | 'online' | 'thuisstudie' | 'incompany'
