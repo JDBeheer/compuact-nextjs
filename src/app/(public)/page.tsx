@@ -19,10 +19,10 @@ const categorieen = [
 ]
 
 const stats = [
-  { value: '21+', label: 'Jaar ervaring', icon: Award },
-  { value: '15.000+', label: 'Deelnemers', icon: Users },
+  { value: '21+', label: 'Jaar ervaring', icon: Award, href: '/over-ons' },
+  { value: '15.000+', label: 'Deelnemers', icon: Users, href: '/over-ons' },
   { value: '17', label: 'Locaties', icon: MapPin, href: '/locaties' },
-  { value: '26', label: 'Cursussen', icon: Monitor },
+  { value: '26', label: 'Cursussen', icon: Monitor, href: '/cursussen' },
 ]
 
 const populaireCursussen = [
