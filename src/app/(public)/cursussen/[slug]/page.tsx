@@ -563,6 +563,7 @@ async function CursusDetailPage({ slug }: { slug: string }) {
                     if (lower === 'live online' || lower === 'online') return <Link key={m} href="/lesmethodes#live-online" className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-accent-300 hover:text-accent-500 transition-colors"><Laptop size={11} /> Live Online</Link>
                     if (lower === 'thuisstudie') return <Link key={m} href="/lesmethodes#thuisstudie" className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-violet-300 hover:text-violet-500 transition-colors"><BookOpen size={11} /> Thuisstudie</Link>
                     if (lower === 'incompany') return <Link key={m} href="/lesmethodes#incompany" className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-primary-300 hover:text-primary-700 transition-colors"><Building2 size={11} /> InCompany</Link>
+                    if (lower === 'olc' || lower === 'open leercentrum') return <span key={m} className="flex items-center gap-1 text-[11px] text-zinc-400 bg-white border border-zinc-100 px-2 py-1 rounded-full"><MapPin size={11} /> OLC</span>
                     return null
                   })}
                 </div>
