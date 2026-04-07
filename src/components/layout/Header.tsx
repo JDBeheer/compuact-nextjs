@@ -84,6 +84,7 @@ const categorieen = [
     color: 'text-orange-600 bg-orange-50',
     activeColor: 'text-orange-700 bg-orange-100',
     cursussen: [
+      { naam: 'Introductiecursus 5-in-één', slug: 'introductiecursus-5-in-een', niveau: 'Beginner' },
       { naam: 'Office 365 voor eindgebruikers', slug: 'office-365-voor-eindgebruikers', niveau: 'Beginner' },
       { naam: 'Microsoft Teams', slug: 'microsoft-teams', niveau: 'Beginner' },
     ],
