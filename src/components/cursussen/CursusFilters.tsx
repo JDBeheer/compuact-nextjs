@@ -93,6 +93,22 @@ export default function CursusFilters({ categorieen }: CursusFiltersProps) {
           </button>
         ))}
 
+        <span className="w-px h-6 bg-zinc-200 mx-1" />
+
+        {niveaus.map((n) => (
+          <button
+            key={n.value}
+            onClick={() => updateFilter('niveau', n.value === activeNiveau ? '' : n.value)}
+            className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
+              n.value === activeNiveau
+                ? n.color + ' shadow-sm'
+                : 'bg-white text-zinc-600 border border-zinc-200 hover:border-zinc-300'
+            }`}
+          >
+            {n.label}
+          </button>
+        ))}
+
         {hasFilters && (
           <button
             onClick={clearFilters}
