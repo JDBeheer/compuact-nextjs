@@ -559,10 +559,14 @@ async function CursusDetailPage({ slug }: { slug: string }) {
                 <div className="flex flex-wrap gap-2 mt-4">
                   {(cursus.inhoud?.lesmethodes || ['Klassikaal', 'Live Online', 'Thuisstudie', 'inCompany']).map((m: string) => {
                     const lower = m.toLowerCase()
-                    if (lower === 'klassikaal') return <Link key={m} href="/lesmethodes#klassikaal" className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-primary-300 hover:text-primary-500 transition-colors"><Users size={11} /> Klassikaal</Link>
-                    if (lower === 'live online' || lower === 'online') return <Link key={m} href="/lesmethodes#live-online" className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-accent-300 hover:text-accent-500 transition-colors"><Laptop size={11} /> Live Online</Link>
-                    if (lower === 'thuisstudie') return <Link key={m} href="/lesmethodes#thuisstudie" className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-violet-300 hover:text-violet-500 transition-colors"><BookOpen size={11} /> Thuisstudie</Link>
-                    if (lower === 'incompany') return <Link key={m} href="/lesmethodes#incompany" className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-primary-300 hover:text-primary-700 transition-colors"><Building2 size={11} /> InCompany</Link>
+                    const scrollToTab = () => {
+                      document.getElementById('cursustabs')?.scrollIntoView({ behavior: 'smooth' })
+                      window.dispatchEvent(new CustomEvent('activate-cursus-tab', { detail: 'lesmethodes' }))
+                    }
+                    if (lower === 'klassikaal') return <button key={m} onClick={scrollToTab} className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-primary-300 hover:text-primary-500 transition-colors cursor-pointer"><Users size={11} /> Klassikaal</button>
+                    if (lower === 'live online' || lower === 'online') return <button key={m} onClick={scrollToTab} className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-accent-300 hover:text-accent-500 transition-colors cursor-pointer"><Laptop size={11} /> Live Online</button>
+                    if (lower === 'thuisstudie') return <button key={m} onClick={scrollToTab} className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-violet-300 hover:text-violet-500 transition-colors cursor-pointer"><BookOpen size={11} /> Thuisstudie</button>
+                    if (lower === 'incompany') return <button key={m} onClick={scrollToTab} className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-primary-300 hover:text-primary-700 transition-colors cursor-pointer"><Building2 size={11} /> InCompany</button>
                     if (lower === 'olc' || lower === 'open leercentrum') return <span key={m} className="flex items-center gap-1 text-[11px] text-zinc-400 bg-white border border-zinc-100 px-2 py-1 rounded-full"><MapPin size={11} /> OLC</span>
                     return null
                   })}
