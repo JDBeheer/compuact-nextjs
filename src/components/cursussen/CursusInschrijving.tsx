@@ -60,11 +60,11 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen, stud
   const hasThuisstudie = !!thuisstudieSessie || !!prijzen?.thuisstudie
   const hasIncompany = !!prijzen?.incompany
   const methodes = [
-    hasKlassikaal && { id: 'klassikaal' as Methode, label: 'Klassikaal', icon: Users, beschrijving: 'In een groep op locatie met docent', color: 'bg-primary-500', prijs: prijzen?.klassikaal || klassikaalSessies[0]?.prijs || 425 },
-    hasOnline && { id: 'online' as Methode, label: 'Live Online', icon: Laptop, beschrijving: 'Vanuit huis of kantoor via Teams', color: 'bg-accent-500', prijs: prijzen?.online || onlineSessies[0]?.prijs || 335 },
-    hasThuisstudie && { id: 'thuisstudie' as Methode, label: 'Thuisstudie', icon: BookOpen, beschrijving: 'Leer in je eigen tempo, thuis', color: 'bg-violet-600', prijs: prijzen?.thuisstudie || thuisstudieSessie?.prijs || 275 },
-    hasIncompany && { id: 'incompany' as Methode, label: 'InCompany', icon: Building2, beschrijving: 'Op maat, bij jou op locatie', color: 'bg-primary-800', prijs: prijzen?.incompany || 1295 },
-  ].filter(Boolean) as { id: Methode; label: string; icon: typeof Users; beschrijving: string; color: string; prijs: number }[]
+    hasKlassikaal && { id: 'klassikaal' as Methode, label: 'Klassikaal', icon: Users, beschrijving: 'In een groep op locatie met docent', color: 'bg-primary-500', prijs: prijzen?.klassikaal || klassikaalSessies[0]?.prijs || 425, studielastTekst: studielast?.klassikaal },
+    hasOnline && { id: 'online' as Methode, label: 'Live Online', icon: Laptop, beschrijving: 'Vanuit huis of kantoor via Teams', color: 'bg-accent-500', prijs: prijzen?.online || onlineSessies[0]?.prijs || 335, studielastTekst: studielast?.live_online },
+    hasThuisstudie && { id: 'thuisstudie' as Methode, label: 'Thuisstudie', icon: BookOpen, beschrijving: 'Leer in je eigen tempo, thuis', color: 'bg-violet-600', prijs: prijzen?.thuisstudie || thuisstudieSessie?.prijs || 275, studielastTekst: studielast?.thuisstudie },
+    hasIncompany && { id: 'incompany' as Methode, label: 'InCompany', icon: Building2, beschrijving: 'Op maat, bij jou op locatie', color: 'bg-primary-800', prijs: prijzen?.incompany || 1295, studielastTekst: 'In overleg' },
+  ].filter(Boolean) as { id: Methode; label: string; icon: typeof Users; beschrijving: string; color: string; prijs: number; studielastTekst?: string }[]
 
   const selectedMethode = methodes.find(m => m.id === methode)
 
