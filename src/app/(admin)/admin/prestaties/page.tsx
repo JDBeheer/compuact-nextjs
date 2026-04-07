@@ -205,6 +205,62 @@ export default function PrestatiesPage() {
   const currentMonth = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`
   const huidigeData = maanden.find(m => m.maand === currentMonth)
 
+  // ── Forecast berekening ──
+  const now = new Date()
+  const dagVandaag = now.getDate()
+  const dagenInMaand = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
+  const maandVoortgang = dagVandaag / dagenInMaand
+  const isHuidigJaar = selectedYear === now.getFullYear()
+
+  const forecast = huidigeData && isHuidigJaar && !huidigeData.historisch && maandVoortgang > 0 ? (() => {
+    // Extrapoleer ruwe aantallen
+    const fTelefoonKliks = Math.round(huidigeData.telefoonKliks / maandVoortgang)
+    const fInschrijvingen = Math.round(huidigeData.inschrijvingen / maandVoortgang)
+    const fOffertes = Math.round(huidigeData.offertes / maandVoortgang)
+    const fIncompany = Math.round(huidigeData.incompany / maandVoortgang)
+
+    // Gewogen leads
+    const fTelefoonGewogen = fTelefoonKliks * CALL_CORRECTIE
+    const fIncompanyGewogen = fIncompany * INCOMPANY_CORRECTIE
+    const fTotaalLeads = fTelefoonGewogen + fInschrijvingen + fOffertes + fIncompanyGewogen
+
+    // Prestatieberekening
+    const fExtraLeads = Math.max(0, fTotaalLeads - BASELINE)
+    const fMaxVergoeding = fExtraLeads * MAX_VERGOEDING_PER_LEAD
+    // Google Ads: extrapoleer huidige spend naar volledige maand
+    const fGoogleAds = huidigeData.googleAdsSpend > 0
+      ? huidigeData.googleAdsSpend // Handmatig ingevoerde maand-spend, niet extrapoleren
+      : 0
+    const fTotaalVast = ARBEID_PER_MAAND + fGoogleAds
+
+    let fVergoedingPerLead = 0
+    let fTotaalVariabel = 0
+    if (fTotaalLeads > BASELINE && fExtraLeads > 0) {
+      const rawVariabel = fMaxVergoeding - fTotaalVast
+      fVergoedingPerLead = rawVariabel / fTotaalLeads
+      fTotaalVariabel = rawVariabel
+    }
+
+    const fMarketingkostenCompuact = fTotaalVariabel > 0 ? fTotaalVariabel + fTotaalVast : fTotaalVast
+    const fOmzetJachtDigital = fMarketingkostenCompuact - fGoogleAds
+
+    return {
+      telefoonKliks: fTelefoonKliks,
+      inschrijvingen: fInschrijvingen,
+      offertes: fOffertes,
+      incompany: fIncompany,
+      totaalLeads: fTotaalLeads,
+      extraLeads: fExtraLeads,
+      maxVergoeding: fMaxVergoeding,
+      googleAdsSpend: fGoogleAds,
+      totaalVast: fTotaalVast,
+      vergoedingPerLead: fVergoedingPerLead,
+      totaalVariabel: fTotaalVariabel,
+      marketingkostenCompuact: fMarketingkostenCompuact,
+      omzetJachtDigital: fOmzetJachtDigital,
+    }
+  })() : null
+
   const totaalJaar = maanden.reduce((acc, m) => ({
     leads: acc.leads + m.totaalLeads,
     variabel: acc.variabel + m.totaalVariabel,
