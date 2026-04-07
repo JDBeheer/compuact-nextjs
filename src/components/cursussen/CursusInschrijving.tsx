@@ -464,7 +464,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
                   <div className="text-[11px] text-zinc-400">excl. BTW</div>
                 </div>
                 <a
-                  href="tel:023-5513409"
+                  href="tel:0235513409"
                   className="flex items-center gap-2 bg-primary-500 text-white px-5 py-3 rounded-xl font-bold text-sm hover:bg-primary-600 transition-all"
                 >
                   Bel ons
