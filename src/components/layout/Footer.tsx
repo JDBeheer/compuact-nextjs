@@ -91,7 +91,7 @@ export default function Footer() {
         }} />
 
         <div className="container-wide py-14 lg:py-16 relative">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8">
             {/* Brand */}
             <div className="lg:col-span-4">
               <div className="mb-6">
