@@ -14,7 +14,12 @@ export function GoogleReviewsBadge({ rating, totalReviews, size = 'md' }: Google
   const textSize = size === 'sm' ? 'text-xs' : size === 'md' ? 'text-sm' : 'text-sm'
 
   return (
-    <div className="flex items-center gap-2">
+    <a
+      href="https://www.google.com/maps/place/?q=place_id:ChIJsdIiroz8xUcRE9h7MjoRy4g"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer"
+    >
       <div className="flex gap-0.5">
         {[...Array(5)].map((_, i) => (
           <Star
