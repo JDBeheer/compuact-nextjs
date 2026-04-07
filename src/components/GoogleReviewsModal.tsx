@@ -236,3 +236,29 @@ export function GoogleReviewsModalStandalone({
     </div>
   )
 }
+
+export function GoogleReviewsModalWrapper({
+  rating,
+  totalReviews,
+  allReviews,
+  children,
+}: GoogleReviewsModalProps & { children: React.ReactNode }) {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <>
+      <button onClick={() => setOpen(true)} className="cursor-pointer hover:opacity-80 transition-opacity">
+        {children}
+      </button>
+
+      {open && (
+        <GoogleReviewsModal
+          rating={rating}
+          totalReviews={totalReviews}
+          allReviews={allReviews}
+          onClose={() => setOpen(false)}
+        />
+      )}
+    </>
+  )
+}
