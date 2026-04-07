@@ -21,11 +21,18 @@ export default function AnalyticsPageTracker() {
     }
   }, [pathname, searchParams])
 
-  // Track phone link clicks globally
+  // Track phone link clicks globally (GA4 + eigen database)
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       const link = (e.target as HTMLElement).closest('a[href^="tel:"]')
-      if (link) trackPhoneClick()
+      if (link) {
+        trackPhoneClick()
+        fetch('/api/phone-click', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pagina: window.location.pathname }),
+        }).catch(() => {})
+      }
     }
     document.addEventListener('click', handler)
     return () => document.removeEventListener('click', handler)
