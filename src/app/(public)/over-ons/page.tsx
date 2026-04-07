@@ -326,11 +326,11 @@ export default async function OverOnsPage() {
               Neem contact op <ArrowRight size={16} />
             </Link>
             <a
-              href="tel:0756 - 200 900"
+              href="tel:0235513409"
               className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-lg border border-white/20 transition-colors"
             >
               <Phone size={16} />
-              075 - 6 200 900
+              023-551 3409
             </a>
           </div>
         </div>
