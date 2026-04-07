@@ -7,6 +7,7 @@ import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supab
 import { Cursus, CursusSessie, Categorie } from '@/types'
 import CursusInschrijving from '@/components/cursussen/CursusInschrijving'
 import CursusDetailTabs from '@/components/cursussen/CursusDetailTabs'
+import LesmethodeBadges from '@/components/cursussen/LesmethodeBadges'
 import CursusCard from '@/components/cursussen/CursusCard'
 import TrackViewItem from '@/components/analytics/TrackViewItem'
 import MobileCursusNav from '@/components/cursussen/MobileCursusNav'
