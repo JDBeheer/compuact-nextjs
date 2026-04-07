@@ -214,7 +214,7 @@ export const locaties: Locatie[] = [
       ov: 'Station Haarlem op fietsafstand. Bushalte dichtbij.',
       parkeren: 'Gratis parkeren bij de locatie.',
     },
-    lesvormen: ['Klassikaal', 'Live Online', 'Thuisstudie', 'InCompany', 'Privéles', 'Open Leercentrum'],
+    lesvormen: ['Klassikaal', 'Live Online', 'Thuisstudie', 'InCompany', 'Privéles'],
     mapsEmbed: 'https://www.google.com/maps?q=Diakenhuisweg+39,+Haarlem&output=embed',
     lat: 52.3874,
     lng: 4.6462,
