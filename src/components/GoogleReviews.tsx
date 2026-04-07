@@ -24,7 +24,7 @@ export function GoogleReviewsBadge({ rating, totalReviews, size = 'md', variant 
           <Star
             key={i}
             size={starSize}
-            className={i < Math.round(rating) ? 'text-accent-500 fill-accent-500' : 'text-zinc-300'}
+            className={i < Math.round(rating) ? 'text-accent-500 fill-accent-500' : inactiveStarColor}
           />
         ))}
       </div>
