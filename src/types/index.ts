@@ -43,6 +43,7 @@ export interface CursusInhoud {
     online?: number
     thuisstudie?: number
     incompany?: number
+    olc?: number
   }
   lesmethodes?: string[]
   studielast?: {
