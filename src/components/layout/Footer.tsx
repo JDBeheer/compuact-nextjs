@@ -209,7 +209,7 @@ export default function Footer() {
             </div>
 
             {/* Bedrijf */}
-            <div className="lg:col-span-2">
+            <div>
               <FooterAccordion title="Bedrijf">
                 <ul className="space-y-2.5">
                   {bedrijfLinks.map((link) => (
