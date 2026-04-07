@@ -50,21 +50,7 @@ export default function PrestatiesPage() {
 
   useEffect(() => {
     loadData()
-    loadAdsSpend()
   }, [selectedYear])
-
-  async function loadAdsSpend() {
-    const supabase = createClient()
-    const { data } = await supabase
-      .from('site_settings')
-      .select('id, value')
-      .eq('id', `ads_spend_${selectedYear}`)
-      .single()
-
-    if (data?.value) {
-      setAdsSpend(data.value as Record<string, number>)
-    }
-  }
 
   async function saveAdsSpend(maand: string, bedrag: number) {
     const updated = { ...adsSpend, [maand]: bedrag }
@@ -77,16 +63,19 @@ export default function PrestatiesPage() {
         id: `ads_spend_${selectedYear}`,
         value: updated,
       })
+
+    // Herlaad data met nieuwe ads spend
+    loadData(updated)
   }
 
-  async function loadData() {
+  async function loadData(overrideAdsSpend?: Record<string, number>) {
     setLoading(true)
     const supabase = createClient()
 
     const startDate = `${selectedYear}-01-01`
     const endDate = `${selectedYear + 1}-01-01`
 
-    const [inzendingen, kliks, historischRes] = await Promise.all([
+    const [inzendingen, kliks, historischRes, adsSpendRes] = await Promise.all([
       supabase
         .from('inschrijvingen')
         .select('type, created_at')
@@ -103,7 +92,15 @@ export default function PrestatiesPage() {
         .select('id, value')
         .eq('id', `historisch_${selectedYear}`)
         .single(),
+      supabase
+        .from('site_settings')
+        .select('id, value')
+        .eq('id', `ads_spend_${selectedYear}`)
+        .single(),
     ])
+
+    const loadedAdsSpend = overrideAdsSpend || (adsSpendRes.data?.value as Record<string, number>) || {}
+    setAdsSpend(loadedAdsSpend)
 
     // Historische data uit site_settings
     const historisch = (historischRes.data?.value || {}) as Record<string, {
