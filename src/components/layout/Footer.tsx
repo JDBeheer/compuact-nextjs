@@ -251,6 +251,8 @@ export default function Footer() {
                 </div>
               </FooterAccordion>
             </div>
+
+            </div>{/* end link columns wrapper */}
           </div>
         </div>
       </div>
