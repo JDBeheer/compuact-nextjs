@@ -451,5 +451,3 @@ export default function PrestatiesPage() {
   )
 }
 
-// Fragment import
-import { Fragment } from 'react'
