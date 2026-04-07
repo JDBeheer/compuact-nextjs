@@ -334,6 +334,96 @@ export default function PrestatiesPage() {
         </div>
       </div>
 
+      {/* Forecast */}
+      {forecast && huidigeData && (
+        <div className="bg-gradient-to-r from-primary-50 to-blue-50 border border-primary-200 rounded-xl p-5 mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <Target size={18} className="text-primary-600" />
+            <h2 className="font-semibold text-primary-900">Forecast {huidigeData.label}</h2>
+            <span className="text-xs text-primary-500 ml-auto">
+              Dag {dagVandaag} van {dagenInMaand} ({Math.round(maandVoortgang * 100)}% van de maand)
+            </span>
+          </div>
+
+          {/* Voortgangsbalk */}
+          <div className="w-full bg-white/60 rounded-full h-2 mb-5">
+            <div
+              className="bg-primary-500 h-2 rounded-full transition-all"
+              style={{ width: `${Math.round(maandVoortgang * 100)}%` }}
+            />
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+            {/* Leads forecast */}
+            <div className="bg-white/70 rounded-lg p-3">
+              <div className="text-xs text-zinc-500 mb-1">Leads (forecast)</div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl font-bold text-primary-700">{forecast.totaalLeads.toFixed(1)}</span>
+                <span className="text-sm text-zinc-400">nu: {huidigeData.totaalLeads.toFixed(1)}</span>
+              </div>
+              <div className="text-xs mt-1">
+                {forecast.totaalLeads > BASELINE ? (
+                  <span className="text-green-600">+{forecast.extraLeads.toFixed(1)} boven baseline</span>
+                ) : (
+                  <span className="text-red-500">{(forecast.totaalLeads - BASELINE).toFixed(1)} onder baseline</span>
+                )}
+              </div>
+            </div>
+
+            {/* Variabele beloning forecast */}
+            <div className="bg-white/70 rounded-lg p-3">
+              <div className="text-xs text-zinc-500 mb-1">Variabele beloning (forecast)</div>
+              <div className="flex items-baseline gap-2">
+                <span className={`text-2xl font-bold ${forecast.totaalVariabel > 0 ? 'text-green-600' : 'text-zinc-400'}`}>
+                  {euro(forecast.totaalVariabel)}
+                </span>
+              </div>
+              <div className="text-xs text-zinc-400 mt-1">Per lead: {euro(forecast.vergoedingPerLead)}</div>
+            </div>
+
+            {/* Kosten */}
+            <div className="bg-white/70 rounded-lg p-3">
+              <div className="text-xs text-zinc-500 mb-1">Vaste kosten</div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl font-bold text-zinc-700">{euro(forecast.totaalVast)}</span>
+              </div>
+              <div className="text-xs text-zinc-400 mt-1">
+                Arbeid: {euro(ARBEID_PER_MAAND)} + Ads: {euro(forecast.googleAdsSpend)}
+              </div>
+            </div>
+
+            {/* Omzet forecast */}
+            <div className="bg-white/70 rounded-lg p-3">
+              <div className="text-xs text-zinc-500 mb-1">Omzet jacht.digital (forecast)</div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl font-bold text-primary-700">{euro(forecast.omzetJachtDigital)}</span>
+              </div>
+              <div className="text-xs text-zinc-400 mt-1">nu: {euro(huidigeData.omzetJachtDigital)}</div>
+            </div>
+          </div>
+
+          {/* Detail breakdown */}
+          <div className="grid grid-cols-4 gap-3 text-xs">
+            <div className="bg-white/50 rounded px-2 py-1.5 flex justify-between">
+              <span className="text-zinc-500"><Phone size={11} className="inline mr-1" />Calls</span>
+              <span>{huidigeData.telefoonKliks} → <strong>{forecast.telefoonKliks}</strong></span>
+            </div>
+            <div className="bg-white/50 rounded px-2 py-1.5 flex justify-between">
+              <span className="text-zinc-500"><Inbox size={11} className="inline mr-1" />Inschrijvingen</span>
+              <span>{huidigeData.inschrijvingen} → <strong>{forecast.inschrijvingen}</strong></span>
+            </div>
+            <div className="bg-white/50 rounded px-2 py-1.5 flex justify-between">
+              <span className="text-zinc-500"><FileText size={11} className="inline mr-1" />Offertes</span>
+              <span>{huidigeData.offertes} → <strong>{forecast.offertes}</strong></span>
+            </div>
+            <div className="bg-white/50 rounded px-2 py-1.5 flex justify-between">
+              <span className="text-zinc-500"><Building2 size={11} className="inline mr-1" />InCompany</span>
+              <span>{huidigeData.incompany} → <strong>{forecast.incompany}</strong></span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Parameters */}
       <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 mb-6">
         <div className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-2">Model parameters</div>
