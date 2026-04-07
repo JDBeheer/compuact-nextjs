@@ -20,6 +20,7 @@ export default function CursusFilters({ categorieen }: CursusFiltersProps) {
   const [zoekterm, setZoekterm] = useState(searchParams.get('zoek') || '')
 
   const activeCategorie = searchParams.get('categorie') || ''
+  const activeNiveau = searchParams.get('niveau') || ''
 
   const updateFilter = useCallback(
     (key: string, value: string) => {
