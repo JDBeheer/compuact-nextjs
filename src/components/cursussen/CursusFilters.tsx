@@ -45,7 +45,13 @@ export default function CursusFilters({ categorieen }: CursusFiltersProps) {
     router.push('/cursussen')
   }
 
-  const hasFilters = activeCategorie || searchParams.get('zoek')
+  const hasFilters = activeCategorie || activeNiveau || searchParams.get('zoek')
+
+  const niveaus = [
+    { value: 'beginner', label: 'Beginner', color: 'bg-green-500 text-white' },
+    { value: 'gevorderd', label: 'Gevorderd', color: 'bg-amber-500 text-white' },
+    { value: 'expert', label: 'Expert', color: 'bg-red-500 text-white' },
+  ]
 
   return (
     <div className="space-y-4">
