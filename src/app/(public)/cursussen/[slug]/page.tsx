@@ -557,10 +557,10 @@ async function CursusDetailPage({ slug }: { slug: string }) {
                   <div className="text-xs text-zinc-400 mt-0.5">excl. 21% BTW &amp; €15 administratiekosten</div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-4">
-                  <span className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full"><Users size={11} /> Klassikaal</span>
-                  <span className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full"><Laptop size={11} /> Live Online</span>
-                  <span className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full"><BookOpen size={11} /> Thuisstudie</span>
-                  <span className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full"><Building2 size={11} /> InCompany</span>
+                  <Link href="/lesmethodes#klassikaal" className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-primary-300 hover:text-primary-500 transition-colors"><Users size={11} /> Klassikaal</Link>
+                  <Link href="/lesmethodes#live-online" className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-accent-300 hover:text-accent-500 transition-colors"><Laptop size={11} /> Live Online</Link>
+                  <Link href="/lesmethodes#thuisstudie" className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-violet-300 hover:text-violet-500 transition-colors"><BookOpen size={11} /> Thuisstudie</Link>
+                  <Link href="/lesmethodes#incompany" className="flex items-center gap-1 text-[11px] text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-full hover:border-primary-300 hover:text-primary-700 transition-colors"><Building2 size={11} /> InCompany</Link>
                 </div>
               </div>
             </div>
