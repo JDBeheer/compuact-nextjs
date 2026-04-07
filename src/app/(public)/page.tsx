@@ -260,26 +260,26 @@ export default async function HomePage() {
       <section className="bg-white border-y border-zinc-200">
         <div className="container-wide py-10">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-            <div className="flex flex-col items-center">
+            <Link href="/algemene-voorwaarden#artikel-3" className="flex flex-col items-center group hover:opacity-80 transition-opacity">
               <Shield size={24} className="text-primary-500 mb-2" />
-              <span className="font-semibold text-sm">Niet goed? Geld terug</span>
+              <span className="font-semibold text-sm group-hover:text-primary-500 transition-colors">Niet goed? Geld terug</span>
               <span className="text-xs text-zinc-400 mt-0.5">Annuleer tot 14 dagen van tevoren</span>
-            </div>
-            <div className="flex flex-col items-center">
+            </Link>
+            <Link href="/lesmethodes" className="flex flex-col items-center group hover:opacity-80 transition-opacity">
               <Award size={24} className="text-primary-500 mb-2" />
-              <span className="font-semibold text-sm">Erkend certificaat</span>
+              <span className="font-semibold text-sm group-hover:text-primary-500 transition-colors">Erkend certificaat</span>
               <span className="text-xs text-zinc-400 mt-0.5">Na succesvolle afronding</span>
-            </div>
-            <div className="flex flex-col items-center">
+            </Link>
+            <Link href="/algemene-voorwaarden#artikel-3" className="flex flex-col items-center group hover:opacity-80 transition-opacity">
               <Clock size={24} className="text-primary-500 mb-2" />
-              <span className="font-semibold text-sm">Flexibel plannen</span>
+              <span className="font-semibold text-sm group-hover:text-primary-500 transition-colors">Flexibel plannen</span>
               <span className="text-xs text-zinc-400 mt-0.5">Verplaats kosteloos uw datum</span>
-            </div>
-            <div className="flex flex-col items-center">
+            </Link>
+            <Link href="/incompany" className="flex flex-col items-center group hover:opacity-80 transition-opacity">
               <Users size={24} className="text-primary-500 mb-2" />
-              <span className="font-semibold text-sm">500+ bedrijven</span>
+              <span className="font-semibold text-sm group-hover:text-primary-500 transition-colors">500+ bedrijven</span>
               <span className="text-xs text-zinc-400 mt-0.5">Vertrouwen op Compu Act</span>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
