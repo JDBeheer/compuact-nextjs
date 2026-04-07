@@ -77,7 +77,7 @@ export default async function ContactPage() {
                 <Mail size={22} className="text-accent-600 group-hover:text-white transition-colors" />
               </div>
               <h2 className="text-lg font-bold text-zinc-900 mb-1">E-mailen</h2>
-              <p className="text-xl font-bold text-primary-600 mb-2">info@computertraining.nl</p>
+              <p className="text-lg md:text-xl font-bold text-primary-600 mb-2 break-all">info@computertraining.nl</p>
               <p className="text-sm text-zinc-500">Reactie binnen 1 werkdag</p>
             </a>
 
