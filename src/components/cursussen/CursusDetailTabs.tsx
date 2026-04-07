@@ -35,6 +35,17 @@ function splitIntoParagraphs(text: string): string[] {
 export default function CursusDetailTabs({ cursus }: { cursus: Cursus }) {
   const [activeTab, setActiveTab] = useState('wat-leer-je')
 
+  useEffect(() => {
+    function handleActivateTab(e: Event) {
+      const tabId = (e as CustomEvent).detail
+      if (tabs.some(t => t.id === tabId)) {
+        setActiveTab(tabId)
+      }
+    }
+    window.addEventListener('activate-cursus-tab', handleActivateTab)
+    return () => window.removeEventListener('activate-cursus-tab', handleActivateTab)
+  }, [])
+
   return (
     <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
       {/* Tab headers */}
