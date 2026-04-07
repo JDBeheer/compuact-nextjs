@@ -522,7 +522,9 @@ async function CursusDetailPage({ slug }: { slug: string }) {
           <div className="flex flex-col lg:flex-row lg:gap-10">
             <div className="flex-1 lg:max-w-2xl">
               <div className="mb-3">
-                <GoogleReviewsModalTrigger rating={reviewData.rating} totalReviews={reviewData.user_ratings_total} allReviews={reviewData.allReviews} />
+                <GoogleReviewsModalWrapper rating={reviewData.rating} totalReviews={reviewData.user_ratings_total} allReviews={reviewData.allReviews}>
+                  <GoogleReviewsBadge rating={reviewData.rating} totalReviews={reviewData.user_ratings_total} size="sm" />
+                </GoogleReviewsModalWrapper>
               </div>
               <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight mb-3 leading-tight">{cursus.titel}</h1>
               <p className="text-zinc-600 text-lg leading-relaxed mb-6">{cursus.korte_beschrijving || `Praktijkgericht leren werken met ${cursus.titel}. Direct toepasbaar in je werk.`}</p>
