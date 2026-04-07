@@ -16,7 +16,6 @@ interface Prijzen {
   online?: number
   thuisstudie?: number
   incompany?: number
-  olc?: number
 }
 
 interface CursusInschrijvingProps {
@@ -25,7 +24,7 @@ interface CursusInschrijvingProps {
   prijzen?: Prijzen
 }
 
-type Methode = 'klassikaal' | 'online' | 'thuisstudie' | 'incompany' | 'olc'
+type Methode = 'klassikaal' | 'online' | 'thuisstudie' | 'incompany'
 
 export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: CursusInschrijvingProps) {
   const { addToCart, items } = useCart()
