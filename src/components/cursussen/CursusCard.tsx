@@ -57,16 +57,15 @@ export default function CursusCard({ cursus }: { cursus: Cursus }) {
             {cursus.korte_beschrijving || 'Praktijkgerichte training met ervaren docenten.'}
           </p>
 
-          <div className="flex items-center gap-3 text-[12px] text-zinc-400 mb-4">
-            <span className="flex items-center gap-1">
-              <MapPin size={12} /> 17 locaties
-            </span>
-            <span className="flex items-center gap-1">
-              <Users size={12} /> Klassikaal
-            </span>
-            <span className="flex items-center gap-1">
-              <Laptop size={12} /> Online
-            </span>
+          <div className="flex items-center gap-3 text-[12px] text-zinc-400 mb-4 flex-wrap">
+            {(cursus.inhoud?.lesmethodes || ['Klassikaal', 'Live Online', 'Thuisstudie', 'inCompany']).map((m: string) => {
+              const lower = m.toLowerCase()
+              if (lower === 'klassikaal') return <span key={m} className="flex items-center gap-1"><Users size={12} /> Klassikaal</span>
+              if (lower === 'live online' || lower === 'online') return <span key={m} className="flex items-center gap-1"><Laptop size={12} /> Live Online</span>
+              if (lower === 'thuisstudie') return <span key={m} className="flex items-center gap-1"><BookOpen size={12} /> Thuisstudie</span>
+              if (lower === 'incompany') return <span key={m} className="flex items-center gap-1"><Building2 size={12} /> InCompany</span>
+              return null
+            })}
           </div>
 
           <div className="flex items-center justify-between mt-auto pt-3 border-t border-zinc-100">
