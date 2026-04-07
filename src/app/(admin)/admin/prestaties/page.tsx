@@ -324,7 +324,10 @@ export default function PrestatiesPage() {
                 return (
                   <Fragment key={m.maand}>
                     <tr className={`hover:bg-zinc-50 transition-colors ${!heeftData ? 'opacity-40' : ''}`}>
-                      <td className="px-4 py-3 font-medium capitalize">{m.label}</td>
+                      <td className="px-4 py-3 font-medium capitalize">
+                        {m.label}
+                        {m.historisch && <span className="ml-1.5 text-[10px] text-zinc-400 font-normal align-top" title="Data uit Excel import">H</span>}
+                      </td>
                       <td className="text-center px-2 py-3">
                         {m.telefoonKliks > 0 ? (
                           <span className="text-zinc-700" title={`Gewogen: ${m.telefoonKliksGewogen.toFixed(1)}`}>{m.telefoonKliks}</span>
