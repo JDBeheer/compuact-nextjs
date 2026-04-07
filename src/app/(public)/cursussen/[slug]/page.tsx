@@ -12,7 +12,7 @@ import CursusCard from '@/components/cursussen/CursusCard'
 import TrackViewItem from '@/components/analytics/TrackViewItem'
 import MobileCursusNav from '@/components/cursussen/MobileCursusNav'
 import { formatPrice, formatDateShort, niveauLabel } from '@/lib/utils'
-import { Clock, Users, Award, BookOpen, Building2, Star, MapPin, CheckCircle, ArrowRight, Laptop,
+import { Clock, Users, Award, BookOpen, Building2, Star, MapPin, CheckCircle, ArrowRight,
   FileSpreadsheet, FileText, Monitor, Mail, Presentation, BarChart3, FolderKanban, Bot, PenTool,
   Shield, Phone
 } from 'lucide-react'
