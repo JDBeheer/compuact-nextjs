@@ -463,3 +463,164 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
     </div>
   )
 }
+
+// ── Open inschrijving (geen vaste sessies) ──
+
+const OPEN_LOCATIES = [
+  'Thuis / Online', 'Alkmaar', 'Almere', 'Amersfoort', 'Amsterdam',
+  'Den Bosch', 'Den Haag', 'Eindhoven', 'Haarlem', 'Hoorn',
+  'Leeuwarden', 'Leiden', 'Limburg', 'Nijmegen', 'Rotterdam',
+  'Utrecht', 'Zaandam', 'Zwolle',
+]
+
+function getKomendeMaanden(): { value: string; label: string }[] {
+  const maanden = []
+  const now = new Date()
+  for (let i = 0; i < 6; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() + i, 1)
+    maanden.push({
+      value: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`,
+      label: d.toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' }),
+    })
+  }
+  return maanden
+}
+
+function OpenInschrijving({ methode, prijs, cursusTitel, addToCart, items }: {
+  methode: 'klassikaal' | 'online'
+  prijs: number
+  cursusTitel: string
+  addToCart: (item: CartItem) => void
+  items: CartItem[]
+}) {
+  const [gewensteMaand, setGewensteMaand] = useState('')
+  const [geselecteerdeLocaties, setGeselecteerdeLocaties] = useState<string[]>([])
+
+  const maanden = getKomendeMaanden()
+
+  const toggleLocatie = (loc: string) => {
+    setGeselecteerdeLocaties(prev =>
+      prev.includes(loc) ? prev.filter(l => l !== loc) : [...prev, loc]
+    )
+  }
+
+  // Genereer een uniek ID op basis van cursus + methode + voorkeuren
+  const openId = `open-${cursusTitel}-${methode}-${gewensteMaand}-${geselecteerdeLocaties.sort().join(',')}`
+  const alInCart = items.some(i => i.sessieId === openId)
+
+  const kanToevoegen = gewensteMaand && (methode === 'online' || geselecteerdeLocaties.length > 0)
+
+  const handleToevoegen = () => {
+    if (!kanToevoegen) return
+    const locatieLabel = methode === 'online'
+      ? 'Live Online'
+      : geselecteerdeLocaties.join(', ')
+
+    const maandLabel = maanden.find(m => m.value === gewensteMaand)?.label || gewensteMaand
+
+    addToCart({
+      sessieId: openId,
+      cursusTitel,
+      locatie: locatieLabel,
+      datum: `Voorkeur: ${maandLabel}`,
+      prijs,
+      lesmethode: methode,
+      aantalDeelnemers: 1,
+    })
+  }
+
+  return (
+    <div className="mb-6">
+      <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-3">
+        2. Kies je voorkeuren
+      </h3>
+      <div className="rounded-xl border-2 border-zinc-200 bg-white p-5 space-y-5">
+        <p className="text-sm text-zinc-600">
+          Geef je voorkeuren op voor de <strong>{cursusTitel}</strong>. Wij nemen contact met je op met passende cursusdatums.
+        </p>
+
+        {/* Maand selectie */}
+        <div>
+          <label className="block text-sm font-semibold text-zinc-700 mb-1.5">
+            In welke maand wil je de cursus volgen?
+          </label>
+          <select
+            value={gewensteMaand}
+            onChange={e => setGewensteMaand(e.target.value)}
+            className="w-full text-sm border border-zinc-200 rounded-lg px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+          >
+            <option value="">Kies een maand</option>
+            {maanden.map(m => (
+              <option key={m.value} value={m.value}>{m.label}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Locatie selectie (alleen bij klassikaal) */}
+        {methode === 'klassikaal' && (
+          <div>
+            <label className="block text-sm font-semibold text-zinc-700 mb-1">
+              Welke cursuslocatie heeft jouw voorkeur?
+            </label>
+            <p className="text-xs text-zinc-400 mb-2">Je kunt meerdere opties aanvinken</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+              {OPEN_LOCATIES.map(loc => (
+                <label
+                  key={loc}
+                  className={cn(
+                    'flex items-center gap-2 px-3 py-2 rounded-lg border text-sm cursor-pointer transition-all',
+                    geselecteerdeLocaties.includes(loc)
+                      ? 'border-primary-400 bg-primary-50 text-primary-700 font-medium'
+                      : 'border-zinc-100 hover:border-zinc-200 text-zinc-600'
+                  )}
+                >
+                  <input
+                    type="checkbox"
+                    checked={geselecteerdeLocaties.includes(loc)}
+                    onChange={() => toggleLocatie(loc)}
+                    className="sr-only"
+                  />
+                  <div className={cn(
+                    'w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-colors',
+                    geselecteerdeLocaties.includes(loc) ? 'border-primary-500 bg-primary-500' : 'border-zinc-300'
+                  )}>
+                    {geselecteerdeLocaties.includes(loc) && <Check size={10} className="text-white" strokeWidth={3} />}
+                  </div>
+                  {loc}
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Toevoegen */}
+        <div className="flex items-center justify-between pt-2 border-t border-zinc-100">
+          <div>
+            <div className="text-xl font-extrabold text-zinc-900">{formatPrice(prijs)}</div>
+            <div className="text-[11px] text-zinc-400">excl. BTW en €15 administratiekosten</div>
+          </div>
+          {alInCart ? (
+            <div className="flex items-center gap-2 text-primary-600 font-semibold text-sm">
+              <CheckCircle size={18} />
+              Toegevoegd
+            </div>
+          ) : (
+            <button
+              onClick={handleToevoegen}
+              disabled={!kanToevoegen}
+              className={cn(
+                'flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all',
+                kanToevoegen
+                  ? 'bg-primary-500 text-white hover:bg-primary-600 active:scale-[0.98]'
+                  : 'bg-zinc-100 text-zinc-400 cursor-not-allowed'
+              )}
+            >
+              Toevoegen
+              <ArrowRight size={14} />
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
