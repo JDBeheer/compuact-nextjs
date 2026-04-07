@@ -6,12 +6,15 @@ interface GoogleReviewsBadgeProps {
   rating: number
   totalReviews: number
   size?: 'sm' | 'md' | 'lg'
+  variant?: 'light' | 'dark'
 }
 
-export function GoogleReviewsBadge({ rating, totalReviews, size = 'md' }: GoogleReviewsBadgeProps) {
+export function GoogleReviewsBadge({ rating, totalReviews, size = 'md', variant = 'light' }: GoogleReviewsBadgeProps) {
   const starSize = size === 'sm' ? 10 : size === 'md' ? 14 : 18
   const ratingSize = size === 'sm' ? 'text-sm' : size === 'md' ? 'text-lg' : 'text-xl'
   const textSize = size === 'sm' ? 'text-xs' : size === 'md' ? 'text-sm' : 'text-sm'
+  const ratingColor = variant === 'dark' ? 'text-white' : ''
+  const subtextColor = variant === 'dark' ? 'text-white/70' : 'text-zinc-500'
 
   return (
     <div className="flex items-center gap-2">
@@ -24,9 +27,9 @@ export function GoogleReviewsBadge({ rating, totalReviews, size = 'md' }: Google
           />
         ))}
       </div>
-      <span className={`font-bold ${ratingSize}`}>{rating}</span>
+      <span className={`font-bold ${ratingSize} ${ratingColor}`}>{rating}</span>
       {totalReviews > 0 && (
-        <span className={`text-zinc-500 ${textSize}`}>&middot; {totalReviews} Google recensies</span>
+        <span className={`${subtextColor} ${textSize}`}>&middot; {totalReviews} Google recensies</span>
       )}
     </div>
   )
