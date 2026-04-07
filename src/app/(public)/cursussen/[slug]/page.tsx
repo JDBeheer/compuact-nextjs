@@ -607,7 +607,7 @@ async function CursusDetailPage({ slug }: { slug: string }) {
           <div className="mt-10" id="cursusaanbod">
             <h2 className="text-2xl font-extrabold mb-6">Inschrijven</h2>
             <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
-              <CursusInschrijving sessies={sessies} cursusTitel={cursus.titel} prijzen={cursus.inhoud?.prijzen} />
+              <CursusInschrijving sessies={sessies} cursusTitel={cursus.titel} prijzen={cursus.inhoud?.prijzen} studielast={cursus.inhoud?.studielast} />
             </div>
           </div>
 
