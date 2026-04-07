@@ -251,14 +251,13 @@ export function GoogleReviewsModalWrapper({
         {children}
       </button>
 
-      {open && (
-        <GoogleReviewsModal
-          rating={rating}
-          totalReviews={totalReviews}
-          allReviews={allReviews}
-          onClose={() => setOpen(false)}
-        />
-      )}
+      <GoogleReviewsModalStandalone
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        rating={rating}
+        totalReviews={totalReviews}
+        allReviews={allReviews}
+      />
     </>
   )
 }
