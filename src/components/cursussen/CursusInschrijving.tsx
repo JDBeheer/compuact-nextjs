@@ -33,7 +33,7 @@ interface CursusInschrijvingProps {
 
 type Methode = 'klassikaal' | 'online' | 'thuisstudie' | 'incompany'
 
-export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: CursusInschrijvingProps) {
+export default function CursusInschrijving({ sessies, cursusTitel, prijzen, studielast }: CursusInschrijvingProps) {
   const { addToCart, items } = useCart()
 
   const thuisstudieSessie = sessies.find(s => s.lesmethode === 'thuisstudie')
