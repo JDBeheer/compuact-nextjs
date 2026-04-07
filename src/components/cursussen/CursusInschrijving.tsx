@@ -226,6 +226,11 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen, stud
                 <div className="text-xs text-zinc-500 mt-0.5 mb-3">{m.beschrijving}</div>
                 <div className="text-lg font-extrabold text-zinc-900">{formatPrice(m.prijs)}</div>
                 <div className="text-[11px] text-zinc-400">excl. BTW en €15 administratiekosten</div>
+                {m.studielastTekst && (
+                  <div className="mt-2 pt-2 border-t border-zinc-100 flex items-center gap-1.5 text-[11px] text-zinc-400">
+                    <Clock size={11} /> Studielast: <span className="font-medium text-zinc-600">{m.studielastTekst}</span>
+                  </div>
+                )}
               </button>
             )
           })}
