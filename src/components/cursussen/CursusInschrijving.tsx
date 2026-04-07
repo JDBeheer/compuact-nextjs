@@ -218,24 +218,6 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
             )
           })}
         </div>
-        {hasOlc && (
-          <button
-            onClick={() => { setMethode('olc'); scrollToStap2() }}
-            className={cn(
-              'mt-2 w-full flex items-center justify-between px-4 py-2.5 rounded-lg border text-sm transition-all',
-              methode === 'olc'
-                ? 'border-primary-300 bg-primary-50/70 text-primary-700'
-                : 'border-zinc-100 bg-zinc-50 text-zinc-500 hover:border-zinc-200 hover:text-zinc-700'
-            )}
-          >
-            <span className="flex items-center gap-2">
-              <MapPin size={14} />
-              <span className="font-medium">Open Leercentrum (OLC)</span>
-              <span className="text-xs text-zinc-400">· Den Bosch · zelfstandig met begeleiding</span>
-            </span>
-            <span className="font-semibold">{formatPrice(prijzen?.olc || 275)}</span>
-          </button>
-        )}
         <div className="mt-3 bg-zinc-50 rounded-lg px-4 py-3 border border-zinc-100">
           <p className="text-sm text-zinc-500">
             Prijzen zijn per persoon. Bij het afronden kies je voor <span className="font-medium text-zinc-700">directe inschrijving</span> of een <span className="font-medium text-zinc-700">vrijblijvende offerte</span>, en geef je per cursus het <span className="font-medium text-zinc-700">aantal deelnemers</span> op.
