@@ -162,9 +162,8 @@ export default function Footer() {
                 <ul className="space-y-2.5">
                   {cursusLinks.map((link) => (
                     <li key={link.href}>
-                      <Link href={link.href} className="text-sm hover:text-white flex items-center gap-0 group transition-all duration-200">
-                        <ArrowRight size={12} className="text-primary-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-200" />
-                        <span>{link.naam}</span>
+                      <Link href={link.href} className="text-sm hover:text-white hover:translate-x-1 transition-all duration-200">
+                        {link.naam}
                       </Link>
                     </li>
                   ))}
@@ -178,9 +177,8 @@ export default function Footer() {
                 <ul className="space-y-2.5">
                   {populaireCursussen.map((link) => (
                     <li key={link.href}>
-                      <Link href={link.href} className="text-sm hover:text-white flex items-center gap-0 group transition-all duration-200">
-                        <ArrowRight size={12} className="text-primary-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-200" />
-                        <span>{link.naam}</span>
+                      <Link href={link.href} className="text-sm hover:text-white hover:translate-x-1 transition-all duration-200">
+                        {link.naam}
                       </Link>
                     </li>
                   ))}
@@ -214,9 +212,8 @@ export default function Footer() {
                 <ul className="space-y-2.5">
                   {bedrijfLinks.map((link) => (
                     <li key={link.href}>
-                      <Link href={link.href} className="text-sm hover:text-white flex items-center gap-0 group transition-all duration-200">
-                        <ArrowRight size={12} className="text-primary-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-200" />
-                        <span>{link.naam}</span>
+                      <Link href={link.href} className="text-sm hover:text-white hover:translate-x-1 transition-all duration-200">
+                        {link.naam}
                       </Link>
                     </li>
                   ))}
