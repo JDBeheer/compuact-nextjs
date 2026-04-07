@@ -53,6 +53,7 @@ export default function CursusInschrijving({ sessies, cursusTitel, prijzen }: Cu
   const hasOnline = onlineSessies.length > 0 || !!prijzen?.online
   const hasThuisstudie = !!thuisstudieSessie || !!prijzen?.thuisstudie
   const hasIncompany = !!prijzen?.incompany
+  const hasOlc = !!prijzen?.olc
 
   const methodes = [
     hasKlassikaal && { id: 'klassikaal' as Methode, label: 'Klassikaal', icon: Users, beschrijving: 'In een groep op locatie met docent', color: 'bg-primary-500', prijs: prijzen?.klassikaal || klassikaalSessies[0]?.prijs || 425 },
