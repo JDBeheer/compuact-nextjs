@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Phone, Mail, MapPin, ArrowRight, Star, CheckCircle, Clock, Shield, Users, Award } from 'lucide-react'
+import FooterAccordion from './FooterAccordion'
 
 const cursusLinks = [
   { naam: 'Excel cursussen', href: '/cursussen/excel' },
