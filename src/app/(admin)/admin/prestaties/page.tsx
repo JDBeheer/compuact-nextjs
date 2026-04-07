@@ -156,17 +156,22 @@ export default function PrestatiesPage() {
       const googleAds = loadedAdsSpend[key] || 0
       const totaalVast = ARBEID_PER_MAAND + googleAds
 
-      // Vergoeding per lead: (opbrengst × max%) - (vaste kosten / leads)
-      // Conform Excel: als totaalLeads > 0, bereken netto vergoeding per lead
+      // Conform Excel formules:
+      // B16: =ALS(B13>B14; (B15*$AI$13); 0)  → maxVergoeding
+      // B17: =ALS(B13>B14; (B16-B10)/B13; 0)  → vergoedingPerLead
+      // B18: B17*B13                           → totaalVariabel (= maxVergoeding - totaalVast)
       let vergoedingPerLead = 0
       let totaalVariabel = 0
-      if (totaalLeads > 0 && extraLeads > 0) {
-        vergoedingPerLead = (GEM_OPBRENGST_PER_LEAD * MAX_MARKETING_PERCENTAGE) - (totaalVast / totaalLeads)
-        totaalVariabel = Math.max(0, Math.min(vergoedingPerLead * extraLeads, maxVergoeding))
+      if (totaalLeads > BASELINE && extraLeads > 0) {
+        // Variabel = maxVergoeding - totaalVast (kan negatief zijn)
+        const rawVariabel = maxVergoeding - totaalVast
+        vergoedingPerLead = rawVariabel / totaalLeads
+        totaalVariabel = rawVariabel
       }
 
-      const marketingkostenCompuact = totaalVast + totaalVariabel
-      const omzetJachtDigital = ARBEID_PER_MAAND + totaalVariabel
+      // Omzet jacht.digital = arbeid + max(0, variabel) — minimaal de vaste arbeidsfee
+      const marketingkostenCompuact = totaalVast + Math.max(0, totaalVariabel)
+      const omzetJachtDigital = ARBEID_PER_MAAND + Math.max(0, totaalVariabel)
 
       return {
         maand: key,
