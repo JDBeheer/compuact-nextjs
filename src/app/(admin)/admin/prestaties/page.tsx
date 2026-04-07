@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { TrendingUp, Phone, Inbox, FileText, Building2, ChevronDown, ChevronUp, Pencil } from 'lucide-react'
+import { TrendingUp, Phone, Inbox, FileText, Building2, ChevronDown, ChevronUp, Pencil, Target } from 'lucide-react'
 
 // ── Config (uit Excel) ──
 const BASELINE = 21
