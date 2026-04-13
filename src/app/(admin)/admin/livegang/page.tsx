@@ -86,7 +86,7 @@ const sections: Section[] = [
   {
     title: 'Beveiliging',
     items: [
-      { label: 'Cloudflare Turnstile (botbescherming)', status: 'configuratie', note: 'Site key + secret key nodig' },
+      { label: 'Cloudflare Turnstile (botbescherming)', status: 'live', note: 'Managed mode op alle formulieren' },
       { label: 'Admin authenticatie (Supabase Auth)', status: 'live' },
       { label: 'Admin middleware bescherming', status: 'live' },
       { label: 'Rollen (beheerder/redacteur)', status: 'live' },
