@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import AdminShell from '@/components/admin/AdminShell'
 
 type Status = 'live' | 'todo' | 'configuratie' | 'niet_nodig'
 
