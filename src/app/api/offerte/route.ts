@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createServiceRoleClient } from '@/lib/supabase/server'
-import { sendAdminNotificatie, sendLeadNotificatie } from '@/lib/email'
+import { sendAdminNotificatie, sendOfferteBevestiging, sendLeadNotificatie } from '@/lib/email'
 
 export async function POST(request: Request) {
   try {
