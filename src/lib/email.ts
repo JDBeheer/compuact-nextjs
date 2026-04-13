@@ -241,7 +241,7 @@ export async function sendContactEmail(data: {
     <p><strong>Telefoon:</strong> ${data.telefoon}</p>
     <p><strong>Onderwerp:</strong> ${data.onderwerp}</p>
     <hr style="border:none;border-top:1px solid #e4e4e7;margin:16px 0;">
-    <p>${data.bericht.replace(/\n/g, '<br>')}</p>
+    <p>${escapeHtml(data.bericht).replace(/\n/g, '<br>')}</p>
   `
 
   await sgMail.send({
