@@ -16,7 +16,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Beveiligingsverificatie mislukt. Probeer het opnieuw.' }, { status: 403 })
     }
 
-    await sendContactEmail({ voornaam, achternaam, email, telefoon, onderwerp, bericht })
+    await Promise.all([
+      sendContactEmail({ voornaam, achternaam, email, telefoon, onderwerp, bericht }),
+      sendLeadNotificatie('contact', { voornaam, achternaam, email, telefoon }, `Onderwerp: ${onderwerp}`),
+    ])
 
     return NextResponse.json({ success: true })
   } catch (error) {
