@@ -7,6 +7,15 @@ const FROM_EMAIL = process.env.FROM_EMAIL || 'info@computertraining.nl'
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'info@computertraining.nl'
 const LEADS_EMAIL = process.env.LEADS_EMAIL || ''
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 function emailTemplate(content: string): string {
   return `
     <!DOCTYPE html>
