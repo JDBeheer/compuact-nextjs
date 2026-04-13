@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { Loader2, Trash2, Eye, EyeOff, Shield, ShieldCheck, UserPlus, X } from 'lucide-react'
-import AdminShell from '@/components/admin/AdminShell'
 import { adminFetch } from '@/lib/admin-fetch'
 
 interface AdminUser {
