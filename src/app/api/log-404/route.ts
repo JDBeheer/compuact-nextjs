@@ -1,10 +1,17 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { getAdminClient } from '@/lib/supabase'
+import { rateLimit, getClientIp } from '@/lib/rate-limit'
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const ip = getClientIp(request)
+  const { allowed } = rateLimit(`404:${ip}`, 20, 60 * 1000)
+  if (!allowed) {
+    return NextResponse.json({ success: false }, { status: 429 })
+  }
+
   const { path, referrer, userAgent } = await request.json()
 
-  if (!path) {
+  if (!path || typeof path !== 'string' || path.length > 2000) {
     return NextResponse.json({ success: false }, { status: 400 })
   }
 
