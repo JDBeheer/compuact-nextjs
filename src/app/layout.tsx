@@ -12,11 +12,11 @@ const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
-    default: 'Compu Act Opleidingen | Microsoft Office Trainingen',
+    default: 'Verbeter je Skills met Compu Act | Top Microsoft Office Trainingen',
     template: '%s | Compu Act Opleidingen',
   },
   description:
-    'Al meer dan 21 jaar dé specialist in Microsoft Office trainingen. Klassikaal, live online of incompany door heel Nederland.',
+    'Microsoft Office trainingen van Compu Act: klassikaal, live online of incompany. Trainingen die je direct verder helpen in Excel, Word, Outlook, PowerPoint en meer.',
   keywords: [
     'Microsoft Office training',
     'Excel cursus',
