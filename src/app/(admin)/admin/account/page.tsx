@@ -113,8 +113,7 @@ export default function AccountPage() {
   }
 
   return (
-    <AdminShell>
-      <div className="max-w-2xl py-8 px-8">
+      <div>
         <h1 className="text-2xl font-bold text-zinc-900 mb-1">Mijn account</h1>
         <p className="text-zinc-500 text-sm mb-8">Accountinstellingen en beveiliging.</p>
 
