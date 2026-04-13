@@ -166,6 +166,88 @@ const typeLabels: Record<string, { label: string; color: string }> = {
   systeem: { label: 'Systeem', color: 'bg-zinc-100 text-zinc-700' },
 }
 
+interface TelefoonKlik {
+  id: string
+  pagina: string
+  created_at: string
+}
+
+function TelefoonKlikLog() {
+  const [kliks, setKliks] = useState<TelefoonKlik[]>([])
+  const [loading, setLoading] = useState(true)
+
+  async function loadKliks() {
+    setLoading(true)
+    const supabase = createClient()
+    const { data } = await supabase
+      .from('telefoon_kliks')
+      .select('id, pagina, created_at')
+      .order('created_at', { ascending: false })
+      .limit(50)
+    setKliks(data || [])
+    setLoading(false)
+  }
+
+  useEffect(() => { loadKliks() }, [])
+
+  // Group by date
+  const grouped = new Map<string, TelefoonKlik[]>()
+  kliks.forEach(k => {
+    const date = new Date(k.created_at).toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+    if (!grouped.has(date)) grouped.set(date, [])
+    grouped.get(date)!.push(k)
+  })
+
+  return (
+    <div className="bg-white rounded-xl border border-zinc-200 mb-8">
+      <div className="px-5 py-4 border-b border-zinc-200 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="bg-green-50 p-2 rounded-lg">
+            <Phone size={16} className="text-green-600" />
+          </div>
+          <div>
+            <h2 className="font-semibold text-zinc-900">Telefoonklik Log</h2>
+            <p className="text-xs text-zinc-400">{kliks.length} kliks (laatste 50)</p>
+          </div>
+        </div>
+        <button onClick={loadKliks} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 text-xs font-medium text-zinc-500 hover:text-primary-600 hover:border-primary-300 transition-colors">
+          <RefreshCw size={12} /> Vernieuwen
+        </button>
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-8">
+          <Loader2 size={20} className="animate-spin text-zinc-300" />
+        </div>
+      ) : kliks.length === 0 ? (
+        <div className="text-center py-8 text-zinc-400 text-sm">Nog geen telefoonkliks geregistreerd.</div>
+      ) : (
+        <div className="divide-y divide-zinc-100">
+          {[...grouped.entries()].map(([date, items]) => (
+            <div key={date}>
+              <div className="px-5 py-2 bg-zinc-50">
+                <span className="text-xs font-semibold text-zinc-500">{date}</span>
+                <span className="text-xs text-zinc-400 ml-2">({items.length} klik{items.length !== 1 ? 's' : ''})</span>
+              </div>
+              {items.map(k => (
+                <div key={k.id} className="px-5 py-2.5 flex items-center justify-between hover:bg-zinc-50">
+                  <div className="flex items-center gap-3">
+                    <Phone size={14} className="text-green-500" />
+                    <span className="text-sm font-mono text-zinc-600">{k.pagina}</span>
+                  </div>
+                  <span className="text-xs text-zinc-400">
+                    {new Date(k.created_at).toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function TrackingPage() {
   const actief = events.filter(e => e.status === 'actief').length
   const inactief = events.filter(e => e.status === 'inactief').length
