@@ -120,12 +120,10 @@ export default function PrestatiesPage() {
       )
     }
 
-    // Voeg live data toe bovenop historische data (voor maanden zonder historische data)
-    // Voor maanden MET historische data gebruiken we alleen de historische cijfers
+    // Voeg live data toe bovenop historische data (historisch = startpunt, live = extra)
     ;(inzendingen.data || []).forEach((i: { type: string; created_at: string }) => {
       const d = new Date(i.created_at)
       const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
-      if (historisch[key]) return // historische data heeft voorrang
       const entry = monthMap.get(key)
       if (!entry) return
       if (i.type === 'inschrijving') entry.inschrijvingen++
@@ -136,7 +134,6 @@ export default function PrestatiesPage() {
     ;(kliks.data || []).forEach((k: { created_at: string }) => {
       const d = new Date(k.created_at)
       const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
-      if (historisch[key]) return // historische data heeft voorrang
       const entry = monthMap.get(key)
       if (entry) entry.telefoonKliks++
     })
