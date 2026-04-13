@@ -120,7 +120,8 @@ const sections: Section[] = [
     items: [
       { label: 'Privacybeleid', status: 'live' },
       { label: 'Algemene Voorwaarden', status: 'live' },
-      { label: 'Cookie consent banner', status: 'todo', note: 'Verplicht voor AVG/GDPR bij laden van GA4' },
+      { label: 'Cookie consent banner', status: 'live', note: 'AVG/GDPR-compliant met Google Consent Mode v2' },
+      { label: 'Privacybeleid — Google Ads & Remarketing sectie', status: 'live' },
     ],
   },
   {
