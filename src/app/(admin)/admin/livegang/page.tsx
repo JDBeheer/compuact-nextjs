@@ -133,7 +133,7 @@ const sections: Section[] = [
       { label: 'TypeScript strict mode', status: 'live' },
       { label: 'Tailwind CSS productie-build', status: 'live' },
       { label: 'Favicon (meerdere formaten)', status: 'live' },
-      { label: 'PWA Manifest', status: 'todo', note: 'Voor betere Lighthouse score' },
+      { label: 'PWA Manifest', status: 'live' },
     ],
   },
   {
