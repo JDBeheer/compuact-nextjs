@@ -150,6 +150,5 @@ export default function RedirectsPage() {
           </div>
         )}
       </div>
-    </AdminShell>
   )
 }
