@@ -285,6 +285,5 @@ export default function LivegangDashboard() {
           ))}
         </div>
       </div>
-    </AdminShell>
   )
 }
