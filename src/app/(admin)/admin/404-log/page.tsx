@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { Trash2, ArrowRight, Loader2, RefreshCw, CheckCircle, Download } from 'lucide-react'
-import AdminShell from '@/components/admin/AdminShell'
 import { adminFetch } from '@/lib/admin-fetch'
 
 interface ErrorLog {
