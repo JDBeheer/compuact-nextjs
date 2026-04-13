@@ -200,7 +200,34 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             Bekijk website &rarr;
           </Link>
         </header>
-        <main className="flex-1 p-4 lg:p-8">{children}</main>
+        <main className="flex-1 p-4 lg:p-8">
+          {needs2FA && pathname !== '/admin/account' && (
+            <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-5">
+              <div className="flex items-start gap-3">
+                <div className="bg-red-100 p-2 rounded-lg shrink-0">
+                  <svg className="w-5 h-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-red-800 text-sm">Tweefactorauthenticatie vereist</h3>
+                  <p className="text-red-600 text-sm mt-1">
+                    Voor de veiligheid van het CMS is het verplicht om 2FA in te stellen. Stel TOTP (authenticator app) of e-mail verificatie in om verder te gaan.
+                  </p>
+                  <Link
+                    href="/admin/account"
+                    className="inline-flex items-center gap-2 mt-3 px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition-colors"
+                  >
+                    2FA instellen
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+          {needs2FA && pathname !== '/admin/account' ? (
+            <div className="text-center py-12 text-zinc-400">
+              <p>Stel eerst 2FA in via je accountinstellingen om het CMS te gebruiken.</p>
+            </div>
+          ) : children}
+        </main>
       </div>
     </div>
   )
