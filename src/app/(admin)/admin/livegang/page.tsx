@@ -75,9 +75,10 @@ const sections: Section[] = [
   {
     title: 'Tracking & Analytics',
     items: [
-      { label: 'Google Analytics 4 (GA4)', status: 'configuratie', note: 'NEXT_PUBLIC_GA_MEASUREMENT_ID nodig' },
-      { label: 'Google Ads conversion tracking', status: 'configuratie', note: 'Conversion labels nodig' },
-      { label: 'Enhanced Conversions', status: 'live', note: 'Code staat klaar' },
+      { label: 'Google Analytics 4 (GA4)', status: 'live', note: 'G-X6B4M3H9S3' },
+      { label: 'Google Ads conversion tracking', status: 'live', note: 'AW-773965572 — Inschrijving, Offerte, InCompany' },
+      { label: 'Google Consent Mode v2', status: 'live', note: 'Default denied, granted na cookie consent' },
+      { label: 'Enhanced Conversions', status: 'live', note: 'Gehashte klantdata (email, naam, adres)' },
       { label: 'PageView tracking component', status: 'live' },
       { label: 'ViewItem tracking (cursuspagina)', status: 'live' },
     ],
