@@ -1,6 +1,8 @@
 'use client'
 
-import { CheckCircle, XCircle, ShoppingCart, CreditCard, FileText, Phone, Building2, Eye, Send, BarChart3 } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { CheckCircle, XCircle, ShoppingCart, CreditCard, FileText, Phone, Building2, Eye, Send, BarChart3, Loader2, RefreshCw } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 
 interface TrackingEvent {
   naam: string
