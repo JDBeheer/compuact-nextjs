@@ -269,6 +269,9 @@ export default function TrackingPage() {
         </div>
       </div>
 
+      {/* Telefoonklik log */}
+      <TelefoonKlikLog />
+
       {/* Legenda */}
       <div className="bg-white rounded-xl border border-zinc-200 p-4 mb-6">
         <div className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-2">Legenda</div>
