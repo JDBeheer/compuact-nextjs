@@ -38,6 +38,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [userEmail, setUserEmail] = useState('')
   const [userRole, setUserRole] = useState<'beheerder' | 'redacteur'>('beheerder')
   const [loading, setLoading] = useState(true)
+  const [needs2FA, setNeeds2FA] = useState(false)
 
   useEffect(() => {
     supabaseBrowser.auth.getSession().then(async ({ data: { session } }) => {
@@ -46,15 +47,26 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       } else if (session) {
         setUserEmail(session.user.email || '')
 
-        // Fetch role from admin_users
+        // Fetch role + 2FA status from admin_users
         const { data: adminUser } = await supabaseBrowser
           .from('admin_users')
-          .select('rol')
+          .select('rol, totp_verified, email_2fa_enabled')
           .eq('auth_user_id', session.user.id)
           .single()
 
         if (adminUser?.rol) {
           setUserRole(adminUser.rol as 'beheerder' | 'redacteur')
+        }
+
+        // Check if 2FA is set up (TOTP or email)
+        const has2FA = adminUser?.totp_verified || adminUser?.email_2fa_enabled
+        if (!has2FA) {
+          // Also check Supabase MFA factors directly
+          const { data: mfaData } = await supabaseBrowser.auth.mfa.listFactors()
+          const hasVerifiedTotp = mfaData?.totp?.some(f => f.status === 'verified') || false
+          if (!hasVerifiedTotp) {
+            setNeeds2FA(true)
+          }
         }
       }
       setLoading(false)
