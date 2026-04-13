@@ -32,6 +32,7 @@ export async function POST(request: Request) {
       const cursusNamen = (cursussen || []).map((c: { cursusTitel: string }) => c.cursusTitel).join(', ')
       await Promise.all([
         sendAdminNotificatie('offerte', klantgegevens, cursussen || [], totaalprijs || 0),
+        sendOfferteBevestiging(klantgegevens, cursussen || [], totaalprijs || 0),
         sendLeadNotificatie('offerte', klantgegevens, cursusNamen ? `Cursussen: ${cursusNamen} — Totaal: €${(totaalprijs || 0).toFixed(2)}` : undefined),
       ])
 
