@@ -70,8 +70,7 @@ export default function RedirectsPage() {
   }
 
   return (
-    <AdminShell>
-      <div className="max-w-6xl py-8 px-8">
+      <div>
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-bold text-zinc-900 mb-1">Redirects</h1>
