@@ -65,11 +65,11 @@ const sections: Section[] = [
     items: [
       { label: 'Sitemap.xml (dynamisch)', status: 'live' },
       { label: 'Metadata (title, description, OpenGraph)', status: 'live' },
-      { label: 'robots.txt', status: 'todo' },
-      { label: 'OpenGraph afbeelding', status: 'todo' },
-      { label: 'Structured data (Schema.org)', status: 'todo', note: 'Course, Organization, LocalBusiness' },
+      { label: 'robots.txt', status: 'live' },
+      { label: 'OpenGraph afbeelding', status: 'live', note: 'Dynamische OG image met branding' },
+      { label: 'Structured data (Schema.org)', status: 'live', note: 'Organization, LocalBusiness, Course' },
       { label: 'Canonical URLs', status: 'live' },
-      { label: '301 redirects (oud → nieuw)', status: 'live', note: '3 redirect-regels in next.config.mjs' },
+      { label: '301 redirects (WordPress → Next.js)', status: 'live', note: 'Pattern redirects in middleware + redirect manager' },
     ],
   },
   {
