@@ -26,6 +26,7 @@ const ADMIN_NAV = [
   { label: 'Instellingen', href: '/admin/instellingen', icon: Settings },
   { label: '404 Log', href: '/admin/404-log', icon: AlertTriangle },
   { label: 'Redirects', href: '/admin/redirects', icon: ArrowRightLeft },
+  { label: 'Livegang', href: '/admin/livegang', icon: Rocket },
 ]
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
