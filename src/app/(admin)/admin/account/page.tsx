@@ -220,6 +220,5 @@ export default function AccountPage() {
           {email2FASuccess && <div className="flex items-center gap-2 text-green-600 mt-4"><Check size={16} /><span className="text-sm font-medium">{email2FASuccess}</span></div>}
         </section>
       </div>
-    </AdminShell>
   )
 }
