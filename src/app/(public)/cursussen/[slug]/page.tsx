@@ -51,8 +51,8 @@ const categorieConfig: Record<string, {
     icon: FileText, gradient: 'from-blue-600 to-blue-800', lightBg: 'bg-blue-50',
     h1: 'Word Cursussen — Professionele Documenten Maken',
     subtitle: 'Van basis tekstverwerking tot complexe documenten, mailingen en sjablonen.',
-    seoTitle: 'Word Cursus | Klassikaal & Online | Compu Act Opleidingen',
-    seoDescription: 'Leer professioneel werken met Microsoft Word. Van basis tot complexe documenten, mailingen en sjablonen. Klassikaal of online bij Compu Act.',
+    seoTitle: '6 Word Cursussen | 1- of 2-daags | Beginnend of Gevorderd | Compu Act',
+    seoDescription: 'Ontdek Microsoft Word cursussen van Compu Act. Kies uit 6 cursussen voor beginners en gevorderden. Klassikaal, incompany, live online of thuisstudie. Starten vanaf €275.',
     beschrijving: 'Word is veel meer dan een tekstverwerker. Onze trainingen leren je professionele documenten maken, sjablonen ontwerpen en mailingen verzorgen.',
     highlights: ['Professionele opmaak', 'Sjablonen', 'Formulieren', 'Mailingen', 'Complexe documenten'],
     seoContent: [
