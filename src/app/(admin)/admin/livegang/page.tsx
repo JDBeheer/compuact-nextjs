@@ -236,8 +236,7 @@ export default function LivegangDashboard() {
   const [expandAll, setExpandAll] = useState(false)
 
   return (
-    <AdminShell>
-      <div className="max-w-6xl py-8 px-8">
+      <div>
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-zinc-900 mb-1">Livegang Dashboard</h1>
           <p className="text-zinc-500 text-sm">Status overzicht voor de livegang van computertraining.nl</p>
