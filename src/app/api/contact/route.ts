@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { sendContactEmail } from '@/lib/email'
+import { sendContactEmail, sendLeadNotificatie } from '@/lib/email'
 import { verifyTurnstileToken } from '@/lib/turnstile'
 
 export async function POST(request: Request) {
