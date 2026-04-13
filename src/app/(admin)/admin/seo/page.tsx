@@ -127,8 +127,6 @@ export default function SeoAuditPage() {
       <div className="space-y-3">
         {filtered.map((item) => {
           const isExpanded = expandedSlug === item.slug
-          const overall = worstScore(item.title_score, item.desc_score)
-
           return (
             <div key={item.slug} className="bg-white rounded-xl border border-zinc-200 overflow-hidden">
               <button
