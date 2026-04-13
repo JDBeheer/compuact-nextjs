@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { Loader2, ShieldCheck, ShieldAlert, Smartphone, Check, Mail } from 'lucide-react'
-import AdminShell from '@/components/admin/AdminShell'
 import { supabaseBrowser } from '@/lib/supabase-browser'
 
 interface Factor {
