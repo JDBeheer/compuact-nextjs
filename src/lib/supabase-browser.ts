@@ -11,6 +11,7 @@ export const supabaseBrowser: SupabaseClient = new Proxy({} as SupabaseClient, {
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
       ) as unknown as SupabaseClient
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (_client as any)[prop]
   },
 })
