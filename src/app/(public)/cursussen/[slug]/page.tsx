@@ -485,9 +485,15 @@ async function CursusDetailPage({ slug }: { slug: string }) {
 
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'Course',
-    name: cursus.titel, description: cursus.korte_beschrijving || cursus.beschrijving,
+    name: cursus.titel,
+    description: cursus.korte_beschrijving || cursus.beschrijving,
+    url: `https://www.computertraining.nl/cursussen/${cursus.slug}`,
     provider: { '@type': 'Organization', name: 'Compu Act Opleidingen', url: 'https://www.computertraining.nl' },
-    offers: { '@type': 'Offer', price: cursus.prijs_vanaf, priceCurrency: 'EUR' },
+    offers: { '@type': 'Offer', price: cursus.prijs_vanaf, priceCurrency: 'EUR', availability: 'https://schema.org/InStock' },
+    inLanguage: 'nl',
+    educationalLevel: cursus.niveau || 'beginner',
+    timeRequired: cursus.duur || undefined,
+    about: (cursus.categorie as unknown as Record<string, string>)?.naam,
     hasCourseInstance: courseInstances,
   }
 
