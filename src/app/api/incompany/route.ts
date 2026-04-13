@@ -42,14 +42,17 @@ export async function POST(request: Request) {
     if (error) throw error
 
     try {
-      await sendInCompanyNotificatie({
-        klant: klantgegevens,
-        cursusTitels,
-        aantalDeelnemers,
-        gewenstePeriode,
-        locatieVoorkeur,
-        opmerkingen,
-      })
+      await Promise.all([
+        sendInCompanyNotificatie({
+          klant: klantgegevens,
+          cursusTitels,
+          aantalDeelnemers,
+          gewenstePeriode,
+          locatieVoorkeur,
+          opmerkingen,
+        }),
+        sendLeadNotificatie('incompany', klantgegevens, `Cursussen: ${cursusTitels.join(', ')} — ${aantalDeelnemers} deelnemers`),
+      ])
 
       await supabase
         .from('inschrijvingen')
