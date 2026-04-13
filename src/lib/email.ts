@@ -244,6 +244,40 @@ export async function sendContactEmail(data: {
   })
 }
 
+export async function sendLeadNotificatie(
+  type: 'inschrijving' | 'offerte' | 'incompany' | 'contact',
+  klant: { voornaam: string; achternaam: string; email: string; telefoon?: string; bedrijfsnaam?: string },
+  details?: string
+) {
+  if (!LEADS_EMAIL) return
+
+  const typeLabels: Record<string, string> = {
+    inschrijving: 'Nieuwe inschrijving',
+    offerte: 'Nieuwe offerte aanvraag',
+    incompany: 'Nieuwe InCompany aanvraag',
+    contact: 'Nieuw contactformulier',
+  }
+
+  const content = `
+    <h2 style="color:#18181b;margin:0 0 16px;">🔔 ${typeLabels[type]}</h2>
+    <table cellpadding="4" cellspacing="0" style="font-size:14px;">
+      <tr><td style="color:#71717a;">Type</td><td><strong>${typeLabels[type]}</strong></td></tr>
+      <tr><td style="color:#71717a;">Naam</td><td>${klant.voornaam} ${klant.achternaam}</td></tr>
+      <tr><td style="color:#71717a;">Email</td><td>${klant.email}</td></tr>
+      ${klant.telefoon ? `<tr><td style="color:#71717a;">Telefoon</td><td>${klant.telefoon}</td></tr>` : ''}
+      ${klant.bedrijfsnaam ? `<tr><td style="color:#71717a;">Bedrijf</td><td>${klant.bedrijfsnaam}</td></tr>` : ''}
+    </table>
+    ${details ? `<hr style="border:none;border-top:1px solid #e4e4e7;margin:16px 0;"><p style="color:#71717a;font-size:13px;">${details}</p>` : ''}
+  `
+
+  await sgMail.send({
+    to: LEADS_EMAIL,
+    from: FROM_EMAIL,
+    subject: `[Compu Act] ${typeLabels[type]} — ${klant.voornaam} ${klant.achternaam}`,
+    html: emailTemplate(content),
+  })
+}
+
 export async function sendTestEmail(toEmail: string) {
   const content = `
     <h2 style="color:#18181b;margin:0 0 16px;">Test e-mail</h2>
