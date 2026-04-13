@@ -3,6 +3,92 @@ import type { NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { createClient } from '@supabase/supabase-js'
 
+// ── WordPress → Next.js pattern redirects ──
+// Maps old WooCommerce/WordPress URL patterns to new structure
+
+function getPatternRedirect(path: string): string | null {
+  // /microsoft-office/CATEGORY/COURSE-SLUG/ → /cursussen/COURSE-SLUG
+  const productMatch = path.match(/^\/microsoft-office\/[^/]+\/([^/]+)$/)
+  if (productMatch) return `/cursussen/${productMatch[1]}`
+
+  // /ai-cursussen/SLUG/ → /cursussen/SLUG
+  const aiMatch = path.match(/^\/ai-cursussen\/([^/]+)$/)
+  if (aiMatch) return `/cursussen/${aiMatch[1]}`
+
+  // /developer/vba/SLUG/ → /cursussen/SLUG
+  const devMatch = path.match(/^\/developer\/[^/]+\/([^/]+)$/)
+  if (devMatch) return `/cursussen/${devMatch[1]}`
+
+  // /microsoft-office/SLUG (standalone products like sharepoint, introductiecursus)
+  const standaloneMatch = path.match(/^\/microsoft-office\/([^/]+)$/)
+  if (standaloneMatch) {
+    const slug = standaloneMatch[1]
+    // Category pages
+    const categoryMap: Record<string, string> = {
+      excel: '/cursussen/excel',
+      word: '/cursussen/word',
+      outlook: '/cursussen/outlook',
+      powerpoint: '/cursussen/powerpoint',
+      'power-bi': '/cursussen/power-bi',
+      'office-365': '/cursussen/office-365',
+      project: '/cursussen/project',
+      visio: '/cursussen/visio',
+    }
+    if (categoryMap[slug]) return categoryMap[slug]
+    // Otherwise treat as course
+    return `/cursussen/${slug}`
+  }
+
+  // /microsoft-office/CATEGORY/LEVEL (beginner, gevorderd, expert) → /cursussen/CATEGORY
+  const levelMatch = path.match(/^\/microsoft-office\/([^/]+)\/(beginner|gevorderd|expert)(?:-[^/]+)?$/)
+  if (levelMatch) return `/cursussen/${levelMatch[1]}`
+
+  // /microsoft-office/ → /cursussen
+  if (path === '/microsoft-office') return '/cursussen'
+
+  // /vba/ → /cursussen/vba
+  if (path === '/vba') return '/cursussen/vba'
+
+  // /ai-cursussen/ → /cursussen/ai
+  if (path === '/ai-cursussen') return '/cursussen/ai'
+
+  // /locatie/SLUG/ → /locaties/SLUG
+  const locatieMatch = path.match(/^\/locatie\/([^/]+)$/)
+  if (locatieMatch) {
+    const slug = locatieMatch[1]
+    // Virtual/special locations → general pages
+    if (slug === 'virtueel' || slug === 'thuisstudie') return '/lesmethodes'
+    if (slug === 'incompany') return '/incompany'
+    return `/locaties/${slug}`
+  }
+
+  // /over-compu-act/ and subpages → /over-ons
+  if (path.startsWith('/over-compu-act')) return '/over-ons'
+
+  // /lesmethodes/incompany-cursus-*/ → /incompany
+  if (path.match(/^\/lesmethodes\/incompany-cursus-/)) return '/incompany'
+
+  // /lesmethodes/company-online-live/ → /lesmethodes
+  if (path.startsWith('/lesmethodes/company-online-live')) return '/lesmethodes'
+
+  // /vacatures/ → /over-ons (geen vacaturepagina in nieuwe site)
+  if (path === '/vacatures') return '/over-ons'
+
+  // /cursussen/categorie/:slug → /cursussen/:slug (already in next.config but also here)
+  const catMatch = path.match(/^\/cursussen\/categorie\/([^/]+)$/)
+  if (catMatch) return `/cursussen/${catMatch[1]}`
+
+  // /computertraining-CITY/ → homepage (old local SEO pages without course type)
+  const computertrainingMatch = path.match(/^\/computertraining-([^/]+)$/)
+  if (computertrainingMatch) return '/'
+
+  // /powerpoint-alles-in-een-cursus-CITY/ → /powerpoint-cursus-CITY
+  const ppMatch = path.match(/^\/powerpoint-alles-in-een-cursus-([^/]+)$/)
+  if (ppMatch) return `/powerpoint-cursus-${ppMatch[1]}`
+
+  return null
+}
+
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
 
@@ -55,10 +141,11 @@ export async function middleware(request: NextRequest) {
     return response
   }
 
-  // Check redirects table for non-admin routes
-  const supabase = createClient(supabaseUrl, supabaseKey)
-
+  // Normalize: strip trailing slash for lookup
   const normalizedPath = path.endsWith('/') && path.length > 1 ? path.slice(0, -1) : path
+
+  // 1. Check database redirects first (admin-managed)
+  const supabase = createClient(supabaseUrl, supabaseKey)
 
   const { data } = await supabase
     .from('redirects')
@@ -74,6 +161,14 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone()
     url.pathname = data.to_path
     return NextResponse.redirect(url, data.status_code || 301)
+  }
+
+  // 2. Check WordPress pattern redirects (migration)
+  const patternRedirect = getPatternRedirect(normalizedPath)
+  if (patternRedirect) {
+    const url = request.nextUrl.clone()
+    url.pathname = patternRedirect
+    return NextResponse.redirect(url, 301)
   }
 
   return NextResponse.next()
