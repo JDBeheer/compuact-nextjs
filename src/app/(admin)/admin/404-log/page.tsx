@@ -195,6 +195,5 @@ export default function ErrorLogPage() {
           </div>
         )}
       </div>
-    </AdminShell>
   )
 }
