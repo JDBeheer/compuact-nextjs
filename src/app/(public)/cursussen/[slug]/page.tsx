@@ -38,8 +38,8 @@ const categorieConfig: Record<string, {
     icon: FileSpreadsheet, gradient: 'from-emerald-600 to-emerald-800', lightBg: 'bg-emerald-50',
     h1: 'Excel Cursussen — Klassikaal en Online, van Basis tot Expert',
     subtitle: 'Leer Excel op jouw niveau. Praktijkgericht, met ervaren docenten, op 17 locaties door heel Nederland of live online.',
-    seoTitle: 'Excel Cursus | Klassikaal & Online | Compu Act Opleidingen',
-    seoDescription: 'Volg een Excel cursus bij Compu Act Opleidingen. Van Excel Basis tot VBA en Power BI. Klassikaal op 17 locaties of live online. Direct inschrijven of offerte aanvragen.',
+    seoTitle: 'Excel Cursus Volgen? | Alle Excel Cursussen & Niveaus | Compu Act',
+    seoDescription: 'Compu Act biedt Excel trainingen voor alle niveaus. Van Excel Basis tot VBA en Power BI. Klassikaal op 17 locaties, live online of incompany. Starten vanaf €275.',
     beschrijving: 'Onze Excel trainingen nemen je mee van de basis tot expert-niveau. Of je nu wilt leren werken met formules, draaitabellen, macro\'s of VBA — wij hebben de juiste cursus voor jou.',
     highlights: ['Formules en functies', 'Draaitabellen', 'Grafieken', 'VBA en macro\'s', 'Power BI', 'AI in Excel'],
     seoContent: [
