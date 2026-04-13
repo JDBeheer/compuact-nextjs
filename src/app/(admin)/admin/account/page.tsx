@@ -109,7 +109,7 @@ export default function AccountPage() {
   const hasVerifiedFactor = factors.some((f) => f.status === 'verified')
 
   if (loading) {
-    return <AdminShell><div className="min-h-screen flex items-center justify-center"><Loader2 size={32} className="animate-spin text-primary-600" /></div></AdminShell>
+    return <div className="min-h-screen flex items-center justify-center"><Loader2 size={32} className="animate-spin text-primary-600" /></div>
   }
 
   return (
