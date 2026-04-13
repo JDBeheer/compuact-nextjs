@@ -66,7 +66,7 @@ export default function GebruikersAdmin() {
     setUsers((u) => u.filter((r) => r.id !== id))
   }
 
-  if (loading) return <AdminShell><div className="min-h-screen flex items-center justify-center"><Loader2 size={32} className="animate-spin text-primary-600" /></div></AdminShell>
+  if (loading) return <div className="min-h-screen flex items-center justify-center"><Loader2 size={32} className="animate-spin text-primary-600" /></div>
 
   return (
     <AdminShell>
