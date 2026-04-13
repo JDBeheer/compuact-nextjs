@@ -7,6 +7,13 @@ const FROM_EMAIL = process.env.FROM_EMAIL || 'info@computertraining.nl'
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'info@computertraining.nl'
 const LEADS_EMAIL = process.env.LEADS_EMAIL || ''
 
+const PRIMARY = '#1B6AB3'
+const ACCENT = '#F49800'
+const TEXT = '#18181b'
+const TEXT_MUTED = '#71717a'
+const BORDER = '#e4e4e7'
+const BG = '#f4f4f5'
+
 function escapeHtml(str: string): string {
   return str
     .replace(/&/g, '&amp;')
@@ -16,7 +23,7 @@ function escapeHtml(str: string): string {
     .replace(/'/g, '&#39;')
 }
 
-function emailTemplate(content: string): string {
+function emailTemplate(content: string, options?: { preheader?: string }): string {
   return `
     <!DOCTYPE html>
     <html>
@@ -24,27 +31,58 @@ function emailTemplate(content: string): string {
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    <body style="margin:0;padding:0;background-color:#f4f4f5;font-family:Arial,Helvetica,sans-serif;">
-      <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f5;padding:32px 0;">
+    <body style="margin:0;padding:0;background-color:${BG};font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;">
+      ${options?.preheader ? `<div style="display:none;max-height:0;overflow:hidden;">${options.preheader}</div>` : ''}
+      <table width="100%" cellpadding="0" cellspacing="0" style="background-color:${BG};padding:32px 0;">
         <tr>
           <td align="center">
-            <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:8px;overflow:hidden;">
+            <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:12px;overflow:hidden;border:1px solid ${BORDER};">
+              <!-- Header -->
               <tr>
-                <td style="background-color:#1B6AB3;padding:24px 32px;">
-                  <h1 style="margin:0;color:#ffffff;font-size:24px;">Compu Act Opleidingen</h1>
+                <td style="background-color:${PRIMARY};padding:0;">
+                  <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="padding:28px 36px;">
+                        <table cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td style="background-color:#ffffff;border-radius:6px;padding:4px 12px;">
+                              <span style="color:${PRIMARY};font-weight:800;font-size:18px;font-family:Arial,sans-serif;">CA</span>
+                            </td>
+                            <td style="padding-left:14px;">
+                              <span style="color:#ffffff;font-size:20px;font-weight:700;">Compu Act Opleidingen</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="height:4px;background-color:${ACCENT};"></td>
+                    </tr>
+                  </table>
                 </td>
               </tr>
+              <!-- Content -->
               <tr>
-                <td style="padding:32px;">
+                <td style="padding:36px;">
                   ${content}
                 </td>
               </tr>
+              <!-- Footer -->
               <tr>
-                <td style="background-color:#f4f4f5;padding:24px 32px;text-align:center;color:#71717a;font-size:13px;">
-                  <p style="margin:0 0 8px;">Compu Act Opleidingen</p>
-                  <p style="margin:0 0 4px;">Vincent van Goghweg 85, 1506 JB Zaandam</p>
-                  <p style="margin:0 0 4px;">Tel: 023-551 3409</p>
-                  <p style="margin:0;">info@computertraining.nl</p>
+                <td style="background-color:${BG};padding:28px 36px;border-top:1px solid ${BORDER};">
+                  <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="color:${TEXT_MUTED};font-size:13px;line-height:1.6;">
+                        <p style="margin:0;font-weight:600;color:${TEXT};">Compu Act Opleidingen</p>
+                        <p style="margin:4px 0 0;">Vincent van Goghweg 85, 1506 JB Zaandam</p>
+                        <p style="margin:2px 0 0;">Tel: <a href="tel:0235513409" style="color:${PRIMARY};text-decoration:none;">023-551 3409</a></p>
+                        <p style="margin:2px 0 0;"><a href="mailto:info@computertraining.nl" style="color:${PRIMARY};text-decoration:none;">info@computertraining.nl</a></p>
+                      </td>
+                      <td style="text-align:right;vertical-align:top;">
+                        <a href="https://www.computertraining.nl" style="color:${PRIMARY};font-size:13px;text-decoration:none;">computertraining.nl</a>
+                      </td>
+                    </tr>
+                  </table>
                 </td>
               </tr>
             </table>
@@ -58,31 +96,32 @@ function emailTemplate(content: string): string {
 
 function formatCursussenTabel(cursussen: CartItemCheckout[]): string {
   return `
-    <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;margin:16px 0;">
-      <tr style="background-color:#f4f4f5;">
-        <th style="text-align:left;border-bottom:2px solid #e4e4e7;padding:8px;">Cursus</th>
-        <th style="text-align:left;border-bottom:2px solid #e4e4e7;padding:8px;">Locatie</th>
-        <th style="text-align:left;border-bottom:2px solid #e4e4e7;padding:8px;">Datum</th>
-        <th style="text-align:center;border-bottom:2px solid #e4e4e7;padding:8px;">Deelnemers</th>
-        <th style="text-align:right;border-bottom:2px solid #e4e4e7;padding:8px;">Prijs</th>
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:20px 0;border-radius:8px;overflow:hidden;border:1px solid ${BORDER};">
+      <tr style="background-color:${PRIMARY};">
+        <th style="text-align:left;padding:10px 14px;color:#ffffff;font-size:13px;font-weight:600;">Cursus</th>
+        <th style="text-align:left;padding:10px 14px;color:#ffffff;font-size:13px;font-weight:600;">Locatie</th>
+        <th style="text-align:left;padding:10px 14px;color:#ffffff;font-size:13px;font-weight:600;">Datum</th>
+        <th style="text-align:center;padding:10px 14px;color:#ffffff;font-size:13px;font-weight:600;">Aantal</th>
+        <th style="text-align:right;padding:10px 14px;color:#ffffff;font-size:13px;font-weight:600;">Prijs</th>
       </tr>
-      ${cursussen.map(c => {
+      ${cursussen.map((c, i) => {
         const aantal = c.aantalDeelnemers || 1
         const deelnemerNamen = c.deelnemers?.length
           ? c.deelnemers.map(d => `${d.voornaam} ${d.achternaam}`.trim()).filter(Boolean).join(', ')
           : ''
+        const rowBg = i % 2 === 0 ? '#ffffff' : '#fafafa'
         return `
-          <tr>
-            <td style="border-bottom:1px solid #e4e4e7;padding:8px;">${c.cursusTitel}</td>
-            <td style="border-bottom:1px solid #e4e4e7;padding:8px;">${c.locatie || '-'}</td>
-            <td style="border-bottom:1px solid #e4e4e7;padding:8px;">${c.datum || '-'}</td>
-            <td style="text-align:center;border-bottom:1px solid #e4e4e7;padding:8px;">${aantal}</td>
-            <td style="text-align:right;border-bottom:1px solid #e4e4e7;padding:8px;">&euro;${(c.prijs * aantal).toFixed(2)}</td>
+          <tr style="background-color:${rowBg};">
+            <td style="border-bottom:1px solid ${BORDER};padding:10px 14px;font-size:14px;font-weight:600;color:${TEXT};">${escapeHtml(c.cursusTitel)}</td>
+            <td style="border-bottom:1px solid ${BORDER};padding:10px 14px;font-size:14px;color:${TEXT_MUTED};">${escapeHtml(c.locatie || '-')}</td>
+            <td style="border-bottom:1px solid ${BORDER};padding:10px 14px;font-size:14px;color:${TEXT_MUTED};">${escapeHtml(c.datum || '-')}</td>
+            <td style="text-align:center;border-bottom:1px solid ${BORDER};padding:10px 14px;font-size:14px;color:${TEXT};">${aantal}</td>
+            <td style="text-align:right;border-bottom:1px solid ${BORDER};padding:10px 14px;font-size:14px;font-weight:600;color:${TEXT};">&euro;${(c.prijs * aantal).toFixed(2)}</td>
           </tr>
           ${deelnemerNamen ? `
-          <tr>
-            <td colspan="5" style="padding:4px 8px 8px;color:#71717a;font-size:12px;border-bottom:1px solid #e4e4e7;">
-              Deelnemers: ${deelnemerNamen}
+          <tr style="background-color:${rowBg};">
+            <td colspan="5" style="padding:2px 14px 10px;color:${TEXT_MUTED};font-size:12px;border-bottom:1px solid ${BORDER};">
+              Deelnemers: ${escapeHtml(deelnemerNamen)}
             </td>
           </tr>` : ''}
         `
@@ -91,28 +130,97 @@ function formatCursussenTabel(cursussen: CartItemCheckout[]): string {
   `
 }
 
+function totaalBox(totaalprijs: number, note?: string): string {
+  return `
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;">
+      <tr>
+        <td style="background-color:${BG};border-radius:8px;padding:16px 20px;">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="font-size:14px;color:${TEXT_MUTED};">Totaalprijs</td>
+              <td style="text-align:right;font-size:22px;font-weight:800;color:${TEXT};">&euro;${totaalprijs.toFixed(2)}</td>
+            </tr>
+            ${note ? `<tr><td colspan="2" style="font-size:12px;color:${TEXT_MUTED};padding-top:4px;">${note}</td></tr>` : ''}
+          </table>
+        </td>
+      </tr>
+    </table>
+  `
+}
+
+function infoRow(label: string, value: string): string {
+  return `
+    <tr>
+      <td style="padding:6px 0;color:${TEXT_MUTED};font-size:14px;width:120px;vertical-align:top;">${label}</td>
+      <td style="padding:6px 0;font-size:14px;color:${TEXT};font-weight:500;">${escapeHtml(value)}</td>
+    </tr>
+  `
+}
+
+function sectionTitle(title: string): string {
+  return `<h3 style="color:${PRIMARY};font-size:15px;font-weight:700;margin:28px 0 12px;padding-bottom:8px;border-bottom:2px solid ${BG};">${title}</h3>`
+}
+
+function badge(text: string, color: string): string {
+  return `<span style="display:inline-block;background-color:${color};color:#ffffff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:0.3px;">${text}</span>`
+}
+
+// ── Klant bevestiging: Inschrijving ──
+
 export async function sendBevestigingsEmail(
   klant: KlantGegevens,
   cursussen: CartItemCheckout[],
   totaalprijs: number
 ) {
   const content = `
-    <h2 style="color:#18181b;margin:0 0 16px;">Bevestiging van uw inschrijving</h2>
-    <p>Beste ${klant.voornaam},</p>
-    <p>Bedankt voor uw inschrijving bij Compu Act Opleidingen. Hieronder vindt u een overzicht van uw gekozen cursus(sen):</p>
+    ${badge('INSCHRIJVING ONTVANGEN', '#16a34a')}
+    <h2 style="color:${TEXT};margin:20px 0 8px;font-size:22px;">Bedankt voor je inschrijving!</h2>
+    <p style="color:${TEXT_MUTED};font-size:15px;line-height:1.6;margin:0 0 4px;">
+      Hoi ${escapeHtml(klant.voornaam)}, leuk dat je je hebt ingeschreven bij Compu Act Opleidingen. Hieronder een overzicht van je cursus(sen).
+    </p>
+
     ${formatCursussenTabel(cursussen)}
-    <p style="font-size:16px;"><strong>Totaalprijs: &euro;${totaalprijs.toFixed(2)}</strong> <span style="color:#71717a;font-size:13px;">(excl. 21% BTW &amp; &euro;15 administratiekosten)</span></p>
-    <p>Wij nemen zo snel mogelijk contact met u op om uw inschrijving te bevestigen.</p>
-    <p>Met vriendelijke groet,<br>Compu Act Opleidingen</p>
+    ${totaalBox(totaalprijs, 'Excl. 21% BTW &amp; &euro;15 administratiekosten')}
+
+    ${sectionTitle('Wat kun je verwachten?')}
+    <table cellpadding="0" cellspacing="0" style="margin:0;">
+      <tr>
+        <td style="padding:8px 12px 8px 0;vertical-align:top;color:${ACCENT};font-size:18px;">1.</td>
+        <td style="padding:8px 0;font-size:14px;color:${TEXT};">We nemen binnen 1 werkdag contact met je op om je inschrijving te bevestigen.</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px 8px 0;vertical-align:top;color:${ACCENT};font-size:18px;">2.</td>
+        <td style="padding:8px 0;font-size:14px;color:${TEXT};">Je ontvangt een factuur en praktische informatie over de locatie en het programma.</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px 8px 0;vertical-align:top;color:${ACCENT};font-size:18px;">3.</td>
+        <td style="padding:8px 0;font-size:14px;color:${TEXT};">Op de cursusdag nemen wij een laptop, cursusmateriaal en certificaat mee. Jij hoeft alleen jezelf mee te nemen!</td>
+      </tr>
+    </table>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:28px 0 0;">
+      <tr>
+        <td style="background-color:${PRIMARY};border-radius:8px;text-align:center;padding:0;">
+          <a href="https://www.computertraining.nl/cursussen" style="display:block;padding:14px 28px;color:#ffffff;text-decoration:none;font-weight:700;font-size:14px;">Bekijk alle cursussen</a>
+        </td>
+      </tr>
+    </table>
+
+    <p style="color:${TEXT_MUTED};font-size:14px;margin:24px 0 0;">
+      Vragen? Bel <a href="tel:0235513409" style="color:${PRIMARY};text-decoration:none;font-weight:600;">023-551 3409</a> of mail
+      <a href="mailto:info@computertraining.nl" style="color:${PRIMARY};text-decoration:none;font-weight:600;">info@computertraining.nl</a>
+    </p>
   `
 
   await sgMail.send({
     to: klant.email,
     from: FROM_EMAIL,
-    subject: 'Bevestiging inschrijving - Compu Act Opleidingen',
-    html: emailTemplate(content),
+    subject: `Bevestiging inschrijving — ${cursussen.map(c => c.cursusTitel).join(', ')}`,
+    html: emailTemplate(content, { preheader: `Bedankt voor je inschrijving voor ${cursussen[0]?.cursusTitel || 'je cursus'}!` }),
   })
 }
+
+// ── Klant bevestiging: Offerte ──
 
 export async function sendOfferteBevestiging(
   klant: KlantGegevens,
@@ -120,22 +228,34 @@ export async function sendOfferteBevestiging(
   totaalprijs: number
 ) {
   const content = `
-    <h2 style="color:#18181b;margin:0 0 16px;">Bevestiging offerte aanvraag</h2>
-    <p>Beste ${klant.voornaam},</p>
-    <p>Bedankt voor uw offerte aanvraag bij Compu Act Opleidingen. Wij hebben uw aanvraag ontvangen voor de volgende cursus(sen):</p>
+    ${badge('OFFERTE AANVRAAG ONTVANGEN', PRIMARY)}
+    <h2 style="color:${TEXT};margin:20px 0 8px;font-size:22px;">Bedankt voor je offerte aanvraag!</h2>
+    <p style="color:${TEXT_MUTED};font-size:15px;line-height:1.6;margin:0 0 4px;">
+      Hoi ${escapeHtml(klant.voornaam)}, we hebben je aanvraag ontvangen voor de volgende cursus(sen):
+    </p>
+
     ${formatCursussenTabel(cursussen)}
-    <p style="font-size:16px;"><strong>Indicatief totaal: &euro;${totaalprijs.toFixed(2)}</strong> <span style="color:#71717a;font-size:13px;">(excl. BTW)</span></p>
-    <p>Wij stellen een passende offerte samen en nemen zo snel mogelijk contact met u op.</p>
-    <p>Met vriendelijke groet,<br>Compu Act Opleidingen</p>
+    ${totaalBox(totaalprijs, 'Indicatief totaal, excl. BTW')}
+
+    <p style="color:${TEXT};font-size:14px;line-height:1.6;">
+      We stellen een passende offerte samen en nemen binnen 1 werkdag contact met je op.
+    </p>
+
+    <p style="color:${TEXT_MUTED};font-size:14px;margin:24px 0 0;">
+      Vragen? Bel <a href="tel:0235513409" style="color:${PRIMARY};text-decoration:none;font-weight:600;">023-551 3409</a> of mail
+      <a href="mailto:info@computertraining.nl" style="color:${PRIMARY};text-decoration:none;font-weight:600;">info@computertraining.nl</a>
+    </p>
   `
 
   await sgMail.send({
     to: klant.email,
     from: FROM_EMAIL,
-    subject: 'Bevestiging offerte aanvraag - Compu Act Opleidingen',
-    html: emailTemplate(content),
+    subject: `Offerte aanvraag ontvangen — ${cursussen.map(c => c.cursusTitel).join(', ')}`,
+    html: emailTemplate(content, { preheader: `We stellen je offerte samen voor ${cursussen[0]?.cursusTitel || 'je cursus'}.` }),
   })
 }
+
+// ── Admin notificatie ──
 
 export async function sendAdminNotificatie(
   type: 'inschrijving' | 'offerte',
@@ -143,35 +263,40 @@ export async function sendAdminNotificatie(
   cursussen: CartItemCheckout[],
   totaalprijs: number
 ) {
-  const typeLabel = type === 'inschrijving' ? 'Nieuwe inschrijving' : 'Nieuwe offerte aanvraag'
-
-  const extraVelden = type === 'offerte' ? `
-    <p><strong>Gewenste periode:</strong> ${klant.gewenste_periode || '-'}</p>
-    <p><strong>Locatie voorkeur:</strong> ${klant.locatie_voorkeur || '-'}</p>
-  ` : ''
+  const isInschrijving = type === 'inschrijving'
+  const typeLabel = isInschrijving ? 'Nieuwe inschrijving' : 'Nieuwe offerte aanvraag'
+  const badgeColor = isInschrijving ? '#16a34a' : PRIMARY
 
   const content = `
-    <h2 style="color:#18181b;margin:0 0 16px;">${typeLabel}</h2>
-    <h3>Klantgegevens</h3>
-    <p><strong>Naam:</strong> ${klant.voornaam} ${klant.achternaam}</p>
-    <p><strong>Email:</strong> ${klant.email}</p>
-    <p><strong>Telefoon:</strong> ${klant.telefoon}</p>
-    <p><strong>Bedrijf:</strong> ${klant.bedrijfsnaam || '-'}</p>
-    <p><strong>Adres:</strong> ${klant.adres}, ${klant.postcode} ${klant.stad}</p>
-    ${klant.opmerkingen ? `<p><strong>Opmerkingen:</strong> ${klant.opmerkingen}</p>` : ''}
-    ${extraVelden}
-    <h3>Cursussen</h3>
+    ${badge(typeLabel.toUpperCase(), badgeColor)}
+    <h2 style="color:${TEXT};margin:20px 0 8px;font-size:22px;">${typeLabel}</h2>
+
+    ${sectionTitle('Klantgegevens')}
+    <table cellpadding="0" cellspacing="0" style="width:100%;">
+      ${infoRow('Naam', `${klant.voornaam} ${klant.achternaam}`)}
+      ${infoRow('Email', klant.email)}
+      ${infoRow('Telefoon', klant.telefoon)}
+      ${infoRow('Bedrijf', klant.bedrijfsnaam || '-')}
+      ${infoRow('Adres', `${klant.adres}, ${klant.postcode} ${klant.stad}`)}
+      ${klant.opmerkingen ? infoRow('Opmerkingen', klant.opmerkingen) : ''}
+      ${type === 'offerte' ? infoRow('Periode', klant.gewenste_periode || '-') : ''}
+      ${type === 'offerte' ? infoRow('Locatie voorkeur', klant.locatie_voorkeur || '-') : ''}
+    </table>
+
+    ${sectionTitle('Cursussen')}
     ${formatCursussenTabel(cursussen)}
-    <p style="font-size:16px;"><strong>Totaalprijs: &euro;${totaalprijs.toFixed(2)}</strong></p>
+    ${totaalBox(totaalprijs)}
   `
 
   await sgMail.send({
     to: ADMIN_EMAIL,
     from: FROM_EMAIL,
-    subject: `${typeLabel} - ${klant.voornaam} ${klant.achternaam}`,
+    subject: `${isInschrijving ? '🟢' : '🔵'} ${typeLabel} — ${klant.voornaam} ${klant.achternaam} — €${totaalprijs.toFixed(0)}`,
     html: emailTemplate(content),
   })
 }
+
+// ── InCompany notificatie ──
 
 export async function sendInCompanyNotificatie(data: {
   klant: KlantGegevens
@@ -181,50 +306,74 @@ export async function sendInCompanyNotificatie(data: {
   locatieVoorkeur: string
   opmerkingen: string
 }) {
-  const cursusLijst = data.cursusTitels.map(t => `<li>${t}</li>`).join('')
+  const cursusLijst = data.cursusTitels.map(t =>
+    `<li style="padding:4px 0;font-size:14px;color:${TEXT};">${escapeHtml(t)}</li>`
+  ).join('')
 
   // Admin email
   const adminContent = `
-    <h2 style="color:#18181b;margin:0 0 16px;">Nieuwe InCompany aanvraag</h2>
-    <h3>Klantgegevens</h3>
-    <p><strong>Naam:</strong> ${data.klant.voornaam} ${data.klant.achternaam}</p>
-    <p><strong>Email:</strong> ${data.klant.email}</p>
-    <p><strong>Telefoon:</strong> ${data.klant.telefoon}</p>
-    <p><strong>Bedrijf:</strong> ${data.klant.bedrijfsnaam || '-'}</p>
-    <p><strong>Adres:</strong> ${data.klant.adres}, ${data.klant.postcode} ${data.klant.stad}</p>
-    <h3>Training details</h3>
-    <p><strong>Aantal deelnemers:</strong> ${data.aantalDeelnemers}</p>
-    <p><strong>Gewenste periode:</strong> ${data.gewenstePeriode || '-'}</p>
-    <p><strong>Locatie voorkeur:</strong> ${data.locatieVoorkeur || '-'}</p>
-    <h3>Geselecteerde cursussen</h3>
-    <ul>${cursusLijst}</ul>
-    ${data.opmerkingen ? `<h3>Opmerkingen</h3><p>${data.opmerkingen}</p>` : ''}
+    ${badge('INCOMPANY AANVRAAG', ACCENT)}
+    <h2 style="color:${TEXT};margin:20px 0 8px;font-size:22px;">Nieuwe InCompany aanvraag</h2>
+
+    ${sectionTitle('Klantgegevens')}
+    <table cellpadding="0" cellspacing="0" style="width:100%;">
+      ${infoRow('Naam', `${data.klant.voornaam} ${data.klant.achternaam}`)}
+      ${infoRow('Email', data.klant.email)}
+      ${infoRow('Telefoon', data.klant.telefoon)}
+      ${infoRow('Bedrijf', data.klant.bedrijfsnaam || '-')}
+      ${infoRow('Adres', `${data.klant.adres}, ${data.klant.postcode} ${data.klant.stad}`)}
+    </table>
+
+    ${sectionTitle('Training details')}
+    <table cellpadding="0" cellspacing="0" style="width:100%;">
+      ${infoRow('Deelnemers', String(data.aantalDeelnemers))}
+      ${infoRow('Periode', data.gewenstePeriode || '-')}
+      ${infoRow('Locatie', data.locatieVoorkeur || '-')}
+    </table>
+
+    ${sectionTitle('Geselecteerde cursussen')}
+    <ul style="margin:0;padding-left:20px;">${cursusLijst}</ul>
+    ${data.opmerkingen ? `${sectionTitle('Opmerkingen')}<p style="font-size:14px;color:${TEXT};line-height:1.6;">${escapeHtml(data.opmerkingen)}</p>` : ''}
   `
 
   const klantContent = `
-    <h2 style="color:#18181b;margin:0 0 16px;">Bevestiging InCompany aanvraag</h2>
-    <p>Beste ${data.klant.voornaam},</p>
-    <p>Bedankt voor uw InCompany aanvraag bij Compu Act Opleidingen. Wij hebben uw aanvraag ontvangen voor de volgende cursus(sen):</p>
-    <ul>${cursusLijst}</ul>
-    <p>Wij stellen een passend voorstel samen en nemen zo snel mogelijk contact met u op om de details te bespreken.</p>
-    <p>Met vriendelijke groet,<br>Compu Act Opleidingen</p>
+    ${badge('INCOMPANY AANVRAAG ONTVANGEN', PRIMARY)}
+    <h2 style="color:${TEXT};margin:20px 0 8px;font-size:22px;">Bedankt voor je InCompany aanvraag!</h2>
+    <p style="color:${TEXT_MUTED};font-size:15px;line-height:1.6;">
+      Hoi ${escapeHtml(data.klant.voornaam)}, we hebben je aanvraag ontvangen voor de volgende cursus(sen):
+    </p>
+
+    <ul style="margin:16px 0;padding-left:20px;">${cursusLijst}</ul>
+
+    <div style="background-color:${BG};border-radius:8px;padding:16px 20px;margin:20px 0;">
+      <p style="margin:0;font-size:14px;color:${TEXT};line-height:1.6;">
+        We stellen een passend voorstel samen en nemen binnen 1 werkdag contact met je op om de details te bespreken.
+      </p>
+    </div>
+
+    <p style="color:${TEXT_MUTED};font-size:14px;margin:24px 0 0;">
+      Vragen? Bel <a href="tel:0235513409" style="color:${PRIMARY};text-decoration:none;font-weight:600;">023-551 3409</a> of mail
+      <a href="mailto:info@computertraining.nl" style="color:${PRIMARY};text-decoration:none;font-weight:600;">info@computertraining.nl</a>
+    </p>
   `
 
   await Promise.all([
     sgMail.send({
       to: ADMIN_EMAIL,
       from: FROM_EMAIL,
-      subject: `Nieuwe InCompany aanvraag - ${data.klant.bedrijfsnaam || data.klant.voornaam + ' ' + data.klant.achternaam}`,
+      subject: `🟠 InCompany aanvraag — ${data.klant.bedrijfsnaam || data.klant.voornaam + ' ' + data.klant.achternaam} — ${data.aantalDeelnemers} deelnemers`,
       html: emailTemplate(adminContent),
     }),
     sgMail.send({
       to: data.klant.email,
       from: FROM_EMAIL,
-      subject: 'Bevestiging InCompany aanvraag - Compu Act Opleidingen',
-      html: emailTemplate(klantContent),
+      subject: 'Bevestiging InCompany aanvraag — Compu Act Opleidingen',
+      html: emailTemplate(klantContent, { preheader: 'We stellen een passend voorstel samen voor je InCompany training.' }),
     }),
   ])
 }
+
+// ── Contact formulier ──
 
 export async function sendContactEmail(data: {
   voornaam: string
@@ -235,23 +384,32 @@ export async function sendContactEmail(data: {
   bericht: string
 }) {
   const content = `
-    <h2 style="color:#18181b;margin:0 0 16px;">Nieuw contactformulier bericht</h2>
-    <p><strong>Naam:</strong> ${data.voornaam} ${data.achternaam}</p>
-    <p><strong>Email:</strong> ${data.email}</p>
-    <p><strong>Telefoon:</strong> ${data.telefoon}</p>
-    <p><strong>Onderwerp:</strong> ${data.onderwerp}</p>
-    <hr style="border:none;border-top:1px solid #e4e4e7;margin:16px 0;">
-    <p>${escapeHtml(data.bericht).replace(/\n/g, '<br>')}</p>
+    ${badge('NIEUW BERICHT', TEXT_MUTED)}
+    <h2 style="color:${TEXT};margin:20px 0 8px;font-size:22px;">Contactformulier</h2>
+
+    <table cellpadding="0" cellspacing="0" style="width:100%;">
+      ${infoRow('Naam', `${data.voornaam} ${data.achternaam}`)}
+      ${infoRow('Email', data.email)}
+      ${infoRow('Telefoon', data.telefoon)}
+      ${infoRow('Onderwerp', data.onderwerp)}
+    </table>
+
+    ${sectionTitle('Bericht')}
+    <div style="background-color:${BG};border-radius:8px;padding:16px 20px;margin:8px 0;">
+      <p style="font-size:14px;color:${TEXT};line-height:1.7;margin:0;">${escapeHtml(data.bericht).replace(/\n/g, '<br>')}</p>
+    </div>
   `
 
   await sgMail.send({
     to: ADMIN_EMAIL,
     from: FROM_EMAIL,
     replyTo: data.email,
-    subject: `Contact: ${data.onderwerp}`,
+    subject: `Contact: ${data.onderwerp} — ${data.voornaam} ${data.achternaam}`,
     html: emailTemplate(content),
   })
 }
+
+// ── Lead notificatie (Jacht Digital) ──
 
 export async function sendLeadNotificatie(
   type: 'inschrijving' | 'offerte' | 'incompany' | 'contact',
@@ -260,44 +418,49 @@ export async function sendLeadNotificatie(
 ) {
   if (!LEADS_EMAIL) return
 
-  const typeLabels: Record<string, string> = {
-    inschrijving: 'Nieuwe inschrijving',
-    offerte: 'Nieuwe offerte aanvraag',
-    incompany: 'Nieuwe InCompany aanvraag',
-    contact: 'Nieuw contactformulier',
+  const typeLabels: Record<string, { label: string; color: string }> = {
+    inschrijving: { label: 'Nieuwe inschrijving', color: '#16a34a' },
+    offerte: { label: 'Nieuwe offerte aanvraag', color: PRIMARY },
+    incompany: { label: 'Nieuwe InCompany aanvraag', color: ACCENT },
+    contact: { label: 'Nieuw contactformulier', color: TEXT_MUTED },
   }
 
+  const cfg = typeLabels[type]
+
   const content = `
-    <h2 style="color:#18181b;margin:0 0 16px;">🔔 ${typeLabels[type]}</h2>
-    <table cellpadding="4" cellspacing="0" style="font-size:14px;">
-      <tr><td style="color:#71717a;">Type</td><td><strong>${typeLabels[type]}</strong></td></tr>
-      <tr><td style="color:#71717a;">Naam</td><td>${klant.voornaam} ${klant.achternaam}</td></tr>
-      <tr><td style="color:#71717a;">Email</td><td>${klant.email}</td></tr>
-      ${klant.telefoon ? `<tr><td style="color:#71717a;">Telefoon</td><td>${klant.telefoon}</td></tr>` : ''}
-      ${klant.bedrijfsnaam ? `<tr><td style="color:#71717a;">Bedrijf</td><td>${klant.bedrijfsnaam}</td></tr>` : ''}
+    ${badge(cfg.label.toUpperCase(), cfg.color)}
+    <h2 style="color:${TEXT};margin:20px 0 12px;font-size:20px;">${cfg.label}</h2>
+
+    <table cellpadding="0" cellspacing="0" style="width:100%;">
+      ${infoRow('Naam', `${klant.voornaam} ${klant.achternaam}`)}
+      ${infoRow('Email', klant.email)}
+      ${klant.telefoon ? infoRow('Telefoon', klant.telefoon) : ''}
+      ${klant.bedrijfsnaam ? infoRow('Bedrijf', klant.bedrijfsnaam) : ''}
     </table>
-    ${details ? `<hr style="border:none;border-top:1px solid #e4e4e7;margin:16px 0;"><p style="color:#71717a;font-size:13px;">${details}</p>` : ''}
+    ${details ? `<div style="background-color:${BG};border-radius:8px;padding:12px 16px;margin:16px 0;font-size:13px;color:${TEXT_MUTED};">${escapeHtml(details)}</div>` : ''}
   `
 
   await sgMail.send({
     to: LEADS_EMAIL,
     from: FROM_EMAIL,
-    subject: `[Compu Act] ${typeLabels[type]} — ${klant.voornaam} ${klant.achternaam}`,
+    subject: `[Compu Act] ${cfg.label} — ${klant.voornaam} ${klant.achternaam}`,
     html: emailTemplate(content),
   })
 }
 
+// ── Test e-mail ──
+
 export async function sendTestEmail(toEmail: string) {
   const content = `
-    <h2 style="color:#18181b;margin:0 0 16px;">Test e-mail</h2>
-    <p>Dit is een test e-mail van Compu Act Opleidingen.</p>
-    <p>Als u deze e-mail ontvangt, werkt de e-mailconfiguratie correct.</p>
+    <h2 style="color:${TEXT};margin:0 0 8px;font-size:22px;">Test e-mail</h2>
+    <p style="color:${TEXT_MUTED};font-size:15px;">Dit is een test e-mail van Compu Act Opleidingen.</p>
+    <p style="color:${TEXT_MUTED};font-size:15px;">Als je deze e-mail ontvangt, werkt de e-mailconfiguratie correct.</p>
   `
 
   await sgMail.send({
     to: toEmail,
     from: FROM_EMAIL,
-    subject: 'Test e-mail - Compu Act Opleidingen',
+    subject: 'Test e-mail — Compu Act Opleidingen',
     html: emailTemplate(content),
   })
 }
