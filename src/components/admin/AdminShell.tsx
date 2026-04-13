@@ -6,7 +6,7 @@ import Link from 'next/link'
 import {
   Settings, LogOut, LayoutDashboard, Loader2, AlertTriangle, ArrowRightLeft,
   BookOpen, Calendar, Tag, MapPin, Inbox, TrendingUp, BarChart3,
-  UsersRound, User, ExternalLink
+  UsersRound, User, ExternalLink, Rocket
 } from 'lucide-react'
 import { supabaseBrowser } from '@/lib/supabase-browser'
 
