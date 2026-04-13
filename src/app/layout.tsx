@@ -39,6 +39,7 @@ export default function RootLayout({
   return (
     <html lang="nl">
       <body className={plusJakartaSans.className}>
+        <OrganizationSchema />
         <GoogleAnalytics
           gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}
           adsId={process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}
