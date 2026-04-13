@@ -64,8 +64,8 @@ const categorieConfig: Record<string, {
     icon: Mail, gradient: 'from-sky-600 to-sky-800', lightBg: 'bg-sky-50',
     h1: 'Outlook Cursussen — Efficiënt Werken met E-mail',
     subtitle: 'Leer e-mailbeheer, agenda planning en time management technieken.',
-    seoTitle: 'Outlook Cursus | E-mail & Planning | Compu Act Opleidingen',
-    seoDescription: 'Werk efficiënter met Outlook. Leer e-mailbeheer, agenda planning en time management bij Compu Act Opleidingen.',
+    seoTitle: 'Outlook Cursussen | E-mail & Time Management | Compu Act',
+    seoDescription: 'Microsoft Outlook cursussen voor beginners. Leer e-mailbeheer, agenda-organisatie en time management. Klassikaal, incompany of live online. Starten vanaf €275.',
     beschrijving: 'Outlook is de spil van je dagelijkse communicatie. Onze trainingen helpen je efficiënter te werken met e-mail, agenda, taken en contacten.',
     highlights: ['E-mailbeheer', 'Agenda planning', 'Time management', 'Taken', 'Tips en trucs'],
     seoContent: [
