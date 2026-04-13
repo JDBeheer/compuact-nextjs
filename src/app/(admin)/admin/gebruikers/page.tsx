@@ -171,6 +171,5 @@ export default function GebruikersAdmin() {
           </div>
         </div>
       </div>
-    </AdminShell>
   )
 }
