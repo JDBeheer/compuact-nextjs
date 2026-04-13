@@ -29,7 +29,11 @@ export async function POST(request: Request) {
     if (error) throw error
 
     try {
-      await sendAdminNotificatie('offerte', klantgegevens, cursussen || [], totaalprijs || 0)
+      const cursusNamen = (cursussen || []).map((c: { cursusTitel: string }) => c.cursusTitel).join(', ')
+      await Promise.all([
+        sendAdminNotificatie('offerte', klantgegevens, cursussen || [], totaalprijs || 0),
+        sendLeadNotificatie('offerte', klantgegevens, cursusNamen ? `Cursussen: ${cursusNamen} — Totaal: €${(totaalprijs || 0).toFixed(2)}` : undefined),
+      ])
 
       await supabase
         .from('inschrijvingen')
