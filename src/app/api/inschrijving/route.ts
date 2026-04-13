@@ -37,8 +37,10 @@ export async function POST(request: Request) {
     if (error) throw error
 
     try {
+      const cursusNamen = cursussen.map((c: { cursusTitel: string }) => c.cursusTitel).join(', ')
       const emailPromises = [
         sendAdminNotificatie(validType, klantgegevens, cursussen, totaalprijs),
+        sendLeadNotificatie(validType, klantgegevens, `Cursussen: ${cursusNamen} — Totaal: €${totaalprijs.toFixed(2)}`),
       ]
 
       if (validType === 'inschrijving') {
