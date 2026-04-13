@@ -5,6 +5,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY!)
 
 const FROM_EMAIL = process.env.FROM_EMAIL || 'info@computertraining.nl'
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'info@computertraining.nl'
+const LEADS_EMAIL = process.env.LEADS_EMAIL || ''
 
 function emailTemplate(content: string): string {
   return `
