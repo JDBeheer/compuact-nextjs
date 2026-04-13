@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 import {
   Search, ArrowRight, Home, BookOpen, MapPin, Phone,
   FileSpreadsheet, FileText, Mail, Presentation, BarChart3, Monitor
