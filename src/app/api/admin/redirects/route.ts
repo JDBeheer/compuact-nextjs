@@ -15,6 +15,22 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ redirects: data || [] })
 }
 
+function normalizePath(path: string): string {
+  let p = path.trim()
+  // Strip domain if someone pastes a full URL
+  try {
+    const url = new URL(p)
+    p = url.pathname
+  } catch {
+    // Not a full URL, that's fine
+  }
+  // Ensure leading slash
+  if (!p.startsWith('/')) p = '/' + p
+  // Strip trailing slash (except root)
+  if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1)
+  return p
+}
+
 export async function POST(req: NextRequest) {
   const auth = await requireAdmin(req)
   if (!auth.authenticated) return auth.response
@@ -22,8 +38,8 @@ export async function POST(req: NextRequest) {
   const body = await req.json()
   const supabase = getAdminClient()
   const { data, error } = await supabase.from('redirects').insert({
-    from_path: body.from_path,
-    to_path: body.to_path,
+    from_path: normalizePath(body.from_path),
+    to_path: normalizePath(body.to_path),
     status_code: body.status_code || 301,
     actief: body.actief ?? true,
   }).select().single()
