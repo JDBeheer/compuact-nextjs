@@ -69,8 +69,7 @@ export default function GebruikersAdmin() {
   if (loading) return <div className="min-h-screen flex items-center justify-center"><Loader2 size={32} className="animate-spin text-primary-600" /></div>
 
   return (
-    <AdminShell>
-      <div className="max-w-4xl py-8 px-8">
+      <div>
         <div className="flex items-center justify-between mb-2">
           <h1 className="text-2xl font-bold text-zinc-900">Gebruikers</h1>
           <button onClick={() => setShowAdd(true)} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-600 text-white font-semibold text-sm hover:bg-primary-700">
