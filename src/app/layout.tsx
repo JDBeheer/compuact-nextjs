@@ -56,6 +56,7 @@ export default function RootLayout({
         </Suspense>
         <CartProvider>
           {children}
+          <CookieConsent />
         </CartProvider>
       </body>
     </html>
