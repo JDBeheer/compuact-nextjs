@@ -223,10 +223,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   // Course
   const cursus = await getCursus(params.slug)
   if (!cursus) return { title: 'Niet gevonden' }
+  const title = (cursus as Record<string, unknown>).seo_title as string || `${cursus.titel} Cursus | Compu Act Opleidingen`
+  const description = (cursus as Record<string, unknown>).seo_description as string || cursus.korte_beschrijving || `Volg de ${cursus.titel} training bij Compu Act Opleidingen. Klassikaal of live online, op 17 locaties door heel Nederland.`
   return {
-    title: `${cursus.titel} Cursus | Compu Act Opleidingen`,
-    description: cursus.korte_beschrijving || `Volg de ${cursus.titel} training bij Compu Act Opleidingen. Klassikaal of live online, op 17 locaties door heel Nederland.`,
-    openGraph: { title: `${cursus.titel} - Compu Act Opleidingen`, description: cursus.korte_beschrijving, type: 'website' },
+    title,
+    description,
+    openGraph: { title, description, type: 'website' },
   }
 }
 
