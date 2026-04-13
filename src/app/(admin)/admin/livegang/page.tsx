@@ -142,7 +142,7 @@ const sections: Section[] = [
     items: [
       { label: 'Supabase (database)', status: 'live' },
       { label: 'SendGrid (e-mail)', status: 'live' },
-      { label: 'Google Places API (reviews)', status: 'configuratie', note: 'GOOGLE_PLACES_API_KEY nodig — fallback reviews werken' },
+      { label: 'Google Places API (reviews)', status: 'live', note: 'Live Google reviews op cursuspagina\'s' },
       { label: 'Vercel (hosting)', status: 'todo', note: 'Env vars op Vercel instellen + domein koppelen' },
       { label: 'GA4 ↔ Google Ads koppeling', status: 'todo', note: 'Tools > Linked accounts in Google Ads' },
     ],
