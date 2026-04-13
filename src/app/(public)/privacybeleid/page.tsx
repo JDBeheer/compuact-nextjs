@@ -62,13 +62,26 @@ const secties = [
   },
   {
     titel: 'Cookies',
-    tekst: 'Compu Act Opleidingen gebruikt functionele, analytische en tracking cookies. Een cookie is een klein tekstbestand dat bij het eerste bezoek aan deze website wordt opgeslagen in de browser van uw computer, tablet of smartphone.',
+    tekst: 'Compu Act Opleidingen gebruikt cookies. Een cookie is een klein tekstbestand dat bij het eerste bezoek aan deze website wordt opgeslagen in de browser van uw computer, tablet of smartphone. Bij uw eerste bezoek aan onze website vragen wij via een cookiebanner om uw toestemming voor het plaatsen van analytische en marketing cookies.',
     punten: [
-      'Functionele cookies: noodzakelijk voor het functioneren van de website (bijv. winkelwagen)',
-      'Analytische cookies: om het gebruik van de website te meten en te verbeteren (Google Analytics)',
-      'Marketing cookies: om advertenties af te stemmen op uw interesses (Google Ads)',
+      'Noodzakelijke cookies: altijd actief. Vereist voor het functioneren van de website, zoals de winkelwagen en uw sessie. Hiervoor is geen toestemming vereist.',
+      'Analytische cookies (Google Analytics 4): meten het gebruik van de website zodat wij onze dienstverlening kunnen verbeteren. Deze cookies worden pas geplaatst na uw toestemming.',
+      'Marketing cookies (Google Ads): voor het meten van advertentie-effectiviteit, conversietracking en remarketing. Deze cookies worden pas geplaatst na uw toestemming.',
     ],
-    extra: ['U kunt zich afmelden voor cookies door uw internetbrowser zo in te stellen dat deze geen cookies meer opslaat. Daarnaast kunt u ook alle informatie die eerder is opgeslagen via de instellingen van uw browser verwijderen.'],
+    extra: [
+      'Wij maken gebruik van Google Consent Mode v2. Dit betekent dat analytische en marketing cookies pas worden geactiveerd nadat u hiervoor toestemming geeft via de cookiebanner. U kunt uw toestemming op elk moment intrekken door uw browsergegevens te verwijderen.',
+      'Google kan de verzamelde gegevens gebruiken in het kader van haar eigen privacybeleid. Lees het privacybeleid van Google voor meer informatie: https://policies.google.com/privacy',
+    ],
+  },
+  {
+    titel: 'Google Ads & Remarketing',
+    tekst: 'Wij maken gebruik van Google Ads om onze cursussen onder de aandacht te brengen. Hierbij worden de volgende technieken ingezet:',
+    punten: [
+      'Conversietracking: wij meten of een bezoeker die via een Google-advertentie op onze website komt, een actie uitvoert (zoals een inschrijving of offerte-aanvraag). Dit helpt ons de effectiviteit van onze advertenties te meten.',
+      'Enhanced Conversions: wij gebruiken gehashte klantgegevens (zoals e-mailadres) om conversies nauwkeuriger te meten. Deze gegevens worden versleuteld (gehasht) voordat ze naar Google worden verzonden.',
+      'Remarketing: na uw toestemming kunnen wij u op andere websites relevante advertenties tonen op basis van uw eerdere bezoek aan onze website.',
+    ],
+    extra: ['Al deze functies worden uitsluitend geactiveerd nadat u toestemming heeft gegeven via onze cookiebanner. Zonder uw toestemming worden geen marketing cookies geplaatst.'],
   },
   {
     titel: 'Gegevens inzien, aanpassen of verwijderen',
