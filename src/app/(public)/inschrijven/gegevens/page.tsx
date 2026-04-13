@@ -309,6 +309,7 @@ function CheckoutPage() {
       })
       clearCart()
       setSuccess(true)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch {
       setError('Er ging iets mis bij het verzenden. Probeer het opnieuw.')
     } finally {
