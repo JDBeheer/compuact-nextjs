@@ -108,8 +108,7 @@ export default function ErrorLogPage() {
   const resolvedCount = logs.filter((l) => resolved.has(l.path)).length
 
   return (
-    <AdminShell>
-      <div className="max-w-6xl py-8 px-8">
+      <div>
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-bold text-zinc-900 mb-1">404 Log</h1>
