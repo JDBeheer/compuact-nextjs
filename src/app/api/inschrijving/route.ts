@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createServiceRoleClient } from '@/lib/supabase/server'
-import { sendBevestigingsEmail, sendOfferteBevestiging, sendAdminNotificatie } from '@/lib/email'
+import { sendBevestigingsEmail, sendOfferteBevestiging, sendAdminNotificatie, sendLeadNotificatie } from '@/lib/email'
 import { verifyTurnstileToken } from '@/lib/turnstile'
 
 export async function POST(request: Request) {
