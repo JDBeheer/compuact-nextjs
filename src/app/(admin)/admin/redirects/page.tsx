@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { Plus, Trash2, Loader2, Check, ArrowRight, ToggleLeft, ToggleRight } from 'lucide-react'
-import AdminShell from '@/components/admin/AdminShell'
 import { adminFetch } from '@/lib/admin-fetch'
 
 interface Redirect {
