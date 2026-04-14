@@ -118,7 +118,7 @@ const categorieConfig: Record<string, {
     icon: FolderKanban, gradient: 'from-teal-600 to-teal-800', lightBg: 'bg-teal-50',
     h1: 'Microsoft Project Cursus — Projectmanagement',
     subtitle: 'Leer projecten professioneel plannen en beheren.',
-    seoTitle: 'Microsoft Project Cursussen | Basis & Maatwerk | Compu Act',
+    seoTitle: 'Microsoft Project Cursussen | Basis & Maatwerk',
     seoDescription: 'Leer Microsoft Project in onze 1-daagse cursussen. Kies tussen Project Basis of Project Maatwerk. Klassikaal, online of incompany.',
     beschrijving: 'Microsoft Project is de standaard voor professioneel projectmanagement. Leer projecten opzetten, plannen en voortgang bewaken.',
     highlights: ['Projectplanning', 'Gantt-diagrammen', 'Resources', 'Voortgang', 'Rapportages'],
