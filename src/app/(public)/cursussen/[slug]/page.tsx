@@ -128,7 +128,7 @@ const categorieConfig: Record<string, {
     icon: PenTool, gradient: 'from-indigo-600 to-indigo-800', lightBg: 'bg-indigo-50',
     h1: 'Microsoft Visio Cursus — Diagrammen en Flowcharts',
     subtitle: 'Maak professionele diagrammen, flowcharts en processchema\'s.',
-    seoTitle: 'Microsoft Visio Cursus | Diagrammen & Flowcharts | Compu Act',
+    seoTitle: 'Microsoft Visio Cursus | Diagrammen & Flowcharts',
     seoDescription: 'Leer professionele diagrammen en flowcharts maken met Microsoft Visio. 1-daagse cursus. Klassikaal, online of incompany.',
     beschrijving: 'Visio is het professionele hulpmiddel voor diagrammen, flowcharts en plattegronden. Leer snel en efficiënt werken met Visio.',
     highlights: ['Flowcharts', 'Netwerkdiagrammen', 'Plattegronden', 'Processchema\'s', 'Sjablonen'],
