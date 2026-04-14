@@ -5,7 +5,8 @@ import {
   sendBevestigingsEmail,
   sendOfferteBevestiging,
   sendAdminNotificatie,
-  sendInCompanyNotificatie,
+  sendInCompanyAdmin,
+  sendInCompanyKlant,
 } from '@/lib/email'
 
 export async function POST(request: NextRequest) {
