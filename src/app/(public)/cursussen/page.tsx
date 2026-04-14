@@ -7,8 +7,13 @@ import { Cursus } from '@/types'
 import { Monitor } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Alle cursussen',
-  description: 'Bekijk ons volledige aanbod aan Microsoft Office cursussen. Van Excel en Word tot Power BI en Office 365.',
+  title: 'Alle Cursussen',
+  description: 'Bekijk het volledige cursusaanbod van Compu Act. Microsoft Office trainingen in Excel, Word, Power BI, Office 365 en meer. Klassikaal, online of incompany.',
+  openGraph: {
+    title: 'Alle Cursussen | Compu Act Opleidingen',
+    description: 'Bekijk het volledige cursusaanbod van Compu Act. Microsoft Office trainingen in Excel, Word, Power BI, Office 365 en meer. Klassikaal, online of incompany.',
+    type: 'website',
+  },
 }
 
 async function getCursussen(searchParams: Record<string, string | undefined>) {
