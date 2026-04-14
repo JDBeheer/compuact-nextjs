@@ -92,7 +92,7 @@ export default function NotFound() {
             Pagina niet gevonden
           </h1>
           <p className="text-white/70 text-base md:text-lg max-w-lg mx-auto mb-8">
-            De pagina die u zoekt bestaat niet of is verplaatst. Geen zorgen — we helpen u graag op weg.
+            De pagina die je zoekt bestaat niet of is verplaatst. Geen zorgen — we helpen je graag op weg.
           </p>
 
           {/* Search bar */}
