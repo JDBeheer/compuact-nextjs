@@ -254,7 +254,7 @@ export default async function ContactPage() {
               Vraag vrijblijvend een offerte op maat aan voor je team of organisatie.
             </p>
             <Link
-              href="/offerte"
+              href="/inschrijven/gegevens?type=offerte"
               className="inline-flex items-center gap-2 bg-white text-primary-700 px-8 py-4 rounded-xl font-bold text-base hover:bg-primary-50 hover:shadow-lg transition-all duration-300"
             >
               Offerte aanvragen
