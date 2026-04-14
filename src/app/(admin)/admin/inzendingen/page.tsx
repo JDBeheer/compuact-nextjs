@@ -41,6 +41,23 @@ export default function AdminInzendingenPage() {
     loadInzendingen()
   }
 
+  async function resendEmail(id: string, target: 'klant' | 'admin') {
+    setResending(`${id}-${target}`)
+    try {
+      const res = await fetch('/api/admin/resend-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, target }),
+      })
+      if (!res.ok) throw new Error()
+      alert(`E-mail naar ${target === 'klant' ? 'klant' : 'admin'} is opnieuw verzonden.`)
+    } catch {
+      alert('Verzenden mislukt. Probeer het opnieuw.')
+    } finally {
+      setResending(null)
+    }
+  }
+
   async function deleteInzending(id: string) {
     const supabase = createClient()
     await supabase.from('inschrijvingen').delete().eq('id', id)
