@@ -27,7 +27,17 @@ export default function OrganizationSchema() {
       '@type': 'Country',
       name: 'Netherlands',
     },
-    sameAs: [],
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      bestRating: '5',
+      ratingCount: '90',
+      reviewCount: '90',
+    },
+    sameAs: [
+      'https://www.facebook.com/compuact',
+      'https://www.linkedin.com/company/compu-act-opleidingen',
+    ],
     priceRange: '€€',
     numberOfEmployees: {
       '@type': 'QuantitativeValue',
