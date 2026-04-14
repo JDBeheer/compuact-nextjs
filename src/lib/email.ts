@@ -200,7 +200,7 @@ export async function sendBevestigingsEmail(
     </p>
 
     ${formatCursussenTabel(cursussen)}
-    ${totaalBox(totaalprijs, 'Excl. 21% BTW &amp; &euro;15 administratiekosten')}
+    ${totaalBox(totaalprijs, { showAdminFee: true })}
 
     ${sectionTitle('Wat kun je verwachten?')}
     <table cellpadding="0" cellspacing="0" style="margin:0;">
