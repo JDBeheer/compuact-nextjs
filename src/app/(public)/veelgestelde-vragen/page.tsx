@@ -2,8 +2,13 @@ import { Metadata } from 'next'
 import { ChevronDown } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Veelgestelde vragen',
-  description: 'Antwoorden op de meest gestelde vragen over onze trainingen, inschrijvingen en lesmethodes.',
+  title: 'Veelgestelde Vragen',
+  description: 'Antwoorden op veelgestelde vragen over cursussen, inschrijvingen, lesmethodes, annulering en betaling bij Compu Act Opleidingen.',
+  openGraph: {
+    title: 'Veelgestelde Vragen | Compu Act Opleidingen',
+    description: 'Antwoorden op veelgestelde vragen over cursussen, inschrijvingen, lesmethodes, annulering en betaling bij Compu Act Opleidingen.',
+    type: 'website',
+  },
 }
 
 const faqs = [
