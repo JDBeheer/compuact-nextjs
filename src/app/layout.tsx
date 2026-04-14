@@ -11,12 +11,13 @@ import AnalyticsPageTracker from '@/components/analytics/AnalyticsProvider'
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.computertraining.nl'),
   title: {
-    default: 'Verbeter je Skills met Compu Act | Top Microsoft Office Trainingen',
+    default: 'Compu Act | Microsoft Office Trainingen',
     template: '%s | Compu Act Opleidingen',
   },
   description:
-    'Microsoft Office trainingen van Compu Act: klassikaal, live online of incompany. Trainingen die je direct verder helpen in Excel, Word, Outlook, PowerPoint en meer.',
+    'Microsoft Office trainingen van Compu Act: klassikaal, live online of incompany. Direct verder in Excel, Word, Outlook, PowerPoint en meer.',
   keywords: [
     'Microsoft Office training',
     'Excel cursus',
@@ -29,6 +30,9 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'nl_NL',
     siteName: 'Compu Act Opleidingen',
+    title: 'Compu Act | Microsoft Office Trainingen',
+    description: 'Microsoft Office trainingen van Compu Act: klassikaal, live online of incompany. Direct verder in Excel, Word, Outlook, PowerPoint en meer.',
+    url: 'https://www.computertraining.nl',
   },
 }
 
