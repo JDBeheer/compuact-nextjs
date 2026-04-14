@@ -505,6 +505,20 @@ async function CursusDetailPage({ slug }: { slug: string }) {
     hasCourseInstance: courseInstances,
   }
 
+  const categorieNaam = (cursus.categorie as unknown as Record<string, string>)?.naam
+  const categorieSlug = (cursus.categorie as unknown as Record<string, string>)?.slug
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.computertraining.nl' },
+      { '@type': 'ListItem', position: 2, name: 'Cursussen', item: 'https://www.computertraining.nl/cursussen' },
+      ...(categorieNaam && categorieSlug ? [{ '@type': 'ListItem', position: 3, name: categorieNaam, item: `https://www.computertraining.nl/cursussen/${categorieSlug}` }] : []),
+      { '@type': 'ListItem', position: categorieNaam ? 4 : 3, name: cursus.titel, item: `https://www.computertraining.nl/cursussen/${cursus.slug}` },
+    ],
+  }
+
   const niveauColors: Record<string, string> = {
     beginner: 'bg-green-100 text-green-700',
     gevorderd: 'bg-amber-100 text-amber-700',
@@ -514,6 +528,7 @@ async function CursusDetailPage({ slug }: { slug: string }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <MobileCursusNav />
       <TrackViewItem id={cursus.id} titel={cursus.titel} categorie={(cursus.categorie as unknown as Record<string,string>)?.naam} prijs={cursus.prijs_vanaf} />
 
