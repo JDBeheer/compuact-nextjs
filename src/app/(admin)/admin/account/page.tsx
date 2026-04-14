@@ -192,7 +192,7 @@ export default function AccountPage() {
             {email2FAEnabled ? <ShieldCheck size={24} className="text-green-500" /> : <ShieldAlert size={24} className="text-amber-500" />}
             <div>
               <h2 className="font-semibold text-xl text-zinc-900">E-mail verificatie (2FA)</h2>
-              <p className="text-sm text-zinc-400">{email2FAEnabled ? 'Bij het inloggen ontvangt u een verificatiecode per e-mail.' : 'Ontvang een verificatiecode per e-mail bij het inloggen.'}</p>
+              <p className="text-sm text-zinc-400">{email2FAEnabled ? 'Bij het inloggen ontvang je een verificatiecode per e-mail.' : 'Ontvang een verificatiecode per e-mail bij het inloggen.'}</p>
             </div>
           </div>
 
