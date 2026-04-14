@@ -72,8 +72,59 @@ export default async function LocatieDetailPage({ params }: { params: { slug: st
 
   const otherLocaties = locaties.filter(l => l.slug !== loc.slug).slice(0, 6)
 
+  const localBusinessSchema = {
+    '@context': 'https://schema.org',
+    '@type': ['LocalBusiness', 'EducationalOrganization'],
+    name: `Compu Act Opleidingen ${loc.naam}`,
+    url: `https://www.computertraining.nl/locaties/${loc.slug}`,
+    telephone: loc.telefoon,
+    email: loc.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: loc.adres,
+      addressLocality: loc.naam === 'Limburg' ? 'Eindhoven' : loc.naam,
+      postalCode: loc.postcode,
+      addressCountry: 'NL',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: loc.lat,
+      longitude: loc.lng,
+    },
+    parentOrganization: {
+      '@type': 'Organization',
+      name: 'Compu Act Opleidingen',
+      url: 'https://www.computertraining.nl',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      bestRating: '5',
+      ratingCount: '90',
+    },
+    priceRange: '€€',
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '17:00',
+    },
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.computertraining.nl' },
+      { '@type': 'ListItem', position: 2, name: 'Locaties', item: 'https://www.computertraining.nl/locaties' },
+      { '@type': 'ListItem', position: 3, name: loc.naam, item: `https://www.computertraining.nl/locaties/${loc.slug}` },
+    ],
+  }
+
   return (
     <div className="bg-zinc-50 min-h-screen">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* Hero */}
       <div className="bg-gradient-to-br from-primary-600 to-primary-800 text-white">
         <div className="container-wide py-12 lg:py-16">
