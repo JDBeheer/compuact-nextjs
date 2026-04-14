@@ -255,7 +255,7 @@ export async function sendOfferteBevestiging(
     </p>
 
     ${formatCursussenTabel(cursussen)}
-    ${totaalBox(totaalprijs, 'Indicatief totaal, excl. BTW')}
+    ${totaalBox(totaalprijs, { showAdminFee: true, note: 'Indicatief totaal' })}
 
     <p style="color:${TEXT};font-size:14px;line-height:1.6;">
       We stellen een passende offerte samen en nemen binnen 1 werkdag contact met je op.
