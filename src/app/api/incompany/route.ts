@@ -26,11 +26,13 @@ export async function POST(request: Request) {
         cursussen: cursusTitels.map((titel: string, i: number) => ({
           cursusTitel: titel,
           cursusId: cursusIds[i],
+          aantalDeelnemers,
         })),
         klantgegevens: {
           ...klantgegevens,
           gewenste_periode: gewenstePeriode,
           locatie_voorkeur: locatieVoorkeur,
+          opmerkingen,
         },
         totaalprijs: 0,
         email_verzonden: false,
