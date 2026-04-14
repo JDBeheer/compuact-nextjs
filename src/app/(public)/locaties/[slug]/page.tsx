@@ -15,8 +15,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const loc = getLocatieBySlug(params.slug)
   if (!loc) return {}
   return {
-    title: `Cursuslocatie ${loc.naam} | ${loc.adres} | Compu Act Opleidingen`,
-    description: `Volg een cursus bij Compu Act Opleidingen in ${loc.naam}. ${loc.adres}, ${loc.postcode}. Klassikaal, live online of thuisstudie. Bekijk ons cursusaanbod en schrijf je in.`,
+    title: `Cursuslocatie ${loc.naam} | ${loc.adres}`,
+    description: `Volg een cursus bij Compu Act in ${loc.naam}. ${loc.adres}, ${loc.postcode}. Klassikaal, live online of thuisstudie. Bekijk ons aanbod en schrijf je in.`,
+    openGraph: {
+      title: `Cursuslocatie ${loc.naam} | ${loc.adres} | Compu Act Opleidingen`,
+      description: `Volg een cursus bij Compu Act in ${loc.naam}. ${loc.adres}, ${loc.postcode}. Klassikaal, live online of thuisstudie. Bekijk ons aanbod en schrijf je in.`,
+      type: 'website',
+    },
   }
 }
 

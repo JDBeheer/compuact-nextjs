@@ -17,7 +17,9 @@
       "WebFetch(domain:www.computertraining.nl)",
       "Bash(npx tsx:*)",
       "Bash(npm install:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(python3 -c ':*)",
+      "Bash(python3)"
     ],
     "defaultMode": "bypassPermissions"
   },
