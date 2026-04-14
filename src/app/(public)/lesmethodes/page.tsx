@@ -9,8 +9,13 @@ import { getGoogleReviews, fallbackReviews } from '@/lib/google-reviews'
 import { GoogleReviewsBadge } from '@/components/GoogleReviews'
 
 export const metadata: Metadata = {
-  title: 'Lesmethodes | Klassikaal, Live Online, Thuisstudie & InCompany',
-  description: 'Kies de lesmethode die bij jou past. Volg een cursus klassikaal op 17 locaties, live online vanuit huis, als thuisstudie in je eigen tempo, of als InCompany training op maat.',
+  title: 'Lesmethodes | Klassikaal, Online, Thuisstudie & InCompany',
+  description: 'Kies de lesmethode die bij jou past. Klassikaal op 17 locaties, live online vanuit huis, thuisstudie in je eigen tempo, of InCompany training op maat.',
+  openGraph: {
+    title: 'Lesmethodes | Klassikaal, Online, Thuisstudie & InCompany | Compu Act Opleidingen',
+    description: 'Kies de lesmethode die bij jou past. Klassikaal op 17 locaties, live online vanuit huis, thuisstudie in je eigen tempo, of InCompany training op maat.',
+    type: 'website',
+  },
 }
 
 const methodes = [
