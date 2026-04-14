@@ -140,9 +140,9 @@ function getPatternRedirect(path: string): string | null {
   if (path === '/wp-admin') return '/cursussen'
 
   // /{software}-cursus-{city} patterns for non-standard software names
-  // photoshop, illustrator, indesign → these are course slugs, not categories
+  // photoshop, illustrator, indesign are not in CATEGORIE_SLUGS so local-seo pages 404
   const adobeLocalMatch = path.match(/^\/(photoshop|illustrator|indesign)-cursus-([^/]+)$/)
-  if (adobeLocalMatch) return `/cursussen/cursus-${adobeLocalMatch[1]}-basis`
+  if (adobeLocalMatch) return '/cursussen'
 
   return null
 }
