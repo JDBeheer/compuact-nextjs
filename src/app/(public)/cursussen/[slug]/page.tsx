@@ -76,7 +76,7 @@ const categorieConfig: Record<string, {
     icon: Presentation, gradient: 'from-rose-600 to-rose-800', lightBg: 'bg-rose-50',
     h1: 'PowerPoint Cursus — Professionele Presentaties',
     subtitle: 'Leer overtuigende presentaties maken die indruk achterlaten.',
-    seoTitle: 'PowerPoint Cursus | Professionele Presentaties | Compu Act',
+    seoTitle: 'PowerPoint Cursus | Professionele Presentaties',
     seoDescription: 'Versterk je presentatievaardigheden met onze PowerPoint-cursus. Van beginners tot experts. Klassikaal, live online of incompany. Starten vanaf €275.',
     beschrijving: 'Een goede presentatie maakt het verschil. Leer professionele slides ontwerpen en je boodschap overtuigend overbrengen.',
     highlights: ['Professioneel ontwerp', 'Animaties', 'SmartArt', 'Templates', 'Presentatietechnieken'],
