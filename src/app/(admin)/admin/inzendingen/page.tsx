@@ -13,6 +13,7 @@ export default function AdminInzendingenPage() {
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState<Inschrijving | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
+  const [resending, setResending] = useState<string | null>(null)
 
   const loadInzendingen = useCallback(async () => {
     const supabase = createClient()
