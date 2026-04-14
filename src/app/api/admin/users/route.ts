@@ -9,7 +9,23 @@ export async function GET(req: NextRequest) {
 
   const admin = getAdminClient()
   const { data } = await admin.from('admin_users').select('*').order('created_at', { ascending: true })
-  return NextResponse.json({ users: data || [] })
+
+  // Enrich with actual MFA status from Supabase Auth
+  const users = await Promise.all(
+    (data || []).map(async (user) => {
+      try {
+        const { data: authUser } = await admin.auth.admin.getUserById(user.auth_user_id)
+        const hasTotp = authUser?.user?.factors?.some(
+          (f: { factor_type: string; status: string }) => f.factor_type === 'totp' && f.status === 'verified'
+        ) ?? false
+        return { ...user, totp_verified: hasTotp }
+      } catch {
+        return user
+      }
+    })
+  )
+
+  return NextResponse.json({ users })
 }
 
 export async function POST(req: NextRequest) {
