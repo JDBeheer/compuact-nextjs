@@ -492,6 +492,12 @@ async function CursusDetailPage({ slug }: { slug: string }) {
     url: `https://www.computertraining.nl/cursussen/${cursus.slug}`,
     provider: { '@type': 'Organization', name: 'Compu Act Opleidingen', url: 'https://www.computertraining.nl' },
     offers: { '@type': 'Offer', price: cursus.prijs_vanaf, priceCurrency: 'EUR', availability: 'https://schema.org/InStock' },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      bestRating: '5',
+      ratingCount: '90',
+    },
     inLanguage: 'nl',
     educationalLevel: cursus.niveau || 'beginner',
     timeRequired: cursus.duur || undefined,
