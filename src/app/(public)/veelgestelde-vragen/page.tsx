@@ -55,7 +55,7 @@ const faqs = [
       },
       {
         vraag: 'Hoe werkt InCompany training?',
-        antwoord: 'Bij InCompany komen wij naar uw locatie. De training wordt afgestemd op de wensen van uw organisatie. Neem contact met ons op voor een offerte op maat.',
+        antwoord: 'Bij InCompany komen wij naar je locatie. De training wordt afgestemd op de wensen van je organisatie. Neem contact met ons op voor een offerte op maat.',
       },
       {
         vraag: 'Hoeveel deelnemers zitten er in een groep?',
