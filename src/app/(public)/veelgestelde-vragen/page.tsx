@@ -79,8 +79,24 @@ const faqs = [
 ]
 
 export default function FAQPage() {
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.flatMap((cat) =>
+      cat.vragen.map((faq) => ({
+        '@type': 'Question',
+        name: faq.vraag,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.antwoord,
+        },
+      }))
+    ),
+  }
+
   return (
     <div className="bg-zinc-50 min-h-screen">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="bg-white border-b border-zinc-200">
         <div className="container-narrow py-8">
           <nav className="text-sm text-zinc-500 mb-4">
