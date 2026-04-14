@@ -34,14 +34,19 @@ export async function POST(request: NextRequest) {
     const { type, klantgegevens: klant, cursussen, totaalprijs } = inzending
 
     if (type === 'incompany') {
-      await sendInCompanyNotificatie({
+      const incompanyData = {
         klant,
         cursusTitels: cursussen.map((c: Record<string, unknown>) => String(c.cursusTitel)),
         aantalDeelnemers: cursussen.reduce((sum: number, c: Record<string, unknown>) => sum + (Number(c.aantalDeelnemers) || 1), 0),
         gewenstePeriode: klant.gewenste_periode || '',
         locatieVoorkeur: klant.locatie_voorkeur || '',
         opmerkingen: klant.opmerkingen || '',
-      })
+      }
+      if (target === 'admin') {
+        await sendInCompanyAdmin(incompanyData)
+      } else {
+        await sendInCompanyKlant(incompanyData)
+      }
     } else if (target === 'klant') {
       if (type === 'offerte') {
         await sendOfferteBevestiging(klant, cursussen, totaalprijs)
