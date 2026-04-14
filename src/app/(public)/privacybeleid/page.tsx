@@ -3,7 +3,12 @@ import { Shield, Phone, Mail, MapPin } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Privacybeleid',
-  description: 'Privacybeleid van Compu Act Opleidingen. Lees hoe wij omgaan met uw persoonsgegevens.',
+  description: 'Privacybeleid van Compu Act Opleidingen. Lees hoe wij omgaan met je persoonsgegevens, welke data we verzamelen en hoe je je rechten kunt uitoefenen.',
+  openGraph: {
+    title: 'Privacybeleid | Compu Act Opleidingen',
+    description: 'Privacybeleid van Compu Act Opleidingen. Lees hoe wij omgaan met je persoonsgegevens, welke data we verzamelen en hoe je je rechten kunt uitoefenen.',
+    type: 'website',
+  },
 }
 
 const secties = [
