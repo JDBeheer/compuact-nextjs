@@ -289,7 +289,7 @@ export async function sendAdminNotificatie(
   `
 
   await sgMail.send({
-    to: ADMIN_EMAIL,
+    to: ADMIN_EMAILS,
     from: FROM_EMAIL,
     subject: `${isInschrijving ? '🟢' : '🔵'} ${typeLabel} — ${klant.voornaam} ${klant.achternaam} — €${totaalprijs.toFixed(0)}`,
     html: emailTemplate(content),
@@ -359,7 +359,7 @@ export async function sendInCompanyNotificatie(data: {
 
   await Promise.all([
     sgMail.send({
-      to: ADMIN_EMAIL,
+      to: ADMIN_EMAILS,
       from: FROM_EMAIL,
       subject: `🟠 InCompany aanvraag — ${data.klant.bedrijfsnaam || data.klant.voornaam + ' ' + data.klant.achternaam} — ${data.aantalDeelnemers} deelnemers`,
       html: emailTemplate(adminContent),
@@ -401,7 +401,7 @@ export async function sendContactEmail(data: {
   `
 
   await sgMail.send({
-    to: ADMIN_EMAIL,
+    to: ADMIN_EMAILS,
     from: FROM_EMAIL,
     replyTo: data.email,
     subject: `Contact: ${data.onderwerp} — ${data.voornaam} ${data.achternaam}`,
