@@ -3,7 +3,12 @@ import { FileText, Phone, Mail, MapPin } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Algemene Voorwaarden',
-  description: 'Algemene voorwaarden van Compu Act Opleidingen. Lees onze voorwaarden met betrekking tot aanmelding, annulering, betaling en meer.',
+  description: 'Algemene voorwaarden van Compu Act Opleidingen. Lees onze voorwaarden over aanmelding, annulering, betaling en meer.',
+  openGraph: {
+    title: 'Algemene Voorwaarden | Compu Act Opleidingen',
+    description: 'Algemene voorwaarden van Compu Act Opleidingen. Lees onze voorwaarden over aanmelding, annulering, betaling en meer.',
+    type: 'website',
+  },
 }
 
 const voorwaarden = [
