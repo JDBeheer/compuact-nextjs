@@ -6,9 +6,14 @@ import { GoogleReviewsBadge } from '@/components/GoogleReviews'
 import ContactForm from './ContactForm'
 
 export const metadata: Metadata = {
-  title: 'Contact | Compu Act Opleidingen',
+  title: 'Contact',
   description:
-    'Neem contact op met Compu Act Opleidingen. Bel 023-551 3409, mail info@computertraining.nl of bezoek ons in Zaandam. We helpen je graag verder met Microsoft Office trainingen.',
+    'Neem contact op met Compu Act. Bel 023-551 3409, mail info@computertraining.nl of bezoek ons in Zaandam. We helpen je graag met Microsoft Office trainingen.',
+  openGraph: {
+    title: 'Contact | Compu Act Opleidingen',
+    description: 'Neem contact op met Compu Act. Bel 023-551 3409, mail info@computertraining.nl of bezoek ons in Zaandam. We helpen je graag met Microsoft Office trainingen.',
+    type: 'website',
+  },
 }
 
 export default async function ContactPage() {
