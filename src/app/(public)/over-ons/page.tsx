@@ -24,9 +24,14 @@ import { getGoogleReviews, fallbackReviews } from '@/lib/google-reviews'
 import { GoogleReviewsSection } from '@/components/GoogleReviews'
 
 export const metadata: Metadata = {
-  title: 'Over Compu Act Opleidingen | 21+ Jaar Ervaring',
+  title: 'Over Ons | 21+ Jaar Ervaring',
   description:
     'Al meer dan 21 jaar de specialist in Microsoft Office trainingen. 15.000+ deelnemers opgeleid, 17 locaties, kleine groepen en ervaren docenten.',
+  openGraph: {
+    title: 'Over Compu Act Opleidingen | 21+ Jaar Ervaring',
+    description: 'Al meer dan 21 jaar de specialist in Microsoft Office trainingen. 15.000+ deelnemers opgeleid, 17 locaties, kleine groepen en ervaren docenten.',
+    type: 'website',
+  },
 }
 
 const stats = [
