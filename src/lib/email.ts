@@ -4,7 +4,7 @@ import { CartItemCheckout, KlantGegevens } from '@/types'
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!)
 
 const FROM_EMAIL = process.env.FROM_EMAIL || 'info@computertraining.nl'
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'info@computertraining.nl'
+const ADMIN_EMAILS = (process.env.ADMIN_EMAIL || 'info@computertraining.nl').split(',').map(e => e.trim()).filter(Boolean)
 const LEADS_EMAIL = process.env.LEADS_EMAIL || ''
 
 const PRIMARY = '#1B6AB3'
