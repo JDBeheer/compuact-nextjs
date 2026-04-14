@@ -151,7 +151,7 @@ export default function NotFound() {
         {/* Auto-suggestions based on URL */}
         {suggestions.length > 0 && (
           <div className="mb-10">
-            <h2 className="text-lg font-bold text-zinc-900 mb-1">Bedoelde u misschien</h2>
+            <h2 className="text-lg font-bold text-zinc-900 mb-1">Bedoelde je misschien</h2>
             <p className="text-sm text-zinc-400 mb-4">Op basis van de URL <code className="bg-zinc-100 px-2 py-0.5 rounded text-xs font-mono">{pagePath}</code></p>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {suggestions.map((s) => (
