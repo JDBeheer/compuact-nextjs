@@ -238,7 +238,7 @@ export default function NotFound() {
             <div className="bg-primary-50 rounded-xl border border-primary-100 p-6 mt-6">
               <h3 className="font-bold text-zinc-900 mb-2">Hulp nodig?</h3>
               <p className="text-sm text-zinc-600 mb-4">
-                Onze adviseurs helpen u graag bij het vinden van de juiste cursus.
+                Onze adviseurs helpen je graag bij het vinden van de juiste cursus.
               </p>
               <a
                 href="tel:0235513409"
