@@ -298,19 +298,20 @@ export async function sendAdminNotificatie(
 
 // ── InCompany notificatie ──
 
-export async function sendInCompanyNotificatie(data: {
+type InCompanyData = {
   klant: KlantGegevens
   cursusTitels: string[]
   aantalDeelnemers: number
   gewenstePeriode: string
   locatieVoorkeur: string
   opmerkingen: string
-}) {
+}
+
+export async function sendInCompanyAdmin(data: InCompanyData) {
   const cursusLijst = data.cursusTitels.map(t =>
     `<li style="padding:4px 0;font-size:14px;color:${TEXT};">${escapeHtml(t)}</li>`
   ).join('')
 
-  // Admin email
   const adminContent = `
     ${badge('INCOMPANY AANVRAAG', ACCENT)}
     <h2 style="color:${TEXT};margin:20px 0 8px;font-size:22px;">Nieuwe InCompany aanvraag</h2>
@@ -336,6 +337,19 @@ export async function sendInCompanyNotificatie(data: {
     ${data.opmerkingen ? `${sectionTitle('Opmerkingen')}<p style="font-size:14px;color:${TEXT};line-height:1.6;">${escapeHtml(data.opmerkingen)}</p>` : ''}
   `
 
+  await sgMail.send({
+    to: ADMIN_EMAILS,
+    from: FROM_EMAIL,
+    subject: `🟠 InCompany aanvraag — ${data.klant.bedrijfsnaam || data.klant.voornaam + ' ' + data.klant.achternaam} — ${data.aantalDeelnemers} deelnemers`,
+    html: emailTemplate(adminContent),
+  })
+}
+
+export async function sendInCompanyKlant(data: InCompanyData) {
+  const cursusLijst = data.cursusTitels.map(t =>
+    `<li style="padding:4px 0;font-size:14px;color:${TEXT};">${escapeHtml(t)}</li>`
+  ).join('')
+
   const klantContent = `
     ${badge('INCOMPANY AANVRAAG ONTVANGEN', PRIMARY)}
     <h2 style="color:${TEXT};margin:20px 0 8px;font-size:22px;">Bedankt voor je InCompany aanvraag!</h2>
@@ -357,19 +371,18 @@ export async function sendInCompanyNotificatie(data: {
     </p>
   `
 
+  await sgMail.send({
+    to: data.klant.email,
+    from: FROM_EMAIL,
+    subject: 'Bevestiging InCompany aanvraag — Compu Act Opleidingen',
+    html: emailTemplate(klantContent, { preheader: 'We stellen een passend voorstel samen voor je InCompany training.' }),
+  })
+}
+
+export async function sendInCompanyNotificatie(data: InCompanyData) {
   await Promise.all([
-    sgMail.send({
-      to: ADMIN_EMAILS,
-      from: FROM_EMAIL,
-      subject: `🟠 InCompany aanvraag — ${data.klant.bedrijfsnaam || data.klant.voornaam + ' ' + data.klant.achternaam} — ${data.aantalDeelnemers} deelnemers`,
-      html: emailTemplate(adminContent),
-    }),
-    sgMail.send({
-      to: data.klant.email,
-      from: FROM_EMAIL,
-      subject: 'Bevestiging InCompany aanvraag — Compu Act Opleidingen',
-      html: emailTemplate(klantContent, { preheader: 'We stellen een passend voorstel samen voor je InCompany training.' }),
-    }),
+    sendInCompanyAdmin(data),
+    sendInCompanyKlant(data),
   ])
 }
 
