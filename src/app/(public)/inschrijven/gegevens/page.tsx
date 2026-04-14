@@ -153,9 +153,19 @@ function CheckoutPage() {
                   )
                 })}
               </div>
-              <div className="border-t border-zinc-200 mt-4 pt-4 flex justify-between items-center">
-                <span className="font-semibold">Totaal excl. BTW</span>
-                <span className="text-xl font-extrabold text-primary-500">{formatPrice(successData.totaal + ADMIN_FEE)}</span>
+              <div className="border-t border-zinc-200 mt-4 pt-4 space-y-2">
+                <div className="flex justify-between text-sm text-zinc-500">
+                  <span>Subtotaal</span>
+                  <span>{formatPrice(successData.totaal)}</span>
+                </div>
+                <div className="flex justify-between text-sm text-zinc-500">
+                  <span>Administratiekosten</span>
+                  <span>{formatPrice(ADMIN_FEE)}</span>
+                </div>
+                <div className="flex justify-between items-center pt-2 border-t border-zinc-100">
+                  <span className="font-semibold">Totaal excl. BTW</span>
+                  <span className="text-xl font-extrabold text-primary-500">{formatPrice(successData.totaal + ADMIN_FEE)}</span>
+                </div>
               </div>
             </div>
           )}
