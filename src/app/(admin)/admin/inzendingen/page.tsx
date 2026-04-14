@@ -280,6 +280,31 @@ export default function AdminInzendingenPage() {
                 </select>
               </div>
 
+              {/* E-mail opnieuw verzenden */}
+              {selected.type !== 'studiegids' && (
+                <div>
+                  <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">E-mail opnieuw verzenden</h3>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => resendEmail(selected.id, 'klant')}
+                      disabled={resending !== null}
+                      className="flex items-center gap-1.5 text-sm bg-primary-50 text-primary-600 px-3 py-1.5 rounded-lg font-medium hover:bg-primary-100 transition-colors disabled:opacity-50"
+                    >
+                      <Send size={13} />
+                      {resending === `${selected.id}-klant` ? 'Verzenden...' : 'Naar klant'}
+                    </button>
+                    <button
+                      onClick={() => resendEmail(selected.id, 'admin')}
+                      disabled={resending !== null}
+                      className="flex items-center gap-1.5 text-sm bg-zinc-100 text-zinc-600 px-3 py-1.5 rounded-lg font-medium hover:bg-zinc-200 transition-colors disabled:opacity-50"
+                    >
+                      <Send size={13} />
+                      {resending === `${selected.id}-admin` ? 'Verzenden...' : 'Naar admin'}
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {/* Verwijderen */}
               <div className="border-t border-zinc-200 pt-3">
                 {deleteConfirm === selected.id ? (
