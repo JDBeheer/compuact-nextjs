@@ -6,8 +6,13 @@ import PostcodeZoeker from '@/components/locaties/PostcodeZoeker'
 import LocatieMap from '@/components/locaties/LocatieMap'
 
 export const metadata: Metadata = {
-  title: 'Cursuslocaties | 17 Locaties door heel Nederland | Compu Act Opleidingen',
-  description: 'Volg een cursus bij Compu Act Opleidingen op een van onze 17 trainingslocaties door heel Nederland. Van Alkmaar tot Eindhoven, altijd bij jou in de buurt.',
+  title: 'Cursuslocaties | 17 Locaties door heel Nederland',
+  description: 'Volg een cursus bij Compu Act op een van onze 17 trainingslocaties door heel Nederland. Van Alkmaar tot Eindhoven, altijd bij jou in de buurt.',
+  openGraph: {
+    title: 'Cursuslocaties | 17 Locaties door heel Nederland | Compu Act Opleidingen',
+    description: 'Volg een cursus bij Compu Act op een van onze 17 trainingslocaties door heel Nederland. Van Alkmaar tot Eindhoven, altijd bij jou in de buurt.',
+    type: 'website',
+  },
 }
 
 export default function LocatiesOverzicht() {
