@@ -86,6 +86,64 @@ function getPatternRedirect(path: string): string | null {
   const ppMatch = path.match(/^\/powerpoint-alles-in-een-cursus-([^/]+)$/)
   if (ppMatch) return `/powerpoint-cursus-${ppMatch[1]}`
 
+  // /cursuslocaties/SLUG → /locaties/SLUG
+  const cursusLocMatch = path.match(/^\/cursuslocaties\/([^/]+)$/)
+  if (cursusLocMatch) return `/locaties/${cursusLocMatch[1]}`
+  if (path === '/cursuslocaties') return '/locaties'
+
+  // /cursussen/office-cursussen/CATEGORY/SLUG → /cursussen/SLUG
+  const officeCursMatch = path.match(/^\/cursussen\/office-cursussen\/[^/]+\/([^/]+)$/)
+  if (officeCursMatch) return `/cursussen/${officeCursMatch[1]}`
+
+  // /cursussen/office-cursussen/SLUG → /cursussen/SLUG
+  const officeDirectMatch = path.match(/^\/cursussen\/office-cursussen\/([^/]+)$/)
+  if (officeDirectMatch) return `/cursussen/${officeDirectMatch[1]}`
+
+  // /cursussen/microsoft-office/CATEGORY/SLUG → /cursussen/SLUG
+  const msOfficeCatMatch = path.match(/^\/cursussen\/microsoft-office\/[^/]+\/([^/]+)$/)
+  if (msOfficeCatMatch) return `/cursussen/${msOfficeCatMatch[1]}`
+
+  // /cursussen/microsoft-office/powerpoint/SLUG → /cursussen/SLUG
+  const msOfficeDirectMatch = path.match(/^\/cursussen\/microsoft-office\/([^/]+)\/([^/]+)$/)
+  if (msOfficeDirectMatch) return `/cursussen/${msOfficeDirectMatch[2]}`
+
+  // /cursussen/microsoft-office/SLUG → /cursussen/SLUG
+  const msOfficeSingleMatch = path.match(/^\/cursussen\/microsoft-office\/([^/]+)$/)
+  if (msOfficeSingleMatch) return `/cursussen/${msOfficeSingleMatch[1]}`
+
+  // /cursussen/adobe-cursussen/CATEGORY/SLUG → /cursussen/SLUG
+  const adobeCatMatch = path.match(/^\/cursussen\/adobe-cursussen\/[^/]+\/([^/]+)$/)
+  if (adobeCatMatch) return `/cursussen/${adobeCatMatch[1]}`
+
+  // /cursussen/adobe-cursussen/SLUG → /cursussen/SLUG
+  const adobeDirectMatch = path.match(/^\/cursussen\/adobe-cursussen\/([^/]+)$/)
+  if (adobeDirectMatch) return `/cursussen/${adobeDirectMatch[1]}`
+
+  // /klassikaal/SLUG or /flexibel/SLUG → /cursussen/SLUG
+  const lesmethodeMatch = path.match(/^\/(?:klassikaal|flexibel)\/([^/]+)$/)
+  if (lesmethodeMatch) return `/cursussen/${lesmethodeMatch[1]}`
+
+  // Old overview pages
+  if (path === '/cursusoverzicht' || path === '/cursusdata') return '/cursussen'
+  if (path === '/excel-cursussen') return '/cursussen/excel'
+  if (path === '/cursus-word') return '/cursussen/word'
+  if (path === '/cursus-office-365') return '/cursussen/office-365'
+  if (path === '/shop') return '/cursussen'
+
+  // /cursussen/project-maatwerk → /incompany
+  if (path === '/cursussen/project-maatwerk') return '/incompany'
+
+  // /flexibel/seniorencursus → /cursussen
+  if (path === '/flexibel/seniorencursus') return '/cursussen'
+
+  // /wp-admin → ignore (bot traffic)
+  if (path === '/wp-admin') return '/cursussen'
+
+  // /{software}-cursus-{city} patterns for non-standard software names
+  // photoshop, illustrator, indesign → these are course slugs, not categories
+  const adobeLocalMatch = path.match(/^\/(photoshop|illustrator|indesign)-cursus-([^/]+)$/)
+  if (adobeLocalMatch) return `/cursussen/cursus-${adobeLocalMatch[1]}-basis`
+
   return null
 }
 
