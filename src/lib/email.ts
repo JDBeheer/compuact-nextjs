@@ -130,15 +130,35 @@ function formatCursussenTabel(cursussen: CartItemCheckout[]): string {
   `
 }
 
-function totaalBox(totaalprijs: number, note?: string): string {
+const ADMIN_FEE = 15
+const BTW_PERCENTAGE = 21
+
+function totaalBox(totaalprijs: number, options?: { showAdminFee?: boolean; note?: string }): string {
+  const showFee = options?.showAdminFee ?? false
+  const note = options?.note
+  const displayTotal = showFee ? totaalprijs + ADMIN_FEE : totaalprijs
+
   return `
     <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;">
       <tr>
         <td style="background-color:${BG};border-radius:8px;padding:16px 20px;">
           <table width="100%" cellpadding="0" cellspacing="0">
+            ${showFee ? `
             <tr>
-              <td style="font-size:14px;color:${TEXT_MUTED};">Totaalprijs</td>
-              <td style="text-align:right;font-size:22px;font-weight:800;color:${TEXT};">&euro;${totaalprijs.toFixed(2)}</td>
+              <td style="font-size:13px;color:${TEXT_MUTED};padding-bottom:6px;">Subtotaal</td>
+              <td style="text-align:right;font-size:13px;color:${TEXT_MUTED};padding-bottom:6px;">&euro;${totaalprijs.toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;color:${TEXT_MUTED};padding-bottom:6px;">Administratiekosten</td>
+              <td style="text-align:right;font-size:13px;color:${TEXT_MUTED};padding-bottom:6px;">&euro;${ADMIN_FEE.toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-top:1px solid ${BORDER};padding-top:8px;"></td>
+            </tr>
+            ` : ''}
+            <tr>
+              <td style="font-size:14px;color:${TEXT_MUTED};">Totaal excl. ${BTW_PERCENTAGE}% BTW</td>
+              <td style="text-align:right;font-size:22px;font-weight:800;color:${TEXT};">&euro;${displayTotal.toFixed(2)}</td>
             </tr>
             ${note ? `<tr><td colspan="2" style="font-size:12px;color:${TEXT_MUTED};padding-top:4px;">${note}</td></tr>` : ''}
           </table>
