@@ -217,18 +217,18 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     return {
       title: config.seoTitle,
       description: config.seoDescription,
-      openGraph: { title: `${config.seoTitle} | Compu Act Opleidingen`, description: config.seoDescription, type: 'website' },
+      openGraph: { title: `${config.seoTitle} | Compu Act Opleidingen`, description: config.seoDescription, type: 'website', url: `https://www.computertraining.nl/cursussen/${params.slug}` },
     }
   }
   // Course
   const cursus = await getCursus(params.slug)
   if (!cursus) return { title: 'Niet gevonden' }
-  const title = (cursus as unknown as Record<string, unknown>).seo_title as string || `${cursus.titel} Cursus | Compu Act Opleidingen`
-  const description = (cursus as unknown as Record<string, unknown>).seo_description as string || cursus.korte_beschrijving || `Volg de ${cursus.titel} training bij Compu Act Opleidingen. Klassikaal of live online, op 17 locaties door heel Nederland.`
+  const seoTitle = (cursus as unknown as Record<string, unknown>).seo_title as string || `Cursus ${cursus.titel}`
+  const description = (cursus as unknown as Record<string, unknown>).seo_description as string || cursus.korte_beschrijving || `Volg de ${cursus.titel} training bij Compu Act. Klassikaal of live online, op 17 locaties door heel Nederland.`
   return {
-    title,
+    title: seoTitle,
     description,
-    openGraph: { title, description, type: 'website' },
+    openGraph: { title: `${seoTitle} | Compu Act Opleidingen`, description, type: 'website', url: `https://www.computertraining.nl/cursussen/${params.slug}` },
   }
 }
 
