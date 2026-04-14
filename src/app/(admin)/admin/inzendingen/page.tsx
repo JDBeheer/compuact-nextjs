@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import Badge from '@/components/ui/Badge'
 import { Inschrijving } from '@/types'
 import { formatPrice, formatDateShort, lesmethodeLabel } from '@/lib/utils'
-import { Trash2, Users, MapPin, Calendar, Mail, Phone, Building2, AlertTriangle } from 'lucide-react'
+import { Trash2, Users, MapPin, Calendar, Mail, Phone, Building2, AlertTriangle, Send } from 'lucide-react'
 
 export default function AdminInzendingenPage() {
   const [inzendingen, setInzendingen] = useState<Inschrijving[]>([])
