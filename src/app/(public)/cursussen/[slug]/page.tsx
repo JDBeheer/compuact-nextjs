@@ -106,7 +106,7 @@ const categorieConfig: Record<string, {
     icon: Bot, gradient: 'from-violet-600 to-purple-800', lightBg: 'bg-violet-50',
     h1: 'AI Cursussen — Werken met Kunstmatige Intelligentie',
     subtitle: 'Leer AI-tools zoals ChatGPT en Copilot effectief inzetten in je werk.',
-    seoTitle: 'AI Cursussen | ChatGPT, Copilot & AI in Excel | Compu Act',
+    seoTitle: 'AI Cursussen | ChatGPT, Copilot & AI in Excel',
     seoDescription: 'Leer werken met AI tools zoals ChatGPT en Copilot. Praktijkgerichte AI cursussen bij Compu Act. Klassikaal of online. Starten vanaf €275.',
     beschrijving: 'AI verandert de manier waarop we werken. Onze trainingen helpen je AI-tools effectief in te zetten — van introductie tot geavanceerd prompting.',
     highlights: ['ChatGPT', 'Copilot', 'Prompting', 'AI in Office', 'Praktische toepassingen'],
