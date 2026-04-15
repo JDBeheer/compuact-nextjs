@@ -159,6 +159,12 @@ export function trackIncompanyRequest(data: {
     aantal_deelnemers: data.aantalDeelnemers,
   })
 
+  // gform_2: dataLayer event matching Gravity Forms form ID 2 (incompany offerte)
+  if (typeof window !== 'undefined') {
+    window.dataLayer = window.dataLayer || []
+    window.dataLayer.push({ event: 'gform_2' })
+  }
+
   const conversionId = getConversionId()
   const label = getConversionLabel('incompany')
   if (conversionId && label) {
