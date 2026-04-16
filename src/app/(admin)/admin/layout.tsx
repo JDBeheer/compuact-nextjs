@@ -28,6 +28,7 @@ const adminNav = [
   { href: '/admin/404-log', label: '404 Log', icon: AlertTriangle },
   { href: '/admin/redirects', label: 'Redirects', icon: ArrowRightLeft },
   { href: '/admin/seo', label: 'SEO Audit', icon: Search },
+  { href: '/admin/indexnow', label: 'IndexNow', icon: Globe },
   { href: '/admin/livegang', label: 'Livegang', icon: Rocket },
 ]
 
