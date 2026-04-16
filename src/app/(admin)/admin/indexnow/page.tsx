@@ -36,37 +36,28 @@ export default function IndexNowPage() {
     setBulkLoading(true)
     setBulkResult(null)
 
-    // Generate all important URLs
-    const allUrls = [
-      '/',
-      '/cursussen',
-      '/incompany',
-      '/contact',
-      '/over-ons',
-      '/lesmethodes',
-      '/locaties',
-      '/veelgestelde-vragen',
-    ]
-
-    // Add category pages
-    const categories = ['excel', 'word', 'outlook', 'powerpoint', 'power-bi', 'office-365', 'ai', 'project', 'visio']
-    categories.forEach(c => allUrls.push(`/cursussen/${c}`))
-
-    // Fetch course slugs from API
+    // Fetch all URLs from sitemap
+    let allUrls: string[] = []
     try {
-      const res = await adminFetch('/api/zoeken?q=cursus')
+      const res = await adminFetch('/api/admin/sitemap-urls')
       const data = await res.json()
-      if (data.results) {
-        data.results.forEach((r: { slug: string }) => {
-          allUrls.push(`/cursussen/${r.slug}`)
-        })
-      }
-    } catch { /* continue with what we have */ }
+      allUrls = data.urls || []
+    } catch {
+      setBulkResult({ success: false, error: 'Kon sitemap niet laden' })
+      setBulkLoading(false)
+      return
+    }
 
-    // Ping in batches of 100
+    if (allUrls.length === 0) {
+      setBulkResult({ success: false, error: 'Geen URL\'s gevonden in sitemap' })
+      setBulkLoading(false)
+      return
+    }
+
+    // IndexNow accepts max 10.000 URLs per request, batch per 500
     let totalSent = 0
-    for (let i = 0; i < allUrls.length; i += 100) {
-      const batch = allUrls.slice(i, i + 100)
+    for (let i = 0; i < allUrls.length; i += 500) {
+      const batch = allUrls.slice(i, i + 500)
       try {
         await adminFetch('/api/admin/indexnow', {
           method: 'POST',
@@ -74,7 +65,7 @@ export default function IndexNowPage() {
         })
         totalSent += batch.length
       } catch {
-        setBulkResult({ success: false, error: `Fout bij batch ${i / 100 + 1}` })
+        setBulkResult({ success: false, error: `Fout bij batch ${Math.floor(i / 500) + 1}. ${totalSent} URL's wel verstuurd.` })
         setBulkLoading(false)
         return
       }
