@@ -122,12 +122,14 @@ export default function IndexNowPage() {
           </p>
 
           <div className="bg-zinc-50 rounded-lg p-4 mb-4 text-sm text-zinc-600 space-y-1">
-            <p>Dit stuurt de volgende pagina&apos;s naar Bing/Yandex:</p>
+            <p>Haalt alle URL&apos;s uit de sitemap en pingt ze naar Bing/Yandex:</p>
             <ul className="text-xs text-zinc-400 space-y-0.5 mt-2">
-              <li>• Homepage + statische pagina&apos;s (8)</li>
-              <li>• Cursuscategorieën (9)</li>
-              <li>• Individuele cursuspagina&apos;s (~28)</li>
+              <li>• Homepage + statische pagina&apos;s</li>
+              <li>• Cursuscategorieën + individuele cursussen</li>
+              <li>• Locatiepagina&apos;s</li>
+              <li>• Local SEO pagina&apos;s (~2200+)</li>
             </ul>
+            <p className="text-xs text-zinc-400 mt-2">Wordt in batches van 500 verstuurd.</p>
           </div>
 
           <button
