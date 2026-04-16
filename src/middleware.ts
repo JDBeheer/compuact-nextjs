@@ -7,6 +7,11 @@ import { createClient } from '@supabase/supabase-js'
 // Maps old WooCommerce/WordPress URL patterns to new structure
 
 function getPatternRedirect(path: string): string | null {
+  // /microsoft-office/CATEGORY/LEVEL (beginner*, gevorderd*, expert*) → /cursussen/CATEGORY
+  // Must be checked BEFORE productMatch to avoid redirecting to non-existent /cursussen/beginner-outlook
+  const levelMatch = path.match(/^\/microsoft-office\/([^/]+)\/(beginner|gevorderd|expert)(?:[-_][^/]+)?$/)
+  if (levelMatch) return `/cursussen/${levelMatch[1]}`
+
   // /microsoft-office/CATEGORY/COURSE-SLUG/ → /cursussen/COURSE-SLUG
   const productMatch = path.match(/^\/microsoft-office\/[^/]+\/([^/]+)$/)
   if (productMatch) return `/cursussen/${productMatch[1]}`
@@ -23,7 +28,6 @@ function getPatternRedirect(path: string): string | null {
   const standaloneMatch = path.match(/^\/microsoft-office\/([^/]+)$/)
   if (standaloneMatch) {
     const slug = standaloneMatch[1]
-    // Category pages
     const categoryMap: Record<string, string> = {
       excel: '/cursussen/excel',
       word: '/cursussen/word',
@@ -35,13 +39,8 @@ function getPatternRedirect(path: string): string | null {
       visio: '/cursussen/visio',
     }
     if (categoryMap[slug]) return categoryMap[slug]
-    // Otherwise treat as course
     return `/cursussen/${slug}`
   }
-
-  // /microsoft-office/CATEGORY/LEVEL (beginner*, gevorderd*, expert*) → /cursussen/CATEGORY
-  const levelMatch = path.match(/^\/microsoft-office\/([^/]+)\/(beginner|gevorderd|expert)(?:[-_][^/]+)?$/)
-  if (levelMatch) return `/cursussen/${levelMatch[1]}`
 
   // /microsoft-office/ → /cursussen
   if (path === '/microsoft-office') return '/cursussen'
