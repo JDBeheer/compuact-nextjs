@@ -39,8 +39,8 @@ function getPatternRedirect(path: string): string | null {
     return `/cursussen/${slug}`
   }
 
-  // /microsoft-office/CATEGORY/LEVEL (beginner, gevorderd, expert) → /cursussen/CATEGORY
-  const levelMatch = path.match(/^\/microsoft-office\/([^/]+)\/(beginner|gevorderd|expert)(?:-[^/]+)?$/)
+  // /microsoft-office/CATEGORY/LEVEL (beginner*, gevorderd*, expert*) → /cursussen/CATEGORY
+  const levelMatch = path.match(/^\/microsoft-office\/([^/]+)\/(beginner|gevorderd|expert)(?:[-_][^/]+)?$/)
   if (levelMatch) return `/cursussen/${levelMatch[1]}`
 
   // /microsoft-office/ → /cursussen
