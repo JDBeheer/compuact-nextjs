@@ -8,7 +8,7 @@ import { supabaseBrowser } from '@/lib/supabase-browser'
 import {
   LayoutDashboard, BookOpen, Calendar, Tag, MapPin,
   Inbox, Settings, LogOut, Menu, X, TrendingUp, BarChart3,
-  AlertTriangle, ArrowRightLeft, UsersRound, User, Rocket, ExternalLink, Search
+  AlertTriangle, ArrowRightLeft, UsersRound, User, Rocket, ExternalLink, Search, Globe
 } from 'lucide-react'
 
 const contentNav = [
