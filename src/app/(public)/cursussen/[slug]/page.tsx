@@ -33,6 +33,7 @@ const categorieConfig: Record<string, {
   seoDescription: string
   highlights: string[]
   seoContent: { title: string; text: string }[]
+  faq?: { vraag: string; antwoord: string }[]
 }> = {
   excel: {
     icon: FileSpreadsheet, gradient: 'from-emerald-600 to-emerald-800', lightBg: 'bg-emerald-50',
