@@ -76,6 +76,18 @@ const snapshots: Snapshot[] = [
       nieuw: [
         { keyword: 'cursus office 365 online', positie: 9, url: '/cursussen/office-365-voor-eindgebruikers' },
       ],
+      nogOudeUrl: [
+        { keyword: 'excel cursus', volume: 1000, positie: 17, oudeUrl: '/microsoft-office/excel/excel-basis/', nieuweUrl: '/cursussen/excel-basis' },
+        { keyword: 'cursus excel', volume: 700, positie: 15, oudeUrl: '/microsoft-office/excel/excel-basis/', nieuweUrl: '/cursussen/excel-basis' },
+        { keyword: 'excel training', volume: 500, positie: 4, oudeUrl: '/microsoft-office/excel/excel-functies-en-formules/', nieuweUrl: '/cursussen/excel-functies-en-formules' },
+        { keyword: 'cursus word', volume: 200, positie: 6, oudeUrl: '/microsoft-office/excel/word-en-excel/', nieuweUrl: '/cursussen/word-en-excel' },
+        { keyword: 'cursus excel gevorderden', volume: 200, positie: 4, oudeUrl: '/microsoft-office/excel/excel-gevorderd/', nieuweUrl: '/cursussen/excel-gevorderd' },
+        { keyword: 'microsoft office cursus', volume: 200, positie: 6, oudeUrl: '/microsoft-office/excel/excel-basis/', nieuweUrl: '/cursussen/excel' },
+        { keyword: 'excel cursus beginners', volume: 150, positie: 8, oudeUrl: '/microsoft-office/excel/excel-basis/', nieuweUrl: '/cursussen/excel-basis' },
+        { keyword: 'online cursus powerpoint', volume: 150, positie: 11, oudeUrl: '/microsoft-office/powerpoint-alles-in-een/', nieuweUrl: '/cursussen/powerpoint-alles-in-een' },
+        { keyword: 'word cursus', volume: 100, positie: 6, oudeUrl: '/microsoft-office/word/word-basis/', nieuweUrl: '/cursussen/word-basis' },
+        { keyword: 'power bi cursus', volume: 900, positie: 36, oudeUrl: '/microsoft-office/power-bi/experts-power-bi/', nieuweUrl: '/cursussen/power-bi' },
+      ],
     },
     cwv: {
       performanceScore: 98,
