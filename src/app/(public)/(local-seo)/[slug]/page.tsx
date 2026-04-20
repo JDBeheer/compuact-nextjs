@@ -254,7 +254,7 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
               {heeftEigenLocatie ? (
                 /* Eigen locatie kaart */
                 <div className="bg-zinc-50 border border-zinc-200 rounded-2xl overflow-hidden">
-                  <iframe src={eigenLocatie!.mapsEmbed} className="w-full h-40 border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`Kaart ${stadNaam}`} />
+                  <LazyMap src={eigenLocatie!.mapsEmbed} title={`Kaart ${stadNaam}`} height="h-40" />
                   <div className="p-5">
                     <h2 className="font-bold text-sm text-zinc-400 uppercase tracking-wider mb-3">Locatie {stadNaam}</h2>
                     <div className="space-y-2.5 text-sm">
@@ -602,7 +602,7 @@ async function CategoriStadPage({ categorieSlug, stadSlug }: { categorieSlug: st
             <div className="mt-8 lg:mt-0 lg:w-[320px] shrink-0">
               {heeftEigenLocatie ? (
                 <div className="bg-zinc-50 border border-zinc-200 rounded-2xl overflow-hidden">
-                  <iframe src={eigenLocatie!.mapsEmbed} className="w-full h-40 border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`Kaart ${stadNaam}`} />
+                  <LazyMap src={eigenLocatie!.mapsEmbed} title={`Kaart ${stadNaam}`} height="h-40" />
                   <div className="p-5">
                     <h2 className="font-bold text-sm text-zinc-400 uppercase tracking-wider mb-3">Locatie {stadNaam}</h2>
                     <div className="space-y-2.5 text-sm">
