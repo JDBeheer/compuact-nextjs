@@ -20,7 +20,7 @@ export default function GoogleAnalytics({ gaId, adsId, conversionLabels }: Googl
   return (
     <>
       {/* Google Consent Mode v2 — default denied, updated by CookieConsent component */}
-      <Script id="gtag-consent-default" strategy="beforeInteractive">
+      <Script id="gtag-consent-default" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
