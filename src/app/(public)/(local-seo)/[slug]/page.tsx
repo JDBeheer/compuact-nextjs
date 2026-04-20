@@ -661,10 +661,39 @@ async function CategoriStadPage({ categorieSlug, stadSlug }: { categorieSlug: st
             </div>
           </div>
 
+          {/* SEO content block met interne links naar categoriepagina */}
+          <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-12">
+            <h2 className="font-bold text-lg mb-3">Waarom een {categorie.naam} cursus volgen?</h2>
+            <div className="text-sm text-zinc-600 leading-relaxed space-y-3">
+              <p>
+                Een <Link href={`/cursussen/${categorieSlug}`} className="text-primary-500 font-semibold hover:text-primary-600">{categorie.naam} cursus</Link> bij Compu Act Opleidingen is de snelste manier om je vaardigheden te verbeteren. Onze ervaren docenten werken met praktijkvoorbeelden zodat je het geleerde direct kunt toepassen op je werk.
+              </p>
+              <p>
+                Alle <Link href="/cursussen" className="text-primary-500 font-semibold hover:text-primary-600">cursussen</Link> zijn beschikbaar als <Link href="/lesmethodes" className="text-primary-500 hover:text-primary-600">klassikale training</Link> op onze <Link href="/locaties" className="text-primary-500 hover:text-primary-600">17 locaties</Link>, als live online training of als <Link href="/incompany" className="text-primary-500 hover:text-primary-600">incompany training</Link> op je eigen locatie.
+              </p>
+              <p>
+                Met meer dan 21 jaar ervaring en 15.000+ opgeleide cursisten is Compu Act dé specialist in <Link href="/cursussen" className="text-primary-500 hover:text-primary-600">Microsoft Office trainingen</Link> in Nederland.
+              </p>
+            </div>
+          </div>
+
+          {/* Cross-links: alle categoriepagina's */}
+          <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-12">
+            <h2 className="font-bold text-lg mb-2">Alle cursuscategorieën</h2>
+            <p className="text-sm text-zinc-500 mb-4">Bekijk ons complete aanbod aan Microsoft Office en IT trainingen.</p>
+            <div className="flex flex-wrap gap-2">
+              {CATEGORIE_SLUGS.map((slug) => (
+                <Link key={slug} href={`/cursussen/${slug}`} className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${slug === categorieSlug ? 'bg-primary-500 text-white' : 'bg-zinc-50 border border-zinc-200 text-zinc-600 hover:border-primary-300 hover:text-primary-500 hover:bg-primary-50'}`}>
+                  <BookOpen size={12} /> {slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ')}
+                </Link>
+              ))}
+            </div>
+          </div>
+
           {/* Cross-links: andere categorieën in deze stad */}
           <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-12">
             <h2 className="font-bold text-lg mb-2">Andere cursussen in {stadNaam}</h2>
-            <p className="text-sm text-zinc-500 mb-4">Naast {categorie.naam} bieden we ook andere Microsoft Office en IT trainingen aan.</p>
+            <p className="text-sm text-zinc-500 mb-4">Naast <Link href={`/cursussen/${categorieSlug}`} className="text-primary-500 hover:text-primary-600">{categorie.naam}</Link> bieden we ook andere Microsoft Office en IT trainingen aan in {stadNaam}.</p>
             <div className="flex flex-wrap gap-2">
               {otherCategories.map((slug) => (
                 <Link key={slug} href={`/${slug}-cursus-${stadSlug}`} className="inline-flex items-center gap-1.5 bg-zinc-50 border border-zinc-200 px-3.5 py-2 rounded-lg text-sm text-zinc-600 hover:border-primary-300 hover:text-primary-500 hover:bg-primary-50 transition-colors capitalize">
@@ -676,8 +705,8 @@ async function CategoriStadPage({ categorieSlug, stadSlug }: { categorieSlug: st
 
           {/* Cross-links: deze categorie in andere steden */}
           <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-12">
-            <h2 className="font-bold text-lg mb-2">{categorie.naam} cursus op andere locaties</h2>
-            <p className="text-sm text-zinc-500 mb-4">Onze {categorie.naam} cursussen zijn beschikbaar op al onze locaties door heel Nederland.</p>
+            <h2 className="font-bold text-lg mb-2"><Link href={`/cursussen/${categorieSlug}`} className="hover:text-primary-500">{categorie.naam} cursus</Link> op andere locaties</h2>
+            <p className="text-sm text-zinc-500 mb-4">Onze <Link href={`/cursussen/${categorieSlug}`} className="text-primary-500 hover:text-primary-600">{categorie.naam} cursussen</Link> zijn beschikbaar op al onze <Link href="/locaties" className="text-primary-500 hover:text-primary-600">trainingslocaties</Link> door heel Nederland.</p>
             <div className="flex flex-wrap gap-2">
               {locaties.filter(l => l.slug !== stadSlug).map((city) => (
                 <Link key={city.slug} href={`/${categorieSlug}-cursus-${city.slug}`} className="inline-flex items-center gap-1.5 bg-zinc-50 border border-zinc-200 px-3.5 py-2 rounded-lg text-sm text-zinc-600 hover:border-primary-300 hover:text-primary-500 hover:bg-primary-50 transition-colors">
