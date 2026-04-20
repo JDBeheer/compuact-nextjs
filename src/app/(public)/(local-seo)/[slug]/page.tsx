@@ -397,7 +397,7 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
                     href={`/locaties/${loc.slug}`}
                     className="bg-white rounded-xl border border-zinc-200 overflow-hidden hover:border-primary-200 hover:shadow-md transition-all group"
                   >
-                    <iframe src={loc.mapsEmbed} className="w-full h-32 border-0 pointer-events-none" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`Kaart ${loc.naam}`} />
+                    <LazyMap src={loc.mapsEmbed} title={`Kaart ${loc.naam}`} height="h-32" />
                     <div className="p-4">
                       <div className="flex items-center justify-between mb-1">
                         <h3 className="font-bold group-hover:text-primary-500 transition-colors">{loc.naam}</h3>
