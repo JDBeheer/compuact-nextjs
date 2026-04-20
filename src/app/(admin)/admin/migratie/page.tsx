@@ -23,6 +23,7 @@ interface Snapshot {
     stabiel: { keyword: string; volume: number; positie: number }[]
     dalers: { keyword: string; volume: number; van: number; naar: number }[]
     nieuw: { keyword: string; positie: number; url: string }[]
+    nogOudeUrl: { keyword: string; volume: number; positie: number; oudeUrl: string; nieuweUrl: string }[]
   }
   cwv: {
     performanceScore: number
