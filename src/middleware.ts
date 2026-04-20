@@ -142,6 +142,75 @@ function getPatternRedirect(path: string): string | null {
   const nonOfferedMatch = path.match(/^\/(indesign|photoshop|illustrator|wordpress)-cursus-[^/]+$/)
   if (nonOfferedMatch) return '/cursussen'
 
+  // Elementor popup fragments — strip the #elementor-action fragment and redirect to base path
+  if (path.includes('%23elementor-action') || path.includes('#elementor-action')) {
+    const basePath = path.split('%23elementor-action')[0].split('#elementor-action')[0]
+    return basePath || '/'
+  }
+
+  // /COURSE-SLUG/tel:* — phone link crawled as URL
+  if (path.includes('/tel:')) {
+    const basePath = path.split('/tel:')[0]
+    return basePath || '/'
+  }
+
+  // /cursussen/cursus-SLUG → /cursussen/SLUG (old "cursus-" prefix pattern)
+  const cursusPrefix = path.match(/^\/cursussen\/cursus-(.+)$/)
+  if (cursusPrefix) return `/cursussen/${cursusPrefix[1]}`
+
+  // /excel-cursus/CITY or /cursus-word/CITY → local SEO or category
+  const oldCursusCity = path.match(/^\/(excel|word|outlook|powerpoint|power-bi|office-365)-cursus\/([^/]+)$/)
+  if (oldCursusCity) return `/${oldCursusCity[1]}-cursus-${oldCursusCity[2]}`
+
+  // /cursus-SLUG (old single-segment course paths)
+  const oldCursusSingle = path.match(/^\/cursus-(excel|word|outlook|powerpoint|office-365|project|visio)$/)
+  if (oldCursusSingle) return `/cursussen/${oldCursusSingle[1]}`
+
+  // Old course category paths
+  const oldCategoryPaths: Record<string, string> = {
+    '/excel-cursus': '/cursussen/excel',
+    '/excel-cursussen': '/cursussen/excel',
+    '/word-cursussen': '/cursussen/word',
+    '/outlook-cursussen': '/cursussen/outlook',
+    '/powerpoint-cursussen': '/cursussen/powerpoint',
+    '/office-365-cursussen': '/cursussen/office-365',
+    '/power-bi-cursussen': '/cursussen/power-bi',
+    '/project-cursussen': '/cursussen/project',
+  }
+  if (oldCategoryPaths[path]) return oldCategoryPaths[path]
+
+  // /incompany-cursus-microsoft-office* → /incompany
+  if (path.startsWith('/incompany-cursus-') || path === '/incompany-offerte-aanvragen') return '/incompany'
+
+  // /cursussen/CITY (old location-based course pages)
+  const cursussenCity = path.match(/^\/cursussen\/(enschede|hoofddorp|amsterdam|rotterdam|utrecht|den-haag|eindhoven|haarlem|zaandam|almere|alkmaar)$/)
+  if (cursussenCity) return `/locaties/${cursussenCity[1]}`
+
+  // Old /adobe-cursussen/*, /autodesk-cursussen/*, /developer-cursussen/*, /behendigheid-cursussen/*, /marketing-cursussen/* → /cursussen
+  if (path.match(/^\/(adobe|autodesk|developer|behendigheid|marketing|project|power-bi|office)-cursussen/)) return '/cursussen'
+
+  // Old /cursussen/adobe/*, /cursussen/developer-cursussen/*, /cursussen/marketing-cursussen/* → /cursussen
+  if (path.match(/^\/cursussen\/(adobe|developer-cursussen|marketing-cursussen|autodesk|office-cursussen|office-365-cursus)/)) return '/cursussen'
+
+  // Old course slugs that don't exist anymore
+  const legacyCourses: Record<string, string> = {
+    '/cursus-indesign-speciale-effecten': '/cursussen',
+    '/cursus-project-gevorderd': '/cursussen/project',
+    '/cursus-bim-basis': '/cursussen',
+    '/lesmethodes/priveles/priveles-virtueel': '/lesmethodes',
+    '/opleidingsportaal-plannit': '/',
+  }
+  if (legacyCourses[path]) return legacyCourses[path]
+
+  // /inschrijving*.php, /z0f* — bot/spam traffic → ignore
+  if (path.endsWith('.php') || path.match(/^\/z0f[a-f0-9]+$/)) return '/'
+
+  // /over/* (old about subpages)
+  if (path.startsWith('/over/')) return '/over-ons'
+
+  // /cursusdata/page/* → /cursussen
+  if (path.startsWith('/cursusdata')) return '/cursussen'
+
   // /{software}-cursus-{city} patterns for non-standard software names
   // photoshop, illustrator, indesign are not in CATEGORIE_SLUGS so local-seo pages 404
   const adobeLocalMatch = path.match(/^\/(photoshop|illustrator|indesign)-cursus-([^/]+)$/)
