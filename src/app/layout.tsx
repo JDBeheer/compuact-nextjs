@@ -8,7 +8,7 @@ import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 import { Suspense } from 'react'
 import AnalyticsPageTracker from '@/components/analytics/AnalyticsProvider'
 
-const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'] })
+const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'swap' })
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.computertraining.nl'),
