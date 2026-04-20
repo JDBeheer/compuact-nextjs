@@ -25,14 +25,29 @@ export async function POST(request: Request) {
 
     // Store lead in Supabase
     const supabase = createServiceRoleClient()
-    await supabase.from('inschrijvingen').insert({
+    const { data: inzending } = await supabase.from('inschrijvingen').insert({
       type: 'studiegids' as string,
       cursussen: [{ type: `Studiegids ${type}` }],
       klantgegevens: { voornaam, achternaam, email, telefoon, bedrijfsnaam },
       totaalprijs: 0,
       status: 'verwerkt',
       email_verzonden: true,
-    })
+    }).select('id').single()
+
+    // Schedule follow-up emails (dag 2, 5, 10)
+    const now = new Date()
+    for (const { stap, dagen } of [{ stap: 1, dagen: 2 }, { stap: 2, dagen: 5 }, { stap: 3, dagen: 10 }]) {
+      const verzendOp = new Date(now)
+      verzendOp.setDate(verzendOp.getDate() + dagen)
+      verzendOp.setHours(9, 0, 0, 0)
+      await supabase.from('studiegids_followups').insert({
+        inschrijving_id: inzending?.id || null,
+        email,
+        voornaam,
+        stap,
+        verzend_op: verzendOp.toISOString(),
+      })
+    }
 
     // Send studiegids email to user
     const downloadUrl = `${SITE_URL}/documents/CompuAct_StudieGids_2025-2026.pdf`
