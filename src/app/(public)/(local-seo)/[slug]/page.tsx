@@ -442,10 +442,41 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
             </div>
           )}
 
+          {/* SEO content block met interne links */}
+          <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-12">
+            <h2 className="font-bold text-lg mb-3">Over de {cursus.titel} training</h2>
+            <div className="text-sm text-zinc-600 leading-relaxed space-y-3">
+              <p>
+                De <Link href={`/cursussen/${cursus.slug}`} className="text-primary-500 font-semibold hover:text-primary-600">{cursus.titel} cursus</Link> is een van onze populairste{' '}
+                {cursus.categorie && <Link href={`/cursussen/${(cursus.categorie as unknown as {slug: string}).slug}`} className="text-primary-500 hover:text-primary-600">{(cursus.categorie as unknown as {naam: string}).naam} trainingen</Link>}.
+                {' '}Onze ervaren docenten werken met praktijkvoorbeelden zodat je het geleerde direct kunt toepassen.
+              </p>
+              <p>
+                Bekijk ons complete <Link href="/cursussen" className="text-primary-500 hover:text-primary-600">cursusaanbod</Link> of vraag een <Link href="/incompany" className="text-primary-500 hover:text-primary-600">incompany offerte</Link> aan voor training op je eigen locatie.
+              </p>
+            </div>
+          </div>
+
+          {/* Alle categoriepagina's */}
+          <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-12">
+            <h2 className="font-bold text-lg mb-2">Alle cursuscategorieën</h2>
+            <p className="text-sm text-zinc-500 mb-4">Bekijk ons complete aanbod aan trainingen.</p>
+            <div className="flex flex-wrap gap-2">
+              {CATEGORIE_SLUGS.map((slug) => {
+                const catSlug = cursus.categorie ? (cursus.categorie as unknown as {slug: string}).slug : ''
+                return (
+                  <Link key={slug} href={`/cursussen/${slug}`} className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${slug === catSlug ? 'bg-primary-500 text-white' : 'bg-zinc-50 border border-zinc-200 text-zinc-600 hover:border-primary-300 hover:text-primary-500 hover:bg-primary-50'}`}>
+                    <BookOpen size={12} /> {slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ')}
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+
           {/* Interne links: zelfde cursus in andere steden */}
           <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 mb-12">
-            <h2 className="font-bold text-lg mb-2">{cursus.titel} op andere locaties</h2>
-            <p className="text-sm text-zinc-500 mb-4">Deze cursus is beschikbaar op al onze trainingslocaties door heel Nederland.</p>
+            <h2 className="font-bold text-lg mb-2"><Link href={`/cursussen/${cursus.slug}`} className="hover:text-primary-500">{cursus.titel}</Link> op andere locaties</h2>
+            <p className="text-sm text-zinc-500 mb-4">Deze cursus is beschikbaar op al onze <Link href="/locaties" className="text-primary-500 hover:text-primary-600">trainingslocaties</Link> door heel Nederland.</p>
             <div className="flex flex-wrap gap-2">
               {otherCities.map((city) => (
                 <Link key={city.slug} href={`/${cursus.slug}-cursus-${city.slug}`} className="inline-flex items-center gap-1.5 bg-zinc-50 border border-zinc-200 px-3.5 py-2 rounded-lg text-sm text-zinc-600 hover:border-primary-300 hover:text-primary-500 hover:bg-primary-50 transition-colors">
