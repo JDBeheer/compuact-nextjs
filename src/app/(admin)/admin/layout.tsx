@@ -19,6 +19,7 @@ const contentNav = [
   { href: '/admin/categorieen', label: 'Categorieën', icon: Tag },
   { href: '/admin/locaties', label: 'Locaties', icon: MapPin },
   { href: '/admin/inzendingen', label: 'Inzendingen', icon: Inbox },
+  { href: '/admin/omzet', label: 'Omzet', icon: TrendingUp },
   { href: '/admin/tracking', label: 'Tracking', icon: BarChart3 },
 ]
 
