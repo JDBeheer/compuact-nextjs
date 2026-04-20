@@ -74,6 +74,7 @@ export interface Deelnemer {
   voornaam: string
   achternaam: string
   email: string
+  telefoon: string
 }
 
 export interface CartItem {
