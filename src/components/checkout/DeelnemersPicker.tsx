@@ -135,6 +135,9 @@ export default function DeelnemersPicker({
       {/* Deelnemer forms */}
       {open && (
         <div className="border-t border-zinc-200">
+          <div className="px-4 sm:px-5 py-3 bg-primary-50/50 text-xs text-zinc-500 leading-relaxed">
+            We gebruiken deze gegevens om het certificaat op naam te zetten en om deelnemers te informeren over de cursuslocatie, eventuele wijzigingen en praktische zaken.
+          </div>
           <div className="divide-y divide-zinc-100">
             {deelnemers.map((deelnemer, index) => (
               <div key={index} className="p-4 sm:p-5">
