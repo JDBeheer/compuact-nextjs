@@ -34,7 +34,7 @@ interface Snapshot {
 
 const snapshots: Snapshot[] = [
   {
-    datum: '20 april 2026',
+    datum: '20 april 2026 (update 15:56)',
     bron: 'Search Console + Ahrefs + PageSpeed',
     indexering: {
       geindexeerd: 1241,
