@@ -282,6 +282,28 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301)
   }
 
+  // 2. Check database redirects only if no pattern match (slower, requires DB call)
+  // Only check for paths that look like they might be old/custom redirects
+  if (normalizedPath.includes('/') && normalizedPath.split('/').length >= 2) {
+    const supabase = createClient(supabaseUrl, supabaseKey)
+
+    const { data } = await supabase
+      .from('redirects')
+      .select('to_path, status_code')
+      .eq('from_path', normalizedPath)
+      .eq('actief', true)
+      .single()
+
+    if (data) {
+      if (!data.to_path.startsWith('/') || data.to_path.startsWith('//')) {
+        return NextResponse.next()
+      }
+      const url = request.nextUrl.clone()
+      url.pathname = data.to_path
+      return NextResponse.redirect(url, data.status_code || 301)
+    }
+  }
+
   return NextResponse.next()
 }
 
