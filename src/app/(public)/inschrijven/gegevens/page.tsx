@@ -69,7 +69,7 @@ function CheckoutPage() {
       const aantal = item.aantalDeelnemers || 1
       if (!deelnemersMap[item.sessieId] || deelnemersMap[item.sessieId].length !== aantal) {
         newMap[item.sessieId] = deelnemersMap[item.sessieId]?.slice(0, aantal) ||
-          Array.from({ length: aantal }, () => ({ voornaam: '', achternaam: '', email: '' }))
+          Array.from({ length: aantal }, () => ({ voornaam: '', achternaam: '', email: '', telefoon: '' }))
       } else {
         newMap[item.sessieId] = deelnemersMap[item.sessieId]
       }
@@ -428,7 +428,7 @@ function CheckoutPage() {
                             ].slice(0, otherAantal)
                             // Pad if needed
                             while (merged.length < otherAantal) {
-                              merged.push({ voornaam: '', achternaam: '', email: '' })
+                              merged.push({ voornaam: '', achternaam: '', email: '', telefoon: '' })
                             }
                             updated[otherItem.sessieId] = merged
                           }
