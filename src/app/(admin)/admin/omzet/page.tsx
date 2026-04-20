@@ -109,8 +109,9 @@ export default function OmzetPage() {
       entry.offertes.omzet += prijs
     } else if (i.type === 'incompany') {
       entry.incompany.aantal++
+      entry.incompany.omzetSchatting += INCOMPANY_DAGPRIJS
     }
-    entry.totaalOmzet += prijs
+    entry.totaalOmzet += prijs + (i.type === 'incompany' ? INCOMPANY_DAGPRIJS : 0)
     entry.totaalAanvragen++
   })
 
