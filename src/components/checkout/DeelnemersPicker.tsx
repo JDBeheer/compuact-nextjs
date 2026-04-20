@@ -37,6 +37,7 @@ export default function DeelnemersPicker({
         voornaam: '',
         achternaam: '',
         email: '',
+        telefoon: '',
       }))
       onDeelnemersChange([...deelnemers, ...extra])
     } else if (clamped < deelnemers.length) {
