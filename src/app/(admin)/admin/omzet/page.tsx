@@ -88,7 +88,7 @@ export default function OmzetPage() {
       label,
       inschrijvingen: { aantal: 0, omzet: 0 },
       offertes: { aantal: 0, omzet: 0 },
-      incompany: { aantal: 0 },
+      incompany: { aantal: 0, omzetSchatting: 0 },
       totaalOmzet: 0,
       totaalAanvragen: 0,
     })
