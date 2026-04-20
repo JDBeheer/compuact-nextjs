@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Phone, Mail, MapPin, Clock, Users, Award, ArrowRight, HelpCircle, Building2, ChevronRight } from 'lucide-react'
 import { getGoogleReviews, fallbackReviews } from '@/lib/google-reviews'
 import { GoogleReviewsBadge } from '@/components/GoogleReviews'
+import LazyMap from '@/components/LazyMap'
 import ContactForm from './ContactForm'
 
 export const metadata: Metadata = {
