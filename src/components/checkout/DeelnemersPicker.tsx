@@ -122,6 +122,7 @@ export default function DeelnemersPicker({
         <span className="flex items-center gap-2">
           <UserPlus size={14} />
           Gegevens deelnemers <span className="text-red-400">*</span>
+          <span className="text-xs font-normal text-zinc-400 hidden sm:inline">— voor certificaat en planning</span>
           {hasFilledDeelnemers && (
             <span className="bg-primary-100 text-primary-700 text-xs px-1.5 py-0.5 rounded-full">
               {deelnemers.filter(d => d.voornaam).length}/{aantal}
