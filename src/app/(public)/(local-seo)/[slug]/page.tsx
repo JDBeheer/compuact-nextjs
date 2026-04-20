@@ -372,7 +372,7 @@ export default async function LocalSeoPage({ params }: { params: { slug: string 
                 </div>
               </div>
               <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
-                <iframe src={eigenLocatie!.mapsEmbed} className="w-full h-56 border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`Kaart ${stadNaam}`} />
+                <LazyMap src={eigenLocatie!.mapsEmbed} title={`Kaart ${stadNaam}`} height="h-56" />
                 <div className="p-5 space-y-3 text-sm">
                   <div className="flex items-start gap-2.5"><Navigation size={15} className="text-primary-500 mt-0.5 shrink-0" /><div><strong>Adres:</strong> {eigenLocatie!.adres}, {eigenLocatie!.postcode} {stadNaam}</div></div>
                   <div className="flex items-start gap-2.5"><Car size={15} className="text-primary-500 mt-0.5 shrink-0" /><div><strong>Auto:</strong> {eigenLocatie!.bereikbaarheid.auto}</div></div>
