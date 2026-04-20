@@ -30,6 +30,7 @@ const adminNav = [
   { href: '/admin/redirects', label: 'Redirects', icon: ArrowRightLeft },
   { href: '/admin/seo', label: 'SEO Audit', icon: Search },
   { href: '/admin/indexnow', label: 'IndexNow', icon: Globe },
+  { href: '/admin/migratie', label: 'Migratie', icon: BarChart3 },
   { href: '/admin/livegang', label: 'Livegang', icon: Rocket },
 ]
 
