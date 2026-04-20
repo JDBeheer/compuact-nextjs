@@ -77,10 +77,10 @@ const snapshots: Snapshot[] = [
       ],
     },
     cwv: {
-      performanceScore: 79,
-      lcp: '1.1s',
+      performanceScore: 98,
+      lcp: '0.9s',
       cls: '0',
-      tbt: '850ms',
+      tbt: '120ms',
     },
   },
   // Pre-migratie baseline
