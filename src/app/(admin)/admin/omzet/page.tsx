@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { TrendingUp, Inbox, FileText, Building2, ChevronDown, Euro, Users, ShoppingCart, Loader2 } from 'lucide-react'
+import { Inbox, FileText, Building2, ChevronDown, Euro, Loader2 } from 'lucide-react'
 
 interface Inzending {
   id: string
