@@ -357,7 +357,7 @@ export default function OmzetPage() {
         <div className="px-6 py-3 border-t border-zinc-100 flex flex-wrap gap-4 text-xs">
           <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-green-500" /> Inschrijvingen</span>
           <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-amber-500" /> Offertes</span>
-          <span className="text-zinc-400">InCompany aanvragen niet in omzet (prijs op maat)</span>
+          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-violet-500" /> InCompany (schatting €{INCOMPANY_DAGPRIJS}/dag)</span>
         </div>
       </div>
     </div>
