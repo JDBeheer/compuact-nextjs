@@ -274,26 +274,7 @@ export async function middleware(request: NextRequest) {
   // Normalize: strip trailing slash for lookup
   const normalizedPath = path.endsWith('/') && path.length > 1 ? path.slice(0, -1) : path
 
-  // 1. Check database redirects first (admin-managed)
-  const supabase = createClient(supabaseUrl, supabaseKey)
-
-  const { data } = await supabase
-    .from('redirects')
-    .select('to_path, status_code')
-    .eq('from_path', normalizedPath)
-    .eq('actief', true)
-    .single()
-
-  if (data) {
-    if (!data.to_path.startsWith('/') || data.to_path.startsWith('//')) {
-      return NextResponse.next()
-    }
-    const url = request.nextUrl.clone()
-    url.pathname = data.to_path
-    return NextResponse.redirect(url, data.status_code || 301)
-  }
-
-  // 2. Check WordPress pattern redirects (migration)
+  // 1. Check pattern redirects first (no DB call, instant)
   const patternRedirect = getPatternRedirect(normalizedPath)
   if (patternRedirect) {
     const url = request.nextUrl.clone()
