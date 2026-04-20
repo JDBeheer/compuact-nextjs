@@ -115,6 +115,7 @@ const snapshots: Snapshot[] = [
       stabiel: [],
       dalers: [],
       nieuw: [],
+      nogOudeUrl: [],
     },
     cwv: {
       performanceScore: 55,
