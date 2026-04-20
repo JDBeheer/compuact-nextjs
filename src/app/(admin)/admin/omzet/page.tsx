@@ -255,7 +255,10 @@ export default function OmzetPage() {
                       <div className="bg-green-500 h-full rounded-l" style={{ width: `${(m.inschrijvingen.omzet / maxOmzet) * 100}%`, minWidth: '4px' }} title={`Inschrijvingen: ${formatCurrency(m.inschrijvingen.omzet)}`} />
                     )}
                     {m.offertes.omzet > 0 && (
-                      <div className="bg-amber-500 h-full rounded-r" style={{ width: `${(m.offertes.omzet / maxOmzet) * 100}%`, minWidth: '4px' }} title={`Offertes: ${formatCurrency(m.offertes.omzet)}`} />
+                      <div className="bg-amber-500 h-full" style={{ width: `${(m.offertes.omzet / maxOmzet) * 100}%`, minWidth: '4px' }} title={`Offertes: ${formatCurrency(m.offertes.omzet)}`} />
+                    )}
+                    {m.incompany.omzetSchatting > 0 && (
+                      <div className="bg-violet-500 h-full rounded-r" style={{ width: `${(m.incompany.omzetSchatting / maxOmzet) * 100}%`, minWidth: '4px' }} title={`InCompany (schatting): ${formatCurrency(m.incompany.omzetSchatting)}`} />
                     )}
                   </div>
 
