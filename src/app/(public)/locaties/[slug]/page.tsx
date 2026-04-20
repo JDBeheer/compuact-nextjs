@@ -231,16 +231,7 @@ export default async function LocatieDetailPage({ params }: { params: { slug: st
 
             {/* Google Maps */}
             <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden">
-              <iframe
-                src={loc.mapsEmbed}
-                width="100%"
-                height="350"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title={`Kaart ${loc.naam}`}
-              />
+              <LazyMap src={loc.mapsEmbed} title={`Kaart ${loc.naam}`} height="h-[350px]" />
             </div>
 
             {/* Aankomende cursussen */}
