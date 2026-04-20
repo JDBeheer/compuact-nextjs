@@ -140,7 +140,7 @@ export default function DeelnemersPicker({
                 <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">
                   Deelnemer {index + 1}
                 </p>
-                <div className="grid sm:grid-cols-3 gap-3">
+                <div className="grid sm:grid-cols-2 gap-3">
                   <Input
                     id={`${item.sessieId}-dn-${index}-voornaam`}
                     value={deelnemer.voornaam}
@@ -164,6 +164,15 @@ export default function DeelnemersPicker({
                     onChange={(e) => updateDeelnemer(index, 'email', e.target.value)}
                     placeholder="E-mailadres"
                     label="E-mail"
+                    required
+                  />
+                  <Input
+                    id={`${item.sessieId}-dn-${index}-telefoon`}
+                    type="tel"
+                    value={deelnemer.telefoon}
+                    onChange={(e) => updateDeelnemer(index, 'telefoon', e.target.value)}
+                    placeholder="Telefoonnummer"
+                    label="Telefoon"
                     required
                   />
                 </div>
