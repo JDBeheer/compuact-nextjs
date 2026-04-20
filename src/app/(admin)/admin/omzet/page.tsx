@@ -200,7 +200,7 @@ export default function OmzetPage() {
             <div className="bg-violet-500 text-white p-2 rounded-lg"><Building2 size={18} /></div>
           </div>
           <div className="text-3xl font-bold text-zinc-900">{totaalIncompany.length}</div>
-          <p className="text-xs text-zinc-400 mt-1">Aanvragen (prijs op maat)</p>
+          <p className="text-xs text-zinc-400 mt-1">~{formatCurrency(omzetIncompanySchatting)} (€{INCOMPANY_DAGPRIJS}/dag)</p>
         </div>
       </div>
 
