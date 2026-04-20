@@ -19,7 +19,7 @@ export default function GoogleAnalytics({ gaId, adsId, conversionLabels }: Googl
 
   return (
     <>
-      {/* Google Consent Mode v2 — default denied, updated by CookieConsent component */}
+      {/* Inline consent default — tiny, no external load */}
       <Script id="gtag-consent-default" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
@@ -31,42 +31,32 @@ export default function GoogleAnalytics({ gaId, adsId, conversionLabels }: Googl
             ad_personalization: 'denied',
             wait_for_update: 500,
           });
+          var c = localStorage.getItem('cookie-consent');
+          if (c === 'all') {
+            gtag('consent', 'update', {
+              analytics_storage: 'granted',
+              ad_storage: 'granted',
+              ad_user_data: 'granted',
+              ad_personalization: 'granted',
+            });
+          }
+          ${adsId ? `window.__GA_CONVERSION_ID__ = '${adsId}';` : ''}
+          ${conversionLabels ? `window.__GA_CONVERSION_LABELS__ = ${JSON.stringify(conversionLabels)};` : ''}
         `}
       </Script>
 
-      {/* Global site tag (gtag.js) */}
+      {/* Load gtag.js AFTER page is idle — not render blocking */}
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${primaryId}`}
-        strategy="afterInteractive"
+        strategy="lazyOnload"
       />
-      <Script id="gtag-init" strategy="afterInteractive">
+      <Script id="gtag-init" strategy="lazyOnload">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-
           ${gaId ? `gtag('config', '${gaId}', { send_page_view: true });` : ''}
-          ${adsId ? `gtag('config', '${adsId}');` : ''}
-
-          // Enhanced conversions
           ${adsId ? `gtag('config', '${adsId}', { allow_enhanced_conversions: true });` : ''}
-
-          // Re-apply stored consent
-          (function() {
-            var consent = localStorage.getItem('cookie-consent');
-            if (consent === 'all') {
-              gtag('consent', 'update', {
-                analytics_storage: 'granted',
-                ad_storage: 'granted',
-                ad_user_data: 'granted',
-                ad_personalization: 'granted',
-              });
-            }
-          })();
-
-          // Make conversion config available to analytics.ts
-          ${adsId ? `window.__GA_CONVERSION_ID__ = '${adsId}';` : ''}
-          ${conversionLabels ? `window.__GA_CONVERSION_LABELS__ = ${JSON.stringify(conversionLabels)};` : ''}
         `}
       </Script>
     </>
