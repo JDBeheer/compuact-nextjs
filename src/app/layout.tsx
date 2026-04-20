@@ -42,8 +42,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="nl">
-      <body className={plusJakartaSans.className}>
+    <html lang="nl" suppressHydrationWarning>
+      <body className={plusJakartaSans.className} suppressHydrationWarning>
         <OrganizationSchema />
         <GoogleAnalytics
           gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}
