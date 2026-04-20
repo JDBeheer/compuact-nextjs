@@ -286,7 +286,7 @@ export default function OmzetPage() {
                       <div className="bg-violet-50 rounded-lg p-3 text-center">
                         <div className="text-lg font-bold text-violet-700">{m.incompany.aantal}</div>
                         <div className="text-xs text-violet-600">InCompany</div>
-                        <div className="text-xs text-violet-500 font-semibold mt-0.5">Op aanvraag</div>
+                        <div className="text-xs text-violet-500 font-semibold mt-0.5">~{formatCurrency(m.incompany.omzetSchatting)}</div>
                       </div>
                     </div>
 
