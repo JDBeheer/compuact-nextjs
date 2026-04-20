@@ -413,8 +413,51 @@ async function CategoriePage({ slug }: { slug: string }) {
         </div>
       </section>
 
+      {/* Vergelijkingstabel */}
+      {cursussen.length > 1 && (
+        <section className="bg-white border-b border-zinc-200">
+          <div className="container-wide py-12 lg:py-16">
+            <h2 className="text-2xl font-extrabold mb-2">{categorie.naam} cursussen vergelijken</h2>
+            <p className="text-zinc-500 text-sm mb-8">Bekijk alle {categorie.naam} trainingen naast elkaar om de juiste keuze te maken.</p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-zinc-50 border-b-2 border-zinc-200">
+                    <th className="text-left px-4 py-3 font-semibold text-zinc-700">Cursus</th>
+                    <th className="text-left px-4 py-3 font-semibold text-zinc-700">Niveau</th>
+                    <th className="text-left px-4 py-3 font-semibold text-zinc-700">Duur</th>
+                    <th className="text-left px-4 py-3 font-semibold text-zinc-700">Lesvorm</th>
+                    <th className="text-right px-4 py-3 font-semibold text-zinc-700">Prijs vanaf</th>
+                    <th className="px-4 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-100">
+                  {cursussen.map((c) => (
+                    <tr key={c.id} className="hover:bg-zinc-50 transition-colors">
+                      <td className="px-4 py-4">
+                        <Link href={`/cursussen/${c.slug}`} className="font-semibold text-zinc-900 hover:text-primary-500 transition-colors">{c.titel}</Link>
+                        <p className="text-xs text-zinc-400 mt-0.5 line-clamp-1 max-w-xs">{c.korte_beschrijving}</p>
+                      </td>
+                      <td className="px-4 py-4">
+                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${c.niveau === 'beginner' ? 'bg-green-100 text-green-700' : c.niveau === 'gevorderd' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>{niveauLabel(c.niveau)}</span>
+                      </td>
+                      <td className="px-4 py-4 text-zinc-600">{c.duur}</td>
+                      <td className="px-4 py-4 text-zinc-500 text-xs">Klassikaal, Online, InCompany</td>
+                      <td className="px-4 py-4 text-right font-bold text-zinc-900">{formatPrice(c.prijs_vanaf)}</td>
+                      <td className="px-4 py-4">
+                        <Link href={`/cursussen/${c.slug}`} className="text-primary-500 font-semibold text-xs hover:text-primary-600 flex items-center gap-1">Bekijk <ArrowRight size={12} /></Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      )}
+
       {config.seoContent.length > 0 && (
-        <section className="bg-white">
+        <section className="bg-zinc-50">
           <div className="container-narrow py-16">
             <div className="grid md:grid-cols-2 gap-10">
               {config.seoContent.map((block) => (
@@ -424,6 +467,40 @@ async function CategoriePage({ slug }: { slug: string }) {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* FAQ sectie */}
+      {config.faq && config.faq.length > 0 && (
+        <section className="bg-white border-t border-zinc-200">
+          <div className="container-narrow py-12 lg:py-16">
+            <h2 className="text-2xl font-extrabold mb-2 text-center">Veelgestelde vragen over {categorie.naam} cursussen</h2>
+            <p className="text-zinc-500 text-sm text-center mb-8">Alles wat je wilt weten over onze {categorie.naam} trainingen.</p>
+            <div className="space-y-4 max-w-3xl mx-auto">
+              {config.faq.map((faq, i) => (
+                <details key={i} className="bg-zinc-50 rounded-xl border border-zinc-200 group">
+                  <summary className="flex items-center justify-between px-6 py-4 cursor-pointer list-none font-semibold text-zinc-900 hover:text-primary-500 transition-colors">
+                    {faq.vraag}
+                    <ChevronDown size={18} className="text-zinc-400 group-open:rotate-180 transition-transform shrink-0 ml-4" />
+                  </summary>
+                  <div className="px-6 pb-5 text-sm text-zinc-600 leading-relaxed">
+                    {faq.antwoord}
+                  </div>
+                </details>
+              ))}
+            </div>
+
+            {/* FAQ Schema */}
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: config.faq.map(f => ({
+                '@type': 'Question',
+                name: f.vraag,
+                acceptedAnswer: { '@type': 'Answer', text: f.antwoord },
+              })),
+            }) }} />
           </div>
         </section>
       )}
