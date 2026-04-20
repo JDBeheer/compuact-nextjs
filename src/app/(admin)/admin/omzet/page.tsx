@@ -64,6 +64,9 @@ export default function OmzetPage() {
       ? inzendingen.filter(i => i.status !== 'geannuleerd')
       : inzendingen.filter(i => i.status === 'verwerkt')
 
+  // Incompany geschatte dagprijs
+  const INCOMPANY_DAGPRIJS = 1295
+
   // Totals
   const totaalInschrijvingen = filtered.filter(i => i.type === 'inschrijving')
   const totaalOffertes = filtered.filter(i => i.type === 'offerte')
@@ -71,7 +74,9 @@ export default function OmzetPage() {
 
   const omzetInschrijvingen = totaalInschrijvingen.reduce((sum, i) => sum + Number(i.totaalprijs || 0), 0)
   const omzetOffertes = totaalOffertes.reduce((sum, i) => sum + Number(i.totaalprijs || 0), 0)
+  const omzetIncompanySchatting = totaalIncompany.length * INCOMPANY_DAGPRIJS
   const totaleOmzet = omzetInschrijvingen + omzetOffertes
+  const totaleOmzetInclSchatting = totaleOmzet + omzetIncompanySchatting
 
   // Per month
   const maandMap = new Map<string, MaandOmzet>()
