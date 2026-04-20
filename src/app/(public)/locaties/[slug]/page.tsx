@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { MapPin, Phone, Mail, Car, Train, ParkingCircle, CheckCircle, ArrowRight, Users, Laptop, BookOpen, Building2, Star, Clock } from 'lucide-react'
 import { locaties, getLocatieBySlug } from '@/data/locaties'
+import LazyMap from '@/components/LazyMap'
 import { createServiceRoleClient } from '@/lib/supabase/server'
 
 export const revalidate = 3600
