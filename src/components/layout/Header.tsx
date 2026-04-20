@@ -465,12 +465,13 @@ export default function Header() {
 
             {/* Mobile: search + phone + menu */}
             <div className="flex lg:hidden items-center gap-0.5">
-              <a href="tel:0235513409" className="p-2.5 text-zinc-500 hover:text-primary-500 transition-colors">
+              <a href="tel:0235513409" className="p-2.5 text-zinc-500 hover:text-primary-500 transition-colors" aria-label="Bel ons: 023-551 3409">
                 <Phone size={20} />
               </a>
               <button
                 onClick={() => setSearchOpen(true)}
                 className="p-2.5 text-zinc-500 hover:text-zinc-900 transition-colors"
+                aria-label="Zoeken"
               >
                 <Search size={22} />
               </button>
