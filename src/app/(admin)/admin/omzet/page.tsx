@@ -24,7 +24,7 @@ interface MaandOmzet {
   label: string
   inschrijvingen: { aantal: number; omzet: number }
   offertes: { aantal: number; omzet: number }
-  incompany: { aantal: number }
+  incompany: { aantal: number; omzetSchatting: number }
   totaalOmzet: number
   totaalAanvragen: number
 }
