@@ -14,7 +14,7 @@ import MobileCursusNav from '@/components/cursussen/MobileCursusNav'
 import { formatPrice, formatDateShort, niveauLabel } from '@/lib/utils'
 import { Clock, Users, Award, BookOpen, Building2, Star, MapPin, CheckCircle, ArrowRight,
   FileSpreadsheet, FileText, Monitor, Mail, Presentation, BarChart3, FolderKanban, Bot, PenTool,
-  Shield, Phone
+  Shield, Phone, ChevronDown
 } from 'lucide-react'
 import { getGoogleReviews, fallbackReviews } from '@/lib/google-reviews'
 import { GoogleReviewsSection, GoogleReviewsBadge } from '@/components/GoogleReviews'
