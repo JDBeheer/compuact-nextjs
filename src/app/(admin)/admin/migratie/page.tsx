@@ -294,6 +294,51 @@ export default function MigratieDashboard() {
             </div>
           )}
 
+          {/* Keywords nog op oude URL */}
+          {current.rankings.nogOudeUrl.length > 0 && (
+            <div className="bg-white rounded-xl border border-zinc-200 mb-6">
+              <div className="px-5 py-4 border-b border-zinc-200 flex items-center gap-2">
+                <Clock size={18} className="text-amber-500" />
+                <h2 className="font-semibold text-zinc-900">Wachtend op indexering nieuwe URL</h2>
+                <span className="bg-amber-100 text-amber-700 text-xs font-semibold px-2 py-0.5 rounded-full">{current.rankings.nogOudeUrl.length}</span>
+              </div>
+              <p className="px-5 py-2 text-xs text-zinc-400 bg-zinc-50 border-b border-zinc-100">
+                Deze keywords ranken nog op de oude WordPress URL. Zodra Google de redirect verwerkt, neemt de nieuwe URL het over.
+              </p>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-zinc-50 border-b border-zinc-200">
+                    <th className="text-left px-5 py-2.5 font-medium text-zinc-500">Keyword</th>
+                    <th className="text-center px-3 py-2.5 font-medium text-zinc-500">Volume</th>
+                    <th className="text-center px-3 py-2.5 font-medium text-zinc-500">Positie</th>
+                    <th className="text-left px-3 py-2.5 font-medium text-zinc-500">Rankt nu op</th>
+                    <th className="text-left px-3 py-2.5 font-medium text-zinc-500">Moet worden</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-100">
+                  {current.rankings.nogOudeUrl
+                    .sort((a, b) => b.volume - a.volume)
+                    .map((r) => (
+                    <tr key={r.keyword} className="hover:bg-zinc-50">
+                      <td className="px-5 py-3 font-medium text-zinc-900">{r.keyword}</td>
+                      <td className="text-center px-3 py-3">
+                        <span className={`font-semibold ${r.volume >= 500 ? 'text-red-500' : r.volume >= 100 ? 'text-amber-600' : 'text-zinc-500'}`}>{r.volume}</span>
+                      </td>
+                      <td className="text-center px-3 py-3 font-bold text-zinc-900">#{r.positie}</td>
+                      <td className="px-3 py-3 text-xs font-mono text-red-400 truncate max-w-[200px]">{r.oudeUrl}</td>
+                      <td className="px-3 py-3 text-xs font-mono text-green-600 truncate max-w-[200px]">{r.nieuweUrl}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="px-5 py-3 bg-zinc-50 border-t border-zinc-100 text-xs text-zinc-500 flex items-center gap-2">
+                <span className="inline-block w-2 h-2 rounded-full bg-red-400"></span> Hoog volume (500+)
+                <span className="inline-block w-2 h-2 rounded-full bg-amber-500 ml-3"></span> Medium volume (100+)
+                <span className="inline-block w-2 h-2 rounded-full bg-zinc-400 ml-3"></span> Laag volume
+              </div>
+            </div>
+          )}
+
           {/* Stabiele posities */}
           {current.rankings.stabiel.length > 0 && (
             <div className="bg-white rounded-xl border border-zinc-200 mb-6">
