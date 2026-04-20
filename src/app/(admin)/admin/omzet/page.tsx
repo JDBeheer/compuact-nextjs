@@ -172,11 +172,11 @@ export default function OmzetPage() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div className="bg-white rounded-xl border border-zinc-200 p-5">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm text-zinc-500">Totale omzet</span>
+            <span className="text-sm text-zinc-500">Omzet (bevestigd)</span>
             <div className="bg-green-500 text-white p-2 rounded-lg"><Euro size={18} /></div>
           </div>
           <div className="text-3xl font-bold text-zinc-900">{formatCurrency(totaleOmzet)}</div>
-          <p className="text-xs text-zinc-400 mt-1">Inschrijvingen + offertes</p>
+          <p className="text-xs text-zinc-400 mt-1">Incl. incompany schatting: {formatCurrency(totaleOmzetInclSchatting)}</p>
         </div>
         <div className="bg-white rounded-xl border border-zinc-200 p-5">
           <div className="flex items-center justify-between mb-3">
