@@ -204,14 +204,10 @@ export default async function ContactPage() {
               </div>
             </div>
           </div>
-          <iframe
+          <LazyMap
             src="https://www.google.com/maps?q=Vincent+van+Goghweg+85,+1506+JB+Zaandam&output=embed"
-            className="w-full h-80 md:h-96"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
             title="Compu Act Opleidingen locatie op Google Maps"
+            height="h-80 md:h-96"
           />
         </div>
       </section>
