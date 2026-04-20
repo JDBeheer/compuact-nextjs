@@ -271,6 +271,22 @@ export async function middleware(request: NextRequest) {
     return response
   }
 
+  // Strip WooCommerce/WordPress query strings — redirect to clean URL
+  const searchParams = request.nextUrl.searchParams
+  const hasJunkParams = searchParams.has('attribute_pa_locatie') ||
+    searchParams.has('attribute_pa_startdatum') ||
+    searchParams.has('attribute_pa_startmaand') ||
+    searchParams.has('attribute_pa_lesmethode') ||
+    searchParams.has('attribute_pa_lestijden') ||
+    [...searchParams.keys()].some(k => k.match(/^\d+_paged$/) || k.match(/^\d+_attr_/)) ||
+    searchParams.has('68_device')
+
+  if (hasJunkParams) {
+    const cleanUrl = request.nextUrl.clone()
+    cleanUrl.search = ''
+    return NextResponse.redirect(cleanUrl, 301)
+  }
+
   // Normalize: strip trailing slash for lookup
   const normalizedPath = path.endsWith('/') && path.length > 1 ? path.slice(0, -1) : path
 
