@@ -228,6 +228,69 @@ function getPatternRedirect(path: string): string | null {
   // /login → /admin/login
   if (path === '/login') return '/admin/login'
 
+  // /in-company/* → /incompany (verkeerde schrijfwijze met koppelteken)
+  if (path.startsWith('/in-company')) return '/incompany'
+
+  // /lesmethodes/incompany* → /incompany
+  if (path.startsWith('/lesmethodes/incompany')) return '/incompany'
+
+  // Niet meer aangeboden cursussen (Adobe, Access, Revit, Dreamweaver, Windows, PRINCE2)
+  if (path.match(/^\/cursussen\/(elements|illustrator|photoshop|indesign|dreamweaver|windows-10|prince2)/i)) return '/cursussen'
+  if (path.startsWith('/cursus-access')) return '/cursussen'
+  if (path.startsWith('/cursus-revit')) return '/cursussen'
+
+  // /cursussen/vba → /cursussen/cursus-vba (VBA heeft geen eigen categorie, alleen cursus-slug)
+  if (path === '/cursussen/vba') return '/cursussen/cursus-vba'
+
+  // /cursussen/powerpoint-cursus → /cursussen/powerpoint
+  if (path === '/cursussen/powerpoint-cursus') return '/cursussen/powerpoint'
+
+  // /cursussen/excel-gevorderden → /cursussen/excel-gevorderd (typo)
+  if (path === '/cursussen/excel-gevorderden') return '/cursussen/excel-gevorderd'
+
+  // /cursussen/power-bi-service-excel → /cursussen/excel-power-bi
+  if (path === '/cursussen/power-bi-service-excel') return '/cursussen/excel-power-bi'
+
+  // /cursussen/{stad-zonder-eigen-locatie} → /cursussen
+  if (path.match(/^\/cursussen\/(geleen|zwolle|roosendaal)$/)) return '/cursussen'
+
+  // /cursussen/{CATEGORIE}-cursus/cursus-SLUG → /cursussen/SLUG (oude geneste structuur)
+  const nestedCursusMatch = path.match(/^\/cursussen\/[^/]+-cursus\/cursus-(.+)$/)
+  if (nestedCursusMatch) return `/cursussen/${nestedCursusMatch[1]}`
+
+  // /cursus-{CATEGORIE}/cursus-SLUG → /cursussen/SLUG (oude geneste structuur)
+  const oldProductNestedMatch = path.match(/^\/cursus-(?:excel|word|outlook|powerpoint|power-bi|office-365|project|visio)\/cursus-(.+)$/)
+  if (oldProductNestedMatch) return `/cursussen/${oldProductNestedMatch[1]}`
+
+  // /{CATEGORIE}-cursus-{onbekende-stad} → /cursussen/{CATEGORIE}
+  const unknownCityMatch = path.match(/^\/(excel|word|outlook|powerpoint|power-bi|office-365|project|visio)-cursus-(katwijk|voorburg|alphen-aan-den-rijn|westland|bergen-op-zoom|capelle-aan-den-ijssel|leidschendam|den-bosch)$/)
+  if (unknownCityMatch) return `/cursussen/${unknownCityMatch[1]}`
+
+  // /cursus-{CATEGORIE}/{stad} → /{CATEGORIE}-cursus-{stad}
+  const cursusProductCityMatch = path.match(/^\/cursus-(excel|word|outlook|powerpoint|power-bi|office-365|project|visio)\/(.+)$/)
+  if (cursusProductCityMatch) return `/${cursusProductCityMatch[1]}-cursus-${cursusProductCityMatch[2]}`
+
+  // /marketing/* → /cursussen (oude marketing sectie)
+  if (path.startsWith('/marketing/')) return '/cursussen'
+
+  // /flexibel (bare, zonder sub-path) → /cursussen
+  if (path === '/flexibel') return '/cursussen'
+
+  // /cursuslocatie/* → /cursussen
+  if (path.startsWith('/cursuslocatie/')) return '/cursussen'
+
+  // /inschrijvingen/* → /cursussen (oude WP inschrijf-URLs)
+  if (path.startsWith('/inschrijvingen/')) return '/cursussen'
+
+  // /sitemap_*.xml, /sitemap_index.xml → /sitemap.xml
+  if (path.match(/^\/sitemap[_-].*\.xml$/)) return '/sitemap.xml'
+
+  // /cursussen-xml-feed → /cursussen (oude WP feed)
+  if (path === '/cursussen-xml-feed') return '/cursussen'
+
+  // /producten-diensten → /cursussen
+  if (path === '/producten-diensten') return '/cursussen'
+
   return null
 }
 
