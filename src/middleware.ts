@@ -222,19 +222,11 @@ function getPatternRedirect(path: string): string | null {
   // /cursussen/microsoft-office → /cursussen
   if (path === '/cursussen/microsoft-office') return '/cursussen'
 
-  // /cursussen/cursus-SLUG → /cursussen/SLUG (dubbel "cursus" prefix)
-  const dubbelCursusMatch = path.match(/^\/cursussen\/cursus-(.+)$/)
-  if (dubbelCursusMatch) return `/cursussen/${dubbelCursusMatch[1]}`
-
   // /overons/* → /over-ons
   if (path.startsWith('/overons')) return '/over-ons'
 
   // /login → /admin/login
   if (path === '/login') return '/admin/login'
-
-  // /**/tel:* → strip phone link from URL (broken href)
-  const telMatch = path.match(/^(\/[^/]+)\/tel:/)
-  if (telMatch) return telMatch[1]
 
   return null
 }
