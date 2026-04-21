@@ -13,13 +13,14 @@ export async function GET(req: NextRequest) {
     .order('last_seen', { ascending: false })
     .limit(500)
 
-  const clustered = new Map<string, { id: string; ids: string[]; path: string; referrer: string | null; count: number; first_seen: string; last_seen: string }>()
+  const clustered = new Map<string, { id: string; ids: string[]; path: string; referrer: string | null; count: number; first_seen: string; last_seen: string; resolved: boolean }>()
 
   for (const log of data || []) {
     const existing = clustered.get(log.path)
     if (existing) {
       existing.count += log.count || 1
       existing.ids.push(log.id)
+      if (log.resolved) existing.resolved = true
       if (log.last_seen > existing.last_seen) {
         existing.last_seen = log.last_seen
         if (log.referrer) existing.referrer = log.referrer
@@ -36,6 +37,7 @@ export async function GET(req: NextRequest) {
         count: log.count || 1,
         first_seen: log.first_seen,
         last_seen: log.last_seen,
+        resolved: !!log.resolved,
       })
     }
   }
@@ -44,6 +46,21 @@ export async function GET(req: NextRequest) {
     .sort((a, b) => b.last_seen.localeCompare(a.last_seen))
 
   return NextResponse.json({ logs })
+}
+
+export async function PATCH(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (!auth.authenticated) return auth.response
+
+  const { path, resolved } = await req.json()
+  if (!path || typeof resolved !== 'boolean') {
+    return NextResponse.json({ error: 'path en resolved (boolean) zijn verplicht' }, { status: 400 })
+  }
+
+  const supabase = getAdminClient()
+  await supabase.from('error_logs').update({ resolved }).eq('path', path)
+
+  return NextResponse.json({ ok: true })
 }
 
 export async function DELETE(req: NextRequest) {
