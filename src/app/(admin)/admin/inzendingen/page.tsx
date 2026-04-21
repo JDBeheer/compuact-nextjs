@@ -237,13 +237,18 @@ export default function AdminInzendingenPage() {
                               <div className="text-xs font-semibold text-zinc-400 mb-1">Deelnemers:</div>
                               <div className="space-y-1">
                                 {deelnemers.map((d, i) => (
-                                  <div key={i} className="flex items-center justify-between text-xs">
-                                    <span className="text-zinc-700">
+                                  <div key={i} className="flex items-center justify-between gap-2 text-xs">
+                                    <span className="text-zinc-700 shrink-0">
                                       {d.voornaam || d.achternaam ? `${d.voornaam} ${d.achternaam}`.trim() : `Deelnemer ${i + 1}`}
                                     </span>
-                                    {d.email && (
-                                      <a href={`mailto:${d.email}`} className="text-primary-500 hover:underline truncate ml-2">{d.email}</a>
-                                    )}
+                                    <div className="flex items-center gap-3 min-w-0">
+                                      {d.telefoon && (
+                                        <a href={`tel:${d.telefoon}`} className="text-zinc-500 hover:text-primary-500 hover:underline shrink-0">{d.telefoon}</a>
+                                      )}
+                                      {d.email && (
+                                        <a href={`mailto:${d.email}`} className="text-primary-500 hover:underline truncate">{d.email}</a>
+                                      )}
+                                    </div>
                                   </div>
                                 ))}
                               </div>
