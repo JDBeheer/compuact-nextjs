@@ -207,7 +207,7 @@ export default function AdminInzendingenPage() {
                   <div className="space-y-3">
                     {selected.cursussen.map((c, idx) => {
                       const cursus = c as unknown as Record<string, unknown>
-                      const deelnemers = (cursus.deelnemers || []) as Array<{ voornaam: string; achternaam: string; email: string }>
+                      const deelnemers = (cursus.deelnemers || []) as Array<{ voornaam: string; achternaam: string; email: string; telefoon?: string }>
                       const aantal = (cursus.aantalDeelnemers as number) || 1
 
                       return (
