@@ -299,6 +299,24 @@ function getPatternRedirect(path: string): string | null {
   // /locaties/cursusruimte-verhuur → /contact
   if (path === '/locaties/cursusruimte-verhuur') return '/contact'
 
+  // Ontbrekende locaties met historische backlinks → /locaties (hub)
+  // Bronnen: Ahrefs anchor-data 2026-04-23 (35+ refdomains per stad, veelal spam-farms)
+  if (
+    path === '/locaties/waddinxveen' ||
+    path === '/locaties/apeldoorn' ||
+    path === '/locaties/gorinchem' ||
+    path === '/locaties/drachten' ||
+    path === '/locaties/groningen'
+  ) return '/locaties'
+
+  // Verouderde cursussen die niet meer worden aangeboden → /cursussen
+  if (path === '/cursussen/autocad') return '/cursussen'
+  if (path === '/cursussen/seniorencursus') return '/cursussen'
+  if (path.match(/^\/flexibel\/cursus-windows/i)) return '/cursussen'
+
+  // /Outlook-cursussen(/*) → /cursussen/outlook (historische WordPress pad met hoofdletter)
+  if (path.match(/^\/Outlook-cursussen(\/.*)?$/)) return '/cursussen/outlook'
+
   // /lesmethodes/klassikaal, /lesmethode/klassikaal → /lesmethodes
   if (path.match(/^\/lesmethode[s]?\/klassikaal$/)) return '/lesmethodes'
   if (path === '/lesmethodes/open-leercentrum') return '/lesmethodes'
