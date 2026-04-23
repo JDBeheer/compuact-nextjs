@@ -260,10 +260,79 @@ function getPatternRedirect(path: string): string | null {
   // /lesmethodes/incompany* → /incompany
   if (path.startsWith('/lesmethodes/incompany')) return '/incompany'
 
-  // Niet meer aangeboden cursussen (Adobe, Access, Revit, Dreamweaver, Windows, PRINCE2)
-  if (path.match(/^\/cursussen\/(elements|illustrator|photoshop|indesign|dreamweaver|windows-10|prince2)/i)) return '/cursussen'
+  // Niet meer aangeboden cursussen (Adobe, Access, Revit, Dreamweaver, Windows, PRINCE2, etc.)
+  if (path.match(/^\/cursussen\/(elements|illustrator|photoshop|indesign|dreamweaver|windows-10|prince2|access|acrobat|sharepoint|developer|incompany|klassikaal)/i)) return '/cursussen'
   if (path.startsWith('/cursus-access')) return '/cursussen'
   if (path.startsWith('/cursus-revit')) return '/cursussen'
+  if (path.startsWith('/cursus-photoshop')) return '/cursussen'
+
+  // /cursussen/excel-cursus → /cursussen/excel
+  if (path === '/cursussen/excel-cursus') return '/cursussen/excel'
+  if (path.match(/^\/cursussen\/[Oo]utlook-cursussen$/)) return '/cursussen/outlook'
+  if (path.match(/^\/cursussen\/[Ww]ord-cursussen$/)) return '/cursussen/word'
+  if (path.match(/^\/cursussen\/[Pp]hotoshop-cursussen$/)) return '/cursussen'
+
+  // /cursussen/introductiecursus → /cursussen/introductiecursus-5-in-een
+  if (path === '/cursussen/introductiecursus') return '/cursussen/introductiecursus-5-in-een'
+
+  // /cursussen/experts-power-bi → /cursussen/power-bi
+  if (path === '/cursussen/experts-power-bi') return '/cursussen/power-bi'
+
+  // /cursussen/project-gevorderd → /cursussen/project
+  if (path === '/cursussen/project-gevorderd') return '/cursussen/project'
+
+  // /cursussen/page/* → /cursussen
+  if (path.match(/^\/cursussen\/page\/\d+$/)) return '/cursussen'
+  if (path === '/cursussen/2') return '/cursussen'
+
+  // /cursusaanvragen/SLUG or /cursusaanbod/* → /cursussen
+  if (path.startsWith('/cursusaanvragen') || path.startsWith('/cursusaanbod')) return '/cursussen'
+
+  // /excel-cursus-cursus-* (dubbel prefix) → fix
+  const dubbelPrefix = path.match(/^\/excel-cursus-cursus-(.+)$/)
+  if (dubbelPrefix) return `/cursussen/${dubbelPrefix[1]}`
+
+  // /locaties/denhaag (zonder streepje) → /locaties/den-haag
+  if (path === '/locaties/denhaag') return '/locaties/den-haag'
+  if (path === '/locaties/denbosch') return '/locaties/den-bosch'
+
+  // /locaties/cursusruimte-verhuur → /contact
+  if (path === '/locaties/cursusruimte-verhuur') return '/contact'
+
+  // /lesmethodes/klassikaal, /lesmethode/klassikaal → /lesmethodes
+  if (path.match(/^\/lesmethode[s]?\/klassikaal$/)) return '/lesmethodes'
+  if (path === '/lesmethodes/open-leercentrum') return '/lesmethodes'
+
+  // /locatie-categorie/* → /locaties
+  if (path.startsWith('/locatie-categorie')) return '/locaties'
+
+  // /flexibel/page/* → /cursussen
+  if (path.startsWith('/flexibel/page')) return '/cursussen'
+
+  // /veelgestelde-vragen-coronavirus/* → /veelgestelde-vragen
+  if (path.startsWith('/veelgestelde-vragen-coronavirus')) return '/veelgestelde-vragen'
+
+  // /huisstijl-sjablonen/* → /cursussen
+  if (path.startsWith('/huisstijl-sjablonen')) return '/cursussen'
+
+  // /office-365-cursus-page/* → /cursussen/office-365
+  if (path.startsWith('/office-365-cursus-page')) return '/cursussen/office-365'
+
+  // /*/feed → strip feed
+  if (path.endsWith('/feed')) {
+    const basePath = path.slice(0, -5)
+    return basePath || '/'
+  }
+
+  // /.well-known/* → ignore
+  if (path.startsWith('/.well-known')) return '/'
+
+  // /Word-cursussen, /Photoshop-cursussen (case insensitive already handled above)
+  if (path.toLowerCase() === '/word-cursussen') return '/cursussen/word'
+  if (path.toLowerCase() === '/photoshop-cursussen') return '/cursussen'
+
+  // /adobe/* → /cursussen
+  if (path.startsWith('/adobe')) return '/cursussen'
 
   // /cursussen/vba → /cursussen/cursus-vba (VBA heeft geen eigen categorie, alleen cursus-slug)
   if (path === '/cursussen/vba') return '/cursussen/cursus-vba'
