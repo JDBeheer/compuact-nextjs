@@ -118,6 +118,9 @@ function getPatternRedirect(path: string): string | null {
   const adobeDirectMatch = path.match(/^\/cursussen\/adobe-cursussen\/([^/]+)$/)
   if (adobeDirectMatch) return `/cursussen/${adobeDirectMatch[1]}`
 
+  // /flexibel/cursus-windows* → /cursussen (cursus bestaat niet meer; moet VOOR generieke /flexibel/SLUG)
+  if (path.match(/^\/flexibel\/cursus-windows/i)) return '/cursussen'
+
   // /klassikaal/SLUG or /flexibel/SLUG → /cursussen/SLUG
   const lesmethodeMatch = path.match(/^\/(?:klassikaal|flexibel)\/([^/]+)$/)
   if (lesmethodeMatch) return `/cursussen/${lesmethodeMatch[1]}`
