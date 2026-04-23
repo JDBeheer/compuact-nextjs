@@ -277,8 +277,9 @@ function getPatternRedirect(path: string): string | null {
   // /cursussen/power-bi-service-excel → /cursussen/excel-power-bi
   if (path === '/cursussen/power-bi-service-excel') return '/cursussen/excel-power-bi'
 
-  // /cursussen/{stad-zonder-eigen-locatie} → /cursussen
-  if (path.match(/^\/cursussen\/(geleen|zwolle|roosendaal)$/)) return '/cursussen'
+  // /cursussen/{stad} → /locaties/{stad} of /cursussen
+  const cursussenCityExtended = path.match(/^\/cursussen\/(lelystad|maastricht|gouda|amersfoort|delft|limburg|assen|dordrecht|bergen-op-zoom|doetinchem|geleen|zwolle|roosendaal)$/)
+  if (cursussenCityExtended) return `/locaties/${cursussenCityExtended[1]}`
 
   // /cursussen/{CATEGORIE}-cursus/cursus-SLUG → /cursussen/SLUG (oude geneste structuur)
   const nestedCursusMatch = path.match(/^\/cursussen\/[^/]+-cursus\/cursus-(.+)$/)
