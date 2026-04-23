@@ -315,7 +315,6 @@ function getPatternRedirect(path: string): string | null {
   // Verouderde cursussen die niet meer worden aangeboden → /cursussen
   if (path === '/cursussen/autocad') return '/cursussen'
   if (path === '/cursussen/seniorencursus') return '/cursussen'
-  if (path.match(/^\/flexibel\/cursus-windows/i)) return '/cursussen'
 
   // /Outlook-cursussen(/*) → /cursussen/outlook (historische WordPress pad met hoofdletter)
   if (path.match(/^\/Outlook-cursussen(\/.*)?$/)) return '/cursussen/outlook'
