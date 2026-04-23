@@ -1,38 +1,70 @@
 # Disavow file computertraining.nl
-# Datum: 2026-04-23
-# Bronnen: Ahrefs Site Explorer referring-domains + broken-backlinks
-# Upload: Google Search Console → Tools → Disavow links
+# Datum: 2026-04-23 (gecombineerde versie)
+# Upload: Google Search Console → https://search.google.com/search-console/disavow-links
 # Format: https://support.google.com/webmasters/answer/2648487
 #
-# Strategie: alleen domain-level disavow op duidelijk spam / PBN netwerken.
-# UGC-platforms (medium.com, blogspot.com, weebly.com) NIET disavowen —
-# die bevatten mogelijk losse legitieme mentions; alleen individuele URLs
-# kunnen later per-URL worden toegevoegd als nodig.
+# BELANGRIJK: Google respecteert alleen de laatst geüploade versie als
+# complete disavow-lijst. Altijd volledige lijst uploaden, nooit alleen
+# aanvullingen.
 #
 # ─────────────────────────────────────────────────────────
-# CATEGORIE 1: Letterlijke spam / bought-link services
+# Historische disavow (geüpload vóór 2026-04-23)
+# Bron: www-computertraining-nl_20260423T133718Z_DisavowLinks.txt
 # ─────────────────────────────────────────────────────────
 
+# Cloudways shared-hosting spam network
+domain:cloudwaysapps.com
+
+# Obscure TLD spam-domeinen (.cf/.ga/.gq/.tk — typische throwaway)
+domain:acclimateqdsq.cf
+domain:blluehousesa.ga
+domain:cajsaressa.gq
+domain:ctissesa.ga
+domain:benauventesa.gq
+domain:videomartxasa.gq
+domain:hierbhassq.cf
+domain:silverwringsa.tk
+domain:usemnextsq.gq
+
+# SEO/scraper services
+domain:seokicks.de
+domain:pil.tw
+
+# Europages clones (international spam-directory netwerk)
+domain:europages.cn
+domain:europages.co.hu
+domain:europages.cz
+domain:europages.dk
+domain:europages.fi
+domain:europages.hk
+domain:europages.lt
+domain:europages.pt
+domain:europages.si
+
+# Yoys clones (idem)
+domain:yoys.lt
+domain:yoys.mx
+
+# ─────────────────────────────────────────────────────────
+# Toegevoegd 2026-04-23: Ahrefs-analyse na DR-crash okt-nov 2025
+# Bronnen: Ahrefs Site Explorer referring-domains + broken-backlinks + anchors
+# ─────────────────────────────────────────────────────────
+
+# CATEGORIE A: Letterlijke bought-link service
 domain:buybacklinks.agency
 
-# ─────────────────────────────────────────────────────────
-# CATEGORIE 2: Ahrefs is_spam=true geflagd
-# ─────────────────────────────────────────────────────────
-
+# CATEGORIE B: Ahrefs is_spam=true geflagd
 domain:pages.dev
 domain:sa.com
 domain:za.com
 domain:itxoft.com
 domain:startkabel.nl
 
-# ─────────────────────────────────────────────────────────
-# CATEGORIE 3: NL link-farm netwerk 2019-2020
+# CATEGORIE C: NL link-farm netwerk 2019-2020
 # Patroon: {stad}.{directory}.nl directories, hoog Ahrefs-DR (50-76)
-# maar zeer lage werkelijke traffic (0-605 bezoekers/mnd),
-# zichtbaar als bron van exact-match anchors én broken backlinks
-# richting non-bestaande URLs (/overons/*, /cursussen/autocad, etc.)
-# ─────────────────────────────────────────────────────────
-
+# maar zeer lage werkelijke traffic (0-605 bezoekers/mnd).
+# Bronnen van exact-match spam-anchors en broken backlinks naar
+# non-bestaande URLs (/overons/*, /cursussen/autocad, etc.).
 domain:uwpagina.nl
 domain:allepaginas.nl
 domain:expertpagina.nl
@@ -57,10 +89,11 @@ domain:nvp-plaza.nl
 domain:site-nl.nl
 
 # ─────────────────────────────────────────────────────────
-# Later toe te voegen (review vereist):
-# - Bekijk volledige refdomains-lijst in Ahrefs (>50) op is_spam=true
-# - Check per maand nieuwe spam-refdomains en voeg toe
-# - Overweeg aggregators zoals opleiding.nl / springest.nl alleen als
-#   ze geen traffic leveren (meestal nofollow, géén disavow nodig)
+# Vervolg (maandelijkse review):
+# - Check Ahrefs referring-domains > is_spam=true voor nieuwe flags
+# - Voeg dan UITSLUITEND aan deze file toe (ivm volledigheid upload)
+# - Bewaar iedere versie in strategie/seo-nulmeting/ met datum in naam
 #
+# Aggregators zoals springest.nl / opleiding.nl NIET disavowen —
+# die zijn nofollow + brengen verwijzingen op, geen ranking-impact.
 # ─────────────────────────────────────────────────────────
