@@ -231,8 +231,8 @@ function getPatternRedirect(path: string): string | null {
   // /inschrijving*.php, /z0f* — bot/spam traffic → ignore
   if (path.endsWith('.php') || path.match(/^\/z0f[a-f0-9]+$/)) return '/'
 
-  // /over/* (old about subpages)
-  if (path.startsWith('/over/')) return '/over-ons'
+  // /over, /over/* (old about subpages)
+  if (path === '/over' || path.startsWith('/over/')) return '/over-ons'
 
   // /cursusdata/page/* → /cursussen
   if (path.startsWith('/cursusdata')) return '/cursussen'
