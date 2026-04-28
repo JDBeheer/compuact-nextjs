@@ -123,7 +123,7 @@ export const locaties: Locatie[] = [
     slug: 'den-bosch',
     naam: 'Den Bosch',
     adres: 'Sluisweg 200',
-    postcode: '5237 NJ',
+    postcode: '5237 MZ',
     telefoon: '023-5513409',
     email: 'info@computertraining.nl',
     beschrijving: 'Versterk je Microsoft Office-vaardigheden in Den Bosch. Compu Act Opleidingen biedt praktijkgerichte trainingen aan in een moderne locatie in \'s-Hertogenbosch. Onze ervaren trainers begeleiden je persoonlijk.\n\nOf je nu een Excel-cursus zoekt, je Word-vaardigheden wilt verbeteren of een complete Office-training wilt volgen – bij ons ben je aan het juiste adres.',
