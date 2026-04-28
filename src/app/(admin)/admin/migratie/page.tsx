@@ -35,12 +35,12 @@ interface Snapshot {
 
 const snapshots: Snapshot[] = [
   {
-    datum: '28 april 2026 (dag 15 — live SERP-check)',
-    bron: 'DataForSEO Live SERP + Ahrefs',
+    datum: '28 april 2026 (dag 15 — live SERP + GSC Coverage)',
+    bron: 'GSC Coverage + DataForSEO Live SERP + Ahrefs',
     indexering: {
-      geindexeerd: 1241,
-      nietGeindexeerd: 4334,
-      sitemapUrls: 2268,
+      geindexeerd: 2324,
+      nietGeindexeerd: 0,
+      sitemapUrls: 2324,
     },
     traffic: {
       clicksPerDag: 13.2,
