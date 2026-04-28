@@ -39,12 +39,12 @@ const snapshots: Snapshot[] = [
     bron: 'GSC Coverage + DataForSEO Live SERP + Ahrefs',
     indexering: {
       geindexeerd: 2324,
-      nietGeindexeerd: 0,
-      sitemapUrls: 2324,
+      nietGeindexeerd: 2936,
+      sitemapUrls: 5260,
     },
     traffic: {
       clicksPerDag: 13.2,
-      impressionsPerDag: 1471,
+      impressionsPerDag: 1561,
       piekCtr: 1.54,
     },
     rankings: {
