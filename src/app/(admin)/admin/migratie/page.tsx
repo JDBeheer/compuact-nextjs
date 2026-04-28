@@ -35,6 +35,55 @@ interface Snapshot {
 
 const snapshots: Snapshot[] = [
   {
+    datum: '28 april 2026 (dag 15 — live SERP-check)',
+    bron: 'DataForSEO Live SERP + Ahrefs',
+    indexering: {
+      geindexeerd: 1241,
+      nietGeindexeerd: 4334,
+      sitemapUrls: 2268,
+    },
+    traffic: {
+      clicksPerDag: 13.2,
+      impressionsPerDag: 1471,
+      piekCtr: 1.54,
+    },
+    rankings: {
+      stijgers: [],
+      stabiel: [
+        { keyword: 'cursus excel gevorderden', volume: 320, positie: 4 },
+        { keyword: 'cursus word gevorderden', volume: 20, positie: 5 },
+        { keyword: 'cursus excel basis', volume: 100, positie: 7 },
+        { keyword: 'excel basis cursus', volume: 90, positie: 8 },
+        { keyword: 'cursus word', volume: 170, positie: 10 },
+        { keyword: 'excel cursus klassikaal', volume: 100, positie: 10 },
+        { keyword: 'excel cursus beginners', volume: 210, positie: 12 },
+      ],
+      dalers: [
+        { keyword: 'excel cursus', volume: 1300, van: 17, naar: 99 },
+        { keyword: 'cursus excel', volume: 720, van: 15, naar: 99 },
+        { keyword: 'excel training', volume: 500, van: 4, naar: 99 },
+        { keyword: 'microsoft office cursus', volume: 200, van: 6, naar: 99 },
+        { keyword: 'online cursus powerpoint', volume: 150, van: 11, naar: 99 },
+      ],
+      nieuw: [
+        { keyword: 'cursus excel gevorderden', positie: 4, url: '/cursussen/excel-gevorderd' },
+        { keyword: 'cursus word gevorderden', positie: 5, url: '/cursussen/word-gevorderd' },
+        { keyword: 'cursus excel basis', positie: 7, url: '/cursussen/excel-basis' },
+        { keyword: 'excel basis cursus', positie: 8, url: '/cursussen/excel-basis' },
+        { keyword: 'cursus word', positie: 10, url: '/cursussen/word' },
+        { keyword: 'excel cursus klassikaal', positie: 10, url: '/cursussen/excel-basis' },
+        { keyword: 'excel cursus beginners', positie: 12, url: '/cursussen/excel-basis' },
+      ],
+      nogOudeUrl: [],
+    },
+    cwv: {
+      performanceScore: 98,
+      lcp: '0.9s',
+      cls: '0',
+      tbt: '120ms',
+    },
+  },
+  {
     datum: '20 april 2026 (update 15:56)',
     bron: 'Search Console + Ahrefs + PageSpeed',
     indexering: {
