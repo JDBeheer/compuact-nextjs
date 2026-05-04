@@ -77,7 +77,7 @@ export default function AdminInzendingenPage() {
     await supabase.from('inschrijvingen').delete().eq('id', id)
     setDeleteConfirm(null)
     if (selected?.id === id) setSelected(null)
-    loadInzendingen()
+    setAlle(prev => prev.filter(i => i.id !== id))
   }
 
   const typeBadge = (type: string) => {
