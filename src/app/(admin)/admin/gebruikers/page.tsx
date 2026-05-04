@@ -210,6 +210,9 @@ export default function GebruikersAdmin() {
                   <button onClick={() => updateUser(user.id, { actief: !user.actief })} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium ${user.actief ? 'bg-green-50 text-green-700 hover:bg-green-100' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>
                     {user.actief ? <Eye size={12} /> : <EyeOff size={12} />} {user.actief ? 'Actief' : 'Geblokkeerd'}
                   </button>
+                  <button onClick={() => { setPwUser(user); setPwForm({ password: '', confirm: '' }); setPwError('') }} className="p-2 rounded-lg text-zinc-400 hover:text-primary-600 hover:bg-primary-600/10 transition-colors" title="Wachtwoord wijzigen">
+                    <KeyRound size={16} />
+                  </button>
                   <button onClick={() => deleteUser(user.id, user.email)} className="p-2 rounded-lg text-zinc-400 hover:text-red-600 hover:bg-red-50 transition-colors"><Trash2 size={16} /></button>
                 </div>
               </div>
