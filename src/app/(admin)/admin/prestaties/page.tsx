@@ -50,6 +50,7 @@ export default function PrestatiesPage() {
 
   useEffect(() => {
     loadData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedYear])
 
   async function saveAdsSpend(maand: string, bedrag: number) {
