@@ -34,6 +34,23 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   return NextResponse.json(data)
 }
 
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const auth = await requireBeheerder(req)
+  if (!auth.authenticated) return auth.response
+
+  const body = await req.json()
+  const admin = getAdminClient()
+
+  const { data: user } = await admin.from('admin_users').select('auth_user_id').eq('id', id).single()
+  if (!user?.auth_user_id) return NextResponse.json({ error: 'Gebruiker niet gevonden' }, { status: 404 })
+
+  const { error } = await admin.auth.admin.updateUserById(user.auth_user_id, { password: body.password })
+  if (error) return NextResponse.json({ error: 'Wachtwoord bijwerken mislukt' }, { status: 400 })
+
+  return NextResponse.json({ ok: true })
+}
+
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const auth = await requireBeheerder(req)
