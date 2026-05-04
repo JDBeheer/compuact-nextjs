@@ -158,8 +158,9 @@ function getPatternRedirect(path: string): string | null {
   }
 
   // /cursussen/cursus-SLUG → /cursussen/SLUG (old "cursus-" prefix pattern)
+  // Exception: cursus-vba is the actual slug in the database, do not strip
   const cursusPrefix = path.match(/^\/cursussen\/cursus-(.+)$/)
-  if (cursusPrefix) return `/cursussen/${cursusPrefix[1]}`
+  if (cursusPrefix && cursusPrefix[1] !== 'vba') return `/cursussen/${cursusPrefix[1]}`
 
   // /excel-cursus/CITY or /cursus-word/CITY → local SEO or category
   const oldCursusCity = path.match(/^\/(excel|word|outlook|powerpoint|power-bi|office-365)-cursus\/([^/]+)$/)
