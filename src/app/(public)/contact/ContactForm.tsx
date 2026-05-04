@@ -50,7 +50,7 @@ export default function ContactForm() {
         </div>
         <h2 className="text-2xl font-bold mb-3">Bericht verzonden!</h2>
         <p className="text-zinc-600 max-w-md mx-auto">
-          Bedankt voor je bericht. We nemen binnen 1 werkdag contact met je op.
+          Bedankt voor je bericht. We reageren zo snel mogelijk.
         </p>
       </div>
     )

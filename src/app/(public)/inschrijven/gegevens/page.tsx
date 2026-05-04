@@ -182,7 +182,7 @@ function CheckoutPage() {
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="bg-primary-100 text-primary-600 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0">2</div>
-                    <div><div className="font-medium text-sm">Contact opnemen</div><p className="text-sm text-zinc-500">We nemen binnen 1 werkdag contact met je op om de details te bespreken.</p></div>
+                    <div><div className="font-medium text-sm">Contact opnemen</div><p className="text-sm text-zinc-500">We nemen contact met je op om de details te bespreken.</p></div>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="bg-primary-100 text-primary-600 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0">3</div>

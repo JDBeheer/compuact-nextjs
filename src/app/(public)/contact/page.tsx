@@ -44,7 +44,7 @@ export default async function ContactPage() {
             </h1>
             <p className="text-lg md:text-xl text-primary-100 leading-relaxed mb-8">
               Heb je een vraag over onze trainingen of wil je een offerte aanvragen?
-              We staan voor je klaar en reageren binnen 1 werkdag.
+              We staan voor je klaar en helpen je graag verder.
             </p>
 
             <GoogleReviewsBadge
@@ -84,7 +84,7 @@ export default async function ContactPage() {
               </div>
               <h2 className="text-lg font-bold text-zinc-900 mb-1">E-mailen</h2>
               <p className="text-lg md:text-xl font-bold text-primary-600 mb-2 break-all">info@computertraining.nl</p>
-              <p className="text-sm text-zinc-500">Reactie binnen 1 werkdag</p>
+              <p className="text-sm text-zinc-500">Stuur je vraag of aanvraag</p>
             </a>
 
             {/* Bezoeken */}
