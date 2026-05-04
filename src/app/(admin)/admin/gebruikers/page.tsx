@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Loader2, Trash2, Eye, EyeOff, Shield, ShieldCheck, UserPlus, X } from 'lucide-react'
+import { Loader2, Trash2, Eye, EyeOff, Shield, ShieldCheck, UserPlus, X, KeyRound } from 'lucide-react'
 import { adminFetch } from '@/lib/admin-fetch'
 
 interface AdminUser {
