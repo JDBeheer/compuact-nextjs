@@ -21,6 +21,7 @@ export default function RedirectsPage() {
   const [newTo, setNewTo] = useState('')
   const [newStatus, setNewStatus] = useState(301)
   const [saving, setSaving] = useState(false)
+  const [search, setSearch] = useState('')
 
   async function loadRedirects() {
     setLoading(true)
