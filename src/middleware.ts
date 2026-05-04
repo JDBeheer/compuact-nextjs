@@ -355,9 +355,6 @@ function getPatternRedirect(path: string): string | null {
   // /adobe/* → /cursussen
   if (path.startsWith('/adobe')) return '/cursussen'
 
-  // /cursussen/vba → /cursussen/cursus-vba (VBA heeft geen eigen categorie, alleen cursus-slug)
-  if (path === '/cursussen/vba') return '/cursussen/cursus-vba'
-
   // /cursussen/powerpoint-cursus → /cursussen/powerpoint
   if (path === '/cursussen/powerpoint-cursus') return '/cursussen/powerpoint'
 
