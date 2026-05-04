@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Plus, Trash2, Loader2, Check, ArrowRight, ToggleLeft, ToggleRight } from 'lucide-react'
+import { Plus, Trash2, Loader2, Check, ArrowRight, ToggleLeft, ToggleRight, Search } from 'lucide-react'
 import { adminFetch } from '@/lib/admin-fetch'
 
 interface Redirect {
