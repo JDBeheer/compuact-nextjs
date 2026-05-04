@@ -124,7 +124,17 @@ export default function ErrorLogPage() {
               {logs.length} pagina&apos;s gelogd — {openCount} open, {resolvedCount} opgelost
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 items-center">
+            <div className="relative">
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Zoek op pad of referrer..."
+                className="pl-8 pr-4 py-2.5 rounded-lg border border-zinc-200 text-sm focus:outline-none focus:border-primary-600 w-64"
+              />
+            </div>
             {logs.length > 0 && (
               <button onClick={exportCSV} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-zinc-200 text-sm font-medium text-zinc-600 hover:text-primary-600 hover:border-primary-600/30 transition-colors">
                 <Download size={14} /> Export CSV
