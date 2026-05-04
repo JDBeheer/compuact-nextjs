@@ -547,6 +547,10 @@ function OpenInschrijving({ methode, prijs, cursusTitel, addToCart, items }: {
     })
   }
 
+  const beschikbareLocaties = cursusTitel.toLowerCase().includes('introductie')
+    ? ['Den Bosch']
+    : OPEN_LOCATIES
+
   return (
     <div className="mb-6">
       <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-3">
@@ -580,9 +584,11 @@ function OpenInschrijving({ methode, prijs, cursusTitel, addToCart, items }: {
             <label className="block text-sm font-semibold text-zinc-700 mb-1">
               Welke cursuslocatie heeft jouw voorkeur?
             </label>
-            <p className="text-xs text-zinc-400 mb-2">Je kunt meerdere opties aanvinken</p>
+            {beschikbareLocaties.length > 1 && (
+              <p className="text-xs text-zinc-400 mb-2">Je kunt meerdere opties aanvinken</p>
+            )}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
-              {OPEN_LOCATIES.map(loc => (
+              {beschikbareLocaties.map(loc => (
                 <label
                   key={loc}
                   className={cn(
