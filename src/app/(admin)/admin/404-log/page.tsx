@@ -222,6 +222,9 @@ export default function ErrorLogPage() {
                     <td className="py-3 px-5 text-xs text-zinc-400 hidden md:table-cell">{new Date(log.last_seen).toLocaleString('nl-NL')}</td>
                     <td className="py-3 px-5">
                       <div className="flex gap-1">
+                        <a href={log.path} target="_blank" rel="noopener noreferrer" title="Bekijk pagina" className="p-1.5 rounded-lg text-zinc-400 hover:text-primary-600 hover:bg-primary-600/10 transition-colors inline-flex">
+                          <ExternalLink size={14} />
+                        </a>
                         <button onClick={() => createRedirect(log)} title="Redirect aanmaken" className="p-1.5 rounded-lg text-primary-600 hover:bg-primary-600/10 transition-colors"><ArrowRight size={14} /></button>
                         <button onClick={() => deleteLog(log)} title="Verwijderen" className="p-1.5 rounded-lg text-zinc-400 hover:text-red-600 hover:bg-red-50 transition-colors"><Trash2 size={14} /></button>
                       </div>
