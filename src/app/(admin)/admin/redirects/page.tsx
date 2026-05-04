@@ -141,7 +141,7 @@ export default function RedirectsPage() {
                 </tr>
               </thead>
               <tbody>
-                {redirects.map((r) => (
+                {redirects.filter((r) => !search || r.from_path.includes(search) || r.to_path.includes(search)).map((r) => (
                   <tr key={r.id} className={`border-b border-zinc-100 last:border-0 hover:bg-zinc-50 ${!r.actief ? 'opacity-50' : ''}`}>
                     <td className="py-3 px-5 text-sm font-mono text-zinc-900">{r.from_path}</td>
                     <td className="py-3 px-5 text-sm font-mono text-primary-600">{r.to_path}</td>
