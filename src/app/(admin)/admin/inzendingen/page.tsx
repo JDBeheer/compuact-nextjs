@@ -51,7 +51,8 @@ export default function AdminInzendingenPage() {
   async function updateStatus(id: string, status: string) {
     const supabase = createClient()
     await supabase.from('inschrijvingen').update({ status }).eq('id', id)
-    loadInzendingen()
+    setAlle(prev => prev.map(i => i.id === id ? { ...i, status } : i))
+    if (selected?.id === id) setSelected(s => s ? { ...s, status } : s)
   }
 
   async function resendEmail(id: string, target: 'klant' | 'admin') {
