@@ -134,7 +134,8 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           >
             <User size={18} />
             <div className="min-w-0">
-              <p className="text-sm truncate">{userEmail}</p>
+              {userName && <p className="text-sm font-medium truncate text-white">{userName}</p>}
+              <p className={`truncate ${userName ? 'text-[11px] text-zinc-500' : 'text-sm'}`}>{userEmail}</p>
               <p className="text-[10px] text-zinc-500 capitalize">{userRole}</p>
             </div>
           </Link>
