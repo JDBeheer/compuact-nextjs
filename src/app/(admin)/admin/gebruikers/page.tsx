@@ -24,6 +24,12 @@ export default function GebruikersAdmin() {
   const [addError, setAddError] = useState('')
   const [adding, setAdding] = useState(false)
 
+  const [pwUser, setPwUser] = useState<AdminUser | null>(null)
+  const [pwForm, setPwForm] = useState({ password: '', confirm: '' })
+  const [pwError, setPwError] = useState('')
+  const [pwSaving, setPwSaving] = useState(false)
+  const [pwSuccess, setPwSuccess] = useState(false)
+
   useEffect(() => {
     adminFetch('/api/admin/users')
       .then((r) => r.json())
