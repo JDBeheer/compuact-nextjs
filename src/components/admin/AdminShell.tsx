@@ -46,12 +46,13 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
 
         const { data: adminUser, error: adminError } = await supabaseBrowser
           .from('admin_users')
-          .select('rol')
+          .select('rol, naam')
           .eq('auth_user_id', data.session.user.id)
           .single()
 
         if (!adminError && adminUser?.rol) {
           setUserRole(adminUser.rol as 'beheerder' | 'redacteur')
+          setUserName(adminUser.naam || null)
         }
 
         setLoading(false)
