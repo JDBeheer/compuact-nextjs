@@ -34,6 +34,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   const pathname = usePathname()
   const [loading, setLoading] = useState(true)
   const [userEmail, setUserEmail] = useState('')
+  const [userName, setUserName] = useState<string | null>(null)
   const [userRole, setUserRole] = useState<'beheerder' | 'redacteur'>('beheerder')
 
   useEffect(() => {
