@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Trash2, ArrowRight, Loader2, RefreshCw, CheckCircle, Download } from 'lucide-react'
+import { Trash2, ArrowRight, Loader2, RefreshCw, CheckCircle, Download, ExternalLink, Search } from 'lucide-react'
 import { adminFetch } from '@/lib/admin-fetch'
 
 interface ErrorLog {
