@@ -107,7 +107,9 @@ export default function ErrorLogPage() {
   const openCount = logs.filter((l) => !l.resolved).length
   const resolvedCount = logs.filter((l) => l.resolved).length
 
-  const visibleLogs = logs.filter((l) => l.resolved === (tab === 'resolved'))
+  const visibleLogs = logs
+    .filter((l) => l.resolved === (tab === 'resolved'))
+    .filter((l) => !search || l.path.toLowerCase().includes(search.toLowerCase()) || (l.referrer || '').toLowerCase().includes(search.toLowerCase()))
   const sortedLogs = [...visibleLogs].sort((a, b) => {
     if (sortBy === 'hits') return b.count - a.count
     return b.last_seen.localeCompare(a.last_seen)
