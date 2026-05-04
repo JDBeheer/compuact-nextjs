@@ -66,6 +66,24 @@ export default function GebruikersAdmin() {
     setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, ...updates } : u)))
   }
 
+  async function handlePasswordChange() {
+    if (!pwUser) return
+    if (pwForm.password.length < 8) { setPwError('Wachtwoord moet minimaal 8 tekens zijn'); return }
+    if (pwForm.password !== pwForm.confirm) { setPwError('Wachtwoorden komen niet overeen'); return }
+    setPwSaving(true); setPwError('')
+
+    const res = await adminFetch(`/api/admin/users/${pwUser.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pwForm.password }),
+    })
+    const data = await res.json()
+    if (!res.ok) { setPwError(data.error || 'Fout bij opslaan'); setPwSaving(false); return }
+    setPwSuccess(true)
+    setTimeout(() => { setPwUser(null); setPwForm({ password: '', confirm: '' }); setPwSuccess(false) }, 1500)
+    setPwSaving(false)
+  }
+
   async function deleteUser(id: string, email: string) {
     if (!confirm(`Gebruiker "${email}" definitief verwijderen?`)) return
     await adminFetch(`/api/admin/users/${id}`, { method: 'DELETE' })
