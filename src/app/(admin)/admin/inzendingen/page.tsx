@@ -48,7 +48,7 @@ export default function AdminInzendingenPage() {
     return true
   })
 
-  async function updateStatus(id: string, status: string) {
+  async function updateStatus(id: string, status: Inschrijving['status']) {
     const supabase = createClient()
     await supabase.from('inschrijvingen').update({ status }).eq('id', id)
     setAlle(prev => prev.map(i => i.id === id ? { ...i, status } : i))
