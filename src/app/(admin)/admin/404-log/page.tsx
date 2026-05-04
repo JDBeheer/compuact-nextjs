@@ -23,6 +23,7 @@ export default function ErrorLogPage() {
   const [loading, setLoading] = useState(true)
   const [sortBy, setSortBy] = useState<SortKey>('last_seen')
   const [tab, setTab] = useState<Tab>('open')
+  const [search, setSearch] = useState('')
 
   async function loadLogs() {
     setLoading(true)
