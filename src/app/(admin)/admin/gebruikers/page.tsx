@@ -142,6 +142,48 @@ export default function GebruikersAdmin() {
           </div>
         )}
 
+        {/* Password change modal */}
+        {pwUser && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => { setPwUser(null); setPwForm({ password: '', confirm: '' }); setPwError('') }}>
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 m-4" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="font-semibold text-xl text-zinc-900">Wachtwoord wijzigen</h2>
+                  <p className="text-sm text-zinc-400 mt-0.5">{pwUser.naam || pwUser.email}</p>
+                </div>
+                <button onClick={() => { setPwUser(null); setPwForm({ password: '', confirm: '' }); setPwError('') }} className="p-1 text-zinc-400 hover:text-zinc-600"><X size={20} /></button>
+              </div>
+
+              {pwSuccess ? (
+                <div className="py-6 text-center">
+                  <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3">
+                    <KeyRound size={20} className="text-green-600" />
+                  </div>
+                  <p className="font-medium text-green-700">Wachtwoord bijgewerkt!</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-zinc-500 mb-1.5">Nieuw wachtwoord *</label>
+                    <input type="password" value={pwForm.password} onChange={(e) => setPwForm({ ...pwForm, password: e.target.value })} placeholder="Minimaal 8 tekens" autoFocus className="w-full px-4 py-2.5 rounded-lg border border-zinc-200 text-sm focus:outline-none focus:border-primary-600" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-zinc-500 mb-1.5">Bevestig wachtwoord *</label>
+                    <input type="password" value={pwForm.confirm} onChange={(e) => setPwForm({ ...pwForm, confirm: e.target.value })} placeholder="Herhaal wachtwoord" onKeyDown={(e) => { if (e.key === 'Enter') handlePasswordChange() }} className="w-full px-4 py-2.5 rounded-lg border border-zinc-200 text-sm focus:outline-none focus:border-primary-600" />
+                  </div>
+                  {pwError && <p className="text-sm text-red-600 bg-red-50 rounded-lg px-4 py-2.5">{pwError}</p>}
+                  <div className="flex gap-3 pt-2">
+                    <button onClick={handlePasswordChange} disabled={pwSaving} className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-primary-600 text-white font-semibold text-sm hover:bg-primary-700 disabled:opacity-50">
+                      {pwSaving ? <Loader2 size={16} className="animate-spin" /> : <KeyRound size={16} />} Opslaan
+                    </button>
+                    <button onClick={() => { setPwUser(null); setPwForm({ password: '', confirm: '' }); setPwError('') }} className="px-5 py-3 rounded-lg border border-zinc-200 text-sm font-medium text-zinc-600 hover:bg-zinc-50">Annuleren</button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         <div className="space-y-4">
           {users.map((user) => (
             <div key={user.id} className={`bg-white rounded-xl border border-zinc-200 p-6 ${!user.actief ? 'opacity-60' : ''}`}>
