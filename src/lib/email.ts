@@ -206,14 +206,10 @@ export async function sendBevestigingsEmail(
     <table cellpadding="0" cellspacing="0" style="margin:0;">
       <tr>
         <td style="padding:8px 12px 8px 0;vertical-align:top;color:${ACCENT};font-size:18px;">1.</td>
-        <td style="padding:8px 0;font-size:14px;color:${TEXT};">We nemen binnen 1 werkdag contact met je op om je inschrijving te bevestigen.</td>
-      </tr>
-      <tr>
-        <td style="padding:8px 12px 8px 0;vertical-align:top;color:${ACCENT};font-size:18px;">2.</td>
         <td style="padding:8px 0;font-size:14px;color:${TEXT};">Je ontvangt een factuur en praktische informatie over de locatie en het programma.</td>
       </tr>
       <tr>
-        <td style="padding:8px 12px 8px 0;vertical-align:top;color:${ACCENT};font-size:18px;">3.</td>
+        <td style="padding:8px 12px 8px 0;vertical-align:top;color:${ACCENT};font-size:18px;">2.</td>
         <td style="padding:8px 0;font-size:14px;color:${TEXT};">Op de cursusdag nemen wij een laptop, cursusmateriaal en certificaat mee. Jij hoeft alleen jezelf mee te nemen!</td>
       </tr>
     </table>
@@ -258,7 +254,7 @@ export async function sendOfferteBevestiging(
     ${totaalBox(totaalprijs, { showAdminFee: true, note: 'Indicatief totaal' })}
 
     <p style="color:${TEXT};font-size:14px;line-height:1.6;">
-      We stellen een passende offerte samen en nemen binnen 1 werkdag contact met je op.
+      We stellen een passende offerte voor je samen.
     </p>
 
     <p style="color:${TEXT_MUTED};font-size:14px;margin:24px 0 0;">
@@ -381,7 +377,7 @@ export async function sendInCompanyKlant(data: InCompanyData) {
 
     <div style="background-color:${BG};border-radius:8px;padding:16px 20px;margin:20px 0;">
       <p style="margin:0;font-size:14px;color:${TEXT};line-height:1.6;">
-        We stellen een passend voorstel samen en nemen binnen 1 werkdag contact met je op om de details te bespreken.
+        We stellen een passend voorstel voor je samen.
       </p>
     </div>
 
