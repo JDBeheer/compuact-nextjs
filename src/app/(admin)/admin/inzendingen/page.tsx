@@ -336,7 +336,7 @@ export default function AdminInzendingenPage() {
                 <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Status wijzigen</h3>
                 <select
                   value={selected.status}
-                  onChange={(e) => updateStatus(selected.id, e.target.value)}
+                  onChange={(e) => updateStatus(selected.id, e.target.value as Inschrijving['status'])}
                   className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm"
                 >
                   <option value="nieuw">Nieuw</option>
