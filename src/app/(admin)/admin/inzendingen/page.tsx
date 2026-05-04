@@ -95,7 +95,24 @@ export default function AdminInzendingenPage() {
       <h1 className="text-2xl font-bold mb-6">Inzendingen</h1>
 
       {/* Filter tabs */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className="flex flex-wrap gap-2 mb-4">
+        {/* Nieuw — special status filter */}
+        <button
+          onClick={() => setFilter('nieuw')}
+          className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            filter === 'nieuw' ? 'bg-amber-500 text-white' : 'bg-white border border-zinc-200 text-zinc-600 hover:bg-zinc-50'
+          }`}
+        >
+          Nieuw & onafgehandeld
+          {counts.nieuw > 0 && (
+            <span className={`inline-flex items-center justify-center min-w-[20px] px-1.5 py-0.5 rounded-full text-xs font-semibold ${filter === 'nieuw' ? 'bg-white/30 text-white' : 'bg-amber-100 text-amber-700'}`}>
+              {counts.nieuw}
+            </span>
+          )}
+        </button>
+
+        <div className="w-px bg-zinc-200 self-stretch mx-1" />
+
         {[
           { key: 'alle', label: 'Alle' },
           { key: 'inschrijving', label: 'Inschrijvingen' },
@@ -106,13 +123,42 @@ export default function AdminInzendingenPage() {
           <button
             key={f.key}
             onClick={() => setFilter(f.key)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               filter === f.key ? 'bg-primary-500 text-white' : 'bg-white border border-zinc-200 text-zinc-600 hover:bg-zinc-50'
             }`}
           >
             {f.label}
+            <span className={`inline-flex items-center justify-center min-w-[20px] px-1.5 py-0.5 rounded-full text-xs font-semibold ${filter === f.key ? 'bg-white/30 text-white' : 'bg-zinc-100 text-zinc-500'}`}>
+              {counts[f.key] ?? 0}
+            </span>
           </button>
         ))}
+      </div>
+
+      {/* Datumfilter */}
+      <div className="flex flex-wrap items-center gap-3 mb-6">
+        <span className="text-sm text-zinc-500 font-medium">Periode:</span>
+        <div className="flex items-center gap-2">
+          <input
+            type="date"
+            value={datumVan}
+            onChange={(e) => setDatumVan(e.target.value)}
+            className="px-3 py-1.5 rounded-lg border border-zinc-200 text-sm focus:outline-none focus:border-primary-500"
+          />
+          <span className="text-zinc-400 text-sm">t/m</span>
+          <input
+            type="date"
+            value={datumTot}
+            onChange={(e) => setDatumTot(e.target.value)}
+            className="px-3 py-1.5 rounded-lg border border-zinc-200 text-sm focus:outline-none focus:border-primary-500"
+          />
+          {(datumVan || datumTot) && (
+            <button onClick={() => { setDatumVan(''); setDatumTot('') }} className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors">
+              <X size={14} />
+            </button>
+          )}
+        </div>
+        <span className="text-xs text-zinc-400">{inzendingen.length} resultaten</span>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
