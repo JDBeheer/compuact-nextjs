@@ -1,39 +1,52 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Badge from '@/components/ui/Badge'
 import { Inschrijving } from '@/types'
 import { formatPrice, formatDateShort, lesmethodeLabel } from '@/lib/utils'
-import { Trash2, Users, MapPin, Calendar, Mail, Phone, Building2, AlertTriangle, Send } from 'lucide-react'
+import { Trash2, Users, MapPin, Calendar, Mail, Phone, Building2, AlertTriangle, Send, X } from 'lucide-react'
 
 export default function AdminInzendingenPage() {
-  const [inzendingen, setInzendingen] = useState<Inschrijving[]>([])
-  const [filter, setFilter] = useState<string>('alle')
+  const [alle, setAlle] = useState<Inschrijving[]>([])
+  const [filter, setFilter] = useState<string>('nieuw')
+  const [datumVan, setDatumVan] = useState('')
+  const [datumTot, setDatumTot] = useState('')
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState<Inschrijving | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [resending, setResending] = useState<string | null>(null)
 
-  const loadInzendingen = useCallback(async () => {
+  async function loadInzendingen() {
     const supabase = createClient()
-    let query = supabase
+    const { data } = await supabase
       .from('inschrijvingen')
       .select('*')
       .order('created_at', { ascending: false })
-
-    if (filter !== 'alle') {
-      query = query.eq('type', filter)
-    }
-
-    const { data } = await query
-    setInzendingen((data || []) as Inschrijving[])
+    setAlle((data || []) as Inschrijving[])
     setLoading(false)
-  }, [filter])
+  }
 
-  useEffect(() => {
-    loadInzendingen()
-  }, [loadInzendingen])
+  useEffect(() => { loadInzendingen() }, [])
+
+  // Counts per type (always from full dataset)
+  const counts: Record<string, number> = {
+    alle: alle.length,
+    nieuw: alle.filter(i => i.status === 'nieuw').length,
+    inschrijving: alle.filter(i => i.type === 'inschrijving').length,
+    offerte: alle.filter(i => i.type === 'offerte').length,
+    incompany: alle.filter(i => i.type === 'incompany').length,
+    studiegids: alle.filter(i => i.type === 'studiegids').length,
+  }
+
+  // Apply filters
+  const inzendingen = alle.filter(i => {
+    if (filter === 'nieuw') { if (i.status !== 'nieuw') return false }
+    else if (filter !== 'alle') { if (i.type !== filter) return false }
+    if (datumVan) { if (new Date(i.created_at) < new Date(datumVan)) return false }
+    if (datumTot) { if (new Date(i.created_at) > new Date(datumTot + 'T23:59:59')) return false }
+    return true
+  })
 
   async function updateStatus(id: string, status: string) {
     const supabase = createClient()
