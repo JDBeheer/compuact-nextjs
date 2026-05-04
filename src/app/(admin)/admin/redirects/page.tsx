@@ -82,6 +82,18 @@ export default function RedirectsPage() {
           </button>
         </div>
 
+        {/* Search */}
+        <div className="relative max-w-sm mb-6">
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Zoek op pad..."
+            className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-zinc-200 text-sm focus:outline-none focus:border-primary-600"
+          />
+        </div>
+
         {showForm && (
           <div className="bg-white rounded-xl border border-zinc-200 p-6 mb-6">
             <h3 className="font-semibold text-base text-zinc-900 mb-4">Redirect toevoegen</h3>
